@@ -1,0 +1,4 @@
+1. install radmin
+2. join network nama:UCUP password:123456
+3. install setup.exe
+4. login menggunakan username admin dan password admin
