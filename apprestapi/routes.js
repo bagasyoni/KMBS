@@ -3,6 +3,24 @@
 module.exports = function (app) {
     var jsonku = require('./controller');
 
+    ///======================== MASTER CONTROLLER ========================///
+    var jsonku = require('./controller/master/account_controller');
+    var jsonku = require('./controller/master/barang_controller');
+    var jsonku = require('./controller/master/bahan_controller');
+    var jsonku = require('./controller/master/customer_controller');
+    var jsonku = require('./controller/master/supplier_controller');
+
+
+    ///======================== TRANSAKSI CONTROLLER ========================///
+    var jsonku = require('./controller/transaksi/po_controller');
+    var jsonku = require('./controller/transaksi/beli_controller');
+    var jsonku = require('./controller/transaksi/hut_controller');
+    var jsonku = require('./controller/transaksi/pakai_controller');
+    var jsonku = require('./controller/transaksi/stocka_controller');
+
+    
+    ///======================== LAPORAN CONTROLLER ========================///
+
     app.route('/')
         .get(jsonku.index);
 
