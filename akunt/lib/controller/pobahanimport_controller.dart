@@ -5,16 +5,16 @@ import 'package:akunt/invoice/invoice_order_penjualan.dart';
 import 'package:akunt/model/model_bahan.dart';
 import 'package:akunt/model/data_bhn.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:akunt/model/model_pobahan.dart';
+import 'package:akunt/model/model_pobahanimport.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login_controller.dart';
 
-class PobahanController with ChangeNotifier {
+class PobahanimportController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   SharedPreferences prefs;
-  model_pobahan m_pobahan = model_pobahan();
+  model_pobahanimport m_pobahan = model_pobahanimport();
   TextEditingController searchController = TextEditingController();
   DateRangePickerController filter_tanggalController =
       new DateRangePickerController();
@@ -66,19 +66,20 @@ class PobahanController with ChangeNotifier {
       offset = 0;
       page_index = 0;
     }
-    data_pobahan_list = await m_pobahan.data_pobahanpaginate(
+    data_pobahan_list = await m_pobahan.data_pobahanimportpaginate(
         searchController.text, offset, limit);
-    home_pobahan_list = await m_pobahan.data_pobahanpaginate(
+    home_pobahan_list = await m_pobahan.data_pobahanimportpaginate(
         searchController.text, offset, limit);
-    var count = await m_pobahan.countPobahanPaginate(searchController.text);
+    var count =
+        await m_pobahan.countPobahanimportPaginate(searchController.text);
     totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
     pageCount = totalNotaTerima / limit;
     notifyListeners();
   }
 
   void modalData(String cari) async {
-    data_pobahan_list = await model_pobahan().data_modal(cari);
-    home_pobahan_list = await model_pobahan().data_modal(cari);
+    data_pobahan_list = await model_pobahanimport().data_modal(cari);
+    home_pobahan_list = await model_pobahanimport().data_modal(cari);
     notifyListeners();
   }
 
@@ -89,9 +90,9 @@ class PobahanController with ChangeNotifier {
   }
 
   Future<void> select_data() async {
-    data_pobahan_list = await m_pobahan.select_po_bahan(
+    data_pobahan_list = await m_pobahan.select_po_bahan_import(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
-    home_pobahan_list = await m_pobahan.select_po_bahan(
+    home_pobahan_list = await m_pobahan.select_po_bahan_import(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
     total = 0;
     qty = 0;
@@ -103,8 +104,8 @@ class PobahanController with ChangeNotifier {
   }
 
   void selectData(String cari) async {
-    data_pobahan_list = await model_pobahan().cari_po_bahan(cari);
-    home_pobahan_list = await model_pobahan().cari_po_bahan(cari);
+    data_pobahan_list = await model_pobahanimport().cari_po_bahan_import(cari);
+    home_pobahan_list = await model_pobahanimport().cari_po_bahan_import(cari);
     await baca_periodePrefs();
     notifyListeners();
   }
@@ -232,8 +233,8 @@ class PobahanController with ChangeNotifier {
       header_detail_excel.add("Qty");
       header_detail_excel.add("Harga");
       header_detail_excel.add("SubTotal");
-      List data_account = await m_pobahan.select_po_bahan_detail(
-          data_pobahan_list[index_terpilih]['no_bukti'], "NO_BUKTI", "kas");
+      List data_account = await m_pobahan.select_po_bahan_import_detail(
+          data_pobahan_list[index_terpilih]['no_bukti'], "NO_BUKTI", "pod");
       for (int i = 0; i < data_account.length; i++) {
         Map<String, dynamic> isi_map = new Map<String, dynamic>();
         isi_map['a'] = data_account[i]['kd_brg'];
@@ -260,7 +261,7 @@ class PobahanController with ChangeNotifier {
   }
 
   Future<void> proses_print() async {
-    List data_account = await m_pobahan.select_po_bahan_detail(
+    List data_account = await m_pobahan.select_po_bahan_import_detail(
         data_pobahan_list[index_terpilih]['no_bukti'], "NO_BUKTI", "po");
     InvoiceOrderPenjualan()
         .proses_print(data_pobahan_list[index_terpilih], data_account);
@@ -270,14 +271,45 @@ class PobahanController with ChangeNotifier {
   TextEditingController no_buktiController = TextEditingController();
   TextEditingController tglController = TextEditingController();
   TextEditingController jtempoController = TextEditingController();
+  TextEditingController currController = TextEditingController();
+  TextEditingController currnmController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
   TextEditingController kodesController = TextEditingController();
   TextEditingController namasController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController notesController = TextEditingController();
   TextEditingController total_qtyController = TextEditingController();
+  TextEditingController sisa_qtyController = TextEditingController();
+  TextEditingController total1Controller = TextEditingController();
+  TextEditingController discController = TextEditingController();
+  TextEditingController ppnController = TextEditingController();
+  TextEditingController nett1Controller = TextEditingController();
+  TextEditingController disc1Controller = TextEditingController();
+  TextEditingController ppn1Controller = TextEditingController();
+  TextEditingController pph1Controller = TextEditingController();
+  TextEditingController pphController = TextEditingController();
   TextEditingController totalController = TextEditingController();
+  TextEditingController rpdiscController = TextEditingController();
+  TextEditingController rpppnController = TextEditingController();
   TextEditingController nettController = TextEditingController();
+  TextEditingController sisaController = TextEditingController();
+  TextEditingController rpdisc1Controller = TextEditingController();
+  TextEditingController rpppn1Controller = TextEditingController();
+  TextEditingController rppph1Controller = TextEditingController();
+  TextEditingController rppphController = TextEditingController();
+  TextEditingController usrinController = TextEditingController();
+  TextEditingController tg_inController = TextEditingController();
+  TextEditingController flagController = TextEditingController();
+  TextEditingController perController = TextEditingController();
+  TextEditingController typController = TextEditingController();
+  TextEditingController golController = TextEditingController();
+  TextEditingController brandController = TextEditingController();
+  TextEditingController rateksController = TextEditingController();
+  TextEditingController acno1Controller = TextEditingController();
+  TextEditingController acno1_nmController = TextEditingController();
+  TextEditingController tg_smpController = TextEditingController();
+  TextEditingController usrnmController = TextEditingController();
   final format_tanggal = new DateFormat("dd/MM/yyyy");
   final format_jtempo = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
@@ -300,14 +332,43 @@ class PobahanController with ChangeNotifier {
     no_buktiController.clear();
     tglController.clear();
     jtempoController.clear();
+    currController.clear();
+    currnmController.clear();
+    rateController.clear();
     kodesController.clear();
     namasController.clear();
     alamatController.clear();
     kotaController.clear();
     notesController.clear();
     total_qtyController.clear();
+    sisa_qtyController.clear();
+    total1Controller.clear();
+    discController.clear();
+    ppnController.clear();
+    nett1Controller.clear();
+    disc1Controller.clear();
+    ppn1Controller.clear();
+    pph1Controller.clear();
+    pphController.clear();
     totalController.clear();
+    rpdiscController.clear();
+    rpppnController.clear();
     nettController.clear();
+    sisaController.clear();
+    rpdisc1Controller.clear();
+    rpppn1Controller.clear();
+    rppph1Controller.clear();
+    rppphController.clear();
+    usrinController.clear();
+    tg_inController.clear();
+    flagController.clear();
+    perController.clear();
+    typController.clear();
+    golController.clear();
+    brandController.clear();
+    rateksController.clear();
+    acno1Controller.clear();
+    acno1_nmController.clear();
     tglController.text = format_tanggal.format(chooseDate);
     jtempoController.text = format_jtempo.format(chooseDateJT);
     sumQty = 0;
@@ -316,7 +377,7 @@ class PobahanController with ChangeNotifier {
     await m_pobahan.get_no_bukti('PO', 'NO_BUKTI', 'po').then((value) {
       if (value != null) {
         no_buktiController.text =
-            "PO${format_no_bukti.format(DateTime.now())}BH-${value[0]['NOMOR']}";
+            "PO/${format_no_bukti.format(DateTime.now())}/BH/I/${value[0]['NOMOR']}";
       }
     });
     await model_bahan().cari_bahan("").then((value) {
@@ -334,17 +395,46 @@ class PobahanController with ChangeNotifier {
     no_buktiController.text = data_edit['NO_BUKTI'];
     chooseDate = DateTime.tryParse(data_edit['TGL']);
     chooseDateJT = DateTime.tryParse(data_edit['JTEMPO']);
+    currController.text = data_edit['CURR'];
+    currnmController.text = data_edit['CURRNM'];
+    rateController.text = data_edit['RATE'].toString();
     kodesController.text = data_edit['KODES'];
     namasController.text = data_edit['NAMAS'];
     alamatController.text = data_edit['ALAMAT'];
     kotaController.text = data_edit['KOTA'];
     notesController.text = data_edit['NOTES'];
     total_qtyController.text = data_edit['TOTAL_QTY'].toString();
+    sisa_qtyController.text = data_edit['SISA_QTY'].toString();
+    total1Controller.text = data_edit['TOTAL1'].toString();
+    discController.text = data_edit['DISC'].toString();
+    ppnController.text = data_edit['PPN'].toString();
+    nett1Controller.text = data_edit['NETT1'].toString();
+    disc1Controller.text = data_edit['DISC1'].toString();
+    ppn1Controller.text = data_edit['PPN1'].toString();
+    pph1Controller.text = data_edit['PPH1'].toString();
+    pphController.text = data_edit['PPH'].toString();
     totalController.text = data_edit['TOTAL'].toString();
+    rpdiscController.text = data_edit['RPDISC'].toString();
+    rpppnController.text = data_edit['RPPPN'].toString();
     nettController.text = data_edit['NETT'].toString();
+    sisaController.text = data_edit['SISA'].toString();
+    rpdisc1Controller.text = data_edit['RPDISC1'].toString();
+    rpppn1Controller.text = data_edit['RPPPN1'].toString();
+    rppph1Controller.text = data_edit['RPPPH1'].toString();
+    rppphController.text = data_edit['RPPPH'].toString();
+    usrnmController.text = data_edit['USRNM'];
+    tg_smpController.text = data_edit['TG_SMP'];
+    flagController.text = data_edit['FLAG'];
+    perController.text = data_edit['PER'];
+    typController.text = data_edit['TYP'];
+    golController.text = data_edit['GOL'];
+    brandController.text = data_edit['BRAND'];
+    rateksController.text = data_edit['RATEKS'].toString();
+    acno1Controller.text = data_edit['ACNO1'];
+    acno1_nmController.text = data_edit['ACNO1_NM'];
     tglController.text = format_tanggal.format(chooseDate);
     jtempoController.text = format_jtempo.format(chooseDateJT);
-    List data_lama = await m_pobahan.select_po_bahan_detail(
+    List data_lama = await m_pobahan.select_po_bahan_import_detail(
         data_edit['NO_BUKTI'], "NO_BUKTI", "pod");
     data_bhn_keranjang = new List<DataBhn>();
 
@@ -412,17 +502,45 @@ class PobahanController with ChangeNotifier {
               obj['NO_BUKTI'] = no_buktiController.text;
               obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
               obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
+              obj['CURR'] = currController.text;
+              obj['CURRNM'] = currnmController.text;
+              obj['RATE'] = rateController.text;
               obj['KODES'] = kodesController.text;
               obj['NAMAS'] = namasController.text;
               obj['ALAMAT'] = alamatController.text;
               obj['KOTA'] = kotaController.text;
               obj['NOTES'] = notesController.text;
               obj['TOTAL_QTY'] = sumQty;
+              obj['SISA_QTY'] = "0";
+              obj['TOTAL1'] = "0";
+              obj['DISC'] = "0";
+              obj['PPN'] = "0";
+              obj['NETT1'] = "0";
+              obj['DISC1'] = "0";
+              obj['PPN1'] = "0";
+              obj['PPH1'] = "0";
+              obj['PPH'] = "0";
               obj['TOTAL'] = sumTotal;
+              obj['RPDISC'] = "0";
+              obj['RPPPN'] = "0";
+              obj['NETT'] = "0";
+              obj['SISA'] = "0";
+              obj['RPDISC1'] = "0";
+              obj['RPPPN1'] = "0";
+              obj['RPPPH1'] = "0";
+              obj['RPPPH'] = "0";
+              obj['USRIN'] = LoginController.nama_staff;
+              obj['TG_IN'] = DateTime.now();
+              obj['FLAG'] = "PO";
               obj['PER'] = perx;
-              obj['USRNM'] = LoginController.nama_staff;
+              obj['TYP'] = "I";
+              obj['GOL'] = "A";
+              obj['BRAND'] = brandController.text;
+              obj['rateks'] = rateksController.text;
+              obj['ACNO1'] = acno1Controller.text;
+              obj['ACNO1_NM'] = acno1_nmController.text;
               obj['tabeld'] = await baca_tabeld();
-              await m_pobahan.insert_po_bahan(obj);
+              await m_pobahan.insert_po_bahan_import(obj);
               BotToast.closeAllLoading();
               return true;
             }
@@ -447,40 +565,79 @@ class PobahanController with ChangeNotifier {
 
   Future<bool> editPobahan() async {
     hitungSubTotal();
-    if (no_buktiController.text.isNotEmpty) {
-      if (data_bhn_keranjang.length > 0) {
-        BotToast.showLoading();
-        Map obj = new Map();
-        obj['NO_BUKTI'] = no_buktiController.text;
-        obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-        obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
-        obj['KODES'] = kodesController.text;
-        obj['NAMAS'] = namasController.text;
-        obj['ALAMAT'] = alamatController.text;
-        obj['KOTA'] = kotaController.text;
-        obj['NOTES'] = notesController.text;
-        obj['TOTAL_QTY'] = sumQty;
-        obj['TOTAL'] = sumTotal;
-        obj['PER'] = perx;
-        obj['USRNM'] = LoginController.nama_staff;
-        obj['tabeld'] = await baca_tabeld();
-        await m_pobahan.update_po_bahan(obj);
-        BotToast.closeAllLoading();
-        Toast("Success !", "Berhasil mengedit data", true);
-        return true;
+    String periodeTgl = DateFormat("MM/yyyy").format(chooseDate);
+    if (int.parse(DateFormat("yyyyMMdd").format(chooseDateJT)) >
+        int.parse(DateFormat("yyyyMMdd").format(chooseDate))) {
+      if (periodeTgl == perx) {
+        if (no_buktiController.text.isNotEmpty) {
+          if (data_bhn_keranjang.length > 0) {
+            BotToast.showLoading();
+            Map obj = new Map();
+            obj['NO_BUKTI'] = no_buktiController.text;
+            obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+            obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
+            obj['CURR'] = currController.text;
+            obj['CURRNM'] = currnmController.text;
+            obj['RATE'] = rateController.text;
+            obj['KODES'] = kodesController.text;
+            obj['NAMAS'] = namasController.text;
+            obj['ALAMAT'] = alamatController.text;
+            obj['KOTA'] = kotaController.text;
+            obj['NOTES'] = notesController.text;
+            obj['TOTAL_QTY'] = sumQty;
+            obj['SISA_QTY'] = "0";
+            obj['TOTAL1'] = "0";
+            obj['DISC'] = "0";
+            obj['PPN'] = "0";
+            obj['NETT1'] = "0";
+            obj['DISC1'] = "0";
+            obj['PPN1'] = "0";
+            obj['PPH1'] = "0";
+            obj['PPH'] = "0";
+            obj['TOTAL'] = sumTotal;
+            obj['RPDISC'] = "0";
+            obj['RPPPN'] = "0";
+            obj['NETT'] = "0";
+            obj['SISA'] = "0";
+            obj['RPDISC1'] = "0";
+            obj['RPPPN1'] = "0";
+            obj['RPPPH1'] = "0";
+            obj['RPPPH'] = "0";
+            obj['USRNM'] = LoginController.nama_staff;
+            obj['TG_SMP'] = DateTime.now();
+            obj['FLAG'] = "PO";
+            obj['PER'] = perx;
+            obj['TYP'] = "I";
+            obj['GOL'] = "A";
+            obj['BRAND'] = brandController.text;
+            obj['rateks'] = rateksController.text;
+            obj['ACNO1'] = acno1Controller.text;
+            obj['ACNO1_NM'] = acno1_nmController.text;
+            obj['tabeld'] = await baca_tabeld();
+            await m_pobahan.update_po_bahan_import(obj);
+            BotToast.closeAllLoading();
+            Toast("Success !", "Berhasil mengedit data", true);
+            return true;
+          } else {
+            Toast("Peringatan !", "Belum ada detil Transaksi yang di input",
+                false);
+            return false;
+          }
+        } else {
+          Toast("Peringatan !", "No. bukti wajib di isi !", false);
+          return false;
+        }
       } else {
-        Toast("Peringatan !", "Belum ada detil Transaksi yang di input", false);
-        return false;
+        Toast("Peringatan !", "Tanggal tidak sesuai periode !", false);
       }
     } else {
-      Toast("Peringatan !", "No. bukti wajib di isi !", false);
-      return false;
+      Toast("Peringatan ?", "Jatuh Tempo Salah !", false);
     }
   }
 
   Future<bool> deletePobahan(String no_bukti) async {
     try {
-      var delete = await m_pobahan.delete_po_bahan(no_bukti);
+      var delete = await m_pobahan.delete_po_bahan_import(no_bukti);
       await select_data();
       return true;
     } catch (e) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanlokal_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -12,7 +12,7 @@ class FilterTanggal extends StatefulWidget {
 class _FilterTanggalState extends State<FilterTanggal> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PobahanController>(
+    return Consumer<PobahanlokalController>(
         builder: (context, PobahanController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

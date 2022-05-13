@@ -1,43 +1,43 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/supplier_controller.dart';
+import 'package:akunt/controller/account_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class PilihSupplier extends StatefulWidget {
-  String supplier_terpilih;
+class PilihAccount extends StatefulWidget {
+  String account_terpilih;
   var controller;
 
-  PilihSupplier(this.supplier_terpilih, this.controller);
+  PilihAccount(this.account_terpilih, this.controller);
 
   @override
-  _PilihSupplierState createState() => _PilihSupplierState();
+  _PilihAccountState createState() => _PilihAccountState();
 }
 
-class _PilihSupplierState extends State<PilihSupplier> {
+class _PilihAccountState extends State<PilihAccount> {
   TextEditingController searchController = TextEditingController();
   int index_terpilih;
 
   @override
   void initState() {
-    Provider.of<SupplierController>(context, listen: false).selectData("");
+    Provider.of<AccountController>(context, listen: false).selectData("");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SupplierController>(
-        builder: (context, supplierController, child) {
+    return Consumer<AccountController>(
+        builder: (context, accountController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
-          width: MediaQuery.of(context).size.width / 1.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           height: MediaQuery.of(context).size.height - 100,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Text("Pilih Supplier",
+              child: Text("Pilih Account",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class _PilihSupplierState extends State<PilihSupplier> {
                       disabledBorder: InputBorder.none,
                     ),
                     onChanged: (value) {
-                      supplierController.selectData(value);
+                      accountController.selectData(value);
                     },
                   ),
                 ),
@@ -91,39 +91,9 @@ class _PilihSupplierState extends State<PilihSupplier> {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Text(
-                      "No.",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      "Kode Supplier",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Nama Supplier",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
                     flex: 3,
                     child: Text(
-                      "Kota",
+                      "Account#",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -133,12 +103,15 @@ class _PilihSupplierState extends State<PilihSupplier> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "Alamat",
+                      "Nama",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: GreyColor),
                     ),
+                  ),
+                  SizedBox(
+                    width: 30,
                   ),
                 ],
               ),
@@ -148,9 +121,9 @@ class _PilihSupplierState extends State<PilihSupplier> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: supplierController.data_supplierList.length,
+                itemCount: accountController.data_accountList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SupplierCard(index);
+                  return accountCard(index);
                 },
               ),
             ),
@@ -179,14 +152,11 @@ class _PilihSupplierState extends State<PilihSupplier> {
                   child: InkWell(
                 onTap: () async {
                   if (index_terpilih != null) {
-                    widget.controller.kodesController.text = supplierController
-                        .data_supplierList[index_terpilih]['KODES'];
-                    widget.controller.namasController.text = supplierController
-                        .data_supplierList[index_terpilih]['NAMAS'];
-                    widget.controller.kotaController.text = supplierController
-                        .data_supplierList[index_terpilih]['KOTA'];
-                    widget.controller.alamatController.text = supplierController
-                        .data_supplierList[index_terpilih]['ALAMAT'];
+                    widget.controller.acno1Controller.text = accountController
+                        .data_accountList[index_terpilih]['ACNO'];
+                    widget.controller.acno1_nmController.text =
+                        accountController.data_accountList[index_terpilih]
+                            ['NAMA'];
                     Navigator.pop(context);
                   } else {
                     Toast("Peringatan", "Belum ada data terpilih", false);
@@ -215,88 +185,68 @@ class _PilihSupplierState extends State<PilihSupplier> {
     });
   }
 
-  Widget SupplierCard(int index) {
+  Widget accountCard(int index) {
     bool isActive = index == index_terpilih;
-    var data_supplier = Provider.of<SupplierController>(context, listen: false)
-        .data_supplierList[index];
-    if (widget.supplier_terpilih != null) {
-      if (data_supplier['NAMAS'] == widget.supplier_terpilih) {
+    var data_account = Provider.of<AccountController>(context, listen: false)
+        .data_accountList[index];
+    if (widget.account_terpilih != null) {
+      if (data_account['ACNO'] == widget.account_terpilih) {
         isActive = true;
         index_terpilih = index;
       }
     }
-    return InkWell(
-      onTap: () {
-        index_terpilih = index;
-        widget.supplier_terpilih = data_supplier['NAMAS'];
-        setState(() {});
-      },
-      child: Container(
-        color: isActive ? kPrimaryColor : Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    data_supplier['NO_ID'].toString(),
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: InkWell(
+        onTap: () {
+          index_terpilih = index;
+          widget.account_terpilih = data_account['ACNO'];
+          setState(() {});
+        },
+        child: Container(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      data_account['ACNO'],
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    data_supplier['KODES'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      data_account['NAMA'],
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_supplier['NAMAS'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    data_supplier['KOTA'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    data_supplier['ALAMAT'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(
-              height: 1,
-            ),
-          ],
+                  (isActive)
+                      ? Image.asset(
+                          "assets/images/ic_success.png",
+                          width: 30,
+                        )
+                      : SizedBox(
+                          width: 30,
+                          height: 30,
+                        ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(
+                height: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

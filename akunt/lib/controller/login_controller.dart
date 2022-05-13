@@ -58,10 +58,10 @@ class LoginController with ChangeNotifier {
               .select_data_login(usernameLogin.text, passwordLogin.text);
           if (data_user.length > 0) {
             var obj_data = data_user[0];
-            nama_staff = obj_data['USERNAME'].toString();
-            akun_staff = obj_data['CREATE_BY'].toString();
-            role_staff = int.tryParse(obj_data['ROLE'].toString());
-            email_staff = obj_data['NA_DEV'].toString();
+            nama_staff = obj_data['Username'].toString();
+            akun_staff = obj_data['usrin'].toString();
+            role_staff = int.tryParse(obj_data['role'].toString());
+            email_staff = obj_data['usrnm'].toString();
             BotToast.closeAllLoading();
             return true;
           } else {

@@ -5,7 +5,7 @@ import 'package:akunt/config/config.dart';
 import 'package:akunt/invoice/invoice_order_penjualan.dart';
 import 'package:akunt/model/data_bhn.dart';
 import 'package:akunt/model/model_bahan.dart';
-import 'package:akunt/model/model_pobahan.dart';
+import 'package:akunt/model/model_pobahanlokal.dart';
 import 'package:akunt/model/model_belibahan.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';
@@ -76,7 +76,7 @@ class BelibahanController with ChangeNotifier {
   }
 
   void modalData(String cari) async {
-    data_belibahan_list = await model_pobahan().data_modal(cari);
+    data_belibahan_list = await model_pobahanlokal().data_modal(cari);
     notifyListeners();
   }
 
@@ -505,8 +505,8 @@ class BelibahanController with ChangeNotifier {
     kodesController.text = data_po['KODES'].toString();
     namasController.text = data_po['NAMAS'].toString();
     tglController.text = data_po['TGL'].toString();
-    List data_detail_po = await model_pobahan()
-        .select_po_bahan_detail(data_po['NO_BUKTI'], "NO_BUKTI", "pod");
+    List data_detail_po = await model_pobahanlokal()
+        .select_po_bahan_lokal_detail(data_po['NO_BUKTI'], "NO_BUKTI", "pod");
     data_bhn_keranjang = [];
     for (int i = 0; i < data_detail_po.length; i++) {
       DataBhn m_bhn = DataBhn(

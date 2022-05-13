@@ -14,7 +14,7 @@ exports.index = function (req, res) {
 exports.login = function (req, res) {
     var username = req.body.username;
     var password = md5(req.body.password);
-    connection.query("select * from users where USERNAME = ? and PASSWORD = ? ", [username, password], function (error, rows, fields) {
+    connection.query("select * from users where Username = ? and Password = ? ", [username, password], function (error, rows, fields) {
         if (error) {
             connection.log(error);
         } else {
@@ -30,7 +30,7 @@ exports.nourut = function (req, res) {
     var jenis = req.body.tipe;
     var tabelx = req.body.tabel;
     var kolomx = req.body.kolom;
-    
+
     connection.query("SELECT lpad(right(coalesce(MAX(??),0),4)+1,4,0) as NOMOR from ?? where left(??,2)=?", [kolomx, tabelx, kolomx, jenis],
         function (error, rows, fields) {
             if (error) {
@@ -235,7 +235,7 @@ exports.tambahbrg = function (req, res) {
     var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
 
-    connection.query("insert into brg (KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL brgdins(?);", [KD_BRG,NA_BRG,JENIS,SATUAN,TYPE,KODEV,KD_BRGLM,NA_BRGLM,KODE,NAMA,KD_BRG],
+    connection.query("insert into brg (KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL brgdins(?);", [KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA, KD_BRG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -260,7 +260,7 @@ exports.ubahbrg = function (req, res) {
     var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
 
-    connection.query("UPDATE brg SET KD_BRG=? ,NA_BRG=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BRGLM=? ,NA_BRGLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BRG,NA_BRG,JENIS,SATUAN,TYPE,KODEV,KD_BRGLM,NA_BRGLM,KODE,NAMA,NO_ID],
+    connection.query("UPDATE brg SET KD_BRG=? ,NA_BRG=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BRGLM=? ,NA_BRGLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -286,6 +286,142 @@ exports.hapusbrg = function (req, res) {
             }
         });
 };
+
+//paginate
+exports.curr_paginate = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    var offset_page = Number(req.body.offset);
+    var limit_page = Number(req.body.limit);
+    connection.query("select * from curr where KODE like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
+
+///paginate
+exports.count_currpaginate = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("select COUNT(*) from curr where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+                response.ok(rows, res);
+            }
+        });
+}
+
+//menampilkan cari currency
+exports.caricurr = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("select * from curr where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
+// tampil data currency
+exports.tampilcurr = function (req, res) {
+    connection.query("select * from curr", function (error, rows, fields) {
+        if (error) {
+            connection.log(error);
+        } else {
+
+            response.ok(rows, res);
+
+        }
+    });
+};
+// tampil data currency
+exports.modalcurr = function (req, res) {
+    var cari = '%' + req.body.cari + '%';
+    if ([cari] != '') {
+        connection.query("select * from curr where KODE like ? or NAMA like ? order by KODE", [cari, cari],
+            function (error, rows, fields) {
+                if (error) {
+                    connection.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    } else {
+        connection.query("select * from curr order by KODE",
+            function (error, rows, fields) {
+                if (error) {
+                    connection.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    };
+};
+//tambah data currency
+exports.tambahcurr = function (req, res) {
+    var ACNO = req.body.ACNO;
+    var NAMA = req.body.NAMA;
+    var NAMA_KEL = req.body.NAMA_KEL;
+    var NM_GRUP = req.body.NM_GRUP;
+
+    connection.query("insert into account (ACNO,NAMA,NAMA_KEL,NM_GRUP) values (?,?,?,?); CALL accountdins(?);", [ACNO, NAMA, NAMA_KEL, NM_GRUP, ACNO],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+
+                response.ok('Berhasil Tambah Data', res);
+
+            }
+        });
+};
+//update data 
+exports.ubahcurr = function (req, res) {
+    var NO_ID = req.body.NO_ID;
+    var ACNO = req.body.ACNO;
+    var NAMA = req.body.NAMA;
+    var NAMA_KEL = req.body.NAMA_KEL;
+    var NM_GRUP = req.body.NM_GRUP;
+
+    connection.query("UPDATE account SET ACNO = ?, NAMA = ?, NAMA_KEL = ?, NM_GRUP = ? where NO_ID = ? ", [ACNO, NAMA, NAMA_KEL, NM_GRUP, NO_ID],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+
+                response.ok('Berhasil Ubah Data', res);
+
+            }
+        });
+};
+//delete data supplier
+exports.hapuscurr = function (req, res) {
+    var NO_ID = req.body.NO_ID;
+    connection.query("DELETE FROM curr WHERE NO_ID=? ", [NO_ID],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
+
+                response.ok('Berhasil Hapus Data', res);
+
+            }
+        });
+};
+
 
 //paginate
 exports.bagas_paginate = function (req, res) {
@@ -375,7 +511,7 @@ exports.tambahbagas = function (req, res) {
     var NA_BGS = req.body.NA_BGS;
     var SATUAN = req.body.SATUAN;
 
-    connection.query("insert into bagas (KD_BGS,NA_BGS,SATUAN) values (?,?,?)", [KD_BGS,NA_BGS,SATUAN],
+    connection.query("insert into bagas (KD_BGS,NA_BGS,SATUAN) values (?,?,?)", [KD_BGS, NA_BGS, SATUAN],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -393,7 +529,7 @@ exports.ubahbagas = function (req, res) {
     var NA_BGS = req.body.NA_BGS;
     var SATUAN = req.body.SATUAN;
 
-    connection.query("UPDATE bagas SET KD_BGS = ?, NA_BGS = ?, SATUAN = ? where NO_ID = ? ", [KD_BGS,NA_BGS,SATUAN,NO_ID],
+    connection.query("UPDATE bagas SET KD_BGS = ?, NA_BGS = ?, SATUAN = ? where NO_ID = ? ", [KD_BGS, NA_BGS, SATUAN, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -419,23 +555,6 @@ exports.hapusbagas = function (req, res) {
         });
 };
 
-//paginate
-exports.acc_paginate = function (req, res) {
-    var filter_cari = '%' + req.body.cari + '%';
-    var offset_page = Number(req.body.offset);
-    var limit_page = Number(req.body.limit);
-    connection.query("select * from account where ACNO like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-
-                response.ok(rows, res);
-
-            }
-        });
-}
-
 ///paginate
 exports.acc_suppaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
@@ -448,7 +567,7 @@ exports.acc_suppaginate = function (req, res) {
             }
         });
 }
-//menampilkan cari supplier      kodes like '%?%'",[dk]
+//menampilkan cari acc      kodes like '%?%'",[dk]
 exports.cariacc = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from account where ACNO like ? or NAMA like ? or NAMA_KEL like ? or NM_GRUP like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
@@ -508,7 +627,7 @@ exports.tambahacc = function (req, res) {
     var NAMA_KEL = req.body.NAMA_KEL;
     var NM_GRUP = req.body.NM_GRUP;
 
-    connection.query("insert into account (ACNO,NAMA,NAMA_KEL,NM_GRUP) values (?,?,?,?); CALL accountdins(?);", [ACNO,NAMA,NAMA_KEL,NM_GRUP,ACNO],
+    connection.query("insert into account (ACNO,NAMA,NAMA_KEL,NM_GRUP) values (?,?,?,?); CALL accountdins(?);", [ACNO, NAMA, NAMA_KEL, NM_GRUP, ACNO],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -527,7 +646,7 @@ exports.ubahacc = function (req, res) {
     var NAMA_KEL = req.body.NAMA_KEL;
     var NM_GRUP = req.body.NM_GRUP;
 
-    connection.query("UPDATE account SET ACNO = ?, NAMA = ?, NAMA_KEL = ?, NM_GRUP = ? where NO_ID = ? ", [ACNO,NAMA,NAMA_KEL,NM_GRUP,NO_ID],
+    connection.query("UPDATE account SET ACNO = ?, NAMA = ?, NAMA_KEL = ?, NM_GRUP = ? where NO_ID = ? ", [ACNO, NAMA, NAMA_KEL, NM_GRUP, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -658,7 +777,7 @@ exports.tambahsup = function (req, res) {
     var HARGA = req.body.HARGA;
     var AKT = req.body.AKT;
 
-    connection.query("insert into sup (KODES,NAMAS,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL supdins(?);", [KODES,NAMAS,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT,KODES],
+    connection.query("insert into sup (KODES,NAMAS,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL supdins(?);", [KODES, NAMAS, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, KODES],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -693,7 +812,7 @@ exports.ubahsup = function (req, res) {
     var HARGA = req.body.HARGA;
     var AKT = req.body.AKT;
 
-    connection.query("UPDATE sup SET KODES=? ,NAMAS=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODES,NAMAS,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT, NO_ID],
+    connection.query("UPDATE sup SET KODES=? ,NAMAS=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODES, NAMAS, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -813,7 +932,7 @@ exports.tambahbahan = function (req, res) {
     var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
 
-    connection.query("insert into bhn (KD_BHN,NA_BHN,JENIS,SATUAN,TYPE,KODEV,KD_BHNLM,NA_BHNLM,KODE,NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL bhndins(?);", [KD_BHN,NA_BHN,JENIS,SATUAN,TYPE,KODEV,KD_BHNLM,NA_BHNLM,KODE,NAMA,KD_BHN],
+    connection.query("insert into bhn (KD_BHN,NA_BHN,JENIS,SATUAN,TYPE,KODEV,KD_BHNLM,NA_BHNLM,KODE,NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL bhndins(?);", [KD_BHN, NA_BHN, JENIS, SATUAN, TYPE, KODEV, KD_BHNLM, NA_BHNLM, KODE, NAMA, KD_BHN],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -838,7 +957,7 @@ exports.ubahbahan = function (req, res) {
     var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
 
-    connection.query("UPDATE bhn SET KD_BHN=? ,NA_BHN=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BHNLM=? ,NA_BHNLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BHN,NA_BHN,JENIS,SATUAN,TYPE,KODEV,KD_BHNLM,NA_BHNLM,KODE,NAMA,NO_ID],
+    connection.query("UPDATE bhn SET KD_BHN=? ,NA_BHN=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BHNLM=? ,NA_BHNLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BHN, NA_BHN, JENIS, SATUAN, TYPE, KODEV, KD_BHNLM, NA_BHNLM, KODE, NAMA, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -1248,6 +1367,33 @@ exports.modal_accbank = function (req, res) {
             });
     };
 };
+// modal data currency
+exports.modal_curr = function (req, res) {
+    var cari = '%' + req.body.cari + '%';
+    if ([cari] != '') {
+        connection.query("select * from curr order by KODE", [cari, cari],
+            function (error, rows, fields) {
+                if (error) {
+                    connection.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    } else {
+        connection.query("select * from curr order by KODE",
+            function (error, rows, fields) {
+                if (error) {
+                    connection.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    };
+};
 
 //paginate
 exports.cus_paginate = function (req, res) {
@@ -1354,7 +1500,7 @@ exports.tambahcus = function (req, res) {
     var HARGA = req.body.HARGA;
     var AKT = req.body.AKT;
 
-    connection.query("insert into cust (KODEC,NAMAC,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL custdins(?);", [KODEC,NAMAC,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT,KODEC],
+    connection.query("insert into cust (KODEC,NAMAC,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL custdins(?);", [KODEC, NAMAC, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, KODEC],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -1389,7 +1535,7 @@ exports.ubahcus = function (req, res) {
     var HARGA = req.body.HARGA;
     var AKT = req.body.AKT;
 
-    connection.query("UPDATE cust SET KODEC=? ,NAMAC=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODEC,NAMAC,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT, NO_ID],
+    connection.query("UPDATE cust SET KODEC=? ,NAMAC=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODEC, NAMAC, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, NO_ID],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -1474,7 +1620,7 @@ exports.tambahbank = function (req, res) {
     var KD_BANK = req.body.KD_BANK;
     var NA_BANK = req.body.NA_BANK;
 
-    connection.query("insert into master_bank (KD_BANK,NA_BANK) values (?,?)", [KD_BANK,NA_BANK],
+    connection.query("insert into master_bank (KD_BANK,NA_BANK) values (?,?)", [KD_BANK, NA_BANK],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -1576,7 +1722,7 @@ exports.tambahperiode = function (req, res) {
     var PERIOD = req.body.PERIOD;
     var YER = req.body.YER;
 
-    connection.query("insert into perid (PERIO,YER) values (?,?)", [PERIOD,YER],
+    connection.query("insert into perid (PERIO,YER) values (?,?)", [PERIOD, YER],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -2159,7 +2305,7 @@ exports.tambahdetailpiu = function (req, res) {
     var FLAG = req.body.FLAG;
     var PER = req.body.PER;
 
-    connection.query("insert into piud (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER],
+    connection.query("insert into piud (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, NO_FAKTUR, URAIAN, TOTAL, BAYAR, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -3707,7 +3853,7 @@ exports.tambahdetailmemo = function (req, res) {
     var DEBET = req.body.DEBET;
     var KREDIT = req.body.KREDIT;
     var FLAG = req.body.FLAG;
-    connection.query("insert into memod (REC,NO_BUKTI,PER,ACNO,NACNO,URAIAN,DEBET,KREDIT,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,PER,ACNO,NACNO,URAIAN,DEBET,KREDIT,FLAG],
+    connection.query("insert into memod (REC,NO_BUKTI,PER,ACNO,NACNO,URAIAN,DEBET,KREDIT,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, ACNO, NACNO, URAIAN, DEBET, KREDIT, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -3803,7 +3949,7 @@ exports.tambahdetailmutasibhn = function (req, res) {
     var FISIK = req.body.FISIK;
     var PER = req.body.PER;
     var FLAG = req.body.FLAG;
-    connection.query("insert into stockad (REC,NO_BUKTI,KD_BHN,NA_BHN,QTY,SATUAN,STOCKR,FISIK,PER,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,KD_BHN,NA_BHN,QTY,SATUAN,STOCKR,FISIK,PER,FLAG],
+    connection.query("insert into stockad (REC,NO_BUKTI,KD_BHN,NA_BHN,QTY,SATUAN,STOCKR,FISIK,PER,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, QTY, SATUAN, STOCKR, FISIK, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -3927,7 +4073,7 @@ exports.tambahdetailmutasibrg = function (req, res) {
     var FISIK = req.body.FISIK;
     var PER = req.body.PER;
     var FLAG = req.body.FLAG;
-    connection.query("insert into stockbd (REC,NO_BUKTI,KD_BRG,NA_BRG,QTY,SATUAN,STOCKR,FISIK,PER,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,KD_BRG,NA_BRG,QTY,SATUAN,STOCKR,FISIK,PER,FLAG],
+    connection.query("insert into stockbd (REC,NO_BUKTI,KD_BRG,NA_BRG,QTY,SATUAN,STOCKR,FISIK,PER,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, QTY, SATUAN, STOCKR, FISIK, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -4021,7 +4167,7 @@ exports.tambahdetailpakaibahan = function (req, res) {
     var QTY = req.body.QTY;
     var PER = req.body.PER;
     var FLAG = req.body.FLAG;
-    connection.query("insert into pakaid (REC,NO_BUKTI,KD_BHN,NA_BHN,KET,SATUAN,QTY,PER,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,KD_BHN,NA_BHN,KET,SATUAN,QTY,PER,FLAG],
+    connection.query("insert into pakaid (REC,NO_BUKTI,KD_BHN,NA_BHN,KET,SATUAN,QTY,PER,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, KET, SATUAN, QTY, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -4115,7 +4261,7 @@ exports.tambahdetailterima = function (req, res) {
     var QTY = req.body.QTY;
     var PER = req.body.PER;
     var FLAG = req.body.FLAG;
-    connection.query("insert into terimad (REC,NO_BUKTI,KD_BRG,NA_BRG,KET,SATUAN,QTY,PER,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,KD_BRG,NA_BRG,KET,SATUAN,QTY,PER,FLAG],
+    connection.query("insert into terimad (REC,NO_BUKTI,KD_BRG,NA_BRG,KET,SATUAN,QTY,PER,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, KET, SATUAN, QTY, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -4176,16 +4322,15 @@ exports.hapusterima = function (req, res) {
         });
 }
 
-///TRANSAKSI HEADER DETAIL PO
-//paginate
-exports.pobahan_paginate = function (req, res) {
+///========================/// TRANSAKSI PO BAHAN LOKAL ///========================///
+exports.pobahanlokal_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
     connection.query("select * from po where KODES like ? or NAMAS like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4194,181 +4339,91 @@ exports.pobahan_paginate = function (req, res) {
         });
 }
 
-///paginate
-exports.count_pobahanpaginate = function (req, res) {
+exports.count_pobahanlokalpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from po where KODES like ? or NAMAS like ?", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from po where TYP='L' and (KODES like ? or NAMAS like ?)", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
         });
 }
+
 ///HEADER
-exports.tambahheaderpo = function (req, res) {
-    var NO_BUKTI = req.body.nobukti;
-    var DRAGON = req.body.dragon;
-    var KODES = req.body.kodes;
-    var NAMAS = req.body.namas;
-    var TANGGAL = req.body.tanggal;
-    var JTEMPO = req.body.jtempo;
-    var KOTA = req.body.kota;
-    var ALAMAT = req.body.alamat;
-    var MATAUANG = req.body.matauang;
-    var KURS = req.body.kurs;
-    var PRODUK = req.body.produk;
-    var JENIS = req.body.jenis;
-    var SUBDIV = req.body.subdiv;
-    var AN = req.body.an;
-    var NOTABAYAR = req.body.notabayar;
-    var NOTAKIRIM = req.body.notakirim;
-    var NOTES = req.body.notes;
-    var PAJAK = req.body.pajak;
-    var JUMLAH = Number(req.body.total);
-    var PER = req.body.per;
-    var FLAG = req.body.flag;
-    var FLAG2 = req.body.flag2;
-    var USER = req.body.user;
-    connection.query("insert into po (NO_BUKTI,DR,KODES,NAMAS,TGL,JTEMPO,KOTA,ALAMAT,KURS,RATE,PROD,JENIS,SUBDIV,AN,NOTESBL,NOTESKRM,KET,PKP,TOTAL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-
-                response.ok('Berhasil Tambah Bank Header', res);
-
-            }
-        });
-};
-
-///DETAIL
-exports.tambahdetailpo = function (req, res) {
-    var REC = req.body.rec;
-    var NO_BUKTI = req.body.nobukti;
-    var PER = req.body.per;
-    var KD_BRG = req.body.kode_barang;
-    var NA_BRG = req.body.nama_barang;
-    var SATUAN_PPC = req.body.satuan_ppc;
-    var QTY_PPC = req.body.qty_ppc;
-    var SATUAN = req.body.satuan;
-    var HARGA = req.body.harga;
-    var TOTAL = Number(req.body.total);
-    var FLAG = req.body.flag;
-    var FLAG2 = req.body.flag2;
-    var USER = req.body.user;
-    connection.query("insert into pod (REC,NO_BUKTI,PER,KD_BHN,NA_BHN,SATUANPP,QTYPP,SATUAN,HARGA,TOTAL,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, KD_BRG, NA_BRG, SATUAN_PPC, QTY_PPC, SATUAN, HARGA, TOTAL, FLAG, FLAG2, USER],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-
-                response.ok('Berhasil Tambah PO Detail', res);
-
-            }
-        });
-};
-
-exports.tampilpo = function (req, res) {
-    var nobukti = '%' + req.body.cari + '%';
-    var tgl_awal = req.body.tglawal;
-    var tgl_akhir = req.body.tglakhir;
-    connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND TYPE='BBM'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
-
-            response.ok(rows, res);
-
-        }
-    });
-};
-
-exports.editheaderpo = function (req, res) {
-    var NO_BUKTI = req.body.nobukti;
-    var DRAGON = req.body.dragon;
-    var KODES = req.body.kodes;
-    var NAMAS = req.body.namas;
-    var TANGGAL = req.body.tanggal;
-    var JTEMPO = req.body.jtempo;
-    var KOTA = req.body.kota;
-    var ALAMAT = req.body.alamat;
-    var MATAUANG = req.body.matauang;
-    var KURS = req.body.kurs;
-    var PRODUK = req.body.produk;
-    var JENIS = req.body.jenis;
-    var SUBDIV = req.body.subdiv;
-    var AN = req.body.an;
-    var NOTABAYAR = req.body.notabayar;
-    var NOTAKIRIM = req.body.notakirim;
-    var NOTES = req.body.notes;
-    var PAJAK = req.body.pajak;
-    var JUMLAH = Number(req.body.total);
-    var PER = req.body.per;
-    var FLAG = req.body.flag;
-    var FLAG2 = req.body.flag2;
-    var USER = req.body.user;
-    connection.query("UPDATE po set DR=?, KODES=?, NAMAS=?, TGL=?, JTEMPO=?, KOTA=?,ALAMAT=?, KURS=?, RATE=?, PROD=?, JENIS=?, SUBDIV=?, AN=?, NOTESBL=?, NOTESKRM=?, KET=?, PKP=?, TOTAL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER, NO_BUKTI],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-
-                response.ok('Berhasil Edit PO Header', res);
-
-            }
-        });
-};
-
-///TRANSAKSI HEADER DETAIL PO BAHAN
-///HEADER
-exports.tambahheaderpobahan = function (req, res) {
+exports.tambahheaderpobahanlokal = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var JTEMPO = req.body.JTEMPO;
-    var PER = req.body.PER;
+    var CURR = req.body.CURR;
+    var CURRNM = req.body.CURRNM;
+    var RATE = req.body.RATE;
     var KODES = req.body.KODES;
     var NAMAS = req.body.NAMAS;
     var ALAMAT = req.body.ALAMAT;
     var KOTA = req.body.KOTA;
     var NOTES = req.body.NOTES;
     var TOTAL_QTY = req.body.TOTAL_QTY;
+    var SISA_QTY = req.body.SISA_QTY;
+    var TOTAL1 = req.body.TOTAL1;
+    var DISC = req.body.DISC;
+    var PPN = req.body.PPN;
+    var NETT1 = req.body.NETT1;
+    var DISC1 = req.body.DISC1;
+    var PPN1 = req.body.PPN1;
+    var PPH1 = req.body.PPH1;
+    var PPH = req.body.PPH;
     var TOTAL = req.body.TOTAL;
-    var NETT = req.body.TOTAL;
-    var USRNM = req.body.USRNM;
+    var RPDISC = req.body.RPDISC;
+    var RPPPN = req.body.RPPPN;
+    var NETT = req.body.NETT;
+    var SISA = req.body.SISA;
+    var RPDISC1 = req.body.RPDISC1;
+    var RPPPN1 = req.body.RPPPN1;
+    var RPPPH1 = req.body.RPPPH1;
+    var RPPPH = req.body.RPPPH;
+    var USRIN = req.body.USRIN;
+    var TG_IN = req.body.TG_IN;
     var FLAG = req.body.FLAG;
-    connection.query("insert into po (NO_BUKTI,TGL,JTEMPO,PER,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI,TGL,JTEMPO,PER,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG],
+    var PER = req.body.PER;
+    var TYP = req.body.TYP;
+    var GOL = req.body.GOL;
+    var BRAND = req.body.BRAND;
+    var RATEKS = req.body.rateks;
+    var ACNO1 = req.body.ACNO1;
+    var ACNO1_NM = req.body.ACNO1_NM;
+
+    connection.query("INSERT INTO po (NO_BUKTI,TGL,JTEMPO,CURR,CURRNM,RATE,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,SISA_QTY,TOTAL1,DISC,PPN,NETT1,DISC1,PPN1,PPH1,PPH,TOTAL,RPDISC,RPPPN,NETT,SISA,RPDISC1,RPPPN1,RPPPH1,RPPPH,USRIN,TG_IN,FLAG,PER,TYP,GOL,BRAND,rateks,ACNO1,ACNO1_NM) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, JTEMPO, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, SISA_QTY, TOTAL1, DISC, PPN, NETT1, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, SISA, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, BRAND, RATEKS, ACNO1, ACNO1_NM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
-                response.ok('Berhasil Tambah Po Bahan Header', res);
+                response.ok('Berhasil Tambah Po Bahan Lokal Header', res);
 
             }
         });
 };
 
 ///DETAIL
-exports.tambahdetailpobahan = function (req, res) {
+exports.tambahdetailpobahanlokal = function (req, res) {
     var REC = req.body.REC;
     var NO_BUKTI = req.body.NO_BUKTI;
+    var PER = req.body.PER;
+    var FLAG = req.body.FLAG;
     var KD_BHN = req.body.KD_BHN;
     var NA_BHN = req.body.NA_BHN;
     var SATUAN = req.body.SATUAN;
+    var QTY = Number(req.body.QTY);
+    var HARGA = Number(req.body.HARGA);
+    var TOTAL = Number(req.body.TOTAL);
     var KET = req.body.KET;
-    var HARGA = req.body.HARGA;
-    var QTY = req.body.QTY;
-    var TOTAL = req.body.TOTAL;
-    var FLAG = req.body.FLAG;
-    var PER = req.body.PER;
-    var SISA = req.body.QTY;
 
-    connection.query("insert into pod (REC, NO_BUKTI, KD_BHN, NA_BHN, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER, SISA) values (?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER, SISA],
+    connection.query("INSERT INTO pod (REC, NO_BUKTI, PER, FLAG, KD_BHN, NA_BHN, SATUAN, QTY, HARGA, TOTAL, KET) VALUES (?,?,?,?,?,?,?,?,?,?,?); UPDATE po, pod SET pod.ID = po.NO_ID WHERE pod.NO_BUKTI = po.NO_BUKTI;", [REC, NO_BUKTI, PER, FLAG, KD_BHN, NA_BHN, SATUAN, QTY, HARGA, TOTAL, KET],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -4377,14 +4432,14 @@ exports.tambahdetailpobahan = function (req, res) {
         });
 };
 
-exports.tampilpobahan = function (req, res) {
+exports.tampilpobahanlokal = function (req, res) {
     var nobukti = '%' + req.body.cari + '%';
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PO' AND PER=?", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PO' AND PER=? AND TYP='L'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -4393,26 +4448,52 @@ exports.tampilpobahan = function (req, res) {
     });
 };
 
-exports.editheaderpobahan = function (req, res) {
+exports.editheaderpobahanlokal = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var JTEMPO = req.body.JTEMPO;
-    var PER = req.body.PER;
+    var CURR = req.body.CURR;
+    var CURRNM = req.body.CURRNM;
+    var RATE = req.body.RATE;
     var KODES = req.body.KODES;
     var NAMAS = req.body.NAMAS;
     var ALAMAT = req.body.ALAMAT;
     var KOTA = req.body.KOTA;
     var NOTES = req.body.NOTES;
     var TOTAL_QTY = req.body.TOTAL_QTY;
+    var SISA_QTY = req.body.SISA_QTY;
+    var TOTAL1 = req.body.TOTAL1;
+    var DISC = req.body.DISC;
+    var PPN = req.body.PPN;
+    var NETT1 = req.body.NETT1;
+    var DISC1 = req.body.DISC1;
+    var PPN1 = req.body.PPN1;
+    var PPH1 = req.body.PPH1;
+    var PPH = req.body.PPH;
     var TOTAL = req.body.TOTAL;
-    var NETT = req.body.TOTAL;
+    var RPDISC = req.body.RPDISC;
+    var RPPPN = req.body.RPPPN;
+    var NETT = req.body.NETT;
+    var SISA = req.body.SISA;
+    var RPDISC1 = req.body.RPDISC1;
+    var RPPPN1 = req.body.RPPPN1;
+    var RPPPH1 = req.body.RPPPH1;
+    var RPPPH = req.body.RPPPH;
     var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
     var FLAG = req.body.FLAG;
+    var PER = req.body.PER;
+    var TYP = req.body.TYP;
+    var GOL = req.body.GOL;
+    var BRAND = req.body.BRAND;
+    var rateks = req.body.rateks;
+    var ACNO1 = req.body.ACNO1;
+    var ACNO1_NM = req.body.ACNO1_NM;
 
-    connection.query("UPDATE po set TGL=?, JTEMPO=?, PER=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL=?, NETT=?, USRNM=?, FLAG=? WHERE NO_BUKTI=?", [TGL, JTEMPO, PER, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, NO_BUKTI],
+    connection.query("UPDATE po set TGL=?, JTEMPO=?, CURR=?, CURRNM=?, RATE=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, SISA_QTY=?, TOTAL1=?, DISC=?, PPN=?, NETT1=?, DISC1=?, PPN1=?, PPH1=?, PPH=?, TOTAL=?, RPDISC=?, RPPPN=?, NETT=?, SISA=?, RPDISC1=?, RPPPN1=?, RPPPH1=?, RPPPH=?, USRNM=?, TG_SMP=?, FLAG=?, PER=?, TYP=?, GOL=?, BRAND=?, rateks=?, ACNO1=?, ACNO1_NM=? WHERE NO_BUKTI=?", [TGL, JTEMPO, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, SISA_QTY, TOTAL1, DISC, PPN, NETT1, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, SISA, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRNM, TG_SMP, FLAG, PER, TYP, GOL, BRAND, rateks, ACNO1, ACNO1_NM, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit PO Header', res);
@@ -4421,13 +4502,13 @@ exports.editheaderpobahan = function (req, res) {
         });
 };
 
-exports.modalpobahan = function (req, res) {
+exports.modalpobahanlokal = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
         connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -4438,7 +4519,7 @@ exports.modalpobahan = function (req, res) {
         connection.query("select * from po order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -4448,12 +4529,12 @@ exports.modalpobahan = function (req, res) {
     };
 };
 
-exports.caripobahan = function (req, res) {
+exports.caripobahanlokal = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PO' and NO_BUKTI IN (SELECT NO_BUKTI FROM pod WHERE SISA>0)", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4462,12 +4543,247 @@ exports.caripobahan = function (req, res) {
         });
 }
 
-exports.hapuspobahan = function (req, res) {
+exports.hapuspobahanlokal = function (req, res) {
     var no_bukti = req.body.no_bukti;
     connection.query("DELETE from po where NO_BUKTI=?; DELETE from pod where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
+
+///========================/// TRANSAKSI PO BAHAN IMPORT ///========================///
+exports.pobahanimport_paginate = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    var offset_page = Number(req.body.offset);
+    var limit_page = Number(req.body.limit);
+    connection.query("select * from po where KODES like ? or NAMAS like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
+
+exports.count_pobahanimportpaginate = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("select COUNT(*) from po where TYP='I' and (KODES like ? or NAMAS like ?) or GOL='A'", [filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(rows, res);
+            }
+        });
+}
+
+///HEADER
+exports.tambahheaderpobahanimport = function (req, res) {
+    var NO_BUKTI = req.body.NO_BUKTI;
+    var TGL = req.body.TGL;
+    var JTEMPO = req.body.JTEMPO;
+    var CURR = req.body.CURR;
+    var CURRNM = req.body.CURRNM;
+    var RATE = req.body.RATE;
+    var KODES = req.body.KODES;
+    var NAMAS = req.body.NAMAS;
+    var ALAMAT = req.body.ALAMAT;
+    var KOTA = req.body.KOTA;
+    var NOTES = req.body.NOTES;
+    var TOTAL_QTY = req.body.TOTAL_QTY;
+    var SISA_QTY = req.body.SISA_QTY;
+    var TOTAL1 = req.body.TOTAL1;
+    var DISC = req.body.DISC;
+    var PPN = req.body.PPN;
+    var NETT1 = req.body.NETT1;
+    var DISC1 = req.body.DISC1;
+    var PPN1 = req.body.PPN1;
+    var PPH1 = req.body.PPH1;
+    var PPH = req.body.PPH;
+    var TOTAL = req.body.TOTAL;
+    var RPDISC = req.body.RPDISC;
+    var RPPPN = req.body.RPPPN;
+    var NETT = req.body.NETT;
+    var SISA = req.body.SISA;
+    var RPDISC1 = req.body.RPDISC1;
+    var RPPPN1 = req.body.RPPPN1;
+    var RPPPH1 = req.body.RPPPH1;
+    var RPPPH = req.body.RPPPH;
+    var USRIN = req.body.USRIN;
+    var TG_IN = req.body.TG_IN;
+    var FLAG = req.body.FLAG;
+    var PER = req.body.PER;
+    var TYP = req.body.TYP;
+    var GOL = req.body.GOL;
+    var BRAND = req.body.BRAND;
+    var RATEKS = req.body.rateks;
+    var ACNO1 = req.body.ACNO1;
+    var ACNO1_NM = req.body.ACNO1_NM;
+
+    connection.query("INSERT INTO po (NO_BUKTI,TGL,JTEMPO,CURR,CURRNM,RATE,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,SISA_QTY,TOTAL1,DISC,PPN,NETT1,DISC1,PPN1,PPH1,PPH,TOTAL,RPDISC,RPPPN,NETT,SISA,RPDISC1,RPPPN1,RPPPH1,RPPPH,USRIN,TG_IN,FLAG,PER,TYP,GOL,BRAND,rateks,ACNO1,ACNO1_NM) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, JTEMPO, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, SISA_QTY, TOTAL1, DISC, PPN, NETT1, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, SISA, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, BRAND, RATEKS, ACNO1, ACNO1_NM],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok('Berhasil Tambah Po Bahan Import Header', res);
+
+            }
+        });
+};
+
+///DETAIL
+exports.tambahdetailpobahanimport = function (req, res) {
+    var REC = req.body.REC;
+    var NO_BUKTI = req.body.NO_BUKTI;
+    var PER = req.body.PER;
+    var FLAG = req.body.FLAG;
+    var KD_BHN = req.body.KD_BHN;
+    var NA_BHN = req.body.NA_BHN;
+    var SATUAN = req.body.SATUAN;
+    var QTY = Number(req.body.QTY);
+    var HARGA = Number(req.body.HARGA);
+    var TOTAL = Number(req.body.TOTAL);
+    var KET = req.body.KET;
+
+    connection.query("INSERT INTO pod (REC, NO_BUKTI, PER, FLAG, KD_BHN, NA_BHN, SATUAN, QTY, HARGA, TOTAL, KET) VALUES (?,?,?,?,?,?,?,?,?,?,?); UPDATE po, pod SET pod.ID = po.NO_ID WHERE pod.NO_BUKTI = po.NO_BUKTI;", [REC, NO_BUKTI, PER, FLAG, KD_BHN, NA_BHN, SATUAN, QTY, HARGA, TOTAL, KET],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok('Berhasil Tambah PO Bahan Import Detail', res);
+
+            }
+        });
+};
+
+exports.tampilpobahanimport = function (req, res) {
+    var nobukti = '%' + req.body.cari + '%';
+    var tgl_awal = req.body.tglawal;
+    var tgl_akhir = req.body.tglakhir;
+    var periode = req.body.periode;
+    connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PO' AND PER=? AND TYP='I'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+
+            response.ok(rows, res);
+
+        }
+    });
+};
+
+exports.editheaderpobahanimport = function (req, res) {
+    var NO_BUKTI = req.body.NO_BUKTI;
+    var TGL = req.body.TGL;
+    var JTEMPO = req.body.JTEMPO;
+    var CURR = req.body.CURR;
+    var CURRNM = req.body.CURRNM;
+    var RATE = req.body.RATE;
+    var KODES = req.body.KODES;
+    var NAMAS = req.body.NAMAS;
+    var ALAMAT = req.body.ALAMAT;
+    var KOTA = req.body.KOTA;
+    var NOTES = req.body.NOTES;
+    var TOTAL_QTY = req.body.TOTAL_QTY;
+    var SISA_QTY = req.body.SISA_QTY;
+    var TOTAL1 = req.body.TOTAL1;
+    var DISC = req.body.DISC;
+    var PPN = req.body.PPN;
+    var NETT1 = req.body.NETT1;
+    var DISC1 = req.body.DISC1;
+    var PPN1 = req.body.PPN1;
+    var PPH1 = req.body.PPH1;
+    var PPH = req.body.PPH;
+    var TOTAL = req.body.TOTAL;
+    var RPDISC = req.body.RPDISC;
+    var RPPPN = req.body.RPPPN;
+    var NETT = req.body.NETT;
+    var SISA = req.body.SISA;
+    var RPDISC1 = req.body.RPDISC1;
+    var RPPPN1 = req.body.RPPPN1;
+    var RPPPH1 = req.body.RPPPH1;
+    var RPPPH = req.body.RPPPH;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
+    var FLAG = req.body.FLAG;
+    var PER = req.body.PER;
+    var TYP = req.body.TYP;
+    var GOL = req.body.GOL;
+    var BRAND = req.body.BRAND;
+    var rateks = req.body.rateks;
+    var ACNO1 = req.body.ACNO1;
+    var ACNO1_NM = req.body.ACNO1_NM;
+
+    connection.query("UPDATE po set TGL=?, JTEMPO=?, CURR=?, CURRNM=?, RATE=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, SISA_QTY=?, TOTAL1=?, DISC=?, PPN=?, NETT1=?, DISC1=?, PPN1=?, PPH1=?, PPH=?, TOTAL=?, RPDISC=?, RPPPN=?, NETT=?, SISA=?, RPDISC1=?, RPPPN1=?, RPPPH1=?, RPPPH=?, USRNM=?, TG_SMP=?, FLAG=?, PER=?, TYP=?, GOL=?, BRAND=?, rateks=?, ACNO1=?, ACNO1_NM=? WHERE NO_BUKTI=?", [TGL, JTEMPO, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, SISA_QTY, TOTAL1, DISC, PPN, NETT1, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, SISA, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRNM, TG_SMP, FLAG, PER, TYP, GOL, BRAND, rateks, ACNO1, ACNO1_NM, NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok('Berhasil Edit PO Header', res);
+
+            }
+        });
+};
+
+exports.modalpobahanimport = function (req, res) {
+    var cari = '%' + req.body.cari + '%';
+    if ([cari] != '') {
+        connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    } else {
+        connection.query("select * from po order by KODES",
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    };
+};
+
+exports.caripobahanimport = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PO' and NO_BUKTI IN (SELECT NO_BUKTI FROM pod WHERE SISA>0)", [filter_cari, filter_cari, filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
+
+exports.hapuspobahanimport = function (req, res) {
+    var no_bukti = req.body.no_bukti;
+    connection.query("DELETE from po where NO_BUKTI=?; DELETE from pod where NO_BUKTI=?", [no_bukti, no_bukti],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4522,7 +4838,7 @@ exports.tambahheaderso = function (req, res) {
     var NETT = req.body.TOTAL;
     var USRNM = req.body.USRNM;
     var FLAG = req.body.FLAG;
-    connection.query("insert into so (NO_BUKTI,TGL,JTEMPO,PER,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI,TGL,JTEMPO,PER,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG],
+    connection.query("insert into so (NO_BUKTI,TGL,JTEMPO,PER,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, JTEMPO, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -4677,7 +4993,7 @@ exports.tambahheadersuratjalan = function (req, res) {
     var USRNM = req.body.USRNM;
     var FLAG = req.body.FLAG;
     var POSTED = req.body.NO_SO;
-    connection.query("insert into surat (NO_BUKTI,TGL,JTEMPO,PER,NO_SO,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE so SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI,TGL,JTEMPO,PER,NO_SO,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG,POSTED],
+    connection.query("insert into surat (NO_BUKTI,TGL,JTEMPO,PER,NO_SO,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE so SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI, TGL, JTEMPO, PER, NO_SO, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, POSTED],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -4846,7 +5162,7 @@ exports.tambahheaderjual = function (req, res) {
     var USRNM = req.body.USRNM;
     var FLAG = req.body.FLAG;
     var POSTED = req.body.NO_SJ;
-    connection.query("insert into jual (NO_BUKTI,TGL,JTEMPO,PER,NO_SJ,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE surat SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI,TGL,JTEMPO,PER,NO_SJ,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG,POSTED],
+    connection.query("insert into jual (NO_BUKTI,TGL,JTEMPO,PER,NO_SJ,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE surat SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI, TGL, JTEMPO, PER, NO_SJ, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, POSTED],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -5053,7 +5369,7 @@ exports.tambahdetailpononbahan = function (req, res) {
     connection.query("insert into pod (REC,NO_BUKTI,PER,KD_BHN,NA_BHN,SATUANPP,QTYPP,SATUAN,HARGA,QTY,TOTAL,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, KD_BRG, NA_BRG, SATUAN_PPC, QTY_PPC, SATUAN, HARGA, QTY, TOTAL, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -5673,7 +5989,7 @@ exports.tambahheaderbelibahan = function (req, res) {
     var SISA = req.body.TOTAL;
     var USRNM = req.body.USRNM;
     var FLAG = req.body.FLAG;
-    connection.query("insert into beli (NO_BUKTI,TGL,JTEMPO,PER,NO_PO,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,PPN,USRNM,FLAG,SISA) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI,TGL,JTEMPO,PER,NO_PO,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,PPN,USRNM,FLAG,SISA],
+    connection.query("insert into beli (NO_BUKTI,TGL,JTEMPO,PER,NO_PO,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,PPN,USRNM,FLAG,SISA) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, JTEMPO, PER, NO_PO, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, PPN, USRNM, FLAG, SISA],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -5800,7 +6116,7 @@ exports.caribelibahan = function (req, res) {
 exports.caribelibahanhut = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     // var namas = req.body.namas;
-    if (req.body.cari  != '') {
+    if (req.body.cari != '') {
         connection.query("select * from beli where KODES like ? or NAMAS like ?", [filter_cari, filter_cari], function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -5810,8 +6126,7 @@ exports.caribelibahanhut = function (req, res) {
 
             }
         });
-    }
-    else{
+    } else {
         connection.query("select * from beli ", function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -6419,7 +6734,7 @@ exports.tambahdetailhutbahan = function (req, res) {
     var FLAG = req.body.FLAG;
     var PER = req.body.PER;
 
-    connection.query("insert into hutd (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER],
+    connection.query("insert into hutd (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, NO_FAKTUR, URAIAN, TOTAL, BAYAR, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -6964,13 +7279,13 @@ exports.lapmemo = function (req, res) {
 exports.lapperincianstk_bhn = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var AW = 'bhnd.AW'+per.substring(0,2);
-    var MA = 'bhnd.MA'+per.substring(0,2);
-    var KE = 'bhnd.KE'+per.substring(0,2);
-    var LN = 'bhnd.LN'+per.substring(0,2);
-    var AK = 'bhnd.AK'+per.substring(0,2);
-    
-    connection.query("select bhn.KD_BHN AS KODE, bhn.NA_BHN AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from bhn, bhnd WHERE bhn.KD_BHN = bhnd.KD_BHN and bhnd.YER=? order by bhn.KD_BHN", [AW,MA,KE,LN,AK,yer],
+    var AW = 'bhnd.AW' + per.substring(0, 2);
+    var MA = 'bhnd.MA' + per.substring(0, 2);
+    var KE = 'bhnd.KE' + per.substring(0, 2);
+    var LN = 'bhnd.LN' + per.substring(0, 2);
+    var AK = 'bhnd.AK' + per.substring(0, 2);
+
+    connection.query("select bhn.KD_BHN AS KODE, bhn.NA_BHN AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from bhn, bhnd WHERE bhn.KD_BHN = bhnd.KD_BHN and bhnd.YER=? order by bhn.KD_BHN", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -6985,11 +7300,11 @@ exports.lapperincianstk_bhn = function (req, res) {
 exports.lapperincianstk_brg = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var AW = 'brgd.AW'+per.substring(0,2);
-    var MA = 'brgd.MA'+per.substring(0,2);
-    var KE = 'brgd.KE'+per.substring(0,2);
-    var LN = 'brgd.LN'+per.substring(0,2);
-    var AK = 'brgd.AK'+per.substring(0,2);
+    var AW = 'brgd.AW' + per.substring(0, 2);
+    var MA = 'brgd.MA' + per.substring(0, 2);
+    var KE = 'brgd.KE' + per.substring(0, 2);
+    var LN = 'brgd.LN' + per.substring(0, 2);
+    var AK = 'brgd.AK' + per.substring(0, 2);
 
     connection.query("select brg.KD_BRG AS KODE, brg.NA_BRG AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from brg, brgd WHERE brg.KD_BRG = brgd.KD_BRG and brgd.YER=? order by brg.KD_BRG", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
@@ -7006,11 +7321,11 @@ exports.lapperincianstk_brg = function (req, res) {
 exports.lapperincian_hut = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var AW = 'supd.AW'+per.substring(0,2);
-    var MA = 'supd.MA'+per.substring(0,2);
-    var KE = 'supd.KE'+per.substring(0,2);
-    var LN = 'supd.LN'+per.substring(0,2);
-    var AK = 'supd.AK'+per.substring(0,2);
+    var AW = 'supd.AW' + per.substring(0, 2);
+    var MA = 'supd.MA' + per.substring(0, 2);
+    var KE = 'supd.KE' + per.substring(0, 2);
+    var LN = 'supd.LN' + per.substring(0, 2);
+    var AK = 'supd.AK' + per.substring(0, 2);
 
     connection.query("select sup.KODES AS KODE, sup.NAMAS AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from sup, supd WHERE sup.KODES = supd.KODES and supd.YER=? order by sup.KODES", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
@@ -7027,11 +7342,11 @@ exports.lapperincian_hut = function (req, res) {
 exports.lapperincian_piu = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var AW = 'custd.AW'+per.substring(0,2);
-    var MA = 'custd.MA'+per.substring(0,2);
-    var KE = 'custd.KE'+per.substring(0,2);
-    var LN = 'custd.LN'+per.substring(0,2);
-    var AK = 'custd.AK'+per.substring(0,2);
+    var AW = 'custd.AW' + per.substring(0, 2);
+    var MA = 'custd.MA' + per.substring(0, 2);
+    var KE = 'custd.KE' + per.substring(0, 2);
+    var LN = 'custd.LN' + per.substring(0, 2);
+    var AK = 'custd.AK' + per.substring(0, 2);
 
     connection.query("select cust.KODEC AS KODE, cust.NAMAC AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from cust, custd WHERE cust.KODEC = custd.KODEC and custd.YER=? order by cust.KODEC", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
@@ -7048,14 +7363,14 @@ exports.lapperincian_piu = function (req, res) {
 exports.lapperincian_nera = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var AW = 'accountd.AW'+per.substring(0,2);
-    var KD = 'accountd.KD'+per.substring(0,2);
-    var KK = 'accountd.KK'+per.substring(0,2);
-    var BD = 'accountd.BD'+per.substring(0,2);
-    var BK = 'accountd.BK'+per.substring(0,2);
-    var MD = 'accountd.MD'+per.substring(0,2);
-    var MK = 'accountd.MK'+per.substring(0,2);
-    var AK = 'accountd.AK'+per.substring(0,2);
+    var AW = 'accountd.AW' + per.substring(0, 2);
+    var KD = 'accountd.KD' + per.substring(0, 2);
+    var KK = 'accountd.KK' + per.substring(0, 2);
+    var BD = 'accountd.BD' + per.substring(0, 2);
+    var BK = 'accountd.BK' + per.substring(0, 2);
+    var MD = 'accountd.MD' + per.substring(0, 2);
+    var MK = 'accountd.MK' + per.substring(0, 2);
+    var AK = 'accountd.AK' + per.substring(0, 2);
 
     connection.query("select account.ACNO AS KODE, account.NAMA AS NAMA, ?? AS AWAL, ?? AS KAS_DEBET, ?? AS KAS_KREDIT, ?? AS BANK_DEBET, ?? AS BANK_KREDIT, ?? AS MEMO_DEBET, ?? AS MEMO_KREDIT, ?? AS AKHIR from account, accountd WHERE account.ACNO = accountd.ACNO and accountd.YER=? order by account.ACNO", [AW, KD, KK, BD, BK, MD, MK, AK, yer],
         function (error, rows, fields) {
@@ -7075,25 +7390,25 @@ exports.lapkartustk_bhn = function (req, res) {
     var kode1 = req.body.kode1;
     var kode2 = req.body.kode2;
 
-    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, LAIN, "+
-        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR+LAIN, @AKHIR:=AWAL+MASUK-KELUAR+LAIN) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( "+
-		" SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, bhnd.KD_BHN AS KODE, bhnd.NA_BHN AS NAMA, 'SALDO AWAL' AS URAIAN, bhnd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO "+ 
-		" FROM bhn, bhnd WHERE bhn.KD_BHN=bhnd.KD_BHN and bhnd.YER=? "+
-		" UNION ALL "+
-		" SELECT 2 as URUT, beli.NO_BUKTI, beli.TGL, belid.KD_BHN AS KODE, belid.NA_BHN AS NAMA, CONCAT(beli.KODES, '-', beli.NAMAS) AS URAIAN, 0 AS AWAL, belid.QTY AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO "+
-		" FROM beli, belid WHERE beli.NO_BUKTI = belid.NO_BUKTI and beli.PER=? "+
-		" UNION ALL "+
-		" SELECT 3 as URUT, pakai.NO_BUKTI, pakai.TGL, pakaid.KD_BHN AS KODE, pakaid.NA_BHN AS NAMA, 'PEMAKAIAN' AS URAIAN, 0 AS AWAL, 0 AS MASUK, pakaid.QTY AS KELUAR, 0 AS LAIN, 0 AS SALDO "+
-		" FROM pakai, pakaid WHERE pakai.NO_BUKTI = pakaid.NO_BUKTI and pakai.PER=?  "+
-		" UNION ALL "+
-		" SELECT 4 as URUT, stocka.NO_BUKTI, stocka.TGL, stockad.KD_BHN AS KODE, stockad.NA_BHN AS NAMA, 'KOREKSI' AS URAIAN, 0 AS AWAL, 0 AS MASUK, 0 AS KELUAR, stockad.QTY AS LAIN, 0 AS SALDO "+
-		" FROM stocka, stockad WHERE stocka.NO_BUKTI = stockad.NO_BUKTI and stocka.PER=? "+
-        " ) as KARTU "+
-        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 "+
-        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) "+
+    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, LAIN, " +
+        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR+LAIN, @AKHIR:=AWAL+MASUK-KELUAR+LAIN) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( " +
+        " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, bhnd.KD_BHN AS KODE, bhnd.NA_BHN AS NAMA, 'SALDO AWAL' AS URAIAN, bhnd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM bhn, bhnd WHERE bhn.KD_BHN=bhnd.KD_BHN and bhnd.YER=? " +
+        " UNION ALL " +
+        " SELECT 2 as URUT, beli.NO_BUKTI, beli.TGL, belid.KD_BHN AS KODE, belid.NA_BHN AS NAMA, CONCAT(beli.KODES, '-', beli.NAMAS) AS URAIAN, 0 AS AWAL, belid.QTY AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM beli, belid WHERE beli.NO_BUKTI = belid.NO_BUKTI and beli.PER=? " +
+        " UNION ALL " +
+        " SELECT 3 as URUT, pakai.NO_BUKTI, pakai.TGL, pakaid.KD_BHN AS KODE, pakaid.NA_BHN AS NAMA, 'PEMAKAIAN' AS URAIAN, 0 AS AWAL, 0 AS MASUK, pakaid.QTY AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM pakai, pakaid WHERE pakai.NO_BUKTI = pakaid.NO_BUKTI and pakai.PER=?  " +
+        " UNION ALL " +
+        " SELECT 4 as URUT, stocka.NO_BUKTI, stocka.TGL, stockad.KD_BHN AS KODE, stockad.NA_BHN AS NAMA, 'KOREKSI' AS URAIAN, 0 AS AWAL, 0 AS MASUK, 0 AS KELUAR, stockad.QTY AS LAIN, 0 AS SALDO " +
+        " FROM stocka, stockad WHERE stocka.NO_BUKTI = stockad.NO_BUKTI and stocka.PER=? " +
+        " ) as KARTU " +
+        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 " +
+        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) " +
         " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
-           
+
             if (error) {
                 connection.log(error);
             } else {
@@ -7110,22 +7425,22 @@ exports.lapkartustk_brg = function (req, res) {
     var kode1 = req.body.kode1;
     var kode2 = req.body.kode2;
 
-    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, LAIN, "+
-        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR+LAIN, @AKHIR:=AWAL+MASUK-KELUAR+LAIN) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( "+
-		" SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, brgd.KD_BRG AS KODE, brgd.NA_BRG AS NAMA, 'SALDO AWAL' AS URAIAN, brgd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO "+ 
-		" FROM brg, brgd WHERE brg.KD_BRG=brgd.KD_BRG and brgd.YER=? "+
-		" UNION ALL "+
-		" SELECT 2 as URUT, terima.NO_BUKTI, terima.TGL, terimad.KD_BRG AS KODE, terimad.NA_BRG AS NAMA, 'PENERIMAAN' AS URAIAN, 0 AS AWAL, terimad.QTY AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO "+
-		" FROM terima, terimad WHERE terima.NO_BUKTI = terimad.NO_BUKTI and terima.PER=? "+
-		" UNION ALL "+
-		" SELECT 3 as URUT, surat.NO_BUKTI, surat.TGL, suratd.KD_BRG AS KODE, suratd.NA_BRG AS NAMA, CONCAT(surat.KODEC, '-', surat.NAMAC) AS URAIAN, 0 AS AWAL, 0 AS MASUK, suratd.QTY AS KELUAR, 0 AS LAIN, 0 AS SALDO "+
-		" FROM surat, suratd WHERE surat.NO_BUKTI = suratd.NO_BUKTI and surat.PER=?  "+
-		" UNION ALL "+
-		" SELECT 4 as URUT, stockb.NO_BUKTI, stockb.TGL, stockbd.KD_BRG AS KODE, stockbd.NA_BRG AS NAMA, 'KOREKSI' AS URAIAN, 0 AS AWAL, 0 AS MASUK, 0 AS KELUAR, stockbd.QTY AS LAIN, 0 AS SALDO "+
-		" FROM stockb, stockbd WHERE stockb.NO_BUKTI = stockbd.NO_BUKTI and stockb.PER=? "+
-        " ) as KARTU "+
-        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 "+
-        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) "+
+    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, LAIN, " +
+        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR+LAIN, @AKHIR:=AWAL+MASUK-KELUAR+LAIN) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( " +
+        " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, brgd.KD_BRG AS KODE, brgd.NA_BRG AS NAMA, 'SALDO AWAL' AS URAIAN, brgd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM brg, brgd WHERE brg.KD_BRG=brgd.KD_BRG and brgd.YER=? " +
+        " UNION ALL " +
+        " SELECT 2 as URUT, terima.NO_BUKTI, terima.TGL, terimad.KD_BRG AS KODE, terimad.NA_BRG AS NAMA, 'PENERIMAAN' AS URAIAN, 0 AS AWAL, terimad.QTY AS MASUK, 0 AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM terima, terimad WHERE terima.NO_BUKTI = terimad.NO_BUKTI and terima.PER=? " +
+        " UNION ALL " +
+        " SELECT 3 as URUT, surat.NO_BUKTI, surat.TGL, suratd.KD_BRG AS KODE, suratd.NA_BRG AS NAMA, CONCAT(surat.KODEC, '-', surat.NAMAC) AS URAIAN, 0 AS AWAL, 0 AS MASUK, suratd.QTY AS KELUAR, 0 AS LAIN, 0 AS SALDO " +
+        " FROM surat, suratd WHERE surat.NO_BUKTI = suratd.NO_BUKTI and surat.PER=?  " +
+        " UNION ALL " +
+        " SELECT 4 as URUT, stockb.NO_BUKTI, stockb.TGL, stockbd.KD_BRG AS KODE, stockbd.NA_BRG AS NAMA, 'KOREKSI' AS URAIAN, 0 AS AWAL, 0 AS MASUK, 0 AS KELUAR, stockbd.QTY AS LAIN, 0 AS SALDO " +
+        " FROM stockb, stockbd WHERE stockb.NO_BUKTI = stockbd.NO_BUKTI and stockb.PER=? " +
+        " ) as KARTU " +
+        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 " +
+        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) " +
         " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
@@ -7153,18 +7468,18 @@ exports.lapkartu_hut = function (req, res) {
     // SELECT hut.NO_KASIR AS NO_BUKTI, hut.TGL_KASIR AS TGL, hut.KODES AS KODE, hut.NAMAS AS NAMA, CONCAT(hut.KODES, hut.NAMAS) AS URAIAN, 0 AS AWAL, 0 AS MASUK, hut.BAYAR AS KELUAR, 0 AS SALDO 
     // FROM hut
 
-    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, "+
-    " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR, @AKHIR:=AWAL+MASUK-KELUAR) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( "+
-    " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, supd.KODES AS KODE, supd.NAMAS AS NAMA, 'SALDO AWAL' AS URAIAN, supd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS SALDO FROM sup, supd WHERE sup.KODES=supd.KODES and supd.YER=? "+
-    " UNION ALL "+
-    " SELECT 2 as URUT, beli.NO_BUKTI, beli.TGL, beli.KODES AS KODE, beli.NAMAS AS NAMA, 'PEMBELIAN' AS URAIAN, 0 AS AWAL, beli.NETT AS MASUK, 0 AS KELUAR, 0 AS SALDO "+
-    " FROM beli WHERE beli.PER=? "+
-    " UNION ALL "+
-    " SELECT 3 as URUT, hut.NO_KASIR AS NO_BUKTI, hut.TGL_KASIR AS TGL, hut.KODES AS KODE, hut.NAMAS AS NAMA, CONCAT(hut.KODES, '-', hut.NAMAS) AS URAIAN, 0 AS AWAL, 0 AS MASUK, hut.BAYAR AS KELUAR, 0 AS SALDO FROM hut WHERE hut.PER=? "+
-    " ) as KARTU "+
-    " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 "+
-    " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) "+
-    " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
+    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, " +
+        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR, @AKHIR:=AWAL+MASUK-KELUAR) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( " +
+        " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, supd.KODES AS KODE, supd.NAMAS AS NAMA, 'SALDO AWAL' AS URAIAN, supd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS SALDO FROM sup, supd WHERE sup.KODES=supd.KODES and supd.YER=? " +
+        " UNION ALL " +
+        " SELECT 2 as URUT, beli.NO_BUKTI, beli.TGL, beli.KODES AS KODE, beli.NAMAS AS NAMA, 'PEMBELIAN' AS URAIAN, 0 AS AWAL, beli.NETT AS MASUK, 0 AS KELUAR, 0 AS SALDO " +
+        " FROM beli WHERE beli.PER=? " +
+        " UNION ALL " +
+        " SELECT 3 as URUT, hut.NO_KASIR AS NO_BUKTI, hut.TGL_KASIR AS TGL, hut.KODES AS KODE, hut.NAMAS AS NAMA, CONCAT(hut.KODES, '-', hut.NAMAS) AS URAIAN, 0 AS AWAL, 0 AS MASUK, hut.BAYAR AS KELUAR, 0 AS SALDO FROM hut WHERE hut.PER=? " +
+        " ) as KARTU " +
+        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 " +
+        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) " +
+        " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -7182,18 +7497,18 @@ exports.lapkartu_piu = function (req, res) {
     var kode1 = req.body.kode1;
     var kode2 = req.body.kode2;
 
-    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, "+
-    " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR, @AKHIR:=AWAL+MASUK-KELUAR) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( "+
-    " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, custd.KODEC AS KODE, custd.NAMAC AS NAMA, 'SALDO AWAL' AS URAIAN, custd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS SALDO FROM cust, custd WHERE cust.KODEC=custd.KODEC and custd.YER=? "+
-    " UNION ALL "+
-    " SELECT 2 as URUT, jual.NO_BUKTI, jual.TGL, jual.KODEC AS KODE, jual.NAMAC AS NAMA, 'PENJUALAN' AS URAIAN, 0 AS AWAL, jual.NETT AS MASUK, 0 AS KELUAR, 0 AS SALDO "+
-    " FROM jual WHERE jual.PER=? "+
-    " UNION ALL "+
-    " SELECT 3 as URUT, piu.NO_KASIR AS NO_BUKTI, piu.TGL_KASIR AS TGL, piu.KODEC AS KODE, piu.NAMAC AS NAMA, CONCAT(piu.KODEC, '-', piu.NAMAC) AS URAIAN, 0 AS AWAL, 0 AS MASUK, piu.BAYAR AS KELUAR, 0 AS SALDO FROM piu WHERE piu.PER=? "+
-    " ) as KARTU "+
-    " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 "+
-    " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) "+
-    " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
+    connection.query("SELECT URUT, NO_BUKTI, TGL, KODE, NAMA, URAIAN, AWAL, MASUK, KELUAR, " +
+        " if(@tempKD=KODE, @AKHIR:=@AKHIR+AWAL+MASUK-KELUAR, @AKHIR:=AWAL+MASUK-KELUAR) AS SALDO, (@tempKD:=KODE) as TEMPKODE from ( " +
+        " SELECT 1 as URUT, '-' AS NO_BUKTI, '2022-01-01' AS TGL, custd.KODEC AS KODE, custd.NAMAC AS NAMA, 'SALDO AWAL' AS URAIAN, custd.AW01 AS AWAL, 0 AS MASUK, 0 AS KELUAR, 0 AS SALDO FROM cust, custd WHERE cust.KODEC=custd.KODEC and custd.YER=? " +
+        " UNION ALL " +
+        " SELECT 2 as URUT, jual.NO_BUKTI, jual.TGL, jual.KODEC AS KODE, jual.NAMAC AS NAMA, 'PENJUALAN' AS URAIAN, 0 AS AWAL, jual.NETT AS MASUK, 0 AS KELUAR, 0 AS SALDO " +
+        " FROM jual WHERE jual.PER=? " +
+        " UNION ALL " +
+        " SELECT 3 as URUT, piu.NO_KASIR AS NO_BUKTI, piu.TGL_KASIR AS TGL, piu.KODEC AS KODE, piu.NAMAC AS NAMA, CONCAT(piu.KODEC, '-', piu.NAMAC) AS URAIAN, 0 AS AWAL, 0 AS MASUK, piu.BAYAR AS KELUAR, 0 AS SALDO FROM piu WHERE piu.PER=? " +
+        " ) as KARTU " +
+        " JOIN (SELECT @AKHIR:=0 ) AS BB ON 1=1 " +
+        " WHERE if(?<>'',if(?<>'',KODE BETWEEN ? and ?,KODE BETWEEN ? and '~~~'),true) " +
+        " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -7230,7 +7545,7 @@ exports.lapbuku_besar = function (req, res) {
 exports.lapnera = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var JUM = 'nera.JUM'+per.substring(0,2);
+    var JUM = 'nera.JUM' + per.substring(0, 2);
 
     connection.query("SELECT NAMA AS NAMA, ?? AS JUM  FROM nera WHERE YER=? ORDER BY GOL", [JUM, yer],
         function (error, rows, fields) {
@@ -7248,8 +7563,8 @@ exports.lapnera = function (req, res) {
 exports.laprl = function (req, res) {
     var per = req.body.per;
     var yer = per.substring(3);
-    var JUM = 'rl.JUM'+per.substring(0,2);
-    var AK = 'rl.AK'+per.substring(0,2);
+    var JUM = 'rl.JUM' + per.substring(0, 2);
+    var AK = 'rl.AK' + per.substring(0, 2);
 
     connection.query("SELECT NAMA AS NAMA, GOL AS GOL, ?? AS JUM, ?? AS AK FROM rl WHERE YER=? ORDER BY GOL", [JUM, AK, yer],
         function (error, rows, fields) {
@@ -7267,314 +7582,314 @@ exports.laprl = function (req, res) {
 exports.jualins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call jualins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call jualins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.jualdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call jualdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call jualdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.tpiuins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call tpiuins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call tpiuins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.tpiudel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call tpiudel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call tpiudel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.piuins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call piuins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call piuins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.piudel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call piudel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call piudel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 
 ///PROCEDURE PEMBELIAN
 exports.beliins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call beliins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call beliins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.belidel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call belidel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call belidel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.thutins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call thutins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call thutins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.thutdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call thutdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call thutdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.hutins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call hutins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call hutins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.hutdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call hutdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call hutdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 
 ///PROCEDURE ACCOUNT
 exports.kasins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call kasins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call kasins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.kasdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call kasdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call kasdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.bankins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call bankins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call bankins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.bankdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call bankdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call bankdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.memoins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call memoins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call memoins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.memodel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call memodel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call memodel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 
 ///PRODECURE LAINNYA
 exports.stockains = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call stockains(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call stockains(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.stockadel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call stockadel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call stockadel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.stockbins = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call stockbins(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call stockbins(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };
 exports.stockbdel = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
 
-    connection.query("Call stockbdel(?)",[NO_BUKTI],
-    function (error, rows, fields) {
-        if (error) {
-            connection.log(error);
-        } else {
+    connection.query("Call stockbdel(?)", [NO_BUKTI],
+        function (error, rows, fields) {
+            if (error) {
+                connection.log(error);
+            } else {
 
-            response.ok(rows, res);
+                response.ok(rows, res);
 
-        }
-    });
+            }
+        });
 };

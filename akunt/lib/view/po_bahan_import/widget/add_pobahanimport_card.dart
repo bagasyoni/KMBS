@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanimport_controller.dart';
 import 'package:akunt/model/data_bhn.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
     ),
   );
   var pobahanController =
-      Provider.of<PobahanController>(context, listen: false);
+      Provider.of<PobahanimportController>(context, listen: false);
 
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),

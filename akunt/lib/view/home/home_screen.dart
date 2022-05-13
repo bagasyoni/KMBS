@@ -7,7 +7,7 @@ import 'package:akunt/view/base_widget/toast.dart';
 import 'package:akunt/controller/home_controller.dart';
 import 'package:akunt/controller/login_controller.dart';
 
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanlokal_controller.dart';
 import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';
@@ -23,7 +23,8 @@ import 'package:akunt/view/master/emkl/data_emkl_screen.dart';
 import 'package:akunt/view/master/gudang/data_gudang_screen.dart';
 
 ///TRANSAKSI///
-import 'package:akunt/view/po_bahan/pobahan_screen.dart';
+import 'package:akunt/view/po_bahan_lokal/pobahanlokal_screen.dart';
+import 'package:akunt/view/po_bahan_import/pobahanimport_screen.dart';
 import 'package:akunt/view/po_nonbahan/pononbahan_screen.dart';
 import 'package:akunt/view/po_import/poimport_screen.dart';
 import 'package:akunt/view/po_mesin/pomesin_screen.dart';
@@ -384,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Purchase Order"),
+                                                Text("PO Bahan Lokal"),
                                               ],
                                             ),
                                             value: 201,
@@ -399,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Transaksi Pembelian"),
+                                                Text("PO Bahan Import"),
                                               ],
                                             ),
                                             value: 202,
@@ -414,7 +415,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Transaksi Hutang"),
+                                                Text("Transaksi Pembelian"),
                                               ],
                                             ),
                                             value: 203,
@@ -429,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Pembayaran Hutang"),
+                                                Text("Transaksi Hutang"),
                                               ],
                                             ),
                                             value: 204,
@@ -444,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Koreksi Stok Bahan"),
+                                                Text("Pembayaran Hutang"),
                                               ],
                                             ),
                                             value: 205,
@@ -459,10 +460,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Pemakaian Bahan"),
+                                                Text("Koreksi Stok Bahan"),
                                               ],
                                             ),
                                             value: 206,
+                                          ),
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text("Pemakaian Bahan"),
+                                              ],
+                                            ),
+                                            value: 207,
                                           ),
                                         ];
                                       },
@@ -472,32 +488,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataPobahanScreen()));
+                                                      DataPobahanlokalScreen()));
                                         } else if (value == 202) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataBelibahanScreen()));
+                                                      DataPobahanimportScreen()));
                                         } else if (value == 203) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataThutbahanScreen()));
+                                                      DataBelibahanScreen()));
                                         } else if (value == 204) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataHutbahanScreen()));
+                                                      DataThutbahanScreen()));
                                         } else if (value == 205) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      MutasibhnScreen()));
+                                                      DataHutbahanScreen()));
                                         } else if (value == 206) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      MutasibhnScreen()));
+                                        } else if (value == 207) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -1899,7 +1921,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 8,
                       ),
                       Text(
-                        PobahanController.home_pobahan_list.length.toString(),
+                        PobahanlokalController.home_pobahan_list.length
+                            .toString(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w600,
                             fontSize: 24,

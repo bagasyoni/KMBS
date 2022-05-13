@@ -3,36 +3,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobahan_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/currency_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
-import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/po_bahan/add_pobahan_screen.dart';
-import 'package:akunt/view/po_bahan/widget/pobahan_card.dart';
-import 'package:intl/intl.dart';
+import 'package:akunt/view/master/currency/currency_card.dart';
+import 'package:akunt/view/master/currency/tambah_currency_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'widget/filter_tanggal.dart';
-
-class DataPobahanScreen extends StatefulWidget {
+class DataCurrencyScreen extends StatefulWidget {
   @override
-  _PobahanScreenState createState() => _PobahanScreenState();
+  _DataCurrencyScreenState createState() => _DataCurrencyScreenState();
 }
 
-class _PobahanScreenState extends State<DataPobahanScreen> {
-  var komes = NumberFormat("#,##0.00", "en_US");
+class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
   @override
   void initState() {
-    Provider.of<PobahanController>(context, listen: false).initData();
+    Provider.of<CurrencyController>(context, listen: false).initData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PobahanController>(
-        builder: (context, pobahanController, child) {
+    return Consumer<CurrencyController>(
+        builder: (context, currencyController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -48,7 +40,7 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                 width: 20,
               ),
               Text(
-                "Purchase Order Bahan",
+                "Data Currency",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -68,66 +60,15 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
             ),
           ),
           actions: [
-            if (Provider.of<LoginController>(context, listen: false)
-                    .role_staff ==
-                1)
-              OnHoverButton(
-                child: InkWell(
-                  hoverColor: Colors.transparent,
-                  onTap: () {
-                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => AddPobahanScreen(false)))
-                        .then((value) {
-                      if (value != null) {
-                        if (value) {
-                          pobahanController.select_data();
-                        }
-                      }
-                    });
-                  },
-                  child: Container(
-                    height: 30,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          "assets/images/ic_add.png",
-                          height: 30,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          "Tambah Baru",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            SizedBox(
-              width: 16,
-            ),
             OnHoverButton(
               child: InkWell(
-                hoverColor: Colors.white,
+                hoverColor: Colors.transparent,
                 onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        pobahanController.proses_export_detail();
-                      } else if (value == 2) {
-                        pobahanController.proses_export();
-                      }
-                    }
-                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              TambahCurrencyScreen(isModeEdit: false)));
                 },
                 child: Container(
                   height: 30,
@@ -135,54 +76,14 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
-                        "assets/images/ic_download.png",
+                        "assets/images/ic_add.png",
                         height: 30,
                       ),
                       SizedBox(
                         width: 8,
                       ),
                       Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (pobahanController.index_terpilih != null) {
-                    pobahanController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
+                        "Tambah Baru",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -245,7 +146,15 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                                 height: 30,
                                 child: TextField(
                                   controller:
-                                      pobahanController.searchController,
+                                      currencyController.searchController,
+                                  onChanged: (value) {
+                                    Provider.of<CurrencyController>(context,
+                                            listen: false)
+                                        .setProses(true);
+                                    Provider.of<CurrencyController>(context,
+                                            listen: false)
+                                        .search(value);
+                                  },
                                   decoration: InputDecoration(
                                     hintText: "Cari Disini",
                                     hintStyle: GoogleFonts.poppins(
@@ -261,9 +170,6 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                                     focusedBorder: InputBorder.none,
                                     focusedErrorBorder: InputBorder.none,
                                   ),
-                                  onChanged: (value) {
-                                    pobahanController.select_data();
-                                  },
                                 ),
                               ),
                             ),
@@ -271,125 +177,107 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                         ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                child: Row(
+                  children: [
                     SizedBox(
-                      width: 16,
+                      width: 8,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "No.",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Kode",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: InkWell(
-                        onTap: () {
-                          showAnimatedDialog_withCallBack(
-                              context, FilterTanggal(), isFlip: true,
-                              callback: (value) {
-                            if (value != null) {
-                              if (value) {
-                                pobahanController.select_data();
-                                pobahanController.notifyListeners();
-                              } else {
-                                pobahanController.notifyListeners();
-                                Navigator.pop(context, true);
-                              }
-                            }
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: GreyColor,
-                                spreadRadius: 1,
-                                blurRadius: 4,
-                                offset:
-                                    Offset(1, 2), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/ic_tanggal.png",
-                                height: 25,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Container(
-                                  width: 1,
-                                  height: 25,
-                                  color: GreyColor,
-                                ),
-                              ),
-                              Text(
-                                pobahanController.range,
-                                style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ),
+                      child: Text(
+                        "Nama",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Rate",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
                       ),
                     ),
                   ],
                 ),
               ),
               Expanded(
-                child: (pobahanController.data_pobahan_list.length > 0)
+                child: (currencyController.data_currencyList.length > 0)
                     ? ListView.builder(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 24),
-                        itemCount: pobahanController.data_pobahan_list.length,
+                        itemCount: currencyController.data_currencyList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return PobahanCard(index, pressEdit: () {
+                          return CurrencyCard(context, index, currencyController,
+                              pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => AddPobahanScreen(
-                                          true,
-                                          data_edit: pobahanController
-                                              .data_pobahan_list[index],
-                                        ))).then((value) {
-                              if (value != null) {
-                                if (value) {
-                                  pobahanController.select_data();
-                                }
-                              }
-                            });
+                                    builder: (_) => TambahCurrencyScreen(
+                                          isModeEdit: true,
+                                          data_currency: currencyController
+                                              .data_currencyList[index],
+                                        )));
                           }, pressDelete: () {
                             showAnimatedDialog_withCallBack(
                                 context, NotifHapus(), isFlip: true,
                                 callback: (value) {
                               if (value != null) {
                                 if (value) {
-                                  pobahanController
-                                      .deletePobahan(pobahanController
-                                          .data_pobahan_list[index]['NO_BUKTI'])
-                                      .then((value) {
-                                    if (value) {
-                                      Toast("Delete Success !",
-                                          "Berhasil menghapus data", true);
-                                    } else {
-                                      Toast("Delete Failed !",
-                                          "Gagal menghapus data", false);
-                                    }
-                                    pobahanController.notifyListeners();
-                                  });
+                                  currencyController.hapus_akun(
+                                      currencyController
+                                          .data_currencyList[index]);
                                 }
                               }
                             });
                           });
-                        })
+                        },
+                      )
                     : Container(
                         child: Center(
                           child: Text(
                             "Tidak ada data",
                             style: GoogleFonts.poppins(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: GreyColor),
                           ),
                         ),
@@ -398,6 +286,8 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
             ],
           ),
         ),
+
+        /// paginate
         bottomNavigationBar: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -417,18 +307,18 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (pobahanController.data_pobahan_list.length > 0)
+                if (currencyController.data_currencyList.length > 0)
                   Text(
-                    (pobahanController.offset + 1 <
-                            pobahanController.totalNotaTerima)
-                        ? "Showing ${pobahanController.offset + 1} to ${pobahanController.offset + pobahanController.limit} of ${pobahanController.totalNotaTerima} entries"
-                        : "Showing ${pobahanController.offset + 1} to ${pobahanController.totalNotaTerima} of ${pobahanController.totalNotaTerima} entries",
+                    (currencyController.offset + 1 <
+                            currencyController.totalNotaTerima)
+                        ? "Showing ${currencyController.offset + 1} to ${currencyController.offset + currencyController.limit} of ${currencyController.totalNotaTerima} entries"
+                        : "Showing ${currencyController.offset + 1} to ${currencyController.totalNotaTerima} of ${currencyController.totalNotaTerima} entries",
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Colors.black),
                   ),
-                if (pobahanController.data_pobahan_list.length > 0)
+                if (currencyController.data_currencyList.length > 0)
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Container(
@@ -452,12 +342,12 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                           child: DropdownButton(
                             isExpanded: true,
                             iconEnabledColor: HijauColor,
-                            value: pobahanController.limit,
-                            items: pobahanController.dropdownLimit,
+                            value: currencyController.limit,
+                            items: currencyController.dropdownLimit,
                             onChanged: (value) {
                               if (value != null) {
-                                pobahanController.limit = value;
-                                pobahanController.select_data();
+                                currencyController.limit = value;
+                                currencyController.selectDataPaginate(false);
                               }
                             },
                           ),
@@ -466,57 +356,14 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                     ),
                   ),
                 Spacer(),
-                SizedBox(
-                  width: 500,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Total Qty : ",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: pobahanController.qty.toString(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 150,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Total Pengeluaran : ",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: komes.format(pobahanController.total),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
                 InkWell(
                   onTap: () {
-                    if (pobahanController.page_index > 0) {
-                      pobahanController.offset -= pobahanController.limit;
-                      pobahanController.page_index--;
-                      pobahanController.c_page.text =
-                          (pobahanController.page_index + 1).toString();
-                      pobahanController.select_data();
+                    if (currencyController.page_index > 0) {
+                      currencyController.offset -= currencyController.limit;
+                      currencyController.page_index--;
+                      currencyController.c_page.text =
+                          (currencyController.page_index + 1).toString();
+                      currencyController.selectDataPaginate(false);
                     }
                   },
                   child: Container(
@@ -540,7 +387,7 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: (pobahanController.offset == 0)
+                            color: (currencyController.offset == 0)
                                 ? GreyColor
                                 : Colors.black),
                       ),
@@ -550,13 +397,13 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                 pageField(),
                 InkWell(
                   onTap: () {
-                    if (pobahanController.page_index <=
-                        pobahanController.pageCount - 1) {
-                      pobahanController.offset += pobahanController.limit;
-                      pobahanController.page_index++;
-                      pobahanController.c_page.text =
-                          (pobahanController.page_index + 1).toString();
-                      pobahanController.select_data();
+                    if (currencyController.page_index <=
+                        currencyController.pageCount - 1) {
+                      currencyController.offset += currencyController.limit;
+                      currencyController.page_index++;
+                      currencyController.c_page.text =
+                          (currencyController.page_index + 1).toString();
+                      currencyController.selectDataPaginate(false);
                     }
                   },
                   child: Container(
@@ -580,8 +427,8 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: ((pobahanController.pageCount -
-                                        pobahanController.page_index) <=
+                            color: ((currencyController.pageCount -
+                                        currencyController.page_index) <=
                                     1)
                                 ? GreyColor
                                 : Colors.black),
@@ -597,9 +444,10 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
     });
   }
 
+  ///paginate
   Widget pageField() {
-    PobahanController pageTerima =
-        Provider.of<PobahanController>(context, listen: false);
+    CurrencyController pageTerima =
+        Provider.of<CurrencyController>(context, listen: false);
     return Container(
       width: 70,
       height: 35,
@@ -636,12 +484,12 @@ class _PobahanScreenState extends State<DataPobahanScreen> {
             pageTerima.offset = (index * pageTerima.limit);
             pageTerima.page_index = index;
             pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
-            pageTerima.select_data();
+            pageTerima.selectDataPaginate(false);
           } else if (index < pageTerima.page_index) {
             pageTerima.offset = (index * pageTerima.limit);
             pageTerima.page_index = index;
             pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
-            pageTerima.select_data();
+            pageTerima.selectDataPaginate(false);
           }
         },
       ),

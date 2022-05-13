@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_pobahan_controller.dart';
-import '../../controller/pobahan_controller.dart';
+import '../../controller/pobahanlokal_controller.dart';
 import 'package:akunt/view/lap_pobahan/widget/filter_tanggal.dart';
 import 'package:akunt/view/lap_pobahan/pilih_bahan_a.dart';
 import 'package:akunt/view/lap_pobahan/pilih_bahan_b.dart';
@@ -874,8 +874,8 @@ class _LapPobahanScreenState extends State<LapPobahanScreen> {
   }
 
   Widget pageField() {
-    PobahanController pageTerima =
-        Provider.of<PobahanController>(context, listen: false);
+    PobahanlokalController pageTerima =
+        Provider.of<PobahanlokalController>(context, listen: false);
     return Container(
       width: 70,
       height: 35,

@@ -4,14 +4,15 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanlokal_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 Widget PobahanCard(int index, {Function pressEdit, Function pressDelete}) {
-  return Consumer<PobahanController>(
+  return Consumer<PobahanlokalController>(
       builder: (context, pobahanController, child) {
-    int offset = Provider.of<PobahanController>(context, listen: false).offset;
+    int offset =
+        Provider.of<PobahanlokalController>(context, listen: false).offset;
     var data_pobahan = pobahanController.data_pobahan_list[index];
     var sapi = NumberFormat("#,##0.00", "en_US");
     String tanggal =

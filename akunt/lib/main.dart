@@ -12,6 +12,7 @@ import 'package:akunt/controller/emkl_controller.dart';
 import 'package:akunt/controller/customer_controller.dart';
 import 'package:akunt/controller/supplier_controller.dart';
 import 'package:akunt/controller/account_controller.dart';
+import 'package:akunt/controller/currency_controller.dart';
 import 'package:akunt/controller/peg_controller.dart';
 import 'package:akunt/controller/bhn_controller.dart';
 import 'package:akunt/controller/sparepart_controller.dart';
@@ -23,7 +24,8 @@ import 'package:akunt/controller/bank_controller.dart';
 import 'package:akunt/controller/periode_controller.dart';
 
 ///////////////////////TRANSAKSI///////////////////////
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanlokal_controller.dart';
+import 'package:akunt/controller/pobahanimport_controller.dart';
 import 'package:akunt/controller/pononbahan_controller.dart';
 import 'package:akunt/controller/poimport_controller.dart';
 import 'package:akunt/controller/pomesin_controller.dart';
@@ -123,7 +125,6 @@ Future<void> init() async {
   // sl.registerFactory(() => DragonsbeliController());
 
   sl.registerFactory(() => HomeController());
-  sl.registerFactory(() => AccountController());
   sl.registerFactory(() => LapPoController());
   sl.registerFactory(() => LapPonController());
   sl.registerFactory(() => BeliController());
@@ -148,6 +149,8 @@ Future<void> init() async {
   sl.registerFactory(() => BrgController());
 
   ///MASTER///
+  sl.registerFactory(() => AccountController());
+  sl.registerFactory(() => CurrencyController());
   sl.registerFactory(() => SupplierController());
   sl.registerFactory(() => BahanController());
   sl.registerFactory(() => NonbahanController());
@@ -158,7 +161,8 @@ Future<void> init() async {
   sl.registerFactory(() => PeriodeController());
 
   ///TRANSAKSI///
-  sl.registerFactory(() => PobahanController());
+  sl.registerFactory(() => PobahanlokalController());
+  sl.registerFactory(() => PobahanimportController());
   sl.registerFactory(() => PononbahanController());
   sl.registerFactory(() => PoimportController());
   sl.registerFactory(() => PomesinController());
@@ -220,6 +224,8 @@ Future<void> main() async {
       runApp(MultiProvider(
         providers: [
           ///MASTER///
+          ChangeNotifierProvider(create: (context) => sl<AccountController>()),
+          ChangeNotifierProvider(create: (context) => sl<CurrencyController>()),
           ChangeNotifierProvider(create: (context) => sl<SupplierController>()),
           ChangeNotifierProvider(create: (context) => sl<BahanController>()),
           ChangeNotifierProvider(create: (context) => sl<NonbahanController>()),
@@ -231,7 +237,10 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (context) => sl<PeriodeController>()),
 
           ///TRANSAKSI///
-          ChangeNotifierProvider(create: (context) => sl<PobahanController>()),
+          ChangeNotifierProvider(
+              create: (context) => sl<PobahanlokalController>()),
+          ChangeNotifierProvider(
+              create: (context) => sl<PobahanimportController>()),
           ChangeNotifierProvider(
               create: (context) => sl<PononbahanController>()),
           ChangeNotifierProvider(create: (context) => sl<PoimportController>()),
@@ -319,7 +328,6 @@ Future<void> main() async {
 
           ChangeNotifierProvider(create: (context) => sl<DragonpoController>()),
           ChangeNotifierProvider(create: (context) => sl<HomeController>()),
-          ChangeNotifierProvider(create: (context) => sl<AccountController>()),
           ChangeNotifierProvider(create: (context) => sl<LapPoController>()),
           ChangeNotifierProvider(create: (context) => sl<LapBeliController>()),
           ChangeNotifierProvider(create: (context) => sl<LapPonController>()),

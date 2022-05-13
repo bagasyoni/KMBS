@@ -1,22 +1,17 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:akunt/controller/login_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
 
-class model_pobahan {
-  static String table = 'po';
-  static String table_detail = 'pod';
-  static String tipe = 'PO';
-  koneksi_mysql m_koneksi = koneksi_mysql();
+class model_pobahanimport {
   String baseUrl = base_url;
 
   /// paginate
-  Future<List> data_pobahanpaginate(
+  Future<List> data_pobahanimportpaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/pobahanpaginate"),
+      Uri.parse("${baseUrl}:3000/pobahanimportpaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -28,9 +23,9 @@ class model_pobahan {
   }
 
   ///paginate
-  Future countPobahanPaginate(String key_cari) async {
+  Future countPobahanimportPaginate(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countpobahanpaginate"),
+      Uri.parse("${baseUrl}:3000/countpobahanimportpaginate"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
@@ -39,56 +34,78 @@ class model_pobahan {
 
   Future<List> data_modal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_po_bahan"),
+      Uri.parse("${baseUrl}:3000/modal_po_bahan_import"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> insert_po_bahan(Map data_insert) async {
+  Future<List> insert_po_bahan_import(Map data_insert) async {
     try {
-      ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_po_bahan"),
+        Uri.parse("${baseUrl}:3000/tambah_header_po_bahan_import"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
           "JTEMPO": data_insert['JTEMPO'].toString(),
-          "PER": data_insert['PER'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
           "KODES": data_insert['KODES'].toString(),
           "NAMAS": data_insert['NAMAS'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
           "TOTAL_QTY": data_insert['TOTAL_QTY'].toString(),
+          "SISA_QTY": data_insert['SISA_QTY'].toString(),
+          "TOTAL1": data_insert['TOTAL1'].toString(),
+          "DISC": data_insert['DISC'].toString(),
+          "PPN": data_insert['PPN'].toString(),
+          "NETT1": data_insert['NETT1'].toString(),
+          "DISC1": data_insert['DISC1'].toString(),
+          "PPN1": data_insert['PPN1'].toString(),
+          "PPH1": data_insert['PPH1'].toString(),
+          "PPH": data_insert['PPH'].toString(),
           "TOTAL": data_insert['TOTAL'].toString(),
+          "RPDISC": data_insert['RPDISC'].toString(),
+          "RPPPN": data_insert['RPPPN'].toString(),
           "NETT": data_insert['NETT'].toString(),
-          "USRNM": data_insert['USRNM'].toString(),
-          "FLAG": "PO",
+          "SISA": data_insert['SISA'].toString(),
+          "RPDISC1": data_insert['RPDISC1'].toString(),
+          "RPPPN1": data_insert['RPPPN1'].toString(),
+          "RPPPH1": data_insert['RPPPH1'].toString(),
+          "RPPPH": data_insert['RPPPH'].toString(),
+          "USRIN": data_insert['USRIN'].toString(),
+          "TG_IN": data_insert['TG_IN'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "TYP": data_insert['TYP'].toString(),
+          "GOL": data_insert['GOL'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "rateks": data_insert['rateks'].toString(),
+          "ACNO1": data_insert['ACNO1'].toString(),
+          "ACNO1_NM": data_insert['ACNO1_NM'].toString(),
         },
       );
 
       ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
-      // PER,TYPE,ACNO,NACNO,URAIAN,JUMLAH
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan_import"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "PER": data_insert['PER'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
             "KD_BHN": data_detail[i]['KD_BHN'].toString(),
             "NA_BHN": data_detail[i]['NA_BHN'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
-            "KET": data_detail[i]['KET'].toString(),
-            "HARGA": data_detail[i]['HARGA'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
+            "HARGA": data_detail[i]['HARGA'].toString(),
             "TOTAL": data_detail[i]['TOTAL'].toString(),
-            "FLAG": "PO",
-            "PER": data_insert['PER'].toString(),
+            "KET": data_detail[i]['KET'].toString(),
           },
         );
       }
@@ -97,8 +114,8 @@ class model_pobahan {
     }
   }
 
-  ///UPDATE PO BAHAN DETAIL
-  Future<List> update_po_bahan(Map data_insert) async {
+  ///UPDATE PO BAHAN import DETAIL
+  Future<List> update_po_bahan_import(Map data_insert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
@@ -110,45 +127,69 @@ class model_pobahan {
       );
 
       ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_po_bahan"),
+        Uri.parse("${baseUrl}:3000/edit_header_po_bahan_import"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
           "JTEMPO": data_insert['JTEMPO'].toString(),
-          "PER": data_insert['PER'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
           "KODES": data_insert['KODES'].toString(),
           "NAMAS": data_insert['NAMAS'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
           "TOTAL_QTY": data_insert['TOTAL_QTY'].toString(),
+          "SISA_QTY": data_insert['SISA_QTY'].toString(),
+          "TOTAL1": data_insert['TOTAL1'].toString(),
+          "DISC": data_insert['DISC'].toString(),
+          "PPN": data_insert['PPN'].toString(),
+          "NETT1": data_insert['NETT1'].toString(),
+          "DISC1": data_insert['DISC1'].toString(),
+          "PPN1": data_insert['PPN1'].toString(),
+          "PPH1": data_insert['PPH1'].toString(),
+          "PPH": data_insert['PPH'].toString(),
           "TOTAL": data_insert['TOTAL'].toString(),
+          "RPDISC": data_insert['RPDISC'].toString(),
+          "RPPPN": data_insert['RPPPN'].toString(),
           "NETT": data_insert['NETT'].toString(),
+          "SISA": data_insert['SISA'].toString(),
+          "RPDISC1": data_insert['RPDISC1'].toString(),
+          "RPPPN1": data_insert['RPPPN1'].toString(),
+          "RPPPH1": data_insert['RPPPH1'].toString(),
+          "RPPPH": data_insert['RPPPH'].toString(),
           "USRNM": data_insert['USRNM'].toString(),
-          "FLAG": "PO",
+          "TG_SMP": data_insert['TG_SMP'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "TYP": data_insert['TYP'].toString(),
+          "GOL": data_insert['GOL'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "rateks": data_insert['rateks'].toString(),
+          "ACNO1": data_insert['ACNO1'].toString(),
+          "ACNO1_NM": data_insert['ACNO1_NM'].toString(),
         },
       );
 
       ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan_import"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "PER": data_insert['PER'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
             "KD_BHN": data_detail[i]['KD_BHN'].toString(),
             "NA_BHN": data_detail[i]['NA_BHN'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
-            "KET": data_detail[i]['KET'].toString(),
-            "HARGA": data_detail[i]['HARGA'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
+            "HARGA": data_detail[i]['HARGA'].toString(),
             "TOTAL": data_detail[i]['TOTAL'].toString(),
-            "FLAG": "PO",
-            "PER": data_insert['PER'].toString(),
+            "KET": data_detail[i]['KET'].toString(),
           },
         );
       }
@@ -177,9 +218,9 @@ class model_pobahan {
     return results2['data'].toList();
   }
 
-  Future<List> cari_po_bahan(String cari) async {
+  Future<List> cari_po_bahan_import(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_po_bahan"),
+      Uri.parse("${baseUrl}:3000/cari_po_bahan_import"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
@@ -187,10 +228,10 @@ class model_pobahan {
   }
 
   ///SELECT HEADER
-  Future<List> select_po_bahan(
+  Future<List> select_po_bahan_import(
       String cari, String start_date, String end_date, String periode) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_po_bahan"),
+      Uri.parse("${baseUrl}:3000/tampil_po_bahan_import"),
       body: {
         "cari": cari,
         "tglawal": start_date,
@@ -202,24 +243,8 @@ class model_pobahan {
     return results2['data'].toList();
   }
 
-  Future<List> select_po_bahan_aktif(String cari, String sales, String customer,
-      String start_date, String end_date) async {
-    var konek = await m_koneksi.koneksi();
-    String filter_extra = "";
-    if (sales.isNotEmpty) {
-      filter_extra = " and sales = '$sales' ";
-    }
-    if (customer.isNotEmpty) {
-      filter_extra += " and customer = '$customer' ";
-    }
-    var results2 = await konek.query(
-        "select * from $table where (NO_BUKTI like '%$cari%') $filter_extra and POSTED = '0' and TGL between '$start_date' and '$end_date';");
-    await konek.close();
-    return results2.toList();
-  }
-
   ///SELECT DETAIL
-  Future<List> select_po_bahan_detail(
+  Future<List> select_po_bahan_import_detail(
       String no_bukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
@@ -239,20 +264,12 @@ class model_pobahan {
     return results2['data'].toList();
   }
 
-  Future<List> delete_po_bahan(String no_bukti) async {
+  Future<List> delete_po_bahan_import(String no_bukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapus_po_bahan"),
+      Uri.parse("${baseUrl}:3000/hapus_po_bahanimport"),
       body: {"no_bukti": no_bukti},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
-  }
-
-  Future<List> update_status_diterima(String no_bukti) async {
-    var konek = await m_koneksi.koneksi();
-    var results = await konek
-        .query("update $table set POSTED = '1' where NO_BUKTI = '$no_bukti';");
-    await konek.close();
-    return results.toList();
   }
 }

@@ -5,36 +5,38 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/pobahan_controller.dart';
+import 'package:akunt/controller/pobahanimport_controller.dart';
 import 'package:akunt/model/data_bhn.dart';
-import 'package:akunt/view/po_bahan/pilih_supplier.dart';
+import 'package:akunt/view/po_bahan_import/pilih_supplier.dart';
+import 'package:akunt/view/po_bahan_import/pilih_account.dart';
+import 'package:akunt/view/po_bahan_import/pilih_currency.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
-import 'package:akunt/view/po_bahan/widget/add_pobahan_card.dart';
+import 'package:akunt/view/po_bahan_import/widget/add_pobahanimport_card.dart';
 import 'package:provider/provider.dart';
 
-class AddPobahanScreen extends StatefulWidget {
+class AddPobahanimportScreen extends StatefulWidget {
   bool isModeEdit;
   var data_edit;
 
-  AddPobahanScreen(this.isModeEdit, {this.data_edit});
+  AddPobahanimportScreen(this.isModeEdit, {this.data_edit});
 
   @override
-  _AddPobahanScreenState createState() => _AddPobahanScreenState();
+  _AddPobahanimportScreenState createState() => _AddPobahanimportScreenState();
 }
 
-class _AddPobahanScreenState extends State<AddPobahanScreen> {
+class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataBhn>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
 
-  _AddPobahanScreenState();
+  _AddPobahanimportScreenState();
 
   @override
   void initState() {
     if (widget.isModeEdit) {
-      Provider.of<PobahanController>(context, listen: false)
+      Provider.of<PobahanimportController>(context, listen: false)
           .initData_editPobahan(widget.data_edit);
     } else {
-      Provider.of<PobahanController>(context, listen: false)
+      Provider.of<PobahanimportController>(context, listen: false)
           .initData_addPobahan();
     }
     super.initState();
@@ -42,8 +44,8 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PobahanController>(
-        builder: (context, pobahanController, child) {
+    return Consumer<PobahanimportController>(
+        builder: (context, pobahanimportController, child) {
       return Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
@@ -61,8 +63,8 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
               ),
               Text(
                 (widget.isModeEdit)
-                    ? "Edit Purchase Order Bahan"
-                    : "Tambah Purchase Order Bahan",
+                    ? "Edit Purchase Order Bahan Import"
+                    : "Tambah Purchase Order Bahan Import",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -86,7 +88,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
               child: InkWell(
                 onTap: () {
                   if (widget.isModeEdit) {
-                    pobahanController.editPobahan().then((value) {
+                    pobahanimportController.editPobahan().then((value) {
                       if (value != null) {
                         if (value) {
                           Navigator.pop(context, true);
@@ -94,20 +96,20 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                       }
                     });
                   } else {
-                    pobahanController.savePobahan().then((value) {
+                    pobahanimportController.savePobahan().then((value) {
                       if (value != null) {
                         if (value) {
                           showAnimatedDialog_withCallBack(
                               context,
                               SaveSuccess("Success !!",
-                                  "Berhasil menyimpan Purchase Order Bahan...!!"),
+                                  "Berhasil menyimpan Purchase Order Bahan Import...!!"),
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
-                                pobahanController.initData_addPobahan();
-                                pobahanController.notifyListeners();
+                                pobahanimportController.initData_addPobahan();
+                                pobahanimportController.notifyListeners();
                               } else {
-                                pobahanController.notifyListeners();
+                                pobahanimportController.notifyListeners();
                                 Navigator.pop(context, true);
                               }
                             }
@@ -181,20 +183,22 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobahanController
+                                        controller: pobahanimportController
                                             .no_buktiController,
-                                        readOnly: widget.isModeEdit,
+                                        // readOnly: widget.isModeEdit,
+                                        readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 18),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -216,7 +220,28 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Tanggal",
+                                      "",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Supplier",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -226,7 +251,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -234,13 +259,19 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.tglController,
+                                        controller: pobahanimportController
+                                            .kodesController,
+                                        readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 12, bottom: 15),
+                                          hintText: "Cari Supplier",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
                                           icon: Image.asset(
-                                            "assets/images/ic_tanggal.png",
+                                            "assets/images/ic_search.png",
                                             height: 20,
                                           ),
                                           border: InputBorder.none,
@@ -250,23 +281,19 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                           enabledBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                         ),
-                                        onTap: () async {
-                                          pobahanController.chooseDate =
-                                              await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          pobahanController
-                                                                  .chooseDate ??
-                                                              DateTime.now(),
-                                                      lastDate: DateTime(2050),
-                                                      firstDate: DateTime(
-                                                          DateTime.now()
-                                                              .year)) ??
-                                                  pobahanController.chooseDate;
-                                          pobahanController.tglController.text =
-                                              pobahanController.format_tanggal
-                                                  .format(pobahanController
-                                                      .chooseDate);
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihSupplier(
+                                                  pobahanimportController
+                                                          .kodesController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : pobahanimportController
+                                                          .namasController.text,
+                                                  pobahanimportController),
+                                              isFlip: false);
                                         },
                                       ),
                                     ),
@@ -303,7 +330,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "",
+                                      "Acno",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -312,26 +339,53 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                     SizedBox(
                                       height: 8,
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .acno1Controller,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 12, bottom: 15),
+                                          hintText: "Cari Acno",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihAccount(
+                                                  pobahanimportController
+                                                          .acno1Controller
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : pobahanimportController
+                                                          .acno1_nmController
+                                                          .text,
+                                                  pobahanimportController),
+                                              isFlip: false);
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -373,7 +427,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Kode Supplier",
+                                      "Tanggal",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -383,7 +437,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -391,19 +445,13 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.kodesController,
-                                        readOnly: widget.isModeEdit,
+                                        controller: pobahanimportController
+                                            .tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 15),
-                                          hintText: "Cari Supplier",
-                                          hintStyle: GoogleFonts.poppins(
-                                              color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              top: 15, bottom: 18),
                                           icon: Image.asset(
-                                            "assets/images/ic_search.png",
+                                            "assets/images/ic_tanggal.png",
                                             height: 20,
                                           ),
                                           border: InputBorder.none,
@@ -413,19 +461,26 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                           enabledBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                         ),
-                                        onTap: () {
-                                          showAnimatedDialog(
-                                              context,
-                                              PilihSupplier(
-                                                  pobahanController
-                                                          .kodesController
-                                                          .text
-                                                          .isEmpty
-                                                      ? null
-                                                      : pobahanController
-                                                          .namasController.text,
-                                                  pobahanController),
-                                              isFlip: false);
+                                        onTap: () async {
+                                          pobahanimportController
+                                              .chooseDate = await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      pobahanimportController
+                                                              .chooseDate ??
+                                                          DateTime.now(),
+                                                  lastDate: DateTime(2050),
+                                                  firstDate: DateTime(
+                                                      DateTime.now().year)) ??
+                                              pobahanimportController
+                                                  .chooseDate;
+                                          pobahanimportController
+                                                  .tglController.text =
+                                              pobahanimportController
+                                                  .format_tanggal
+                                                  .format(
+                                                      pobahanimportController
+                                                          .chooseDate);
                                         },
                                       ),
                                     ),
@@ -451,7 +506,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -459,12 +514,12 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.jtempoController,
+                                        controller: pobahanimportController
+                                            .jtempoController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 18),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -477,24 +532,25 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          pobahanController.chooseDateJT =
-                                              await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          pobahanController
-                                                                  .chooseDateJT ??
-                                                              DateTime.now(),
-                                                      lastDate: DateTime(2050),
-                                                      firstDate: DateTime(
-                                                          DateTime.now()
-                                                              .year)) ??
-                                                  pobahanController
-                                                      .chooseDateJT;
-                                          pobahanController
+                                          pobahanimportController
+                                              .chooseDateJT = await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      pobahanimportController
+                                                              .chooseDateJT ??
+                                                          DateTime.now(),
+                                                  lastDate: DateTime(2050),
+                                                  firstDate: DateTime(
+                                                      DateTime.now().year)) ??
+                                              pobahanimportController
+                                                  .chooseDateJT;
+                                          pobahanimportController
                                                   .jtempoController.text =
-                                              pobahanController.format_tanggal
-                                                  .format(pobahanController
-                                                      .chooseDateJT);
+                                              pobahanimportController
+                                                  .format_tanggal
+                                                  .format(
+                                                      pobahanimportController
+                                                          .chooseDateJT);
                                         },
                                       ),
                                     ),
@@ -504,98 +560,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 24, right: 24, top: 30),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 3,
+                              flex: 5,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -611,20 +576,21 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.namasController,
+                                        controller: pobahanimportController
+                                            .namasController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 18),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -644,13 +610,13 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 4,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "",
+                                      "Nama",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -658,53 +624,45 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                     ),
                                     SizedBox(
                                       height: 8,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .acno1_nmController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -714,7 +672,127 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Uang",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        // color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .currController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 12, bottom: 15),
+                                          hintText: "Pilih Uang",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihCurrency(
+                                                  pobahanimportController
+                                                          .currController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : pobahanimportController
+                                                          .currnmController
+                                                          .text,
+                                                  pobahanimportController),
+                                              isFlip: false);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .currnmController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 1, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 5,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -730,20 +808,21 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.alamatController,
+                                        controller: pobahanimportController
+                                            .alamatController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 18),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -759,7 +838,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -780,143 +859,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 24, right: 24, top: 10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Kota",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller:
-                                            pobahanController.kotaController,
-                                        readOnly: true,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -950,7 +893,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Notes",
+                                      "Rate",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -960,7 +903,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 35,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -968,12 +911,103 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.notesController,
-                                        readOnly: false,
+                                        controller: pobahanimportController
+                                            .rateController,
+                                        readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 18),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Rate Kesepakatan",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .rateksController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 18),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Kota",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .kotaController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 1, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1010,13 +1044,13 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "",
+                                      "Keterangan",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -1025,13 +1059,37 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                                     SizedBox(
                                       height: 8,
                                     ),
+                                    Container(
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanimportController
+                                            .notesController,
+                                        readOnly: false,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 18),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1107,12 +1165,12 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                           total: item.total,
                         );
                         searchTextField.textField.controller.clear();
-                        pobahanController.addKeranjang(db_item);
+                        pobahanimportController.addKeranjang(db_item);
                       },
                       submitOnSuggestionTap: true,
                       clearOnSubmit: false,
                       key: key,
-                      suggestions: pobahanController.bhnList,
+                      suggestions: pobahanimportController.bhnList,
                       itemBuilder: (context, item) {
                         return Container(
                           child: Column(
@@ -1261,10 +1319,10 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: pobahanController.data_bhn_keranjang.length,
+                  itemCount: pobahanimportController.data_bhn_keranjang.length,
                   itemBuilder: (BuildContext context, int index) {
                     return AddPobahanCard(context, index,
-                        pobahanController.data_bhn_keranjang[index]);
+                        pobahanimportController.data_bhn_keranjang[index]);
                   },
                 ),
               ),
@@ -1290,7 +1348,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                         color: Colors.black87),
                     children: [
                       TextSpan(
-                        text: pobahanController.sumQty.toString(),
+                        text: pobahanimportController.sumQty.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -1313,7 +1371,7 @@ class _AddPobahanScreenState extends State<AddPobahanScreen> {
                     children: [
                       TextSpan(
                         text: config().format_rupiah(
-                            pobahanController.sumTotal.toString()),
+                            pobahanimportController.sumTotal.toString()),
                         style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

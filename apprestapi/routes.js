@@ -4,21 +4,21 @@ module.exports = function (app) {
     var jsonku = require('./controller');
 
     ///======================== MASTER CONTROLLER ========================///
-    var jsonku = require('./controller/master/account_controller');
-    var jsonku = require('./controller/master/barang_controller');
-    var jsonku = require('./controller/master/bahan_controller');
-    var jsonku = require('./controller/master/customer_controller');
-    var jsonku = require('./controller/master/supplier_controller');
+    // var jsonku = require('./controller/master/account_controller');
+    // var jsonku = require('./controller/master/barang_controller');
+    // var jsonku = require('./controller/master/bahan_controller');
+    // var jsonku = require('./controller/master/customer_controller');
+    // var jsonku = require('./controller/master/supplier_controller');
 
 
     ///======================== TRANSAKSI CONTROLLER ========================///
-    var jsonku = require('./controller/transaksi/po_controller');
-    var jsonku = require('./controller/transaksi/beli_controller');
-    var jsonku = require('./controller/transaksi/hut_controller');
-    var jsonku = require('./controller/transaksi/pakai_controller');
-    var jsonku = require('./controller/transaksi/stocka_controller');
+    // var jsonku = require('./controller/transaksi/po_controller');
+    // var jsonku = require('./controller/transaksi/beli_controller');
+    // var jsonku = require('./controller/transaksi/hut_controller');
+    // var jsonku = require('./controller/transaksi/pakai_controller');
+    // var jsonku = require('./controller/transaksi/stocka_controller');
 
-    
+
     ///======================== LAPORAN CONTROLLER ========================///
 
     app.route('/')
@@ -30,7 +30,7 @@ module.exports = function (app) {
     app.route('/tampil_perid')
         .post(jsonku.tampilperid);
 
-    /// MENU MASTER
+    ///=================================/// MENU MASTER ///=================================///
     app.route('/bagaspaginate')
         .post(jsonku.bagas_paginate);
     app.route('/countbagaspaginate')
@@ -64,6 +64,23 @@ module.exports = function (app) {
         .post(jsonku.ubahacc);
     app.route('/hapusacc')
         .post(jsonku.hapusacc);
+
+    app.route('/currpaginate')
+        .post(jsonku.curr_paginate);
+    app.route('/countcurrpaginate')
+        .post(jsonku.count_currpaginate);
+    app.route('/caricurr')
+        .post(jsonku.caricurr);
+    app.route('/tampilcurr')
+        .post(jsonku.tampilcurr);
+    app.route('/modal_curr')
+        .post(jsonku.modalcurr);
+    app.route('/tambahcurr')
+        .post(jsonku.tambahcurr);
+    app.route('/ubahcurr')
+        .post(jsonku.ubahcurr);
+    app.route('/hapuscurr')
+        .post(jsonku.hapuscurr);
 
     app.route('/brgpaginate')
         .post(jsonku.brg_paginate);
@@ -204,26 +221,49 @@ module.exports = function (app) {
         .post(jsonku.hapusemkl);
 
     ///TRANSAKSI///
-    app.route('/pobahanpaginate')
-        .post(jsonku.pobahan_paginate);
-    app.route('/countpobahanpaginate')
-        .post(jsonku.count_pobahanpaginate);
-    app.route('/tambah_header_po_bahan')
-        .post(jsonku.tambahheaderpobahan);
-    app.route('/tambah_detail_po_bahan')
-        .post(jsonku.tambahdetailpobahan);
-    app.route('/tampil_po_bahan')
-        .post(jsonku.tampilpobahan);
-    app.route('/edit_header_po_bahan')
-        .post(jsonku.editheaderpobahan);
-    app.route('/modal_po_bahan')
-        .post(jsonku.modalpobahan);
-    app.route('/cari_po_bahan')
-        .post(jsonku.caripobahan);
+    ///====================/// PO BAHAN LOKAL ///====================///
+    app.route('/pobahanlokalpaginate')
+        .post(jsonku.pobahanlokal_paginate);
+    app.route('/countpobahanlokalpaginate')
+        .post(jsonku.count_pobahanlokalpaginate);
+    app.route('/tambah_header_po_bahan_lokal')
+        .post(jsonku.tambahheaderpobahanlokal);
+    app.route('/tambah_detail_po_bahan_lokal')
+        .post(jsonku.tambahdetailpobahanlokal);
+    app.route('/tampil_po_bahan_lokal')
+        .post(jsonku.tampilpobahanlokal);
+    app.route('/edit_header_po_bahan_lokal')
+        .post(jsonku.editheaderpobahanlokal);
+    app.route('/modal_po_bahan_lokal')
+        .post(jsonku.modalpobahanlokal);
+    app.route('/cari_po_bahan_lokal')
+        .post(jsonku.caripobahanlokal);
     app.route('/ambil_po_detail')
         .post(jsonku.ambilpodetail);
-    app.route('/hapus_po_bahan')
-        .post(jsonku.hapuspobahan);
+    app.route('/hapus_po_bahanlokal')
+        .post(jsonku.hapuspobahanlokal);
+
+    ///====================/// PO BAHAN IMPORT ///====================///
+    app.route('/pobahanimportpaginate')
+        .post(jsonku.pobahanimport_paginate);
+    app.route('/countpobahanimportpaginate')
+        .post(jsonku.count_pobahanimportpaginate);
+    app.route('/tambah_header_po_bahan_import')
+        .post(jsonku.tambahheaderpobahanimport);
+    app.route('/tambah_detail_po_bahan_import')
+        .post(jsonku.tambahdetailpobahanimport);
+    app.route('/tampil_po_bahan_import')
+        .post(jsonku.tampilpobahanimport);
+    app.route('/edit_header_po_bahan_import')
+        .post(jsonku.editheaderpobahanimport);
+    app.route('/modal_po_bahan_import')
+        .post(jsonku.modalpobahanimport);
+    app.route('/cari_po_bahan_import')
+        .post(jsonku.caripobahanimport);
+    app.route('/ambil_po_detail')
+        .post(jsonku.ambilpodetail);
+    app.route('/hapus_po_bahanimport')
+        .post(jsonku.hapuspobahanimport);
 
     app.route('/sopaginate')
         .post(jsonku.so_paginate);
@@ -721,17 +761,6 @@ module.exports = function (app) {
         .post(jsonku.hapusterima);
 
 
-    ///TRANSAKSI HEADER DETAIL PO
-    app.route('/tambah_header_po')
-        .post(jsonku.tambahheaderpo);
-    app.route('/tambah_detail_po')
-        .post(jsonku.tambahdetailpo);
-    app.route('/tampil_pod')
-        .post(jsonku.tampilpod);
-    app.route('/edit_header_po')
-        .post(jsonku.editheaderpo);
-
-
     ///TRANSAKSI HEADER DETAIL STOK
     app.route('/tambah_header_stok')
         .post(jsonku.tambahheaderstok);
@@ -822,14 +851,16 @@ module.exports = function (app) {
 
 
 
-    /// MODAL
+    ///==================/// MODAL ///==================///
     //modal data account header kas
     app.route('/modal_acc_kas')
         .post(jsonku.modal_acckas);
-
     //modal data account header bank
     app.route('/modal_acc_bank')
         .post(jsonku.modal_accbank);
+    //modal data account header bank
+    app.route('/modal_curr')
+        .post(jsonku.modal_curr);
 
     //modal data master bank
     app.route('/caribank')
