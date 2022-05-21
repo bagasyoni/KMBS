@@ -339,8 +339,7 @@ class _PakaibhnScreenState extends State<PakaibhnScreen> {
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount:
-                            pakaibhnController.data_pakaibhn_list.length,
+                        itemCount: pakaibhnController.data_pakaibhn_list.length,
                         itemBuilder: (BuildContext context, int index) {
                           return PakaibhnCard(index, pressEdit: () {
                             Navigator.push(
@@ -366,7 +365,7 @@ class _PakaibhnScreenState extends State<PakaibhnScreen> {
                                   pakaibhnController
                                       .deletePakaibhn(pakaibhnController
                                               .data_pakaibhn_list[index]
-                                          ['NO_BUKTI'])
+                                          ['no_bukti'])
                                       .then((value) {
                                     if (value) {
                                       Toast("Delete Success !",

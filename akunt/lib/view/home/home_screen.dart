@@ -25,6 +25,8 @@ import 'package:akunt/view/master/gudang/data_gudang_screen.dart';
 ///TRANSAKSI///
 import 'package:akunt/view/po_bahan_lokal/pobahanlokal_screen.dart';
 import 'package:akunt/view/po_bahan_import/pobahanimport_screen.dart';
+import 'package:akunt/view/po_barang_lokal/pobaranglokal_screen.dart';
+import 'package:akunt/view/po_barang_import/pobarangimport_screen.dart';
 import 'package:akunt/view/po_nonbahan/pononbahan_screen.dart';
 import 'package:akunt/view/po_import/poimport_screen.dart';
 import 'package:akunt/view/po_mesin/pomesin_screen.dart';
@@ -40,7 +42,7 @@ import 'package:akunt/view/thut_import/thutimport_screen.dart';
 import 'package:akunt/view/thut_mesin/thutmesin_screen.dart';
 import 'package:akunt/view/thut_sparepart/thutsparepart_screen.dart';
 import 'package:akunt/view/hut_bahan/hutbahan_screen.dart';
-import 'package:akunt/view/mutasibhn/mutasibhn_screen.dart';
+import 'package:akunt/view/stockbhn/stockbhn_screen.dart';
 import 'package:akunt/view/mutasibrg/mutasibrg_screen.dart';
 import 'package:akunt/view/pakaibhn/pakaibhn_screen.dart';
 import 'package:akunt/view/terima/terima_screen.dart';
@@ -354,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: PopupMenuButton(
                                       offset: const Offset(0, 50),
                                       color: Colors.white,
-                                      tooltip: "Pembelian Bahan",
+                                      tooltip: "Pembelian",
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -368,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 16,
                                               height: 50,
                                             ),
-                                            Text("Pembelian Bahan"),
+                                            Text("Pembelian"),
                                           ],
                                         ),
                                       ),
@@ -415,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Transaksi Pembelian"),
+                                                Text("PO Barang Lokal"),
                                               ],
                                             ),
                                             value: 203,
@@ -430,7 +432,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Transaksi Hutang"),
+                                                Text("PO Barang Import"),
                                               ],
                                             ),
                                             value: 204,
@@ -445,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Pembayaran Hutang"),
+                                                Text("Transaksi Pembelian"),
                                               ],
                                             ),
                                             value: 205,
@@ -460,7 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Koreksi Stok Bahan"),
+                                                Text("Transaksi Hutang"),
                                               ],
                                             ),
                                             value: 206,
@@ -475,10 +477,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Pemakaian Bahan"),
+                                                Text("Pembayaran Hutang"),
                                               ],
                                             ),
                                             value: 207,
+                                          ),
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text("Koreksi Stok Bahan"),
+                                              ],
+                                            ),
+                                            value: 208,
+                                          ),
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text("Pemakaian Bahan"),
+                                              ],
+                                            ),
+                                            value: 209,
                                           ),
                                         ];
                                       },
@@ -500,26 +532,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataBelibahanScreen()));
+                                                      DataPobaranglokalScreen()));
                                         } else if (value == 204) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataThutbahanScreen()));
+                                                      DataPobarangimportScreen()));
                                         } else if (value == 205) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataHutbahanScreen()));
+                                                      DataBelibahanScreen()));
                                         } else if (value == 206) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      MutasibhnScreen()));
+                                                      DataThutbahanScreen()));
                                         } else if (value == 207) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      DataHutbahanScreen()));
+                                        } else if (value == 208) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      StockbhnScreen()));
+                                        } else if (value == 209) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -535,7 +579,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: PopupMenuButton(
                                       offset: const Offset(0, 50),
                                       color: Colors.white,
-                                      tooltip: "Penjualan Barang",
+                                      tooltip: "Penjualan",
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -549,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 16,
                                               height: 50,
                                             ),
-                                            Text("Penjualan Barang"),
+                                            Text("Penjualan"),
                                           ],
                                         ),
                                       ),

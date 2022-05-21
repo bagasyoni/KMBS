@@ -44,12 +44,18 @@ class LapStockaController with ChangeNotifier {
   double pageCount = 1;
   int page_index = 0;
 
+  Future<void> baca_periodePrefs() async {
+    prefs = await _prefs;
+    perx = prefs.getString("periode") ??
+        DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
+  }
+
   Future<void> select_data() async {
-    data_list = await m_lapstocka.data_lap(tanggal_awal, tanggal_akhir);
+    data_list = await m_lapstocka.data_lap(perx, tanggal_awal, tanggal_akhir);
     total = 0;
     qty = 0;
     for (int i = 0; i < data_list.length; i++) {
-      qty += double.parse(data_list[i]['TOTAL_QTY'].toString());
+      qty += double.parse(data_list[i]['total_qty'].toString());
     }
     notifyListeners();
   }
@@ -64,6 +70,7 @@ class LapStockaController with ChangeNotifier {
         DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString() +
             ' - ' +
             DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString();
+    baca_periodePrefs();
     filterSupplier("");
     select_data();
   }
@@ -109,39 +116,8 @@ class LapStockaController with ChangeNotifier {
     }
   }
 
-  Future<void> proses_export_lapstocka(int mode) async {
-    if (data_list.length > 0) {
-      BotToast.showLoading();
-      List header_excel = [];
-      List isi_excel = [];
-      header_excel.add("No Bukti");
-      header_excel.add("Tanggal");
-      header_excel.add("Keterangan");
-      header_excel.add("Kode Bahan");
-      header_excel.add("Nama Bahan");
-      header_excel.add("Satuan");
-      header_excel.add("Qty");
-      for (int i = 0; i < data_list.length; i++) {
-        Map<String, dynamic> isi_map = <String, dynamic>{};
-        isi_map['a'] = data_list[i]['NO_BUKTI'];
-        isi_map['b'] = data_list[i]['TGL'];
-        isi_map['c'] = data_list[i]['KET'];
-        isi_map['d'] = data_list[i]['KD_BHN'];
-        isi_map['e'] = data_list[i]['NA_BHN'];
-        isi_map['f'] = data_list[i]['SATUAN'];
-        isi_map['g'] = data_list[i]['TOTAL_QTY'];
-        isi_map['h'] = qty.toString();
-        isi_excel.add(isi_map);
-      }
-      String judul = "Laporan Stok Bahan";
-      String header_title = "";
-      if (mode == 0) {
-        config().createExcel3(header_excel, isi_excel, header_title, judul);
-      } else {
-        ExportPDF(header_excel, isi_excel, judul);
-      }
-    } else {
-      Toast("Tidak ada data untuk di export", "", false);
-    }
+  Future<void> print() async {
+    await m_lapstocka.print_data(perx, tanggal_awal, tanggal_akhir);
+    notifyListeners();
   }
 }

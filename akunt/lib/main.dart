@@ -26,6 +26,8 @@ import 'package:akunt/controller/periode_controller.dart';
 ///////////////////////TRANSAKSI///////////////////////
 import 'package:akunt/controller/pobahanlokal_controller.dart';
 import 'package:akunt/controller/pobahanimport_controller.dart';
+import 'package:akunt/controller/pobaranglokal_controller.dart';
+import 'package:akunt/controller/pobarangimport_controller.dart';
 import 'package:akunt/controller/pononbahan_controller.dart';
 import 'package:akunt/controller/poimport_controller.dart';
 import 'package:akunt/controller/pomesin_controller.dart';
@@ -43,7 +45,7 @@ import 'package:akunt/controller/thutsparepart_controller.dart';
 import 'package:akunt/controller/hutbahan_controller.dart';
 import 'package:akunt/controller/pakaibhn_controller.dart';
 import 'package:akunt/controller/terima_controller.dart';
-import 'package:akunt/controller/mutasibhn_controller.dart';
+import 'package:akunt/controller/stockbhn_controller.dart';
 import 'package:akunt/controller/mutasibrg_controller.dart';
 import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/surat_controller.dart';
@@ -163,6 +165,8 @@ Future<void> init() async {
   ///TRANSAKSI///
   sl.registerFactory(() => PobahanlokalController());
   sl.registerFactory(() => PobahanimportController());
+  sl.registerFactory(() => PobaranglokalController());
+  sl.registerFactory(() => PobarangimportController());
   sl.registerFactory(() => PononbahanController());
   sl.registerFactory(() => PoimportController());
   sl.registerFactory(() => PomesinController());
@@ -178,7 +182,7 @@ Future<void> init() async {
   sl.registerFactory(() => ThutmesinController());
   sl.registerFactory(() => ThutsparepartController());
   sl.registerFactory(() => HutbahanController());
-  sl.registerFactory(() => MutasibhnController());
+  sl.registerFactory(() => StockbhnController());
   sl.registerFactory(() => MutasibrgController());
   sl.registerFactory(() => PakaibhnController());
   sl.registerFactory(() => TerimabhnController());
@@ -242,6 +246,10 @@ Future<void> main() async {
           ChangeNotifierProvider(
               create: (context) => sl<PobahanimportController>()),
           ChangeNotifierProvider(
+              create: (context) => sl<PobaranglokalController>()),
+          ChangeNotifierProvider(
+              create: (context) => sl<PobarangimportController>()),
+          ChangeNotifierProvider(
               create: (context) => sl<PononbahanController>()),
           ChangeNotifierProvider(create: (context) => sl<PoimportController>()),
           ChangeNotifierProvider(create: (context) => sl<PomesinController>()),
@@ -271,8 +279,7 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (context) => sl<PakaibhnController>()),
           ChangeNotifierProvider(
               create: (context) => sl<TerimabhnController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<MutasibhnController>()),
+          ChangeNotifierProvider(create: (context) => sl<StockbhnController>()),
           ChangeNotifierProvider(
               create: (context) => sl<MutasibrgController>()),
           ChangeNotifierProvider(create: (context) => sl<SoController>()),

@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_stocka_controller.dart';
-import '../../controller/mutasibhn_controller.dart';
+import '../../controller/stockbhn_controller.dart';
 import 'widget/filter_tanggal.dart';
 
 class LapStockaScreen extends StatefulWidget {
@@ -51,7 +51,7 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
                 width: 20,
               ),
               Text(
-                "Laporan Stok Bahan",
+                "Laporan Koreksi Stok Bahan",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -109,7 +109,7 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  lapStocka.proses_export_lapstocka(1);
+                  lapStocka.print();
                 },
                 child: Container(
                   height: 30,
@@ -226,50 +226,12 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
                             columns: [
                               DataColumn(
                                 label: Expanded(
-                                  child: Center(
-                                    child: Text('No Bukti'),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text('Tanggal'),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Keterangan',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Kode Bahan',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Nama Bahan',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Satuan',
+                                  child: Text(
+                                    'No',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
                                     ),
                                   ),
                                 ),
@@ -277,8 +239,78 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
                               DataColumn(
                                 label: Expanded(
                                   child: Text(
+                                    'No Bukti',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    'Tanggal',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text('Keterangan',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      )),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    'Kode Bahan',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    'Nama Bahan',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    'Satuan',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
                                     'Qty',
-                                    textAlign: TextAlign.center,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                                 ),
                               ),
@@ -287,7 +319,7 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
                             initialFirstRowIndex: 0,
                             columnSpacing: 0,
                             horizontalMargin: 10,
-                            rowsPerPage: 8,
+                            rowsPerPage: 13,
                             showCheckboxColumn: true,
                           ),
                         ),
@@ -380,8 +412,8 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
   }
 
   Widget pageField() {
-    MutasibhnController pageTerima =
-        Provider.of<MutasibhnController>(context, listen: false);
+    StockbhnController pageTerima =
+        Provider.of<StockbhnController>(context, listen: false);
     return Container(
       width: 70,
       height: 35,
@@ -442,60 +474,65 @@ class MyData extends DataTableSource {
   int get selectedRowCount => 0;
   DataRow getRow(int index) {
     return DataRow(cells: [
-      DataCell(Center(
+      DataCell(SizedBox(
+        width: double.infinity,
+        child: Text("${index + 1}",
+            style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
+      )),
+      DataCell(SizedBox(
+        width: double.infinity,
         child: Text(
-          dtx[index]['NO_BUKTI'].toString(),
+          dtx[index]['no_bukti'].toString(),
           style: TextStyle(color: Colors.black),
+          textAlign: TextAlign.left,
         ),
       )),
       DataCell(
-        Center(
+        SizedBox(
+          width: double.infinity,
           child: Text(
             DateFormat('dd/MM/yyyy', "id_ID")
-                .format(DateTime.parse(dtx[index]['TGL']))
+                .format(DateTime.parse(dtx[index]['tgl']))
                 .toString(),
             style: TextStyle(color: Colors.black),
+            textAlign: TextAlign.left,
           ),
         ),
       ),
       DataCell(
-        Center(
-          child: Text(
-            dtx[index]['KET'].toString(),
-            style: TextStyle(color: Colors.black),
-          ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(dtx[index]['ket'].toString(),
+              style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
         ),
       ),
       DataCell(
-        Center(
-          child: Text(
-            dtx[index]['KD_BHN'].toString(),
-            style: TextStyle(color: Colors.black),
-          ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(dtx[index]['kd_bHN'].toString(),
+              style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
         ),
       ),
       DataCell(
-        Center(
-          child: Text(
-            dtx[index]['NA_BHN'].toString(),
-            style: TextStyle(color: Colors.black),
-          ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(dtx[index]['na_bHN'].toString(),
+              style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
         ),
       ),
       DataCell(
-        Center(
-          child: Text(
-            dtx[index]['SATUAN'].toString(),
-            style: TextStyle(color: Colors.black),
-          ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(dtx[index]['satuan'].toString(),
+              style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
         ),
       ),
       DataCell(SizedBox(
         width: double.infinity,
         child: Text(
-          dtx[index]['TOTAL_QTY'].toString(),
+          dtx[index]['total_qty'].toString(),
           style: TextStyle(color: Colors.black),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.right,
         ),
       )),
       DataCell(

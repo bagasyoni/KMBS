@@ -13,6 +13,8 @@ class DataBrg {
   double stockr;
   double fisik;
   double total;
+  double sisa;
+  double kirim;
 
   DataBrg(
       {this.noid,
@@ -24,7 +26,9 @@ class DataBrg {
       this.qty,
       this.stockr,
       this.fisik,
-      this.total});
+      this.total,
+      this.sisa,
+      this.kirim});
 
   factory DataBrg.fromJson(var parsedJson) {
     return DataBrg(
@@ -33,11 +37,13 @@ class DataBrg {
       na_brg: parsedJson['NA_BRG'] as String,
       satuan: parsedJson['SATUAN'] as String,
       ket: parsedJson['NOTES'] as String,
+      sisa: 0.00,
       harga: 0.00,
       qty: 0.00,
       stockr: 0.00,
       fisik: 0.00,
       total: 0.00,
+      kirim: 0.00,
     );
   }
 }

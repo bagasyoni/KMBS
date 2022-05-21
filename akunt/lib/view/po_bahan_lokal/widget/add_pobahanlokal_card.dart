@@ -4,7 +4,6 @@ import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/pobahanlokal_controller.dart';
 import 'package:akunt/model/data_bhn.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {

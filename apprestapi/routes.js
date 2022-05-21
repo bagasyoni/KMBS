@@ -265,6 +265,51 @@ module.exports = function (app) {
     app.route('/hapus_po_bahanimport')
         .post(jsonku.hapuspobahanimport);
 
+    ///====================/// PO BARANG LOKAL ///====================///
+    app.route('/pobaranglokalpaginate')
+        .post(jsonku.pobaranglokal_paginate);
+    app.route('/countpobaranglokalpaginate')
+        .post(jsonku.count_pobaranglokalpaginate);
+    app.route('/tambah_header_po_barang_lokal')
+        .post(jsonku.tambahheaderpobaranglokal);
+    app.route('/tambah_detail_po_barang_lokal')
+        .post(jsonku.tambahdetailpobaranglokal);
+    app.route('/tampil_po_barang_lokal')
+        .post(jsonku.tampilpobaranglokal);
+    app.route('/edit_header_po_barang_lokal')
+        .post(jsonku.editheaderpobaranglokal);
+    app.route('/modal_po_barang_lokal')
+        .post(jsonku.modalpobaranglokal);
+    app.route('/cari_po_barang_lokal')
+        .post(jsonku.caripobaranglokal);
+    app.route('/ambil_po_detail')
+        .post(jsonku.ambilpodetail);
+    app.route('/hapus_po_baranglokal')
+        .post(jsonku.hapuspobaranglokal);
+
+    ///====================/// PO BARANG IMPORT ///====================///
+    app.route('/pobarangimportpaginate')
+        .post(jsonku.pobarangimport_paginate);
+    app.route('/countpobarangimportpaginate')
+        .post(jsonku.count_pobarangimportpaginate);
+    app.route('/tambah_header_po_barang_import')
+        .post(jsonku.tambahheaderpobarangimport);
+    app.route('/tambah_detail_po_barang_import')
+        .post(jsonku.tambahdetailpobarangimport);
+    app.route('/tampil_po_barang_import')
+        .post(jsonku.tampilpobarangimport);
+    app.route('/edit_header_po_barang_import')
+        .post(jsonku.editheaderpobarangimport);
+    app.route('/modal_po_barang_import')
+        .post(jsonku.modalpobarangimport);
+    app.route('/cari_po_barang_import')
+        .post(jsonku.caripobarangimport);
+    app.route('/ambil_po_detail')
+        .post(jsonku.ambilpodetail);
+    app.route('/hapus_po_barangimport')
+        .post(jsonku.hapuspobarangimport);
+
+
     app.route('/sopaginate')
         .post(jsonku.so_paginate);
     app.route('/countsopaginate')
@@ -376,6 +421,7 @@ module.exports = function (app) {
     app.route('/cari_po_sparepart')
         .post(jsonku.cariposparepart);
 
+    ///====================/// PEMBELIAN BAHAN ///====================///
     app.route('/belibahanpaginate')
         .post(jsonku.belibahan_paginate);
     app.route('/countbelibahanpaginate')
@@ -708,17 +754,25 @@ module.exports = function (app) {
     app.route('/hapus_memo')
         .post(jsonku.hapusmemo);
 
-    ///TRANSAKSI HEADER DETAIL STOCKA
-    app.route('/tambah_header_mutasibhn')
-        .post(jsonku.tambahheadermutasibhn);
-    app.route('/tambah_detail_mutasibhn')
-        .post(jsonku.tambahdetailmutasibhn);
-    app.route('/tampil_mutasibhn')
-        .post(jsonku.tampilmutasibhn);
-    app.route('/edit_header_mutasibhn')
-        .post(jsonku.editheadermutasibhn);
-    app.route('/hapus_mutasibhn')
-        .post(jsonku.hapusmutasibhn);
+    ///====================/// STOCK BAHAN ///====================///
+    app.route('/stockbhnpaginate')
+        .post(jsonku.stockbhn_paginate);
+    app.route('/countstockbhnpaginate')
+        .post(jsonku.count_stockbhnpaginate);
+    app.route('/tambah_header_stockbhn')
+        .post(jsonku.tambahheaderstockbhn);
+    app.route('/tambah_detail_stockbhn')
+        .post(jsonku.tambahdetailstockbhn);
+    app.route('/tampil_stockbhn')
+        .post(jsonku.tampilstockbhn);
+    app.route('/edit_header_stockbhn')
+        .post(jsonku.editheaderstockbhn);
+    app.route('/modal_stockbhn')
+        .post(jsonku.modalstockbhn);
+    app.route('/cari_stockbhn')
+        .post(jsonku.caristockbhn);
+    app.route('/hapus_stockbhn')
+        .post(jsonku.hapusstockbhn);
 
     ///TRANSAKSI HEADER DETAIL STOCKB
     app.route('/mutasibrgpaginate')
@@ -736,17 +790,25 @@ module.exports = function (app) {
     app.route('/hapus_mutasibrg')
         .post(jsonku.hapusmutasibrg);
 
-    ///TRANSAKSI HEADER DETAIL PAKAI
-    app.route('/tambah_header_pakaibahan')
-        .post(jsonku.tambahheaderpakaibahan);
-    app.route('/tambah_detail_pakaibahan')
-        .post(jsonku.tambahdetailpakaibahan);
-    app.route('/tampil_pakaibahan')
-        .post(jsonku.tampilpakaibahan);
-    app.route('/edit_header_pakaibahan')
-        .post(jsonku.editheaderpakaibahan);
-    app.route('/hapus_pakaibahan')
-        .post(jsonku.hapuspakaibahan);
+    ///====================/// PEMAKAIAN BAHAN ///====================///
+    app.route('/pakaibhnpaginate')
+        .post(jsonku.pakaibhn_paginate);
+    app.route('/countpakaibhnpaginate')
+        .post(jsonku.count_pakaibhnpaginate);
+    app.route('/tambah_header_pakaibhn')
+        .post(jsonku.tambahheaderpakaibhn);
+    app.route('/tambah_detail_pakaibhn')
+        .post(jsonku.tambahdetailpakaibhn);
+    app.route('/tampil_pakaibhn')
+        .post(jsonku.tampilpakaibhn);
+    app.route('/edit_header_pakaibhn')
+        .post(jsonku.editheaderpakaibhn);
+    app.route('/modal_pakaibhn')
+        .post(jsonku.modalpakaibhn);
+    app.route('/cari_pakaibhn')
+        .post(jsonku.caripakaibhn);
+    app.route('/hapus_pakaibhn')
+        .post(jsonku.hapuspakaibhn);
 
     ///TRANSAKSI HEADER DETAIL TERIMA
     app.route('/tambah_header_terima')

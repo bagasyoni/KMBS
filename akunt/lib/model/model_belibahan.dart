@@ -1,5 +1,3 @@
-import 'package:akunt/controller/belibahan_controller.dart';
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:akunt/controller/login_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -7,11 +5,6 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 
 class model_belibahan {
-  static String posted = BelibahanController().nopoController.text;
-  static String table = 'beli';
-  static String table_detail = 'belid';
-  static String tipe = 'BL';
-  koneksi_mysql m_koneksi = koneksi_mysql();
   String baseUrl = base_url;
 
   /// paginate
@@ -50,32 +43,54 @@ class model_belibahan {
 
   Future<bool> insert_beli_bahan(Map data_insert) async {
     try {
-      ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
         Uri.parse("${baseUrl}:3000/tambah_header_beli_bahan"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
-          "JTEMPO": data_insert['JTEMPO'].toString(),
-          "PER": data_insert['PER'].toString(),
-          "NO_PO": data_insert['NO_PO'].toString(),
+          "NO_SJ": data_insert['NO_SJ'].toString(),
+          "TGL_SJ": data_insert['TGL_SJ'].toString(),
+          "TGL_INVOICE": data_insert['TGL_INVOICE'].toString(),
+          "NO_FP": data_insert['NO_FP'].toString(),
+          "TGL_FP": data_insert['TGL_FP'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
           "KODES": data_insert['KODES'].toString(),
           "NAMAS": data_insert['NAMAS'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
           "TOTAL_QTY": data_insert['TOTAL_QTY'].toString(),
-          "TOTAL": data_insert['TOTAL'].toString(),
-          "NETT": data_insert['NETT'].toString(),
+          "TOTAL1": data_insert['TOTAL1'].toString(),
+          "DISC": data_insert['DISC'].toString(),
           "PPN": data_insert['PPN'].toString(),
-          "USRNM": LoginController.nama_staff.toString(),
-          "FLAG": "BL",
+          "PPH": data_insert['PPH'].toString(),
+          "DISC1": data_insert['DISC1'].toString(),
+          "PPN1": data_insert['PPN1'].toString(),
+          "PPH1": data_insert['PPH1'].toString(),
+          "NETT1": data_insert['NETT1'].toString(),
+          "TOTAL": data_insert['TOTAL'].toString(),
+          "RPDISC": data_insert['RPDISC'].toString(),
+          "RPPPN": data_insert['RPPPN'].toString(),
+          "RPPPH": data_insert['RPPPH'].toString(),
+          "RPDISC1": data_insert['RPDISC1'].toString(),
+          "RPPPN1": data_insert['RPPPN1'].toString(),
+          "RPPPH1": data_insert['RPPPH1'].toString(),
+          "NETT": data_insert['NETT'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
+          "TYP": data_insert['TYP'].toString(),
+          "USRIN": data_insert['USRIN'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "GOL": data_insert['GOL'].toString(),
+          "NO_PO": data_insert['NO_PO'].toString(),
+          "SISA": data_insert['SISA'].toString(),
+          "TG_IN": data_insert['TG_IN'].toString(),
+          "INVOICE": data_insert['INVOICE'].toString(),
+          "INVOICEX": data_insert['INVOICEX'],
         },
       );
 
-      ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
@@ -83,15 +98,24 @@ class model_belibahan {
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "QTYPO": data_detail[i]['QTYPO'].toString(),
             "KD_BHN": data_detail[i]['KD_BHN'].toString(),
             "NA_BHN": data_detail[i]['NA_BHN'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
-            "KET": data_detail[i]['KET'].toString(),
-            "HARGA": data_detail[i]['HARGA'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
+            "HARGA": data_detail[i]['HARGA'].toString(),
             "TOTAL": data_detail[i]['TOTAL'].toString(),
-            "FLAG": "BL",
+            "KET": data_detail[i]['KET'].toString(),
+            "HARGA1": data_detail[i]['HARGA1'].toString(),
+            "TOTAL1": data_detail[i]['TOTAL1'].toString(),
+            "BLT": data_detail[i]['BLT'].toString(),
+            "DISC": data_detail[i]['DISC'].toString(),
+            "RRPDISC": data_detail[i]['RRPDISC'].toString(),
             "PER": data_insert['PER'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
+            "TYP": data_detail[i]['TYP'].toString(),
+            "GOL": data_detail[i]['GOL'].toString(),
+            "NO_PO": data_detail[i]['NO_PO'].toString(),
           },
         );
       }
@@ -119,32 +143,54 @@ class model_belibahan {
         },
       );
 
-      ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
         Uri.parse("${baseUrl}:3000/edit_header_beli_bahan"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
-          "JTEMPO": data_insert['JTEMPO'].toString(),
-          "PER": data_insert['PER'].toString(),
-          "NO_PO": data_insert['NO_PO'].toString(),
+          "NO_SJ": data_insert['NO_SJ'].toString(),
+          "TGL_SJ": data_insert['TGL_SJ'].toString(),
+          "TGL_INVOICE": data_insert['TGL_INVOICE'].toString(),
+          "NO_FP": data_insert['NO_FP'].toString(),
+          "TGL_FP": data_insert['TGL_FP'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
           "KODES": data_insert['KODES'].toString(),
           "NAMAS": data_insert['NAMAS'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
           "TOTAL_QTY": data_insert['TOTAL_QTY'].toString(),
-          "TOTAL": data_insert['TOTAL'].toString(),
-          "NETT": data_insert['NETT'].toString(),
+          "TOTAL1": data_insert['TOTAL1'].toString(),
+          "DISC": data_insert['DISC'].toString(),
           "PPN": data_insert['PPN'].toString(),
-          "USRNM": LoginController.nama_staff.toString(),
-          "FLAG": "BL",
+          "PPH": data_insert['PPH'].toString(),
+          "DISC1": data_insert['DISC1'].toString(),
+          "PPN1": data_insert['PPN1'].toString(),
+          "PPH1": data_insert['PPH1'].toString(),
+          "NETT1": data_insert['NETT1'].toString(),
+          "TOTAL": data_insert['TOTAL'].toString(),
+          "RPDISC": data_insert['RPDISC'].toString(),
+          "RPPPN": data_insert['RPPPN'].toString(),
+          "RPPPH": data_insert['RPPPH'].toString(),
+          "RPDISC1": data_insert['RPDISC1'].toString(),
+          "RPPPN1": data_insert['RPPPN1'].toString(),
+          "RPPPH1": data_insert['RPPPH1'].toString(),
+          "NETT": data_insert['NETT'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
+          "TYP": data_insert['TYP'].toString(),
+          "USRIN": data_insert['USRIN'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "GOL": data_insert['GOL'].toString(),
+          "NO_PO": data_insert['NO_PO'].toString(),
+          "SISA": data_insert['SISA'].toString(),
+          "TG_IN": data_insert['TG_IN'].toString(),
+          "INVOICE": data_insert['INVOICE'].toString(),
+          "INVOICEX": data_insert['INVOICEX'],
         },
       );
 
-      ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
@@ -152,15 +198,24 @@ class model_belibahan {
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "QTYPO": data_detail[i]['QTYPO'].toString(),
             "KD_BHN": data_detail[i]['KD_BHN'].toString(),
             "NA_BHN": data_detail[i]['NA_BHN'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
-            "KET": data_detail[i]['KET'].toString(),
-            "HARGA": data_detail[i]['HARGA'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
+            "HARGA": data_detail[i]['HARGA'].toString(),
             "TOTAL": data_detail[i]['TOTAL'].toString(),
-            "FLAG": "BL",
+            "KET": data_detail[i]['KET'].toString(),
+            "HARGA1": data_detail[i]['HARGA1'].toString(),
+            "TOTAL1": data_detail[i]['TOTAL1'].toString(),
+            "BLT": data_detail[i]['BLT'].toString(),
+            "DISC": data_detail[i]['DISC'].toString(),
+            "RRPDISC": data_detail[i]['RRPDISC'].toString(),
             "PER": data_insert['PER'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
+            "TYP": data_detail[i]['TYP'].toString(),
+            "GOL": data_detail[i]['GOL'].toString(),
+            "NO_PO": data_detail[i]['NO_PO'].toString(),
           },
         );
       }
@@ -171,14 +226,6 @@ class model_belibahan {
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  Future<List> countBukti(String date) async {
-    var konek = await m_koneksi.koneksi();
-    var result = await konek
-        .query("SELECT no_bukti FROM $table where TGL like '$date%';");
-    await konek.close();
-    return result.toList();
   }
 
   Future<List> check_no_bukti(
@@ -201,7 +248,6 @@ class model_belibahan {
     return results2['data'].toList();
   }
 
-  ///CARI UNTUK TRANSAKSI HEADER
   Future<List> cari_belibahan(String key_cari) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/cari_beli_bahan"),
@@ -222,31 +268,19 @@ class model_belibahan {
   }
 
   ///SELECT HEADER
-  ///CARI UNTUK TRANSAKSI HEADER DETAIL
   Future<List> select_beli_bahan(
-      String cari, String start_date, String end_date) async {
+      String cari, String start_date, String end_date, String periode) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/tampil_beli_bahan"),
-      body: {"cari": cari, "tglawal": start_date, "tglakhir": end_date},
+      body: {
+        "cari": cari,
+        "tglawal": start_date,
+        "tglakhir": end_date,
+        "periode": periode
+      },
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
-  }
-
-  Future<List> select_beli_bahan_aktif(String cari, String sales,
-      String customer, String start_date, String end_date) async {
-    var konek = await m_koneksi.koneksi();
-    String filter_extra = "";
-    if (sales.isNotEmpty) {
-      filter_extra = " and sales = '$sales' ";
-    }
-    if (customer.isNotEmpty) {
-      filter_extra += " and customer = '$customer' ";
-    }
-    var results2 = await konek.query(
-        "select * from $table where (NO_BUKTI like '%$cari%') $filter_extra and POSTED = '0' and TGL between '$start_date' and '$end_date';");
-    await konek.close();
-    return results2.toList();
   }
 
   ///SELECT DETAIL
@@ -261,27 +295,11 @@ class model_belibahan {
   }
 
   Future<List> delete_beli_bahan(String no_bukti) async {
-    await http.post(
-      Uri.parse("${baseUrl}:3000/belidel"),
-      body: {"NO_BUKTI": no_bukti},
-    );
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/hapus_beli_bahan"),
-      body: {
-        "no_bukti": no_bukti,
-        "posted": posted,
-      },
+      body: {"no_bukti": no_bukti},
     );
-    print(posted);
     var results2 = json.decode(response.body);
     return results2['data'].toList();
-  }
-
-  Future<List> update_status_diterima(String no_bukti) async {
-    var konek = await m_koneksi.koneksi();
-    var results = await konek
-        .query("update $table set POSTED = '1' where NO_BUKTI = '$no_bukti';");
-    await konek.close();
-    return results.toList();
   }
 }

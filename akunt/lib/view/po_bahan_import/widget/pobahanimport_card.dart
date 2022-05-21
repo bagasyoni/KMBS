@@ -19,7 +19,9 @@ Widget PobahanCard(int index, {Function pressEdit, Function pressDelete}) {
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_pobahan['TGL']));
     String nobukti = data_pobahan['NO_BUKTI'];
     String namas = data_pobahan['NAMAS'];
-    String qty = data_pobahan['TOTAL_QTY'].toString();
+    String total_qty = data_pobahan['TOTAL_QTY'].toString();
+    String kirim = data_pobahan['KIRIM'].toString();
+    String sisa = data_pobahan['SISA'].toString();
     String total = sapi.format(data_pobahan['TOTAL']);
     bool isDelivered = data_pobahan['POSTED'] == 1 ? true : false;
     return Padding(
@@ -93,7 +95,7 @@ Widget PobahanCard(int index, {Function pressEdit, Function pressDelete}) {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -134,14 +136,56 @@ Widget PobahanCard(int index, {Function pressEdit, Function pressDelete}) {
                 flex: 2,
                 child: RichText(
                   text: TextSpan(
-                    text: "Qty : ",
+                    text: "Total Qty : ",
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                     children: [
                       TextSpan(
-                        text: qty.toString(),
+                        text: total_qty.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Kirim : ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: kirim.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Sisa : ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: sisa.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

@@ -151,14 +151,14 @@ Widget AddMutasibhnCard(BuildContext context, int index, DataBhn data_bahan) {
                     if (numb.isNotEmpty) {
                       pakaibhnController.data_bhn_keranjang[index].satuan =
                           satuanController.text;
-                      // pakaibhnController.hitungSubTotal();
+                      pakaibhnController.hitungSubTotal();
                       pakaibhnController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
                     pakaibhnController.data_bhn_keranjang[index].satuan =
                         satuanController.text;
-                    // pakaibhnController.hitungSubTotal();
+                    pakaibhnController.hitungSubTotal();
                   },
                 ),
               ),
@@ -195,14 +195,14 @@ Widget AddMutasibhnCard(BuildContext context, int index, DataBhn data_bahan) {
                     if (numb.isNotEmpty) {
                       pakaibhnController.data_bhn_keranjang[index].ket =
                           ketController.text;
-                      // pakaibhnController.hitungSubTotal();
+                      pakaibhnController.hitungSubTotal();
                       pakaibhnController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
                     pakaibhnController.data_bhn_keranjang[index].ket =
                         ketController.text;
-                    // pakaibhnController.hitungSubTotal();
+                    pakaibhnController.hitungSubTotal();
                   },
                 ),
               ),
@@ -238,14 +238,14 @@ Widget AddMutasibhnCard(BuildContext context, int index, DataBhn data_bahan) {
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
                       pakaibhnController.data_bhn_keranjang[index].qty =
-                          double.parse(qtyController.text);
-                      pakaibhnController.notifyListeners();
-                      pakaibhnController.hitungSubTotal();
+                          config().convert_rupiah(qtyController.text);
+                      // pakaibhnController.notifyListeners();
+                      // pakaibhnController.hitungSubTotal();
                     }
                   },
                   onFieldSubmitted: (value) {
                     pakaibhnController.data_bhn_keranjang[index].qty =
-                        double.parse(qtyController.text);
+                        config().convert_rupiah(qtyController.text);
                     pakaibhnController.hitungSubTotal();
                   },
                 ),

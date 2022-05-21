@@ -1,70 +1,110 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import '../constants.dart';
 
 class model_barang {
-  static String table = 'master_barang';
-  koneksi_mysql m_koneksi = koneksi_mysql();
+  static String table = 'brg';
+  String baseUrl = base_url;
 
-  Future<List> data_barang() async {
-    var konek = await m_koneksi.koneksi();
-    var results2 = await konek.query('select * from ' + table);
-    await konek.close();
-    return results2.toList();
+  Future<List> cari_barang(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/caribrg"),
+      body: {"cari": key_cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
-  Future<List> insert_data_barang(Map data_insert) async {
-    var konek = await m_koneksi.koneksi();
-    var results2 = await konek.query(
-        'insert into ' +
-            table +
-            ' (id,kd_brg,na_brg,harga_beli,harga_jual,satuan,stok) values (?, ?, ?, ?, ?, ?, ?)',
-        [
-          0,
-          data_insert['kd_brg'],
-          data_insert['na_brg'],
-          data_insert['harga_beli'],
-          data_insert['harga_jual'],
-          data_insert['satuan'],
-          data_insert['stok'],
-        ]);
-    await konek.close();
-    return results2.toList();
+  Future<List> data_brg_tampil(String cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/tampilbrg"),
+      body: {"cari": cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
-  Future<List> get_data_barang(String kd_brg) async {
-    var konek = await m_koneksi.koneksi();
-    var results2 =
-        await konek.query("select * from $table where kd_brg = '$kd_brg';");
-    await konek.close();
-    return results2.toList();
+  /// paginate
+  Future<List> data_brgpaginate(
+      String cari, int paramoffset, int paramlimit) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/brgpaginate"),
+      body: {
+        "cari": cari,
+        "offset": paramoffset.toString(),
+        "limit": paramlimit.toString()
+      },
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
-  Future<List> serach_barang(String kd_brg) async {
-    var konek = await m_koneksi.koneksi();
-    var results2 = await konek.query(
-        "select * from $table where kd_brg like '%$kd_brg%' or na_brg like '%$kd_brg%';");
-    await konek.close();
-    return results2.toList();
+  ///paginate
+  Future countBrgPaginate(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/countbrgpaginate"),
+      body: {"cari": key_cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
-  Future<List> update_barang_by_id(Map data_insert) async {
-    var konek = await m_koneksi.koneksi();
-    var results2 = await konek.query("update $table set "
-        "na_brg ='${data_insert['na_brg']}',"
-        " kd_brg = '${data_insert['kd_brg']}',"
-        " harga_beli = '${data_insert['harga_beli']}',"
-        " harga_jual = '${data_insert['harga_jual']}',"
-        " satuan = '${data_insert['satuan']}',"
-        " stok = '${data_insert['stok']}' "
-        " where id = '${data_insert['id']}'");
-    await konek.close();
-    return results2.toList();
+  ///filter_modal
+  Future<List> data_modal(String cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/modal_brg_stok"),
+      body: {"cari": cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
-  Future<List> delete_barang_byKode(String kd_brg) async {
-    var konek = await m_koneksi.koneksi();
-    var results2 =
-        await konek.query("delete from $table where kd_brg = '$kd_brg';");
-    await konek.close();
-    return results2.toList();
+  Future<bool> insert_data_brg(Map data_insert) async {
+    final response =
+        await http.post(Uri.parse("${baseUrl}:3000/tambahbrg"), body: {
+      "KD_BRG": data_insert['KD_BRG'],
+      "NA_BRG": data_insert['NA_BRG'],
+      "JENIS": data_insert['JENIS'],
+      "SATUAN": data_insert['SATUAN'],
+      "TYPE": data_insert['TYPE'],
+      "KODEV": data_insert['KODEV'],
+      "KD_BRGLM": data_insert['KD_BRGLM'],
+      "NA_BRGLM": data_insert['NA_BRGLM'],
+      "KODE": data_insert['KODE'],
+      "NAMA": data_insert['NAMA'],
+    });
+    if (response.statusCode >= 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> update_data_brg_by_id(Map data_insert) async {
+    final response =
+        await http.post(Uri.parse("${baseUrl}:3000/ubahbrg"), body: {
+      "NO_ID": data_insert['NO_ID'].toString(),
+      "KD_BRG": data_insert['KD_BRG'],
+      "NA_BRG": data_insert['NA_BRG'],
+      "JENIS": data_insert['JENIS'],
+      "SATUAN": data_insert['SATUAN'],
+      "TYPE": data_insert['TYPE'],
+      "KODEV": data_insert['KODEV'],
+      "KD_BRGLM": data_insert['KD_BRGLM'],
+      "NA_BRGLM": data_insert['NA_BRGLM'],
+      "KODE": data_insert['KODE'],
+      "NAMA": data_insert['NAMA'],
+    });
+    if (response.statusCode >= 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<List> delete_brg_byID(String id) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/hapusbrg"),
+      body: {"NO_ID": id},
+    );
   }
 }

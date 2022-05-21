@@ -314,7 +314,7 @@ class PobahanimportController with ChangeNotifier {
   final format_jtempo = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
-  final format_no_bukti = DateFormat("yyMM", "id_ID");
+  final format_no_bukti = DateFormat("MMyyyy", "id_ID");
   DateTime chooseDate = DateTime.now();
   DateTime chooseDateJT = DateTime.now();
   String tanggal;
@@ -374,10 +374,10 @@ class PobahanimportController with ChangeNotifier {
     sumQty = 0;
     sumTotal = 0;
     await baca_periodePrefs();
-    await m_pobahan.get_no_bukti('PO', 'NO_BUKTI', 'po').then((value) {
+    await m_pobahan.get_no_bukti('PO/BHN/I', 'NO_BUKTI', 'po').then((value) {
       if (value != null) {
         no_buktiController.text =
-            "PO/${format_no_bukti.format(DateTime.now())}/BH/I/${value[0]['NOMOR']}";
+            "PO/BHN/I/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
     await model_bahan().cari_bahan("").then((value) {

@@ -8,11 +8,10 @@ class koneksi_mysql {
   Future<MySqlConnection> koneksi() async {
     final conn = await MySqlConnection.connect(ConnectionSettings(
       host: 'localhost',
-      // host: '26.162.162.191',
       port: 3309,
       user: 'root',
       password: 'admin',
-      db: 'db_rubber',
+      db: 'db_kmbs',
     ));
     return conn;
 

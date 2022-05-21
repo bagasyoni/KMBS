@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, unused_local_variable, unnecessary_brace_in_string_interps
-
 import 'package:akunt/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,11 +6,11 @@ import 'dart:convert';
 class model_lapstocka {
   String baseUrl = base_url;
 
-  //// REPORT COPY ////
-  Future<List> data_lap(String TGL1, String TGL2) async {
+  Future<List> data_lap(String PER, String TGL_1, String TGL_2) async {
     var data_whr = {
-      "tgla": TGL1,
-      "tglb": TGL2,
+      "per": PER,
+      "tgla": TGL_1,
+      "tglb": TGL_2,
     };
 
     final response = await http.post(
@@ -22,5 +20,13 @@ class model_lapstocka {
     var results2 = json.decode(response.body);
 
     return results2['data'].toList();
+  }
+
+  Future print_data(String PER, String TGL_1, String TGL_2) async {
+    await http.post(
+      Uri.parse(
+          "http://26.162.162.191/KMBS/KMBS/kmbs_php/report/Laporan_Stockbhn.php"),
+      body: {"PER": PER, "TGL_1": TGL_1, "TGL_2": TGL_2},
+    );
   }
 }

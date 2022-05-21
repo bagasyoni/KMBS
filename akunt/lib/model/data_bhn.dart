@@ -15,6 +15,12 @@ class DataBhn {
   double total;
   double sisa;
   double kirim;
+  double qtypo;
+  double harga1;
+  double total1;
+  double blt;
+  double disc;
+  double rpdisc;
 
   DataBhn(
       {this.noid,
@@ -28,7 +34,13 @@ class DataBhn {
       this.fisik,
       this.total,
       this.sisa,
-      this.kirim});
+      this.kirim,
+      this.qtypo,
+      this.harga1,
+      this.total1,
+      this.blt,
+      this.disc,
+      this.rpdisc});
 
   factory DataBhn.fromJson(var parsedJson) {
     return DataBhn(
@@ -44,24 +56,12 @@ class DataBhn {
       fisik: 0.00,
       total: 0.00,
       kirim: 0.00,
+      qtypo: 0.00,
+      harga1: 0.00,
+      total1: 0.00,
+      blt: 0.00,
+      disc: 0.00,
+      rpdisc: 0.00,
     );
-  }
-}
-
-class BahanViewModel {
-  static List<DataBhn> bahanList;
-
-  static Future loadBahan() async {
-    try {
-      bahanList = new List<DataBhn>();
-      String jsonString = await rootBundle.loadString('assets/file/bahan.json');
-      Map parsedJson = json.decode(jsonString);
-      var categoryJson = parsedJson['bahan'] as List;
-      for (int i = 0; i < categoryJson.length; i++) {
-        bahanList.add(new DataBhn.fromJson(categoryJson[i]));
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }

@@ -461,7 +461,7 @@ class PenerimaanController with ChangeNotifier {
       data_barang_keranjang.add(mBrg);
     }
     hitungSubTotal();
-    await model_barang().data_barang().then((value) {
+    await model_barang().data_brg_tampil("").then((value) {
       if (value != null) {
         brgList.clear();
         for (int i = 0; i < value.length; i++) {

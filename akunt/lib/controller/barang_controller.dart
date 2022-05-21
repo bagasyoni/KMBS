@@ -14,13 +14,13 @@ class BarangController with ChangeNotifier {
 
   //proses barang
   Future<void> ambil_barang() async {
-    barangList = await model_barang().data_barang();
+    barangList = await model_barang().data_brg_tampil("");
     proses = false;
     notifyListeners();
   }
 
   Future<void> search(var cari) async {
-    barangList = await model_barang().serach_barang(cari);
+    barangList = await model_barang().cari_barang(cari);
     proses = false;
     notifyListeners();
   }
@@ -48,7 +48,7 @@ class BarangController with ChangeNotifier {
         if (satuan_controller.text.isNotEmpty) {
           BotToast.showLoading();
           List data_ready =
-              await model_barang().get_data_barang(kd_brg_controller.text);
+              await model_barang().data_brg_tampil(kd_brg_controller.text);
           if (data_ready.length > 0) {
             Toast("Peringatan !",
                 "Kode barang '${kd_brg_controller.text}' sudah ada !", false);
@@ -65,7 +65,7 @@ class BarangController with ChangeNotifier {
             data_insert['satuan'] = satuan_controller.value.text;
             data_insert['stok'] =
                 double.tryParse(stok_controller.value.text) ?? 0;
-            await model_barang().insert_data_barang(data_insert);
+            await model_barang().insert_data_brg(data_insert);
             Toast('Success', 'Berhasil Menambah Barang', true);
             ambil_barang();
             BotToast.closeAllLoading();
@@ -92,7 +92,7 @@ class BarangController with ChangeNotifier {
           data_insert['satuan'] = satuan_controller.value.text;
           data_insert['stok'] =
               double.tryParse(stok_controller.value.text) ?? 0;
-          await model_barang().update_barang_by_id(data_insert);
+          await model_barang().update_data_brg_by_id(data_insert);
           ambil_barang();
           Toast('Success', 'Berhasil Mengedit Barang', true);
           BotToast.closeAllLoading();
@@ -109,7 +109,7 @@ class BarangController with ChangeNotifier {
   }
 
   Future<bool> hapus_barang(var data) async {
-    await model_barang().delete_barang_byKode(data['kd_brg']);
+    await model_barang().delete_brg_byID(data['kd_brg']);
     ambil_barang();
   }
 }

@@ -1,5 +1,4 @@
-// ignore_for_file: deprecated_member_use
-
+import 'package:akunt/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
@@ -20,10 +19,14 @@ class PakaibhnController with ChangeNotifier {
   DateRangePickerController filter_tanggalController =
       new DateRangePickerController();
   List data_pakaibhn_list = [];
+  static List home_stockbhn_list = [];
   bool isEnable_button = true;
   String selectedDate = '';
   String dateCount = '';
   String range = 'Pilih tanggal';
+  int totalNotaTerima = 0;
+  int offset = 0;
+  int limit = 50;
   String perx = '';
   String rangeCount = '';
   String tanggal_awal = "";
@@ -33,19 +36,83 @@ class PakaibhnController with ChangeNotifier {
   int index_terpilih;
   TextEditingController c_page = new TextEditingController();
   List<DropdownMenuItem<int>> dropdownLimit;
-  int totalNotaTerima = 0;
-  int offset = 0;
-  int limit = 50;
   double pageCount = 1;
   int page_index = 0;
 
+  void limitPaging() {
+    dropdownLimit = [];
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('10'),
+      value: 10,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('30'),
+      value: 30,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('50'),
+      value: 50,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('100'),
+      value: 100,
+    ));
+    limit = dropdownLimit[0].value;
+  }
+
+  ///paginate
+  Future<void> selectDataPaginate(bool reload) async {
+    if (reload) {
+      offset = 0;
+      page_index = 0;
+    }
+    data_pakaibhn_list = await m_pakaibhn.data_pakaibhnpaginate(
+        searchController.text, offset, limit);
+    home_stockbhn_list = await m_pakaibhn.data_pakaibhnpaginate(
+        searchController.text, offset, limit);
+    var count = await m_pakaibhn.countPakaibhnPaginate(searchController.text);
+    totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
+    pageCount = totalNotaTerima / limit;
+    notifyListeners();
+  }
+
+  void modalData(String cari) async {
+    data_pakaibhn_list = await model_pakaibhn().data_modal(cari);
+    home_stockbhn_list = await model_pakaibhn().data_modal(cari);
+    notifyListeners();
+  }
+
+  Future<void> baca_periodePrefs() async {
+    prefs = await _prefs;
+    perx = prefs.getString("periode") ??
+        DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
+  }
+
   Future<void> select_data() async {
     data_pakaibhn_list = await m_pakaibhn.select_pakaibhn(
-        searchController.text, tanggal_awal, tanggal_akhir);
+        searchController.text, tanggal_awal, tanggal_akhir, perx);
+    home_stockbhn_list = await m_pakaibhn.select_pakaibhn(
+        searchController.text, tanggal_awal, tanggal_akhir, perx);
+    total = 0;
+    qty = 0;
+    for (int i = 0; i < data_pakaibhn_list.length; i++) {
+      total += double.parse(data_pakaibhn_list[i]['TOTAL'].toString());
+      qty += double.parse(data_pakaibhn_list[i]['total_qty'].toString());
+    }
+    notifyListeners();
+  }
+
+  void selectData(String cari) async {
+    data_pakaibhn_list = await model_pakaibhn().cari_pakai_bhn(cari);
+    home_stockbhn_list = await model_pakaibhn().cari_pakai_bhn(cari);
+    await baca_periodePrefs();
     notifyListeners();
   }
 
   void initData() {
+    c_page.text = '1';
+    limitPaging();
+    selectDataPaginate(true);
     index_terpilih = null;
     tanggal_awal =
         DateFormat('yyyy-MM-dd', "id_ID").format(DateTime.now()).toString();
@@ -55,6 +122,7 @@ class PakaibhnController with ChangeNotifier {
         DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString() +
             ' - ' +
             DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString();
+    baca_periodePrefs();
     select_data();
   }
 
@@ -203,10 +271,10 @@ class PakaibhnController with ChangeNotifier {
   TextEditingController tglController = TextEditingController();
   TextEditingController notesController = TextEditingController();
   TextEditingController total_qtyController = TextEditingController();
-  final format_tanggal = new DateFormat("d-M-y");
+  final format_tanggal = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
-  final format_no_bukti = DateFormat("yyMM", "id_ID");
+  final format_no_bukti = DateFormat("MMyyyy", "id_ID");
   DateTime chooseDate = DateTime.now();
   String tanggal;
   List<DataBhn> data_bhn_keranjang = List<DataBhn>();
@@ -222,17 +290,13 @@ class PakaibhnController with ChangeNotifier {
     notesController.clear();
     total_qtyController.clear();
     sumQty = 0;
+    await baca_periodePrefs();
     await m_pakaibhn
-        .countpakaibhn(format_created_at2.format(DateTime.now()))
+        .get_no_bukti('PK/BHN/I', 'NO_BUKTI', 'pakai')
         .then((value) {
       if (value != null) {
-        if (value.length > 0) {
-          no_urut = value.length;
-        } else {
-          no_urut = 0;
-        }
         no_buktiController.text =
-            "PK${format_no_bukti.format(DateTime.now())}BH-${no_urut + 1}";
+            "PK/BHN/I/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
     await model_bahan().cari_bahan("").then((value) {
@@ -247,23 +311,23 @@ class PakaibhnController with ChangeNotifier {
 
   ///HEADER///
   Future<void> initData_editPakaibhn(var data_edit) async {
-    no_buktiController.text = data_edit['NO_BUKTI'];
-    chooseDate = DateTime.parse(data_edit['TGL']);
+    no_buktiController.text = data_edit['no_bukti'];
+    chooseDate = DateTime.parse(data_edit['tgl']);
+    notesController.text = data_edit['notes'];
+    total_qtyController.text = data_edit['total_qty'].toString();
     tglController.text = format_tanggal.format(chooseDate);
-    notesController.text = data_edit['NOTES'];
-    total_qtyController.text = data_edit['TOTAL_QTY'].toString();
     List data_lama = await m_pakaibhn.select_pakaibhn_detail(
-        data_edit['NO_BUKTI'], "NO_BUKTI", "pakaid");
+        data_edit['no_bukti'], "NO_BUKTI", "pakaid");
     data_bhn_keranjang = new List<DataBhn>();
 
     for (int i = 0; i < data_lama.length; i++) {
       DataBhn mAccount = DataBhn(
         noid: data_lama[i]['NO_ID'],
-        kd_bhn: data_lama[i]['KD_BHN'],
-        na_bhn: data_lama[i]['NA_BHN'],
-        ket: data_lama[i]['KET'],
-        qty: double.parse(data_lama[i]['QTY'].toString()),
-        satuan: data_lama[i]['SATUAN'],
+        kd_bhn: data_lama[i]['kd_bHN'],
+        na_bhn: data_lama[i]['na_bHN'],
+        qty: double.parse(data_lama[i]['qty'].toString()),
+        satuan: data_lama[i]['satuan'],
+        ket: data_lama[i]['ket'],
       );
       data_bhn_keranjang.add(mAccount);
     }
@@ -281,7 +345,7 @@ class PakaibhnController with ChangeNotifier {
   void addKeranjang(DataBhn mAccount) {
     // m_barang.stok_booking = 1;
     data_bhn_keranjang.add(mAccount);
-    sumQty += mAccount.qty ?? 0.00;
+    sumQty += mAccount.qty;
     notifyListeners();
   }
 
@@ -299,7 +363,7 @@ class PakaibhnController with ChangeNotifier {
     if (no_buktiController.text.isNotEmpty) {
       if (data_bhn_keranjang.length > 0) {
         BotToast.showLoading();
-        var data_ready = await m_pakaibhn.get_no_bukti(
+        var data_ready = await m_pakaibhn.check_no_bukti(
             no_buktiController.text, "NO_BUKTI", "pakai");
         if (data_ready.length > 0) {
           Toast("Peringatan !",
@@ -310,8 +374,12 @@ class PakaibhnController with ChangeNotifier {
           Map obj = new Map();
           obj['NO_BUKTI'] = no_buktiController.text;
           obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+          obj['FLAG'] = "PK";
           obj['NOTES'] = notesController.text;
           obj['TOTAL_QTY'] = sumQty;
+          obj['USRIN'] = LoginController.nama_staff;
+          obj['PER'] = perx;
+          obj['TG_IN'] = DateTime.now();
           obj['tabeld'] = await baca_tabeld();
           await m_pakaibhn.insert_pakaibhn(obj);
           BotToast.closeAllLoading();
@@ -335,8 +403,12 @@ class PakaibhnController with ChangeNotifier {
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
         obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+        obj['FLAG'] = "PK";
         obj['NOTES'] = notesController.text;
         obj['TOTAL_QTY'] = sumQty;
+        obj['USRNM'] = LoginController.nama_staff;
+        obj['PER'] = perx;
+        obj['TG_SMP'] = DateTime.now();
         obj['tabeld'] = await baca_tabeld();
         await m_pakaibhn.update_pakaibhn(obj);
         BotToast.closeAllLoading();
@@ -370,8 +442,8 @@ class PakaibhnController with ChangeNotifier {
       obj['KD_BHN'] = data_bhn_keranjang[i].kd_bhn;
       obj['NA_BHN'] = data_bhn_keranjang[i].na_bhn;
       obj['SATUAN'] = data_bhn_keranjang[i].satuan;
-      obj['KET'] = data_bhn_keranjang[i].ket;
       obj['QTY'] = data_bhn_keranjang[i].qty;
+      obj['KET'] = data_bhn_keranjang[i].ket;
       bhnList.add(obj);
     }
     return bhnList;

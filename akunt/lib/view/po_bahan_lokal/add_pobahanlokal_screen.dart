@@ -27,6 +27,7 @@ class AddPobahanlokalScreen extends StatefulWidget {
 class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataBhn>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
+  bool isChecked = false;
 
   _AddPobahanScreenState();
 
@@ -44,6 +45,18 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.greenAccent;
+      }
+      return Colors.blue;
+    }
+
     return Consumer<PobahanlokalController>(
         builder: (context, pobahanController, child) {
       return Scaffold(
@@ -944,27 +957,23 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller:
-                                            pobahanController.rateksController,
-                                        readOnly: widget.isModeEdit,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
+                                      child: Checkbox(
+                                        checkColor: Colors.white,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                getColor),
+                                        value: isChecked,
+                                        onChanged: (bool newvalue) {
+                                          setState(() {
+                                            isChecked = newvalue;
+                                            newvalue = PobahanlokalController
+                                                .rateksController;
+                                          });
+                                          if (isChecked == true) {
+                                            print(1);
+                                          } else
+                                            print(0);
+                                        },
                                       ),
                                     ),
                                   ],

@@ -11,13 +11,14 @@ import 'package:provider/provider.dart';
 Widget PakaibhnCard(int index, {Function pressEdit, Function pressDelete}) {
   return Consumer<PakaibhnController>(
       builder: (context, pakaibhnController, child) {
+    int offset = Provider.of<PakaibhnController>(context, listen: false).offset;
     var data_pakaibhn = pakaibhnController.data_pakaibhn_list[index];
     String tanggal =
-        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_pakaibhn['TGL']));
-    String no_bukti = data_pakaibhn['NO_BUKTI'];
-    String notes = data_pakaibhn['NOTES'];
-    String total_qty = data_pakaibhn['TOTAL_QTY'].toString();
-    bool isDelivered = data_pakaibhn['POSTED'] == 1 ? true : false;
+        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_pakaibhn['tgl']));
+    String no_bukti = data_pakaibhn['no_bukti'];
+    String notes = data_pakaibhn['notes'];
+    String total_qty = data_pakaibhn['total_qty'].toString();
+    bool isDelivered = data_pakaibhn['posted'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
@@ -37,6 +38,27 @@ Widget PakaibhnCard(int index, {Function pressEdit, Function pressDelete}) {
           ),
           child: Row(
             children: [
+              Expanded(
+                flex: 1,
+                child: RichText(
+                  text: TextSpan(
+                    text: "",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: "${index + offset + 1}.",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Expanded(
                 flex: 3,
                 child: RichText(
@@ -62,6 +84,27 @@ Widget PakaibhnCard(int index, {Function pressEdit, Function pressDelete}) {
                                 color: Colors.black),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Total QTY: ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: total_qty.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -100,27 +143,6 @@ Widget PakaibhnCard(int index, {Function pressEdit, Function pressDelete}) {
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Total QTY: ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: total_qty.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
                       ),
                     ],
                   ),

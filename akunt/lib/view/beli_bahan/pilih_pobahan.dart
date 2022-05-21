@@ -25,7 +25,7 @@ class _PilihPobahanState extends State<PilihPobahan> {
 
   @override
   void initState() {
-    Provider.of<PobahanlokalController>(context, listen: false).selectData("");
+    Provider.of<PobahanlokalController>(context, listen: false).modalData("");
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class _PilihPobahanState extends State<PilihPobahan> {
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Text("Pilih PO Bahan",
+              child: Text("Pilih PO Bahan Lokal",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -118,16 +118,6 @@ class _PilihPobahanState extends State<PilihPobahan> {
                     flex: 4,
                     child: Text(
                       "Tanggal PO",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Jatuh Tempo",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -223,14 +213,19 @@ class _PilihPobahanState extends State<PilihPobahan> {
                   child: InkWell(
                 onTap: () async {
                   if (index_terpilih != null) {
-                    widget.controller.nopoController.text = pobahanController
+                    widget.controller.no_poController.text = pobahanController
                         .data_pobahan_list[index_terpilih]['NO_BUKTI'];
                     widget.controller.tglController.text = pobahanController
                         .data_pobahan_list[index_terpilih]['TGL'];
-                    widget.controller.jtempoController.text = pobahanController
-                        .data_pobahan_list[index_terpilih]['JTEMPO'];
                     widget.controller.kodesController.text = pobahanController
                         .data_pobahan_list[index_terpilih]['KODES'];
+                    widget.controller.currController.text = pobahanController
+                        .data_pobahan_list[index_terpilih]['CURR'];
+                    widget.controller.currnmController.text = pobahanController
+                        .data_pobahan_list[index_terpilih]['CURRNM'];
+                    widget.controller.rateController.text = pobahanController
+                        .data_pobahan_list[index_terpilih]['RATE']
+                        .toString();
                     widget.controller.namasController.text = pobahanController
                         .data_pobahan_list[index_terpilih]['NAMAS'];
                     widget.controller.kotaController.text = pobahanController
@@ -317,16 +312,6 @@ class _PilihPobahanState extends State<PilihPobahan> {
                   flex: 4,
                   child: Text(
                     data_po['TGL'].toString(),
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_po['JTEMPO'].toString(),
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

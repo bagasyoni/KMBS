@@ -305,7 +305,7 @@ class PobahanlokalController with ChangeNotifier {
   TextEditingController typController = TextEditingController();
   TextEditingController golController = TextEditingController();
   TextEditingController brandController = TextEditingController();
-  TextEditingController rateksController = TextEditingController();
+  static bool rateksController;
   TextEditingController acno1Controller = TextEditingController();
   TextEditingController acno1_nmController = TextEditingController();
   TextEditingController tg_smpController = TextEditingController();
@@ -314,7 +314,7 @@ class PobahanlokalController with ChangeNotifier {
   final format_jtempo = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
-  final format_no_bukti = DateFormat("yyMM", "id_ID");
+  final format_no_bukti = DateFormat("MMyyyy", "id_ID");
   DateTime chooseDate = DateTime.now();
   DateTime chooseDateJT = DateTime.now();
   String tanggal;
@@ -366,7 +366,7 @@ class PobahanlokalController with ChangeNotifier {
     typController.clear();
     golController.clear();
     brandController.clear();
-    rateksController.clear();
+    rateksController;
     acno1Controller.clear();
     acno1_nmController.clear();
     tglController.text = format_tanggal.format(chooseDate);
@@ -374,10 +374,10 @@ class PobahanlokalController with ChangeNotifier {
     sumQty = 0;
     sumTotal = 0;
     await baca_periodePrefs();
-    await m_pobahan.get_no_bukti('PO', 'NO_BUKTI', 'po').then((value) {
+    await m_pobahan.get_no_bukti('PO/BHN/L', 'NO_BUKTI', 'po').then((value) {
       if (value != null) {
         no_buktiController.text =
-            "PO/${format_no_bukti.format(DateTime.now())}/BH/L/${value[0]['NOMOR']}";
+            "PO/BHN/L/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
     await model_bahan().cari_bahan("").then((value) {
@@ -429,7 +429,7 @@ class PobahanlokalController with ChangeNotifier {
     typController.text = data_edit['TYP'];
     golController.text = data_edit['GOL'];
     brandController.text = data_edit['BRAND'];
-    rateksController.text = data_edit['RATEKS'].toString();
+    rateksController = data_edit['RATEKS'];
     acno1Controller.text = data_edit['ACNO1'];
     acno1_nmController.text = data_edit['ACNO1_NM'];
     tglController.text = format_tanggal.format(chooseDate);
@@ -536,11 +536,12 @@ class PobahanlokalController with ChangeNotifier {
               obj['TYP'] = "L";
               obj['GOL'] = "A";
               obj['BRAND'] = brandController.text;
-              obj['rateks'] = rateksController.text;
+              obj['rateks'] = rateksController;
               obj['ACNO1'] = acno1Controller.text;
               obj['ACNO1_NM'] = acno1_nmController.text;
               obj['tabeld'] = await baca_tabeld();
               await m_pobahan.insert_po_bahan_lokal(obj);
+              print(rateksController);
               BotToast.closeAllLoading();
               return true;
             }
@@ -610,7 +611,7 @@ class PobahanlokalController with ChangeNotifier {
             obj['TYP'] = "L";
             obj['GOL'] = "A";
             obj['BRAND'] = brandController.text;
-            obj['rateks'] = rateksController.text;
+            obj['rateks'] = rateksController;
             obj['ACNO1'] = acno1Controller.text;
             obj['ACNO1_NM'] = acno1_nmController.text;
             obj['tabeld'] = await baca_tabeld();

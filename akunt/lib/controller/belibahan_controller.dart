@@ -1,4 +1,3 @@
-import 'package:akunt/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
@@ -11,6 +10,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'login_controller.dart';
 
 class BelibahanController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -86,21 +86,21 @@ class BelibahanController with ChangeNotifier {
         DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
   }
 
-  void selectData(String cari) async {
-    data_belibahan_list = await model_belibahan().cari_belibahan(cari);
-    await baca_periodePrefs();
-    notifyListeners();
-  }
-
   Future<void> select_data() async {
     data_belibahan_list = await m_belibahan.select_beli_bahan(
-        searchController.text, tanggal_awal, tanggal_akhir);
+        searchController.text, tanggal_awal, tanggal_akhir, perx);
     total = 0;
     qty = 0;
     for (int i = 0; i < data_belibahan_list.length; i++) {
       total += double.parse(data_belibahan_list[i]['TOTAL'].toString());
       qty += double.parse(data_belibahan_list[i]['TOTAL_QTY'].toString());
     }
+    notifyListeners();
+  }
+
+  void selectData(String cari) async {
+    data_belibahan_list = await model_belibahan().cari_belibahan(cari);
+    await baca_periodePrefs();
     notifyListeners();
   }
 
@@ -261,28 +261,63 @@ class BelibahanController with ChangeNotifier {
         .proses_print(data_belibahan_list[index_terpilih], data_bahan);
   }
 
-  //add beli bahan
   TextEditingController no_buktiController = TextEditingController();
   TextEditingController tglController = TextEditingController();
-  TextEditingController jtempoController = TextEditingController();
-  TextEditingController nopoController = TextEditingController();
+  TextEditingController no_sjController = TextEditingController();
+  TextEditingController tgl_sjController = TextEditingController();
+  TextEditingController tgl_invoiceController = TextEditingController();
+  TextEditingController no_fpController = TextEditingController();
+  TextEditingController tgl_fpController = TextEditingController();
+  TextEditingController currController = TextEditingController();
+  TextEditingController currnmController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
   TextEditingController kodesController = TextEditingController();
   TextEditingController namasController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController notesController = TextEditingController();
   TextEditingController total_qtyController = TextEditingController();
+  TextEditingController total1Controller = TextEditingController();
+  TextEditingController discController = TextEditingController();
+  TextEditingController ppnController = TextEditingController();
+  TextEditingController pphController = TextEditingController();
+  TextEditingController disc1Controller = TextEditingController();
+  TextEditingController ppn1Controller = TextEditingController();
+  TextEditingController pph1Controller = TextEditingController();
+  TextEditingController nett1Controller = TextEditingController();
   TextEditingController totalController = TextEditingController();
+  TextEditingController rpdiscController = TextEditingController();
+  TextEditingController rpppnController = TextEditingController();
+  TextEditingController rppphController = TextEditingController();
+  TextEditingController rpdisc1Controller = TextEditingController();
+  TextEditingController rpppn1Controller = TextEditingController();
+  TextEditingController rppph1Controller = TextEditingController();
   TextEditingController nettController = TextEditingController();
+  TextEditingController flagController = TextEditingController();
+  TextEditingController typController = TextEditingController();
+  TextEditingController usrinController = TextEditingController();
+  TextEditingController perController = TextEditingController();
+  TextEditingController golController = TextEditingController();
+  TextEditingController no_poController = TextEditingController();
+  TextEditingController sisaController = TextEditingController();
+  TextEditingController tg_inController = TextEditingController();
+  TextEditingController invoiceController = TextEditingController();
+  TextEditingController invoicexController = TextEditingController();
   final format_tanggal = new DateFormat("dd/MM/yyyy");
-  final format_jtempo = new DateFormat("dd/MM/yyyy");
+  final format_tglsj = new DateFormat("dd/MM/yyyy");
+  final format_tglfp = new DateFormat("dd/MM/yyyy");
+  final format_tglinvoice = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
-  final format_no_bukti = DateFormat("yyMM", "id_ID");
+  final format_no_bukti = DateFormat("MMyyyy", "id_ID");
   DateTime chooseDate = DateTime.now();
-  DateTime chooseDateJT = DateTime.now();
+  DateTime chooseDateSJ = DateTime.now();
+  DateTime chooseDateFP = DateTime.now();
+  DateTime chooseDateINVOICE = DateTime.now();
   String tanggal;
-  String tanggalJT;
+  String tanggalSJ;
+  String tanggalFP;
+  String tanggalINVOICE;
   List<DataBhn> data_bhn_keranjang = List<DataBhn>();
   double nett = 0;
   double ppn = 0;
@@ -296,27 +331,61 @@ class BelibahanController with ChangeNotifier {
     data_bhn_keranjang = new List<DataBhn>();
     no_buktiController.clear();
     tglController.clear();
-    jtempoController.clear();
-    nopoController.clear();
+    no_sjController.clear();
+    tgl_sjController.clear();
+    tgl_invoiceController.clear();
+    no_fpController.clear();
+    tgl_fpController.clear();
+    currController.clear();
+    currnmController.clear();
+    rateController.clear();
     kodesController.clear();
     namasController.clear();
     alamatController.clear();
     kotaController.clear();
     notesController.clear();
     total_qtyController.clear();
+    total1Controller.clear();
+    discController.clear();
+    ppnController.clear();
+    pphController.clear();
+    disc1Controller.clear();
+    ppn1Controller.clear();
+    pph1Controller.clear();
+    nett1Controller.clear();
     totalController.clear();
+    rpdiscController.clear();
+    rpppnController.clear();
+    rppphController.clear();
+    rpdisc1Controller.clear();
+    rpppn1Controller.clear();
+    rppph1Controller.clear();
     nettController.clear();
+    flagController.clear();
+    typController.clear();
+    usrinController.clear();
+    perController.clear();
+    golController.clear();
+    no_poController.clear();
+    sisaController.clear();
+    tg_inController.clear();
+    invoiceController.clear();
+    invoicexController.clear();
     tglController.text = format_tanggal.format(chooseDate);
-    jtempoController.text = format_jtempo.format(chooseDateJT);
+    tgl_sjController.text = format_tglsj.format(chooseDateSJ);
+    tgl_fpController.text = format_tglfp.format(chooseDateFP);
+    tgl_invoiceController.text = format_tglinvoice.format(chooseDateINVOICE);
     nett = 0;
     ppn = 0;
     sumQty = 0;
     sumTotal = 0;
     await baca_periodePrefs();
-    await m_belibahan.get_no_bukti('BL', 'NO_BUKTI', 'beli').then((value) {
+    await m_belibahan
+        .get_no_bukti('BL/BHN/L', 'NO_BUKTI', 'beli')
+        .then((value) {
       if (value != null) {
         no_buktiController.text =
-            "BL${format_no_bukti.format(DateTime.now())}BH-${value[0]['NOMOR']}";
+            "BL/BHN/L/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
   }
@@ -324,36 +393,70 @@ class BelibahanController with ChangeNotifier {
   ///HEADER///
   Future<void> initData_editBelibahan(var data_edit) async {
     no_buktiController.text = data_edit['NO_BUKTI'];
-    tglController.text = data_edit['TGL'];
-    jtempoController.text = data_edit['JTEMPO'];
-    nopoController.text = data_edit['NO_PO'];
+    chooseDate = DateTime.tryParse(data_edit['TGL']);
+    no_sjController.text = data_edit['NO_SJ'];
+    chooseDateSJ = data_edit['TGL_SJ'];
+    chooseDateINVOICE = data_edit['TGL_INVOICE'];
+    no_fpController.text = data_edit['NO_FP'];
+    chooseDateFP = data_edit['TGL_FP'];
+    currController.text = data_edit['CURR'];
+    currnmController.text = data_edit['CURRNM'];
+    rateController.text = data_edit['RATE'];
     kodesController.text = data_edit['KODES'];
     namasController.text = data_edit['NAMAS'];
     alamatController.text = data_edit['ALAMAT'];
     kotaController.text = data_edit['KOTA'];
     notesController.text = data_edit['NOTES'];
-    total_qtyController.text = data_edit['TOTAL_QTY'].toString();
-    totalController.text = data_edit['TOTAL'].toString();
-    nettController.text = data_edit['NETT'].toString();
-    chooseDate = DateTime.parse(data_edit['TGL']);
-    chooseDateJT = DateTime.parse(data_edit['JTEMPO']);
+    total_qtyController.text = data_edit['TOTAL_QTY'];
+    total1Controller.text = data_edit['TOTAL1'];
+    discController.text = data_edit['DISC'];
+    ppnController.text = data_edit['PPN'];
+    pphController.text = data_edit['PPH'];
+    disc1Controller.text = data_edit['DISC1'];
+    ppn1Controller.text = data_edit['PPN1'];
+    pph1Controller.text = data_edit['PPH1'];
+    nett1Controller.text = data_edit['NETT1'];
+    totalController.text = data_edit['TOTAL'];
+    rpdiscController.text = data_edit['RPDISC'];
+    rpppnController.text = data_edit['RPPPN'];
+    rppphController.text = data_edit['RPPPH'];
+    rpdisc1Controller.text = data_edit['RPDISC1'];
+    rpppn1Controller.text = data_edit['RPPPN1'];
+    rppph1Controller.text = data_edit['RPPPH1'];
+    nettController.text = data_edit['NETT'];
+    flagController.text = data_edit['FLAG'];
+    typController.text = data_edit['TYP'];
+    usrinController.text = data_edit['USRIN'];
+    perController.text = data_edit['PER'];
+    golController.text = data_edit['GOL'];
+    no_poController.text = data_edit['NO_PO'];
+    sisaController.text = data_edit['SISA'];
+    tg_inController.text = data_edit['TG_IN'];
+    invoiceController.text = data_edit['INVOICE'];
+    invoicexController.text = data_edit['INVOICEX'];
     tglController.text = format_tanggal.format(chooseDate);
-    jtempoController.text = format_jtempo.format(chooseDateJT);
-    // chooseDate = DateFormat("yyyy-MM-dd").parse(data_edit['TGL']);
-    // status_kasmasuk = data_edit['POSTED'] == 1 ? true : false;
+    tgl_sjController.text = format_tanggal.format(chooseDate);
+    tgl_invoiceController.text = format_tanggal.format(chooseDate);
+    tgl_fpController.text = format_tanggal.format(chooseDate);
     List data_lama = await m_belibahan.select_beli_bahan_detail(
         data_edit['NO_BUKTI'], "NO_BUKTI", "belid");
     data_bhn_keranjang = new List<DataBhn>();
     for (int i = 0; i < data_lama.length; i++) {
       DataBhn mAccount = DataBhn(
         noid: data_lama[i]['NO_ID'],
+        qtypo: double.parse(data_lama[i]['QTYPO'].toString()),
         kd_bhn: data_lama[i]['KD_BHN'],
         na_bhn: data_lama[i]['NA_BHN'],
         satuan: data_lama[i]['SATUAN'],
-        ket: data_lama[i]['KET'],
-        harga: double.parse(data_lama[i]['HARGA'].toString()),
         qty: double.parse(data_lama[i]['QTY'].toString()),
+        harga: double.parse(data_lama[i]['HARGA'].toString()),
         total: double.parse(data_lama[i]['TOTAL'].toString()),
+        ket: data_lama[i]['KET'],
+        harga1: double.parse(data_lama[i]['HARGA1'].toString()),
+        total1: double.parse(data_lama[i]['TOTAL1'].toString()),
+        blt: double.parse(data_lama[i]['BLT'].toString()),
+        disc: double.parse(data_lama[i]['DISC'].toString()),
+        rpdisc: double.parse(data_lama[i]['RPDISC'].toString()),
       );
       data_bhn_keranjang.add(mAccount);
     }
@@ -406,19 +509,47 @@ class BelibahanController with ChangeNotifier {
           Map obj = new Map();
           obj['NO_BUKTI'] = no_buktiController.text;
           obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
-          obj['NO_PO'] = nopoController.text;
+          obj['NO_SJ'] = no_sjController.text;
+          obj['TGL_SJ'] = DateFormat("yyyy-MM-dd").format(chooseDateSJ);
+          obj['TGL_INVOICE'] =
+              DateFormat("yyyy-MM-dd").format(chooseDateINVOICE);
+          obj['NO_FP'] = no_fpController.text;
+          obj['TGL_FP'] = DateFormat("yyyy-MM-dd").format(chooseDateFP);
+          obj['CURR'] = currController.text;
+          obj['CURRNM'] = currnmController.text;
+          obj['RATE'] = rateController.text;
           obj['KODES'] = kodesController.text;
           obj['NAMAS'] = namasController.text;
           obj['ALAMAT'] = alamatController.text;
           obj['KOTA'] = kotaController.text;
           obj['NOTES'] = notesController.text;
           obj['TOTAL_QTY'] = sumQty;
+          obj['TOTAL1'] = "0";
+          obj['DISC'] = "0";
+          obj['PPN'] = "0";
+          obj['PPH'] = "0";
+          obj['DISC1'] = "0";
+          obj['PPN1'] = "0";
+          obj['PPH1'] = "0";
+          obj['NETT1'] = "0";
           obj['TOTAL'] = sumTotal;
+          obj['RPDISC'] = "0";
+          obj['RPPPN'] = "0";
+          obj['RPPPH'] = "0";
+          obj['RPDISC1'] = "0";
+          obj['RPPPN1'] = "0";
+          obj['RPPPH1'] = "0";
+          obj['NETT'] = "0";
+          obj['FLAG'] = "BL";
+          obj['TYP'] = "L";
+          obj['USRIN'] = LoginController.nama_staff;
           obj['PER'] = perx;
-          obj['PPN'] = perx;
-          obj['NETT'] = perx;
-          obj['USRNM'] = LoginController.nama_staff;
+          obj['GOL'] = "A";
+          obj['NO_PO'] = no_poController.text;
+          obj['SISA'] = "0";
+          obj['TG_IN'] = DateTime.now();
+          obj['INVOICE'] = invoiceController.text;
+          obj['INVOICEX'] = invoicexController.text;
           obj['tabeld'] = await baca_tabeld();
           await m_belibahan.insert_beli_bahan(obj);
           BotToast.closeAllLoading();
@@ -442,19 +573,46 @@ class BelibahanController with ChangeNotifier {
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
         obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-        obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
-        obj['NO_PO'] = nopoController.text;
+        obj['NO_SJ'] = no_sjController.text;
+        obj['TGL_SJ'] = DateFormat("yyyy-MM-dd").format(chooseDateSJ);
+        obj['TGL_INVOICE'] = DateFormat("yyyy-MM-dd").format(chooseDateINVOICE);
+        obj['NO_FP'] = no_fpController.text;
+        obj['TGL_FP'] = DateFormat("yyyy-MM-dd").format(chooseDateFP);
+        obj['CURR'] = currController.text;
+        obj['CURRNM'] = currnmController.text;
+        obj['RATE'] = rateController.text;
         obj['KODES'] = kodesController.text;
         obj['NAMAS'] = namasController.text;
         obj['ALAMAT'] = alamatController.text;
         obj['KOTA'] = kotaController.text;
         obj['NOTES'] = notesController.text;
         obj['TOTAL_QTY'] = sumQty;
+        obj['TOTAL1'] = "0";
+        obj['DISC'] = "0";
+        obj['PPN'] = "0";
+        obj['PPH'] = "0";
+        obj['DISC1'] = "0";
+        obj['PPN1'] = "0";
+        obj['PPH1'] = "0";
+        obj['NETT1'] = "0";
         obj['TOTAL'] = sumTotal;
-        obj['PER'] = perx;
-        obj['PPN'] = perx;
-        obj['NETT'] = perx;
+        obj['RPDISC'] = "0";
+        obj['RPPPN'] = "0";
+        obj['RPPPH'] = "0";
+        obj['RPDISC1'] = "0";
+        obj['RPPPN1'] = "0";
+        obj['RPPPH1'] = "0";
+        obj['NETT'] = "0";
+        obj['FLAG'] = "BL";
+        obj['TYP'] = "L";
         obj['USRNM'] = LoginController.nama_staff;
+        obj['PER'] = perx;
+        obj['GOL'] = "A";
+        obj['NO_PO'] = no_poController.text;
+        obj['SISA'] = "0";
+        obj['TG_SMP'] = DateTime.now();
+        obj['INVOICE'] = invoiceController.text;
+        obj['INVOICEX'] = invoicexController.text;
         obj['tabeld'] = await baca_tabeld();
         await m_belibahan.update_beli_bahan(obj);
         BotToast.closeAllLoading();
@@ -488,12 +646,19 @@ class BelibahanController with ChangeNotifier {
       double harga = data_bhn_keranjang[i].harga;
       double subTotal = harga * qty;
       Map obj = new Map();
+      obj['QTYPO'] = data_bhn_keranjang[i].qtypo;
       obj['KD_BHN'] = data_bhn_keranjang[i].kd_bhn;
       obj['NA_BHN'] = data_bhn_keranjang[i].na_bhn;
       obj['SATUAN'] = data_bhn_keranjang[i].satuan;
-      obj['KET'] = data_bhn_keranjang[i].ket;
-      obj['HARGA'] = data_bhn_keranjang[i].harga;
       obj['QTY'] = data_bhn_keranjang[i].qty;
+      obj['HARGA'] = data_bhn_keranjang[i].harga1;
+      obj['TOTAL'] = data_bhn_keranjang[i].total1;
+      obj['KET'] = data_bhn_keranjang[i].ket;
+      obj['HARGA1'] = data_bhn_keranjang[i].harga1;
+      obj['TOTAL1'] = data_bhn_keranjang[i].total1;
+      obj['BLT'] = data_bhn_keranjang[i].blt;
+      obj['DISC'] = data_bhn_keranjang[i].disc;
+      obj['RPDISC'] = data_bhn_keranjang[i].rpdisc;
       obj['TOTAL'] = subTotal;
       bhnList.add(obj);
     }
@@ -501,7 +666,7 @@ class BelibahanController with ChangeNotifier {
   }
 
   Future<void> importDataFromPO(var data_po) async {
-    nopoController.text = data_po['NO_BUKTI'].toString();
+    no_poController.text = data_po['NO_BUKTI'].toString();
     kodesController.text = data_po['KODES'].toString();
     namasController.text = data_po['NAMAS'].toString();
     tglController.text = data_po['TGL'].toString();
@@ -516,7 +681,7 @@ class BelibahanController with ChangeNotifier {
         satuan: data_detail_po[i]['SATUAN'],
         ket: data_detail_po[i]['KET'],
         harga: double.parse(data_detail_po[i]['HARGA'].toString()),
-        qty: double.parse(data_detail_po[i]['SISA'].toString()),
+        qty: double.parse(data_detail_po[i]['SISA_QTY'].toString()),
       );
       data_bhn_keranjang.add(m_bhn);
       hitungSubTotal();
