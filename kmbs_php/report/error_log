@@ -1,5 +1,0 @@
-[22-Apr-2022 20:23:50 Asia/Bangkok] PHP Notice:  Undefined index: PER in /home/dhah5366/public_html/flutter_hrd/report/Laporan_Absen_Absen.php on line 21
-[22-Apr-2022 20:26:35 Asia/Bangkok] PHP Notice:  Undefined index: PER in /home/dhah5366/public_html/flutter_hrd/report/Laporan_Absen_Absen.php on line 21
-[09-May-2022 15:11:46 Asia/Bangkok] PHP Warning:  mysqli::__construct(): (HY000/2002): Connection refused in /home/dhah5366/public_html/flutter_hrd/report/config.php on line 10
-[09-May-2022 15:11:46 Asia/Bangkok] PHP Notice:  Undefined index: PER in /home/dhah5366/public_html/flutter_hrd/report/Laporan_Absen_Absen.php on line 21
-[09-May-2022 15:11:46 Asia/Bangkok] PHP Notice:  Undefined index: KD_BAG in /home/dhah5366/public_html/flutter_hrd/report/Laporan_Absen_Absen.php on line 22

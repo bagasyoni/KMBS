@@ -108,18 +108,70 @@ class AccountController with ChangeNotifier {
   }
 
   //variable tambah supplier
-  TextEditingController bacnoController = TextEditingController();
-  TextEditingController bnamaController = TextEditingController();
-  TextEditingController nama_kelController = TextEditingController();
+  TextEditingController acnoController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController hdController = TextEditingController();
+  TextEditingController grupController = TextEditingController();
   TextEditingController nm_grupController = TextEditingController();
-  DateTime chooseDate = DateTime.now();
-  final format_tanggal = new DateFormat("d-M-y");
-  String satuan_barang = "";
-  List<DropdownMenuItem<String>> dropdownList_satuan_barang;
+  TextEditingController kelController = TextEditingController();
+  TextEditingController nama_kelController = TextEditingController();
+  TextEditingController bnkController = TextEditingController();
+  TextEditingController pos1Controller = TextEditingController();
+  TextEditingController usrnmController = TextEditingController();
+  TextEditingController tg_smpController = TextEditingController();
+  TextEditingController nonController = TextEditingController();
 
-  Future<void> init_add_account() async {
-    satuan_barang = "";
-    // await data_satuan_barang();
+  void resetField() {
+    acnoController.clear();
+    namaController.clear();
+    hdController.clear();
+    grupController.clear();
+    nm_grupController.clear();
+    kelController.clear();
+    nama_kelController.clear();
+    bnkController.clear();
+    pos1Controller.clear();
+    usrnmController.clear();
+    tg_smpController.clear();
+    nonController.clear();
+  }
+
+  Future<bool> daftar_account() async {
+    if (acnoController.text.isNotEmpty) {
+      if (namaController.text.isNotEmpty) {
+        BotToast.showLoading();
+        List data_ready =
+            await model_account().data_accountcari(acnoController.text);
+        if (data_ready.length > 0) {
+          Toast("Peringatan !", "Acno '${acnoController.text}' sudah ada !",
+              false);
+        Map data_insert = new Map();
+        data_insert['NO_ID'] = null;
+        data_insert['ACNO'] = acnoController.text;
+        data_insert['NAMA'] = namaController.text;
+        data_insert['HD'] = hdController.text;
+        data_insert['GRUP'] = grupController.text;
+        data_insert['NM_GRUP'] = nm_grupController.text;
+        data_insert['KEL'] = kelController.text;
+        data_insert['NAMA_KEL'] = nama_kelController.text;
+        data_insert['BNK'] = bnkController.text;
+        data_insert['POS1'] = pos1Controller.text;
+        data_insert['USRNM'] = usrnmController.text;
+        data_insert['TG_SMP'] = usrnmController.text;
+        await model_account().insert_data_account(data_insert);
+        Toast("Success !!", "Berhasil menambah account !", true);
+        ambil_account();
+        BotToast.closeAllLoading();
+        return true;
+        // }
+      } else {
+        Toast("Peringatan !", "Silahkan isi acno !", false);
+        return false;
+      }
+    } else {
+      Toast("Peringatan !", "Silahkan isi nama !", false);
+      return false;
+    }
   }
 
   Future<void> init_edit_account(var data_account) async {
@@ -127,13 +179,6 @@ class AccountController with ChangeNotifier {
     bnamaController.text = data_account['NAMA'] ?? "";
     nama_kelController.text = data_account['NAMA_KEL'] ?? "";
     nm_grupController.text = data_account['NM_GRUP'] ?? "";
-    bool cek_satuan = await model_satuan()
-        .cek_data_satuan(data_account['SATUAN'].toString().toLowerCase());
-    if (cek_satuan == true) {
-      satuan_barang = data_account['SATUAN'].toString();
-    } else {
-      satuan_barang = "";
-    }
     notifyListeners();
   }
 
@@ -151,44 +196,6 @@ class AccountController with ChangeNotifier {
   //       value: "Tambah Baru ?", child: new Text("Tambah Baru ?")));
   //   satuan_barang = dropdownList_satuan_barang[0].value;
   // }
-
-  void resetField() {
-    bacnoController.clear();
-    bnamaController.clear();
-    nama_kelController.clear();
-    nm_grupController.clear();
-  }
-
-  Future<bool> daftar_account() async {
-    if (bacnoController.text.isNotEmpty) {
-      if (bnamaController.text.isNotEmpty) {
-        BotToast.showLoading();
-        List data_ready =
-            await model_account().data_accountcari(bacnoController.text);
-        // if (data_ready.length > 0) {
-        //   Toast("Peringatan !", "Acno '${bacnoController.text}' sudah ada !",
-        //       false);
-        Map data_insert = new Map();
-        data_insert['NO_ID'] = null;
-        data_insert['ACNO'] = bacnoController.text;
-        data_insert['NAMA'] = bnamaController.text;
-        data_insert['NAMA_KEL'] = nama_kelController.text;
-        data_insert['NM_GRUP'] = nm_grupController.text;
-        await model_account().insert_data_account(data_insert);
-        Toast("Success !!", "Berhasil menambah account !", true);
-        ambil_account();
-        BotToast.closeAllLoading();
-        return true;
-        // }
-      } else {
-        Toast("Peringatan !", "Silahkan isi acno !", false);
-        return false;
-      }
-    } else {
-      Toast("Peringatan !", "Silahkan isi nama !", false);
-      return false;
-    }
-  }
 
   Future<bool> edit_account(var id) async {
     if (bacnoController.text.isNotEmpty) {

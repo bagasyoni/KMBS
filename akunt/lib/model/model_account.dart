@@ -75,8 +75,16 @@ class model_account {
         await http.post(Uri.parse("${baseUrl}:3000/tambahacc"), body: {
       "ACNO": data_insert['ACNO'],
       "NAMA": data_insert['NAMA'],
+      "HD": data_insert['HD'],
+      "GRUP": data_insert['GRUP'],
+      "NM_GRUP": data_insert['NM_GRUP'],
+      "KEL": data_insert['KEL'],
       "NAMA_KEL": data_insert['NAMA_KEL'],
-      "NM_GRUP": data_insert['NM_GRUP']
+      "BNK": data_insert['BNK'],
+      "POS1": data_insert['POS1'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'],
+      "NON": data_insert['NON']
     });
     if (response.statusCode >= 200) {
       return true;
@@ -90,8 +98,16 @@ class model_account {
       "NO_ID": data_insert['NO_ID'].toString(),
       "ACNO": data_insert['ACNO'],
       "NAMA": data_insert['NAMA'],
-      "NAMA_KEL": data_insert['NAMA_KEL'],
+      "HD": data_insert['HD'],
+      "GRUP": data_insert['GRUP'],
       "NM_GRUP": data_insert['NM_GRUP'],
+      "KEL": data_insert['KEL'],
+      "NAMA_KEL": data_insert['NAMA_KEL'],
+      "BNK": data_insert['BNK'],
+      "POS1": data_insert['POS1'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'],
+      "NON": data_insert['NON'],
     });
     if (response.statusCode >= 200) {
       return true;

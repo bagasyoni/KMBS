@@ -20,6 +20,9 @@ import '../../controller/laporan_stocka_controller.dart';
 import '../../controller/stockbhn_controller.dart';
 import 'widget/filter_tanggal.dart';
 
+// IMPORT PRINT WEB
+import 'dart:js' as js;
+
 class LapStockaScreen extends StatefulWidget {
   @override
   _LapStockaScreenState createState() => _LapStockaScreenState();
@@ -109,7 +112,15 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  lapStocka.print();
+                  // lapStocka.print();
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Stockbhn.php?TGL_1=' +
+                        lapStocka.tanggal_awal +
+                        '&TGL_2=' +
+                        lapStocka.tanggal_akhir +
+                        '&PER=' +
+                        lapStocka.perx
+                  ]);
                 },
                 child: Container(
                   height: 30,

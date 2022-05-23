@@ -555,19 +555,35 @@ exports.hapusbagas = function (req, res) {
         });
 };
 
+///========================/// MASTER ACCOUNT ///========================///
+exports.acc_paginate = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    var offset_page = Number(req.body.offset);
+    var limit_page = Number(req.body.limit);
+    connection.query("select * from account where ACNO like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+}
 ///paginate
-exports.acc_suppaginate = function (req, res) {
+exports.count_accpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select COUNT(*) from account where ACNO like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
         });
 }
-//menampilkan cari acc      kodes like '%?%'",[dk]
+//menampilkan cari acc
 exports.cariacc = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from account where ACNO like ? or NAMA like ? or NAMA_KEL like ? or NM_GRUP like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
@@ -581,7 +597,7 @@ exports.cariacc = function (req, res) {
             }
         });
 }
-// tampil data supplier
+// tampil data account
 exports.tampilacc = function (req, res) {
     connection.query("select * from account", function (error, rows, fields) {
         if (error) {
@@ -593,7 +609,7 @@ exports.tampilacc = function (req, res) {
         }
     });
 };
-// tampil data supplier
+// tampil data account
 exports.modalaccstok = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
@@ -624,10 +640,18 @@ exports.modalaccstok = function (req, res) {
 exports.tambahacc = function (req, res) {
     var ACNO = req.body.ACNO;
     var NAMA = req.body.NAMA;
-    var NAMA_KEL = req.body.NAMA_KEL;
+    var HD = req.body.HD;
+    var GRUP = req.body.GRUP;
     var NM_GRUP = req.body.NM_GRUP;
+    var KEL = req.body.KEL;
+    var NAMA_KEL = req.body.NAMA_KEL;
+    var BNK = req.body.BNK;
+    var POS1 = req.body.POS1;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
+    var NON = req.body.NON;
 
-    connection.query("insert into account (ACNO,NAMA,NAMA_KEL,NM_GRUP) values (?,?,?,?); CALL accountdins(?);", [ACNO, NAMA, NAMA_KEL, NM_GRUP, ACNO],
+    connection.query("insert into account (ACNO,NAMA,HD,GRUP,NM_GRUP,KEL,NAMA_KEL,BNK,POS1,USRNM,TG_SMP,NON) values (?,?,?,?,?,?,?,?,?,?,?,?); CALL accountdins(?);", [ACNO,NAMA,HD,GRUP,NM_GRUP,KEL,NAMA_KEL,BNK,POS1,USRNM,TG_SMP,NON,ACNO],
         function (error, rows, fields) {
             if (error) {
                 connection.log(error);
@@ -643,13 +667,21 @@ exports.ubahacc = function (req, res) {
     var NO_ID = req.body.NO_ID;
     var ACNO = req.body.ACNO;
     var NAMA = req.body.NAMA;
-    var NAMA_KEL = req.body.NAMA_KEL;
+    var HD = req.body.HD;
+    var GRUP = req.body.GRUP;
     var NM_GRUP = req.body.NM_GRUP;
+    var KEL = req.body.KEL;
+    var NAMA_KEL = req.body.NAMA_KEL;
+    var BNK = req.body.BNK;
+    var POS1 = req.body.POS1;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
+    var NON = req.body.NON;
 
-    connection.query("UPDATE account SET ACNO = ?, NAMA = ?, NAMA_KEL = ?, NM_GRUP = ? where NO_ID = ? ", [ACNO, NAMA, NAMA_KEL, NM_GRUP, NO_ID],
+    connection.query("UPDATE account SET ACNO=?,NAMA=?,HD=?,GRUP=?,NM_GRUP=?,KEL=?,NAMA_KEL=?,BNK=?,POS1=?,USRNM=?,TG_SMP=?,NON=? where NO_ID=?", [ACNO,NAMA,HD,GRUP,NM_GRUP,KEL,NAMA_KEL,BNK,POS1,USRNM,TG_SMP,NON,NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -657,13 +689,13 @@ exports.ubahacc = function (req, res) {
             }
         });
 };
-//delete data supplier
+//delete data account
 exports.hapusacc = function (req, res) {
     var NO_ID = req.body.NO_ID;
     connection.query("DELETE FROM account WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -1280,47 +1312,14 @@ exports.hapussparepart = function (req, res) {
         });
 };
 
-
-
-
-
-//paginate
-exports.acc_paginate = function (req, res) {
-    var filter_cari = '%' + req.body.cari + '%';
-    var offset_page = Number(req.body.offset);
-    var limit_page = Number(req.body.limit);
-    connection.query("select * from account where ACNO like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-
-                response.ok(rows, res);
-
-            }
-        });
-}
-
-///paginate
-exports.count_accpaginate = function (req, res) {
-    var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from account where ACNO like ? or NAMA like ?", [filter_cari, filter_cari],
-        function (error, rows, fields) {
-            if (error) {
-                connection.log(error);
-            } else {
-                response.ok(rows, res);
-            }
-        });
-}
 // modal data account header kas
 exports.modal_acckas = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
-        connection.query("select * from account where BNK='1' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
+        connection.query("select * from account where BNK='KAS' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1331,7 +1330,7 @@ exports.modal_acckas = function (req, res) {
         connection.query("select * from account order by ACNO",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1344,10 +1343,10 @@ exports.modal_acckas = function (req, res) {
 exports.modal_accbank = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
-        connection.query("select * from account where BNK='2' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
+        connection.query("select * from account where BNK='BANK' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1374,7 +1373,7 @@ exports.modal_curr = function (req, res) {
         connection.query("select * from curr order by KODE", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1385,7 +1384,7 @@ exports.modal_curr = function (req, res) {
         connection.query("select * from curr order by KODE",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1403,7 +1402,7 @@ exports.cus_paginate = function (req, res) {
     connection.query("select * from cust where KODEC like ? or NAMAC like ? or ALAMAT like ? or KOTA like ? LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1418,7 +1417,7 @@ exports.count_cuspaginate = function (req, res) {
     connection.query("select COUNT(*) from cust where KODEC like ? or NAMAC like ? or ALAMAT like ? or KOTA like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -7698,14 +7697,36 @@ exports.lappobahan = function (req, res) {
     connection.query("SELECT * FROM	po,	pod WHERE po.NO_BUKTI = pod.NO_BUKTI AND po.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', po.KODES BETWEEN ? AND ?, po.KODES BETWEEN ? AND '~~~'), true) AND IF(?<>'', IF(?<>'', pod.KD_BHN BETWEEN ? AND ?, pod.KD_BHN BETWEEN ? AND '~~~'), true) AND po.FLAG = 'PO' ORDER BY po.NO_BUKTI;", [tgl_a, tgl_b, namas_a, namas_b, namas_a, namas_b, namas_a, bahan_a, bahan_b, bahan_a, bahan_b, bahan_a],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
 
             }
         });
+    };
+
+/// ======================== /// LAPORAN PO BAHAN LOKAL /// ======================== ///
+exports.lappobahanlokal = function (req, res) {
+    var tgl_a = req.body.tgl_a;
+    var tgl_b = req.body.tgl_b;
+    var namas_a = req.body.namas_a;
+    var namas_b = req.body.namas_b;
+    var bahan_a = req.body.bahan_a;
+    var bahan_b = req.body.bahan_b;
+    connection.query("SELECT * FROM	po,	pod WHERE po.NO_BUKTI = pod.NO_BUKTI AND po.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', po.KODES BETWEEN ? AND ?, po.KODES BETWEEN ? AND '~~~'), true) AND IF(?<>'', IF(?<>'', pod.KD_BHN BETWEEN ? AND ?, pod.KD_BHN BETWEEN ? AND '~~~'), true) AND po.FLAG = 'PO' ORDER BY po.NO_BUKTI;", [tgl_a, tgl_b, namas_a, namas_b, namas_a, namas_b, namas_a, bahan_a, bahan_b, bahan_a, bahan_b, bahan_a],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+        
 };
+
 ///LAPORAN PO NON BAHAN
 exports.lappon = function (req, res) {
     var tgla = req.body.tgla;
@@ -7721,7 +7742,7 @@ exports.lappon = function (req, res) {
             }
         });
 };
-///LAPORAN BELI BAHAN
+/// ======================== /// LAPORAN BELI BAHAN /// ======================== ///
 exports.lapbelibahan = function (req, res) {
     var tgl_a = req.body.tgl_a;
     var tgl_b = req.body.tgl_b;
@@ -7831,7 +7852,7 @@ exports.lapjual = function (req, res) {
             }
         });
 };
-///LAPORAN STOCK A
+/// ======================== /// LAPORAN STOCK A /// ======================== ///
 exports.lapstocka = function (req, res) {
     var tgla = req.body.tgla;
     var tglb = req.body.tglb;

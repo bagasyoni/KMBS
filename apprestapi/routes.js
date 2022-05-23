@@ -848,6 +848,8 @@ module.exports = function (app) {
         .post(jsonku.lapsj);
     app.route('/lap_pobahan')
         .post(jsonku.lappobahan);
+    app.route('/lap_pobahan_lokal')
+        .post(jsonku.lappobahanlokal);
     app.route('/lap_belibahan')
         .post(jsonku.lapbelibahan);
     app.route('/lap_thutbahan')
