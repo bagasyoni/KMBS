@@ -1,12 +1,17 @@
+import 'package:akunt/controller/login_controller.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:akunt/model/model_supplier.dart';
-import 'package:akunt/model/model_satuan.dart';
+// import 'package:akunt/model/model_satuan.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SupplierController with ChangeNotifier {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  SharedPreferences prefs;
+
   ///paginate
   bool proses = false;
   List data_supplierList = [];
@@ -19,6 +24,15 @@ class SupplierController with ChangeNotifier {
   int limit = 50;
   double pageCount = 1;
   int page_index = 0;
+  String perx = '';
+  String tgl = '';
+
+  Future<void> baca_periodePrefs() async {
+    tgl = DateTime.now().toString();
+    prefs = await _prefs;
+    perx = prefs.getString("periode") ??
+        DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
+  }
 
   void setProses(bool proses) {
     this.proses = proses;
@@ -95,21 +109,24 @@ class SupplierController with ChangeNotifier {
   TextEditingController alamatController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController telpon1Controller = TextEditingController();
-  TextEditingController hpController = TextEditingController();
   TextEditingController faxController = TextEditingController();
+  TextEditingController hpController = TextEditingController();
   TextEditingController kontakController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController npwpController = TextEditingController();
+  TextEditingController ketController = TextEditingController();
+  TextEditingController blacnoaController = TextEditingController();
+  TextEditingController blacnobController = TextEditingController();
   TextEditingController bankController = TextEditingController();
-  TextEditingController bank_namaController = TextEditingController();
-  TextEditingController bank_rekController = TextEditingController();
   TextEditingController bank_cabController = TextEditingController();
   TextEditingController bank_kotaController = TextEditingController();
-  TextEditingController pkpController = TextEditingController();
-  TextEditingController npwpController = TextEditingController();
-  TextEditingController barangController = TextEditingController();
-  TextEditingController diskonController = TextEditingController();
-  TextEditingController hargaController = TextEditingController();
-  TextEditingController aktController = TextEditingController();
+  TextEditingController bank_namaController = TextEditingController();
+  TextEditingController bank_rekController = TextEditingController();
+  TextEditingController limController = TextEditingController();
+  TextEditingController hariController = TextEditingController();
+  TextEditingController typController = TextEditingController();
+  TextEditingController usrnmController = TextEditingController();
+  TextEditingController tg_smpController = TextEditingController();
   DateTime chooseDate = DateTime.now();
   final format_tanggal = new DateFormat("d-M-y");
   String satuan_barang = "";
@@ -126,29 +143,33 @@ class SupplierController with ChangeNotifier {
     alamatController.text = data_supplier['ALAMAT'] ?? "";
     kotaController.text = data_supplier['KOTA'] ?? "";
     telpon1Controller.text = data_supplier['TELPON1'] ?? "";
-    hpController.text = data_supplier['HP'] ?? "";
     faxController.text = data_supplier['FAX'] ?? "";
+    hpController.text = data_supplier['HP'] ?? "";
     kontakController.text = data_supplier['KONTAK'] ?? "";
     emailController.text = data_supplier['EMAIL'] ?? "";
+    npwpController.text = data_supplier['NPWP'] ?? "";
+    ketController.text = data_supplier['KET'] ?? "";
+    blacnoaController.text = data_supplier['BLACNOA'] ?? "";
+    blacnobController.text = data_supplier['BLACNOB'] ?? "";
     bankController.text = data_supplier['BANK'] ?? "";
-    bank_namaController.text = data_supplier['BANK_NAMA'] ?? "";
-    bank_rekController.text = data_supplier['BANK_REK'] ?? "";
     bank_cabController.text = data_supplier['BANK_CAB'] ?? "";
     bank_kotaController.text = data_supplier['BANK_KOTA'] ?? "";
-    pkpController.text = data_supplier['PKP'] ?? "";
-    npwpController.text = data_supplier['NPWP'] ?? "";
-    barangController.text = data_supplier['BARANG'] ?? "";
-    diskonController.text = data_supplier['DISKON'] ?? "";
-    hargaController.text = data_supplier['HARGA'] ?? "";
-    aktController.text = data_supplier['AKT'] ?? "";
-    bool cek_satuan = await model_satuan()
-        .cek_data_satuan(data_supplier['SATUAN'].toString().toLowerCase());
-    if (cek_satuan == true) {
-      satuan_barang = data_supplier['SATUAN'].toString();
-    } else {
-      satuan_barang = "";
-    }
-    notifyListeners();
+    bank_namaController.text = data_supplier['BANK_NAMA'] ?? "";
+    bank_rekController.text = data_supplier['BANK_REK'] ?? "";
+    limController.text = data_supplier['LIM'].toString();
+    hariController.text = data_supplier['HARI'].toString();
+    typController.text = data_supplier['TYP'] ?? "";
+    usrnmController.text = data_supplier['USRNM'] ?? "";
+    tg_smpController.text = data_supplier['TG_SMP'] ?? "";
+
+    // bool cek_satuan = await model_satuan()
+    //     .cek_data_satuan(data_supplier['SATUAN'].toString().toLowerCase());
+    // if (cek_satuan == true) {
+    //   satuan_barang = data_supplier['SATUAN'].toString();
+    // } else {
+    //   satuan_barang = "";
+    // }
+    // notifyListeners();
   }
 
   // Future<void> data_satuan_barang() async {
@@ -172,21 +193,24 @@ class SupplierController with ChangeNotifier {
     alamatController.clear();
     kotaController.clear();
     telpon1Controller.clear();
-    hpController.clear();
     faxController.clear();
+    hpController.clear();
     kontakController.clear();
     emailController.clear();
+    npwpController.clear();
+    ketController.clear();
+    blacnoaController.clear();
+    blacnobController.clear();
     bankController.clear();
-    bank_namaController.clear();
-    bank_rekController.clear();
     bank_cabController.clear();
     bank_kotaController.clear();
-    pkpController.clear();
-    npwpController.clear();
-    barangController.clear();
-    diskonController.clear();
-    hargaController.clear();
-    aktController.clear();
+    bank_namaController.clear();
+    bank_rekController.clear();
+    limController.clear();
+    hariController.clear();
+    typController.clear();
+    usrnmController.clear();
+    tg_smpController.clear();
   }
 
   Future<bool> daftar_supplier() async {
@@ -200,21 +224,24 @@ class SupplierController with ChangeNotifier {
         data_insert['ALAMAT'] = alamatController.text;
         data_insert['KOTA'] = kotaController.text;
         data_insert['TELPON1'] = telpon1Controller.text;
-        data_insert['HP'] = hpController.text;
         data_insert['FAX'] = faxController.text;
+        data_insert['HP'] = hpController.text;
         data_insert['KONTAK'] = kontakController.text;
         data_insert['EMAIL'] = emailController.text;
+        data_insert['NPWP'] = npwpController.text;
+        data_insert['KET'] = ketController.text;
+        data_insert['BLACNOA'] = blacnoaController.text;
+        data_insert['BLACNOB'] = blacnobController.text;
         data_insert['BANK'] = bankController.text;
-        data_insert['BANK_NAMA'] = bank_namaController.text;
-        data_insert['BANK_REK'] = bank_rekController.text;
         data_insert['BANK_CAB'] = bank_cabController.text;
         data_insert['BANK_KOTA'] = bank_kotaController.text;
-        data_insert['PKP'] = pkpController.text;
-        data_insert['NPWP'] = npwpController.text;
-        data_insert['BARANG'] = barangController.text;
-        data_insert['DISKON'] = diskonController.text;
-        data_insert['HARGA'] = hargaController.text;
-        data_insert['AKT'] = aktController.text;
+        data_insert['BANK_NAMA'] = bank_namaController.text;
+        data_insert['BANK_REK'] = bank_rekController.text;
+        data_insert['LIM'] = limController.text;
+        data_insert['HARI'] = hariController.text;
+        data_insert['TYP'] = typController.text;
+        data_insert['USRNM'] = LoginController.nama_staff;
+        data_insert['TG_SMP'] = DateTime.now();
         await model_supplier().insert_data_supplier(data_insert);
         Toast("Success !!", "Berhasil menambah supplier !", true);
         ambil_supplier();
@@ -241,21 +268,25 @@ class SupplierController with ChangeNotifier {
         data_insert['ALAMAT'] = alamatController.text;
         data_insert['KOTA'] = kotaController.text;
         data_insert['TELPON1'] = telpon1Controller.text;
-        data_insert['HP'] = hpController.text;
         data_insert['FAX'] = faxController.text;
+        data_insert['HP'] = hpController.text;
         data_insert['KONTAK'] = kontakController.text;
         data_insert['EMAIL'] = emailController.text;
+        data_insert['NPWP'] = npwpController.text;
+        data_insert['KET'] = ketController.text;
+        data_insert['BLACNOA'] = blacnoaController.text;
+        data_insert['BLACNOB'] = blacnobController.text;
         data_insert['BANK'] = bankController.text;
-        data_insert['BANK_NAMA'] = bank_namaController.text;
-        data_insert['BANK_REK'] = bank_rekController.text;
         data_insert['BANK_CAB'] = bank_cabController.text;
         data_insert['BANK_KOTA'] = bank_kotaController.text;
-        data_insert['PKP'] = pkpController.text;
-        data_insert['NPWP'] = npwpController.text;
-        data_insert['BARANG'] = barangController.text;
-        data_insert['DISKON'] = diskonController.text;
-        data_insert['HARGA'] = hargaController.text;
-        data_insert['AKT'] = aktController.text;
+        data_insert['BANK_NAMA'] = bank_namaController.text;
+        data_insert['BANK_REK'] = bank_rekController.text;
+        data_insert['LIM'] = limController.text;
+        data_insert['HARI'] = hariController.text;
+        data_insert['TYP'] = typController.text;
+        data_insert['USRNM'] = LoginController.nama_staff;
+        data_insert['TG_SMP'] = DateTime.now();
+        print(data_insert);
         await model_supplier().update_data_supplier_by_id(data_insert);
         ambil_supplier();
         Toast("Success !!", "Berhasil Mengedit Supplier !", true);

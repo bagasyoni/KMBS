@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_brace_in_string_interps, prefer_const_constructors
-
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +19,7 @@ import '../../controller/stockbhn_controller.dart';
 import 'widget/filter_tanggal.dart';
 
 // IMPORT PRINT WEB
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 class LapStockaScreen extends StatefulWidget {
   @override
@@ -113,14 +111,14 @@ class _LapStockaScreenState extends State<LapStockaScreen> {
                 hoverColor: Colors.white,
                 onTap: () {
                   // lapStocka.print();
-                  js.context.callMethod('open', [
-                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Stockbhn.php?TGL_1=' +
-                        lapStocka.tanggal_awal +
-                        '&TGL_2=' +
-                        lapStocka.tanggal_akhir +
-                        '&PER=' +
-                        lapStocka.perx
-                  ]);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Stockbhn.php?TGL_1=' +
+                  //       lapStocka.tanggal_awal +
+                  //       '&TGL_2=' +
+                  //       lapStocka.tanggal_akhir +
+                  //       '&PER=' +
+                  //       lapStocka.perx
+                  // ]);
                 },
                 child: Container(
                   height: 30,

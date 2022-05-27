@@ -95,9 +95,6 @@ import 'package:akunt/controller/kasmasuk_controller.dart';
 import 'package:akunt/controller/kaskeluar_controller.dart';
 import 'package:akunt/controller/memo_controller.dart';
 
-///LAIN///
-import 'package:akunt/controller/penerimaan_controller.dart';
-
 ///////////////////////LAPORAN///////////////////////
 ///OPERASIONAL///
 import 'package:akunt/controller/laporan_po_controller.dart';
@@ -147,7 +144,6 @@ Future<void> init() async {
   sl.registerFactory(() => BankmasukController());
   sl.registerFactory(() => BankkeluarController());
   sl.registerFactory(() => MemoController());
-  sl.registerFactory(() => PenerimaanController());
   sl.registerFactory(() => BrgController());
 
   ///MASTER///
@@ -359,8 +355,7 @@ Future<void> main() async {
           ChangeNotifierProvider(
               create: (context) => sl<BankkeluarController>()),
           ChangeNotifierProvider(create: (context) => sl<MemoController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<PenerimaanController>()),
+
           ChangeNotifierProvider(create: (context) => sl<BrgController>()),
         ],
         child: MyApp(),

@@ -11,9 +11,9 @@ import 'widget/keterangan_umum.dart';
 
 class TambahAccountScreen extends StatefulWidget {
   bool isModeEdit;
-  var data_account;
+  var data_edit;
 
-  TambahAccountScreen({this.isModeEdit, this.data_account});
+  TambahAccountScreen({this.isModeEdit, this.data_edit});
 
   @override
   _TambahAccountScreenState createState() => _TambahAccountScreenState();
@@ -27,14 +27,12 @@ class _TambahAccountScreenState extends State<TambahAccountScreen>
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this, initialIndex: 0);
-    var m_account = Provider.of<AccountController>(context, listen: false);
-    m_account.init_add_account().then((value) {
-      if (widget.isModeEdit) {
-        m_account.init_edit_account(widget.data_account);
-      } else {
-        m_account.resetField();
-      }
-    });
+    if (widget.isModeEdit) {
+      Provider.of<AccountController>(context, listen: false)
+          .init_edit_account(widget.data_edit);
+    } else {
+      Provider.of<AccountController>(context, listen: false).resetField();
+    }
     super.initState();
   }
 
@@ -99,10 +97,10 @@ class _TambahAccountScreenState extends State<TambahAccountScreen>
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     tabs: <Widget>[
                       Tab(
-                        text: "Keterangan Umum",
+                        text: "Main",
                       ),
                       Tab(
-                        text: "Keterangan Tambahan",
+                        text: "Lain-lain",
                       ),
                     ],
                   ),
@@ -182,7 +180,7 @@ class _TambahAccountScreenState extends State<TambahAccountScreen>
                         onTap: () {
                           if (widget.isModeEdit) {
                             accountController
-                                .edit_account(widget.data_account['NO_ID'])
+                                .edit_account(widget.data_edit['NO_ID'])
                                 .then((value) {
                               if (value != null) {
                                 if (value) {

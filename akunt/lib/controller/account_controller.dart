@@ -1,3 +1,4 @@
+import 'package:akunt/controller/login_controller.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:akunt/model/model_account.dart';
@@ -121,7 +122,7 @@ class AccountController with ChangeNotifier {
   TextEditingController tg_smpController = TextEditingController();
   TextEditingController nonController = TextEditingController();
 
-  void resetField() {
+  Future<void> resetField() {
     acnoController.clear();
     namaController.clear();
     hdController.clear();
@@ -140,46 +141,55 @@ class AccountController with ChangeNotifier {
     if (acnoController.text.isNotEmpty) {
       if (namaController.text.isNotEmpty) {
         BotToast.showLoading();
-        List data_ready =
-            await model_account().data_accountcari(acnoController.text);
+        var data_ready = await m_account.check_no_bukti(
+            acnoController.text, "ACNO", "account");
         if (data_ready.length > 0) {
           Toast("Peringatan !", "Acno '${acnoController.text}' sudah ada !",
               false);
-        Map data_insert = new Map();
-        data_insert['NO_ID'] = null;
-        data_insert['ACNO'] = acnoController.text;
-        data_insert['NAMA'] = namaController.text;
-        data_insert['HD'] = hdController.text;
-        data_insert['GRUP'] = grupController.text;
-        data_insert['NM_GRUP'] = nm_grupController.text;
-        data_insert['KEL'] = kelController.text;
-        data_insert['NAMA_KEL'] = nama_kelController.text;
-        data_insert['BNK'] = bnkController.text;
-        data_insert['POS1'] = pos1Controller.text;
-        data_insert['USRNM'] = usrnmController.text;
-        data_insert['TG_SMP'] = usrnmController.text;
-        await model_account().insert_data_account(data_insert);
-        Toast("Success !!", "Berhasil menambah account !", true);
-        ambil_account();
-        BotToast.closeAllLoading();
-        return true;
-        // }
+          Map data_insert = new Map();
+          data_insert['NO_ID'] = null;
+          data_insert['ACNO'] = acnoController.text;
+          data_insert['NAMA'] = namaController.text;
+          data_insert['HD'] = hdController.text;
+          data_insert['GRUP'] = grupController.text;
+          data_insert['NM_GRUP'] = nm_grupController.text;
+          data_insert['KEL'] = kelController.text;
+          data_insert['NAMA_KEL'] = nama_kelController.text;
+          data_insert['BNK'] = bnkController.text;
+          data_insert['POS1'] = pos1Controller.text;
+          data_insert['USRNM'] = LoginController.nama_staff;
+          data_insert['TG_SMP'] = DateTime.now();
+          data_insert['NON'] = nonController.text;
+          await model_account().insert_data_account(data_insert);
+          Toast("Success !!", "Berhasil menambah account !", true);
+          ambil_account();
+          BotToast.closeAllLoading();
+          return true;
+          // }
+        } else {
+          Toast("Peringatan !", "Silahkan isi acno !", false);
+          return false;
+        }
       } else {
-        Toast("Peringatan !", "Silahkan isi acno !", false);
+        Toast("Peringatan !", "Silahkan isi nama !", false);
         return false;
       }
-    } else {
-      Toast("Peringatan !", "Silahkan isi nama !", false);
-      return false;
     }
   }
 
   Future<void> init_edit_account(var data_account) async {
-    bacnoController.text = data_account['ACNO'] ?? "";
-    bnamaController.text = data_account['NAMA'] ?? "";
-    nama_kelController.text = data_account['NAMA_KEL'] ?? "";
-    nm_grupController.text = data_account['NM_GRUP'] ?? "";
-    notifyListeners();
+    acnoController.text = data_account['ACNO'];
+    namaController.text = data_account['NAMA'];
+    hdController.text = data_account['HD'];
+    grupController.text = data_account['GRUP'];
+    nm_grupController.text = data_account['NM_GRUP'];
+    kelController.text = data_account['KEL'];
+    nama_kelController.text = data_account['NAMA_KEL'];
+    bnkController.text = data_account['BNK'];
+    pos1Controller.text = data_account['POS1'];
+    usrnmController.text = data_account['USRNM'];
+    tg_smpController.text = data_account['TG_SMP'];
+    nonController.text = data_account['NON'].toString();
   }
 
   // Future<void> data_satuan_barang() async {
@@ -198,15 +208,23 @@ class AccountController with ChangeNotifier {
   // }
 
   Future<bool> edit_account(var id) async {
-    if (bacnoController.text.isNotEmpty) {
-      if (bnamaController.text.isNotEmpty) {
+    if (acnoController.text.isNotEmpty) {
+      if (namaController.text.isNotEmpty) {
         BotToast.showLoading();
         Map data_insert = new Map();
         data_insert['NO_ID'] = id;
-        data_insert['ACNO'] = bacnoController.text;
-        data_insert['NAMA'] = bnamaController.text;
-        data_insert['NAMA_KEL'] = nama_kelController.text;
+        data_insert['ACNO'] = acnoController.text;
+        data_insert['NAMA'] = namaController.text;
+        data_insert['HD'] = hdController.text;
+        data_insert['GRUP'] = grupController.text;
         data_insert['NM_GRUP'] = nm_grupController.text;
+        data_insert['KEL'] = kelController.text;
+        data_insert['NAMA_KEL'] = nama_kelController.text;
+        data_insert['BNK'] = bnkController.text;
+        data_insert['POS1'] = pos1Controller.text;
+        data_insert['USRNM'] = LoginController.nama_staff;
+        data_insert['TG_SMP'] = DateTime.now();
+        data_insert['NON'] = nonController.text;
         await model_account().update_data_account_by_id(data_insert);
         ambil_account();
         Toast("Success !!", "Berhasil Mengedit Account !", true);

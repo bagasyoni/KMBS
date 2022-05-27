@@ -1,24 +1,19 @@
 // ignore_for_file: unnecessary_brace_in_string_interps, prefer_const_constructors
 
-import 'package:dio/dio.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
-import 'package:akunt/view/base_widget/notif_hapus.dart';
-import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_perincian_piu_controller.dart';
-import 'package:akunt/view/lap_perincian_piu/widget/tambah_periode.dart';
 import 'package:akunt/view/lap_perincian_piu/pilih_periode.dart';
+
+// IMPORT PRINT WEB
+// import 'dart:js' as js;
 
 class LapPerincianpiuScreen extends StatefulWidget {
   @override
@@ -111,7 +106,11 @@ class _LapPerincianpiuScreenState extends State<LapPerincianpiuScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  lapPerincianpiu.proses_export_lapperincianpiu(1);
+                  // lapPerincianpiu.proses_export_lapperincianpiu(1);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masterbhn.php?PER=' +
+                  //       lapPerincianpiu.perx
+                  // ]);
                 },
                 child: Container(
                   height: 30,

@@ -16,7 +16,7 @@ exports.login = function (req, res) {
     var password = md5(req.body.password);
     connection.query("select * from users where Username = ? and Password = ? ", [username, password], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -34,7 +34,7 @@ exports.nourut = function (req, res) {
     connection.query("SELECT lpad(right(coalesce(MAX(??),0),4)+1,4,0) as NOMOR from ?? where left(??,8)=?", [kolomx, tabelx, kolomx, jenis],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -51,7 +51,7 @@ exports.checknobukti = function (req, res) {
     connection.query("SELECT * from ?? where ??=?", [tabelx, kolomx, nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -68,7 +68,7 @@ exports.selectdetail = function (req, res) {
     connection.query("SELECT * from ?? where ??=?", [tabelx, kolomx, nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -83,7 +83,7 @@ exports.ambilpodetail = function (req, res) {
     connection.query("SELECT * from po where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -97,7 +97,7 @@ exports.ambilsodetail = function (req, res) {
     connection.query("SELECT * from so where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -114,7 +114,7 @@ exports.hapusdetail = function (req, res) {
     connection.query("DELETE from ?? where ??=?", [tabelx, kolomx, nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -127,7 +127,7 @@ exports.hapusdetail = function (req, res) {
 exports.tampilperid = function (req, res) {
     connection.query("select * from perid", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -137,8 +137,7 @@ exports.tampilperid = function (req, res) {
 };
 
 
-/// MASTER
-
+///========================/// MASTER BARANG ///========================///
 ///paginate
 exports.brg_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
@@ -147,7 +146,7 @@ exports.brg_paginate = function (req, res) {
     connection.query("select * from brg where KD_BRG like ? or NA_BRG like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -162,7 +161,7 @@ exports.count_brgpaginate = function (req, res) {
     connection.query("select COUNT(*) from brg where KD_BRG like ? or NA_BRG like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -175,7 +174,7 @@ exports.caribrg = function (req, res) {
     connection.query("select * from brg where KD_BRG like ? or NA_BRG like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -187,7 +186,7 @@ exports.caribrg = function (req, res) {
 exports.tampilbrg = function (req, res) {
     connection.query("select * from brg", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -202,7 +201,7 @@ exports.modalbrgstok = function (req, res) {
         connection.query("select * from brg where KD_BRG like ? or NA_BRG like ? order by KD_BRG", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -213,7 +212,7 @@ exports.modalbrgstok = function (req, res) {
         connection.query("select * from brg order by KD_BRG",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -226,19 +225,21 @@ exports.modalbrgstok = function (req, res) {
 exports.tambahbrg = function (req, res) {
     var KD_BRG = req.body.KD_BRG;
     var NA_BRG = req.body.NA_BRG;
-    var JENIS = req.body.JENIS;
     var SATUAN = req.body.SATUAN;
-    var TYPE = req.body.TYPE;
-    var KODEV = req.body.KODEV;
-    var KD_BRGLM = req.body.KD_BRGLM;
-    var NA_BRGLM = req.body.NA_BRGLM;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
-
-    connection.query("insert into brg (KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL brgdins(?);", [KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA, KD_BRG],
+    var ACNO = req.body.ACNO;
+    var ACNO_NM = req.body.ACNO_NM;
+    var PRODUK = req.body.PRODUK;
+    var SIZ = req.body.SIZ;
+    var WARNA = req.body.WARNA;
+    var JENIS = req.body.JENIS;
+    var NOTES = req.body.NOTES;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
+    
+    connection.query("insert into brg (KD_BRG, NA_BRG, SATUAN, ACNO, ACNO_NM, PRODUK, SIZ, WARNA, JENIS, NOTES, USRNM, TG_SMP) values (?,?,?,?,?,?,?,?,?,?,?,?); CALL brgdins(?);", [KD_BRG, NA_BRG, SATUAN, ACNO, ACNO_NM, PRODUK, SIZ, WARNA, JENIS, NOTES, USRNM, TG_SMP, KD_BRG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -251,19 +252,21 @@ exports.ubahbrg = function (req, res) {
     var NO_ID = req.body.NO_ID;
     var KD_BRG = req.body.KD_BRG;
     var NA_BRG = req.body.NA_BRG;
-    var JENIS = req.body.JENIS;
     var SATUAN = req.body.SATUAN;
-    var TYPE = req.body.TYPE;
-    var KODEV = req.body.KODEV;
-    var KD_BRGLM = req.body.KD_BRGLM;
-    var NA_BRGLM = req.body.NA_BRGLM;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
+    var ACNO = req.body.ACNO;
+    var ACNO_NM = req.body.ACNO_NM;
+    var PRODUK = req.body.PRODUK;
+    var SIZ = req.body.SIZ;
+    var WARNA = req.body.WARNA;
+    var JENIS = req.body.JENIS;
+    var NOTES = req.body.NOTES;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("UPDATE brg SET KD_BRG=? ,NA_BRG=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BRGLM=? ,NA_BRGLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BRG, NA_BRG, JENIS, SATUAN, TYPE, KODEV, KD_BRGLM, NA_BRGLM, KODE, NAMA, NO_ID],
+    connection.query("UPDATE brg SET KD_BRG=?, NA_BRG=?, SATUAN=?, ACNO=?, ACNO_NM=?, PRODUK=?, SIZ=?, WARNA=?, JENIS=?, NOTES=?, USRNM=?, TG_SMP=? where NO_ID=?;", [KD_BRG, NA_BRG, SATUAN, ACNO, ACNO_NM, PRODUK, SIZ, WARNA, JENIS, NOTES, USRNM, TG_SMP, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -278,7 +281,7 @@ exports.hapusbrg = function (req, res) {
 
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -287,6 +290,7 @@ exports.hapusbrg = function (req, res) {
         });
 };
 
+///========================/// MASTER CURRENCY ///========================///
 //paginate
 exports.curr_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
@@ -295,7 +299,7 @@ exports.curr_paginate = function (req, res) {
     connection.query("select * from curr where KODE like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -310,7 +314,7 @@ exports.count_currpaginate = function (req, res) {
     connection.query("select COUNT(*) from curr where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -323,7 +327,7 @@ exports.caricurr = function (req, res) {
     connection.query("select * from curr where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -335,7 +339,7 @@ exports.caricurr = function (req, res) {
 exports.tampilcurr = function (req, res) {
     connection.query("select * from curr", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -350,7 +354,7 @@ exports.modalcurr = function (req, res) {
         connection.query("select * from curr where KODE like ? or NAMA like ? order by KODE", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -361,7 +365,7 @@ exports.modalcurr = function (req, res) {
         connection.query("select * from curr order by KODE",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -372,15 +376,18 @@ exports.modalcurr = function (req, res) {
 };
 //tambah data currency
 exports.tambahcurr = function (req, res) {
-    var ACNO = req.body.ACNO;
+    var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
-    var NAMA_KEL = req.body.NAMA_KEL;
-    var NM_GRUP = req.body.NM_GRUP;
+    var RATE = req.body.RATE;
+    var RATE_BYR = req.body.RATE_BYR;
+    var TGL = req.body.TGL;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("insert into account (ACNO,NAMA,NAMA_KEL,NM_GRUP) values (?,?,?,?); CALL accountdins(?);", [ACNO, NAMA, NAMA_KEL, NM_GRUP, ACNO],
+    connection.query("insert into curr (KODE, NAMA, RATE, RATE_BYR, TGL, USRNM, TG_SMP) values (?,?,?,?,?,?,?); CALL accountdins(?);", [KODE, NAMA, RATE, RATE_BYR, TGL, USRNM, TG_SMP],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -391,15 +398,18 @@ exports.tambahcurr = function (req, res) {
 //update data 
 exports.ubahcurr = function (req, res) {
     var NO_ID = req.body.NO_ID;
-    var ACNO = req.body.ACNO;
+    var KODE = req.body.KODE;
     var NAMA = req.body.NAMA;
-    var NAMA_KEL = req.body.NAMA_KEL;
-    var NM_GRUP = req.body.NM_GRUP;
+    var RATE = req.body.RATE;
+    var RATE_BYR = req.body.RATE_BYR;
+    var TGL = req.body.TGL;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("UPDATE account SET ACNO = ?, NAMA = ?, NAMA_KEL = ?, NM_GRUP = ? where NO_ID = ? ", [ACNO, NAMA, NAMA_KEL, NM_GRUP, NO_ID],
+    connection.query("UPDATE curr SET KODE=?, NAMA=?, RATE=?, RATE_BYR=?, TGL=?, USRNM=?, TG_SMP=? where NO_ID = ? ", [KODE, NAMA, RATE, RATE_BYR, TGL, USRNM, TG_SMP, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -413,7 +423,7 @@ exports.hapuscurr = function (req, res) {
     connection.query("DELETE FROM curr WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -431,7 +441,7 @@ exports.bagas_paginate = function (req, res) {
     connection.query("select * from bagas where KD_BGS like ? or NA_BGS like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -446,7 +456,7 @@ exports.count_bagaspaginate = function (req, res) {
     connection.query("select COUNT(*) from bagas where KD_BGS like ? or NA_BGS like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -458,7 +468,7 @@ exports.caribagas = function (req, res) {
     connection.query("select * from bagas where KD_BGS like ? or NA_BGS like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -470,7 +480,7 @@ exports.caribagas = function (req, res) {
 exports.tampilbagas = function (req, res) {
     connection.query("select * from bagas", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -485,7 +495,7 @@ exports.modalbagasstok = function (req, res) {
         connection.query("select * from bagas where KD_BGS like ? or NA_BGS like ? order by KD_BGS", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -496,7 +506,7 @@ exports.modalbagasstok = function (req, res) {
         connection.query("select * from account order by KD_BGS",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -514,7 +524,7 @@ exports.tambahbagas = function (req, res) {
     connection.query("insert into bagas (KD_BGS,NA_BGS,SATUAN) values (?,?,?)", [KD_BGS, NA_BGS, SATUAN],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -532,7 +542,7 @@ exports.ubahbagas = function (req, res) {
     connection.query("UPDATE bagas SET KD_BGS = ?, NA_BGS = ?, SATUAN = ? where NO_ID = ? ", [KD_BGS, NA_BGS, SATUAN, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -546,7 +556,7 @@ exports.hapusbagas = function (req, res) {
     connection.query("DELETE FROM bagas WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -589,7 +599,7 @@ exports.cariacc = function (req, res) {
     connection.query("select * from account where ACNO like ? or NAMA like ? or NAMA_KEL like ? or NM_GRUP like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -601,7 +611,7 @@ exports.cariacc = function (req, res) {
 exports.tampilacc = function (req, res) {
     connection.query("select * from account", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -616,7 +626,7 @@ exports.modalaccstok = function (req, res) {
         connection.query("select * from acc where ACNO like ? or NAMA like ? order by NM_GRUP", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -627,7 +637,7 @@ exports.modalaccstok = function (req, res) {
         connection.query("select * from account order by ACNO",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -654,7 +664,7 @@ exports.tambahacc = function (req, res) {
     connection.query("insert into account (ACNO,NAMA,HD,GRUP,NM_GRUP,KEL,NAMA_KEL,BNK,POS1,USRNM,TG_SMP,NON) values (?,?,?,?,?,?,?,?,?,?,?,?); CALL accountdins(?);", [ACNO,NAMA,HD,GRUP,NM_GRUP,KEL,NAMA_KEL,BNK,POS1,USRNM,TG_SMP,NON,ACNO],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -704,6 +714,7 @@ exports.hapusacc = function (req, res) {
         });
 };
 
+///========================/// MASTER SUPPLIER ///========================///
 //paginate
 exports.sup_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
@@ -712,7 +723,7 @@ exports.sup_paginate = function (req, res) {
     connection.query("select * from sup where KODES like ? or NAMAS like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -727,7 +738,7 @@ exports.count_suppaginate = function (req, res) {
     connection.query("select COUNT(*) from sup where KODES like ? or NAMAS like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -739,7 +750,7 @@ exports.carisup = function (req, res) {
     connection.query("select * from sup where KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -751,7 +762,7 @@ exports.carisup = function (req, res) {
 exports.tampilsup = function (req, res) {
     connection.query("select * from sup", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -766,7 +777,7 @@ exports.modalsupstok = function (req, res) {
         connection.query("select * from sup where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -777,7 +788,7 @@ exports.modalsupstok = function (req, res) {
         connection.query("select * from sup order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -793,26 +804,29 @@ exports.tambahsup = function (req, res) {
     var ALAMAT = req.body.ALAMAT;
     var KOTA = req.body.KOTA;
     var TELPON1 = req.body.TELPON1;
-    var HP = req.body.HP;
     var FAX = req.body.FAX;
+    var HP = req.body.HP;
     var KONTAK = req.body.KONTAK;
     var EMAIL = req.body.EMAIL;
+    var NPWP = req.body.NPWP;
+    var KET = req.body.KET;
+    var BLACNOA = req.body.BLACNOA;
+    var BLACNOB = req.body.BLACNOB;
     var BANK = req.body.BANK;
-    var BANK_NAMA = req.body.BANK_NAMA;
-    var BANK_REK = req.body.BANK_REK;
     var BANK_CAB = req.body.BANK_CAB;
     var BANK_KOTA = req.body.BANK_KOTA;
-    var PKP = req.body.PKP;
-    var NPWP = req.body.NPWP;
-    var BARANG = req.body.BARANG;
-    var DISKON = req.body.DISKON;
-    var HARGA = req.body.HARGA;
-    var AKT = req.body.AKT;
+    var BANK_NAMA = req.body.BANK_NAMA;
+    var BANK_REK = req.body.BANK_REK;
+    var LIM = req.body.LIM;
+    var HARI = req.body.HARI;
+    var TYP = req.body.TYP;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("insert into sup (KODES,NAMAS,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL supdins(?);", [KODES, NAMAS, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, KODES],
+    connection.query("INSERT INTO sup (KODES,NAMAS,ALAMAT,KOTA,TELPON1,FAX,HP,KONTAK,EMAIL,NPWP,KET,BLACNOA,BLACNOB,BANK,BANK_CAB,BANK_KOTA,BANK_NAMA,BANK_REK,LIM,HARI,TYP,USRNM,TG_SMP) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL supdins(?);", [KODES,NAMAS,ALAMAT,KOTA,TELPON1,FAX,HP,KONTAK,EMAIL,NPWP,KET,BLACNOA,BLACNOB,BANK,BANK_CAB,BANK_KOTA,BANK_NAMA,BANK_REK,LIM,HARI,TYP,USRNM,TG_SMP,KODES],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -828,26 +842,31 @@ exports.ubahsup = function (req, res) {
     var ALAMAT = req.body.ALAMAT;
     var KOTA = req.body.KOTA;
     var TELPON1 = req.body.TELPON1;
-    var HP = req.body.HP;
     var FAX = req.body.FAX;
+    var HP = req.body.HP;
     var KONTAK = req.body.KONTAK;
     var EMAIL = req.body.EMAIL;
+    var NPWP = req.body.NPWP;
+    var KET = req.body.KET;
+    var BLACNOA = req.body.BLACNOA;
+    var BLACNOB = req.body.BLACNOB;
     var BANK = req.body.BANK;
-    var BANK_NAMA = req.body.BANK_NAMA;
-    var BANK_REK = req.body.BANK_REK;
     var BANK_CAB = req.body.BANK_CAB;
     var BANK_KOTA = req.body.BANK_KOTA;
-    var PKP = req.body.PKP;
-    var NPWP = req.body.NPWP;
-    var BARANG = req.body.BARANG;
-    var DISKON = req.body.DISKON;
-    var HARGA = req.body.HARGA;
-    var AKT = req.body.AKT;
+    var BANK_NAMA = req.body.BANK_NAMA;
+    var BANK_REK = req.body.BANK_REK;
+    var LIM = req.body.LIM;
+    var HARI = req.body.HARI;
+    var TYP = req.body.TYP;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("UPDATE sup SET KODES=? ,NAMAS=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODES, NAMAS, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, NO_ID],
+    console.log(NO_ID,KODES);
+
+    connection.query("UPDATE sup SET KODES=?,NAMAS=?,ALAMAT=?,KOTA=?,TELPON1=?,FAX=?,HP=?,KONTAK=?,EMAIL=?,NPWP=?,KET=?,BLACNOA=?,BLACNOB=?,BANK=?,BANK_CAB=?,BANK_KOTA=?,BANK_NAMA=?,BANK_REK=?,LIM=?,HARI=?,TYP=?,USRNM=?,TG_SMP=? where NO_ID=?", [KODES,NAMAS,ALAMAT,KOTA,TELPON1,FAX,HP,KONTAK,EMAIL,NPWP,KET,BLACNOA,BLACNOB,BANK,BANK_CAB,BANK_KOTA,BANK_NAMA,BANK_REK,LIM,HARI,TYP,USRNM,TG_SMP,NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -855,13 +874,13 @@ exports.ubahsup = function (req, res) {
             }
         });
 };
-//delete data supplier
+
 exports.hapussup = function (req, res) {
     var NO_ID = req.body.NO_ID;
     connection.query("DELETE FROM sup WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -870,6 +889,7 @@ exports.hapussup = function (req, res) {
         });
 };
 
+///========================/// MASTER BAHAN ///========================///
 //paginate
 exports.bahan_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
@@ -878,7 +898,7 @@ exports.bahan_paginate = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -892,7 +912,7 @@ exports.count_bahanpaginate = function (req, res) {
     connection.query("select COUNT(*) from bhn where KD_BHN like ? or NA_BHN like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -904,7 +924,7 @@ exports.caribahan = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -916,7 +936,7 @@ exports.caribahan = function (req, res) {
 exports.tampilbahan = function (req, res) {
     connection.query("select * from bhn", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -931,7 +951,7 @@ exports.modalbahanstok = function (req, res) {
         connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? order by KD_BHN", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -942,7 +962,7 @@ exports.modalbahanstok = function (req, res) {
         connection.query("select * from bhn order by KD_BHN",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -955,19 +975,16 @@ exports.modalbahanstok = function (req, res) {
 exports.tambahbahan = function (req, res) {
     var KD_BHN = req.body.KD_BHN;
     var NA_BHN = req.body.NA_BHN;
-    var JENIS = req.body.JENIS;
     var SATUAN = req.body.SATUAN;
-    var TYPE = req.body.TYPE;
-    var KODEV = req.body.KODEV;
-    var KD_BHNLM = req.body.KD_BHNLM;
-    var NA_BHNLM = req.body.NA_BHNLM;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
+    var ACNO = req.body.ACNO;
+    var ACNO_NM = req.body.ACNO_NM;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("insert into bhn (KD_BHN,NA_BHN,JENIS,SATUAN,TYPE,KODEV,KD_BHNLM,NA_BHNLM,KODE,NAMA) values (?,?,?,?,?,?,?,?,?,?); CALL bhndins(?);", [KD_BHN, NA_BHN, JENIS, SATUAN, TYPE, KODEV, KD_BHNLM, NA_BHNLM, KODE, NAMA, KD_BHN],
+    connection.query("insert into bhn (KD_BHN,NA_BHN,SATUAN,ACNO,ACNO_NM,USRNM,TG_SMP) values (?,?,?,?,?,?,?); CALL bhndins(?);", [KD_BHN,NA_BHN,SATUAN,ACNO,ACNO_NM,USRNM,TG_SMP,KD_BHN],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -980,19 +997,16 @@ exports.ubahbahan = function (req, res) {
     var NO_ID = req.body.NO_ID;
     var KD_BHN = req.body.KD_BHN;
     var NA_BHN = req.body.NA_BHN;
-    var JENIS = req.body.JENIS;
     var SATUAN = req.body.SATUAN;
-    var TYPE = req.body.TYPE;
-    var KODEV = req.body.KODEV;
-    var KD_BHNLM = req.body.KD_BHNLM;
-    var NA_BHNLM = req.body.NA_BHNLM;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
+    var ACNO = req.body.ACNO;
+    var ACNO_NM = req.body.ACNO_NM;
+    var USRNM = req.body.USRNM;
+    var TG_SMP = req.body.TG_SMP;
 
-    connection.query("UPDATE bhn SET KD_BHN=? ,NA_BHN=? ,JENIS=? ,SATUAN=? ,TYPE=? ,KODEV=? ,KD_BHNLM=? ,NA_BHNLM=? ,KODE=? ,NAMA=? where NO_ID = ? ", [KD_BHN, NA_BHN, JENIS, SATUAN, TYPE, KODEV, KD_BHNLM, NA_BHNLM, KODE, NAMA, NO_ID],
+    connection.query("UPDATE bhn SET KD_BHN=?,NA_BHN=?,SATUAN=?,ACNO=?,ACNO_NM=?,USRNM=?,TG_SMP=? where NO_ID=?", [KD_BHN,NA_BHN,SATUAN,ACNO,ACNO_NM,USRNM,TG_SMP,NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1000,13 +1014,13 @@ exports.ubahbahan = function (req, res) {
             }
         });
 };
-//delete data
+
 exports.hapusbahan = function (req, res) {
     var NO_ID = req.body.NO_ID;
     connection.query("DELETE FROM bhn WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -1023,7 +1037,7 @@ exports.nonbahan_paginate = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1037,7 +1051,7 @@ exports.count_nonbahanpaginate = function (req, res) {
     connection.query("select COUNT(*) from bhn where KD_BHN like ? or NA_BHN like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -1049,7 +1063,7 @@ exports.carinonbahan = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1061,7 +1075,7 @@ exports.carinonbahan = function (req, res) {
 exports.tampilnonbahan = function (req, res) {
     connection.query("select * from bhn", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1076,7 +1090,7 @@ exports.modalnonbahan = function (req, res) {
         connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? order by KD_BHN", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1087,7 +1101,7 @@ exports.modalnonbahan = function (req, res) {
         connection.query("select * from bhn order by KD_BHN",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1106,7 +1120,7 @@ exports.mesin_paginate = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1120,7 +1134,7 @@ exports.count_mesinpaginate = function (req, res) {
     connection.query("select COUNT(*) from bhn where KD_BHN like ? or NA_BHN like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -1132,7 +1146,7 @@ exports.carimesin = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1144,7 +1158,7 @@ exports.carimesin = function (req, res) {
 exports.tampilmesin = function (req, res) {
     connection.query("select * from bhn", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1159,7 +1173,7 @@ exports.modalmesin = function (req, res) {
         connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? order by KD_BHN", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1170,7 +1184,7 @@ exports.modalmesin = function (req, res) {
         connection.query("select * from bhn order by KD_BHN",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1189,7 +1203,7 @@ exports.sparepart_paginate = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1203,7 +1217,7 @@ exports.count_sparepartpaginate = function (req, res) {
     connection.query("select COUNT(*) from bhn where KD_BHN like ? or NA_BHN like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -1215,7 +1229,7 @@ exports.carisparepart = function (req, res) {
     connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? or SATUAN like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1227,7 +1241,7 @@ exports.carisparepart = function (req, res) {
 exports.tampilsparepart = function (req, res) {
     connection.query("select * from bhn", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1242,7 +1256,7 @@ exports.modalsparepart = function (req, res) {
         connection.query("select * from bhn where KD_BHN like ? or NA_BHN like ? order by KD_BHN", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1253,7 +1267,7 @@ exports.modalsparepart = function (req, res) {
         connection.query("select * from bhn order by KD_BHN",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1271,7 +1285,7 @@ exports.tambahsparepart = function (req, res) {
     connection.query("insert into bhn (KD_BHN,NA_BHN,SATUAN) values (?,?,?)", [KD_BHN, NA_BHN, SATUAN],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1289,7 +1303,7 @@ exports.ubahsparepart = function (req, res) {
     connection.query("UPDATE bhn SET KD_BHN=?,NA_BHN=?,SATUAN=? where NO_ID = ? ", [KD_BHN, NA_BHN, SATUAN, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1303,7 +1317,7 @@ exports.hapussparepart = function (req, res) {
     connection.query("DELETE FROM bhn WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -1316,7 +1330,7 @@ exports.hapussparepart = function (req, res) {
 exports.modal_acckas = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
-        connection.query("select * from account where BNK='KAS' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
+        connection.query("select * from account where BNK='1' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -1343,7 +1357,7 @@ exports.modal_acckas = function (req, res) {
 exports.modal_accbank = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
-        connection.query("select * from account where BNK='BANK' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
+        connection.query("select * from account where BNK='2' and (ACNO like ? or NAMA like ?) order by ACNO", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -1357,7 +1371,7 @@ exports.modal_accbank = function (req, res) {
         connection.query("select * from account order by ACNO",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1429,7 +1443,7 @@ exports.caricus = function (req, res) {
     connection.query("select * from cust where KODEC like ? or NAMAC like ? or ALAMAT like ? or KOTA like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1441,7 +1455,7 @@ exports.caricus = function (req, res) {
 exports.tampilcus = function (req, res) {
     connection.query("select * from cust", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1456,7 +1470,7 @@ exports.modalcusstok = function (req, res) {
         connection.query("select * from cust where KODEC like ? or NAMAC like ? order by KODEC", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1467,7 +1481,7 @@ exports.modalcusstok = function (req, res) {
         connection.query("select * from cust order by KODEC",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1502,7 +1516,7 @@ exports.tambahcus = function (req, res) {
     connection.query("insert into cust (KODEC,NAMAC,ALAMAT,KOTA,TELPON1,HP,FAX,KONTAK,EMAIL,BANK,BANK_NAMA,BANK_REK,BANK_CAB,BANK_KOTA,PKP,NPWP,BARANG,DISKON,HARGA,AKT) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); CALL custdins(?);", [KODEC, NAMAC, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, KODEC],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1537,7 +1551,7 @@ exports.ubahcus = function (req, res) {
     connection.query("UPDATE cust SET KODEC=? ,NAMAC=? ,ALAMAT=? ,KOTA=? ,TELPON1=? ,HP=? ,FAX=? ,KONTAK=? ,EMAIL=? ,BANK=? ,BANK_NAMA=? ,BANK_REK=? ,BANK_CAB=? ,BANK_KOTA=? ,PKP=? ,NPWP=? ,BARANG=? ,DISKON=? ,HARGA=? ,AKT=? where NO_ID = ? ", [KODEC, NAMAC, ALAMAT, KOTA, TELPON1, HP, FAX, KONTAK, EMAIL, BANK, BANK_NAMA, BANK_REK, BANK_CAB, BANK_KOTA, PKP, NPWP, BARANG, DISKON, HARGA, AKT, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1552,7 +1566,7 @@ exports.hapuscus = function (req, res) {
     connection.query("DELETE FROM cust WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data Customer', res);
@@ -1567,7 +1581,7 @@ exports.caribank = function (req, res) {
     connection.query("select * from master_bank where KD_BANK like ? or NA_BANK like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1579,7 +1593,7 @@ exports.caribank = function (req, res) {
 exports.tampilbank = function (req, res) {
     connection.query("select * from master_bank", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1594,7 +1608,7 @@ exports.modalbankstok = function (req, res) {
         connection.query("select * from master_bank where KD_BANK like ? or NA_BANK like ? order by NA_BANK", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1605,7 +1619,7 @@ exports.modalbankstok = function (req, res) {
         connection.query("select * from master_bank order by NA_BANK",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1622,7 +1636,7 @@ exports.tambahbank = function (req, res) {
     connection.query("insert into master_bank (KD_BANK,NA_BANK) values (?,?)", [KD_BANK, NA_BANK],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1639,7 +1653,7 @@ exports.ubahbank = function (req, res) {
     connection.query("UPDATE master_bank SET KD_BANK=? ,NA_BANK=? where NO_ID = ? ", [KD_BANK, NA_BANK, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1654,7 +1668,7 @@ exports.hapusbank = function (req, res) {
     connection.query("DELETE FROM master_bank WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data Bank', res);
@@ -1669,7 +1683,7 @@ exports.cariperiode = function (req, res) {
     connection.query("select * from perid where PERIO like ? or YER like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1681,7 +1695,7 @@ exports.cariperiode = function (req, res) {
 exports.tampilperiode = function (req, res) {
     connection.query("select * from perid", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1696,7 +1710,7 @@ exports.modalperiodestok = function (req, res) {
         connection.query("select * from perid where PERIO like ? or YER like ? order by PERIOD", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1707,7 +1721,7 @@ exports.modalperiodestok = function (req, res) {
         connection.query("select * from perid order by PERIO",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1724,7 +1738,7 @@ exports.tambahperiode = function (req, res) {
     connection.query("insert into perid (PERIO,YER) values (?,?)", [PERIOD, YER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1741,7 +1755,7 @@ exports.ubahperiode = function (req, res) {
     connection.query("UPDATE perid SET PERIO=? ,YER=? where NO_ID = ? ", [PERIOD, YER, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1756,7 +1770,7 @@ exports.hapusperiode = function (req, res) {
     connection.query("DELETE FROM perid WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data Bank', res);
@@ -1775,7 +1789,7 @@ exports.gud_paginate = function (req, res) {
     connection.query("select * from gdg where KODE like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1790,7 +1804,7 @@ exports.count_gudpaginate = function (req, res) {
     connection.query("select COUNT(*) from gdg where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -1802,7 +1816,7 @@ exports.carigud = function (req, res) {
     connection.query("select * from gdg where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1814,7 +1828,7 @@ exports.carigud = function (req, res) {
 exports.tampilgud = function (req, res) {
     connection.query("select * from gdg", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1830,7 +1844,7 @@ exports.tambahgud = function (req, res) {
     connection.query("insert into gdg (KODE,NAMA) values (?,?)", [KODE, NAMA],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1847,7 +1861,7 @@ exports.ubahgud = function (req, res) {
     connection.query("UPDATE gdg SET KODE=?, NAMA=? where NO_ID = ? ", [KODE, NAMA, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1861,7 +1875,7 @@ exports.hapusgud = function (req, res) {
     connection.query("DELETE FROM gdg WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -1880,7 +1894,7 @@ exports.emkl_paginate = function (req, res) {
     connection.query("select * from mkl where KODE like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1895,7 +1909,7 @@ exports.count_emklpaginate = function (req, res) {
     connection.query("select COUNT(*) from mkl where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -1907,7 +1921,7 @@ exports.cariemkl = function (req, res) {
     connection.query("select * from mkl where KODE like ? or NAMA like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -1919,7 +1933,7 @@ exports.cariemkl = function (req, res) {
 exports.tampilemkl = function (req, res) {
     connection.query("select * from mkl", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -1935,7 +1949,7 @@ exports.tambahemkl = function (req, res) {
     connection.query("insert into mkl (KODE,NAMA) values (?,?)", [KODE, NAMA],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -1952,7 +1966,7 @@ exports.ubahemkl = function (req, res) {
     connection.query("UPDATE mkl SET KODE=?, NAMA=? where NO_ID = ? ", [KODE, NAMA, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -1966,7 +1980,7 @@ exports.hapusemkl = function (req, res) {
     connection.query("DELETE FROM mkl WHERE NO_ID=? ", [NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -1986,7 +2000,7 @@ exports.modalhutbahan = function (req, res) {
         connection.query("select * from hut where NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -1997,7 +2011,7 @@ exports.modalhutbahan = function (req, res) {
         connection.query("select * from hut order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2014,7 +2028,7 @@ exports.thutpaginatebahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2028,7 +2042,7 @@ exports.countthutpaginatebahan = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2039,7 +2053,7 @@ exports.tampilthutbahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2052,7 +2066,7 @@ exports.carithutbahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2075,7 +2089,7 @@ exports.tambahthutbahan = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, TOTAL, NETT, NOTES, FLAG, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, TOTAL, NETT, NOTES, FLAG, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2100,7 +2114,7 @@ exports.ubahthutbahan = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?,TGL=?,NO_BELI=?,KODES=?,NAMAS=?,TOTAL=?,NETT=?,NOTES=?,FLAG=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, TOTAL, NETT, NOTES, FLAG, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2113,7 +2127,7 @@ exports.hapusthutbahan = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2129,7 +2143,7 @@ exports.modalpiu = function (req, res) {
         connection.query("select * from piu where NO_BUKTI like ? or TGL like ? or NO_JUAL like ? or KODEC like ? or NAMAC like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2140,7 +2154,7 @@ exports.modalpiu = function (req, res) {
         connection.query("select * from hut order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2157,7 +2171,7 @@ exports.tpiupaginate = function (req, res) {
     connection.query("select * from jual where (NO_BUKTI like ? or TGL like ? or NO_JUAL like ? or KODEC like ? or NAMAC like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2171,7 +2185,7 @@ exports.counttpiupaginate = function (req, res) {
     connection.query("select COUNT(*) from jual where (NO_BUKTI like ? or TGL like ? or NO_JUAL like ? or KODEC like ? or NAMAC like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2182,7 +2196,7 @@ exports.tampiltpiu = function (req, res) {
     connection.query("select * from jual where (NO_BUKTI like ? or KODEC like ? or NAMAC like ?) and FLAG='PT'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2195,7 +2209,7 @@ exports.caritpiu = function (req, res) {
     connection.query("select * from jual where (NO_BUKTI like ? or KODEC like ? or NAMAC like ?) and FLAG='PT'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2218,7 +2232,7 @@ exports.tambahtpiu = function (req, res) {
     connection.query("insert into jual (NO_BUKTI, TGL, NO_JUAL, KODEC, NAMAC, TOTAL, NETT, NOTES, FLAG, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_JUAL, KODEC, NAMAC, TOTAL, NETT, NOTES, FLAG, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2243,7 +2257,7 @@ exports.ubahtpiu = function (req, res) {
     connection.query("UPDATE jual SET NO_BUKTI=?,TGL=?,NO_JUAL=?,KODEC=?,NAMAC=?,TOTAL=?,NETT=?,NOTES=?,FLAG=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_JUAL, KODEC, NAMAC, TOTAL, NETT, NOTES, FLAG, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2256,7 +2270,7 @@ exports.hapustpiu = function (req, res) {
     connection.query("DELETE FROM jual WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2284,7 +2298,7 @@ exports.tambahheaderpiu = function (req, res) {
     connection.query("insert into piu (NO_BUKTI, TGL, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi piu Header', res);
@@ -2307,7 +2321,7 @@ exports.tambahdetailpiu = function (req, res) {
     connection.query("insert into piud (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, NO_FAKTUR, URAIAN, TOTAL, BAYAR, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Pembayaran Piutang Detail', res);
@@ -2322,7 +2336,7 @@ exports.tampilpiu = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from piu where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PP'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -2348,7 +2362,7 @@ exports.editheaderpiu = function (req, res) {
     connection.query("UPDATE piu set TGL=?, PER=?, KODEC=?, NAMAC=?, ALAMAT=?, KOTA=?, NOTES=?, BAYAR=?, TOTAL=?, FLAG=?, USRNM=? WHERE NO_BUKTI=?", [TGL, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Pembayaran Piutang Header', res);
@@ -2359,7 +2373,7 @@ exports.editheaderpiu = function (req, res) {
 exports.caripiu = function (req, res) {
     connection.query("select * from piu where FLAG='PP'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -2373,7 +2387,7 @@ exports.ambilpiudetail = function (req, res) {
     connection.query("SELECT * from piu where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -2385,7 +2399,7 @@ exports.hapuspiu = function (req, res) {
     connection.query("DELETE from piu where NO_BUKTI=?; DELETE from piud where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2400,7 +2414,7 @@ exports.modalthutnonbahan = function (req, res) {
         connection.query("select * from beli where NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2411,7 +2425,7 @@ exports.modalthutnonbahan = function (req, res) {
         connection.query("select * from beli order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2428,7 +2442,7 @@ exports.thutpaginatenonbahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2442,7 +2456,7 @@ exports.countthutpaginatenonbahan = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2453,7 +2467,7 @@ exports.tampilthutnonbahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='NB'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2466,7 +2480,7 @@ exports.carithutnonbahan = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='NB'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2490,7 +2504,7 @@ exports.tambahthutnonbahan = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2516,7 +2530,7 @@ exports.ubahthutnonbahan = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?,TGL=?,NO_BELI=?,KODES=?,NAMAS=?,DR=?,TOTAL=?,NOTES=?,FLAG=?,FLAG2=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2529,7 +2543,7 @@ exports.hapusthutnonbahan = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2544,7 +2558,7 @@ exports.modalthutimport = function (req, res) {
         connection.query("select * from beli where NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2555,7 +2569,7 @@ exports.modalthutimport = function (req, res) {
         connection.query("select * from beli order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2572,7 +2586,7 @@ exports.thutpaginateimport = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2586,7 +2600,7 @@ exports.countthutpaginateimport = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2597,7 +2611,7 @@ exports.tampilthutimport = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='IMP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2610,7 +2624,7 @@ exports.carithutimport = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='IMP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2634,7 +2648,7 @@ exports.tambahthutimport = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2660,7 +2674,7 @@ exports.ubahthutimport = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?,TGL=?,NO_BELI=?,KODES=?,NAMAS=?,DR=?,TOTAL=?,NOTES=?,FLAG=?,FLAG2=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2673,7 +2687,7 @@ exports.hapusthutimport = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2688,7 +2702,7 @@ exports.modalthutmesin = function (req, res) {
         connection.query("select * from beli where NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2699,7 +2713,7 @@ exports.modalthutmesin = function (req, res) {
         connection.query("select * from beli order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2716,7 +2730,7 @@ exports.thutpaginatemesin = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2730,7 +2744,7 @@ exports.countthutpaginatemesin = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2741,7 +2755,7 @@ exports.tampilthutmesin = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='IM'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2754,7 +2768,7 @@ exports.carithutmesin = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='IM'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2778,7 +2792,7 @@ exports.tambahthutmesin = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2804,7 +2818,7 @@ exports.ubahthutmesin = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?,TGL=?,NO_BELI=?,KODES=?,NAMAS=?,DR=?,TOTAL=?,NOTES=?,FLAG=?,FLAG2=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2817,7 +2831,7 @@ exports.hapusthutmesin = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2832,7 +2846,7 @@ exports.modalthutsparepart = function (req, res) {
         connection.query("select * from beli where NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2843,7 +2857,7 @@ exports.modalthutsparepart = function (req, res) {
         connection.query("select * from beli order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2860,7 +2874,7 @@ exports.thutpaginatesparepart = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?) LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2874,7 +2888,7 @@ exports.countthutpaginatesparepart = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or TGL like ? or NO_BELI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -2885,7 +2899,7 @@ exports.tampilthutsparepart = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='SP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2898,7 +2912,7 @@ exports.carithutsparepart = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG='HT' and FLAG2='SP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -2922,7 +2936,7 @@ exports.tambahthutsparepart = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -2948,7 +2962,7 @@ exports.ubahthutsparepart = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?,TGL=?,NO_BELI=?,KODES=?,NAMAS=?,DR=?,TOTAL=?,NOTES=?,FLAG=?,FLAG2=?,PER=?,USRNM=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_BELI, KODES, NAMAS, DR, TOTAL, NOTES, FLAG, FLAG2, PER, USRNM, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -2961,7 +2975,7 @@ exports.hapusthutsparepart = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -2977,7 +2991,7 @@ exports.modalpo = function (req, res) {
         connection.query("select * from po where NO_PO like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ? order by NO_PO", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -2988,7 +3002,7 @@ exports.modalpo = function (req, res) {
         connection.query("select * from po order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -3005,7 +3019,7 @@ exports.po_paginate = function (req, res) {
     connection.query("select * from po where (NO_PO like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ?) AND GOL='Y' LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3019,7 +3033,7 @@ exports.count_popaginate = function (req, res) {
     connection.query("select COUNT(*) from po where (NO_PO like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ?) AND GOL='Y' ", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -3031,7 +3045,7 @@ exports.tampilpo = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ?", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3044,7 +3058,7 @@ exports.caripo = function (req, res) {
     connection.query("select * from po where (NO_BUKTI like ? or KODES like ? or NAMAS like ?)", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3072,7 +3086,7 @@ exports.tambahpo = function (req, res) {
     connection.query("insert into po (NO_PO,TGL,JTEMPO,KODES,NAMAS,KD_BRG,NA_BRG,KG,HARGA,TOTAL,NOTES,RPRATE,RPHARGA,RPTOTAL,GOL) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Y')", [NO_PO, TGL, JTEMPO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES, RPRATE, RPHARGA, RPTOTAL],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -3100,7 +3114,7 @@ exports.ubahpo = function (req, res) {
     connection.query("UPDATE po SET NO_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KD_BRG=?, NA_BRG=?, KG=?, HARGA=?, TOTAL=?, NOTES=?, RPRATE=?, RPHARGA=?, RPTOTAL=? where NO_ID = ? ", [NO_PO, TGL, JTEMPO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES, RPRATE, RPHARGA, RPTOTAL, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -3113,7 +3127,7 @@ exports.hapuspo = function (req, res) {
     connection.query("DELETE FROM po WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -3129,7 +3143,7 @@ exports.modalpod = function (req, res) {
         connection.query("select * from pod where NO_BUKTI like ? or KODES like ? or NAMAS like ? or KD_BHN like ? or NA_BHN like ? order by NO_BUKTI", [cari, cari, cari, cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -3140,7 +3154,7 @@ exports.modalpod = function (req, res) {
         connection.query("select * from pod order by NO_BUKTI",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -3155,7 +3169,7 @@ exports.tampilpod = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from pod where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ?", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3168,7 +3182,7 @@ exports.caripod = function (req, res) {
     connection.query("select * from pod where NO_BUKTI like ? or KODES like ? or NAMAS like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3181,7 +3195,7 @@ exports.caripodbahan = function (req, res) {
     connection.query("select * from pod where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG2='BH'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3194,7 +3208,7 @@ exports.caripodnonbahan = function (req, res) {
     connection.query("select * from pod where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG2='NB'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3207,7 +3221,7 @@ exports.caripodimport = function (req, res) {
     connection.query("select * from pod where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG2='IMP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3220,7 +3234,7 @@ exports.caripodmesin = function (req, res) {
     connection.query("select * from pod where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG2='IM'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3233,7 +3247,7 @@ exports.caripodsparepart = function (req, res) {
     connection.query("select * from pod where (NO_BUKTI like ? or KODES like ? or NAMAS like ?) and FLAG2='SP'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3251,7 +3265,7 @@ exports.caripon = function (req, res) {
     connection.query("select * from po where ( NO_PO like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ? ) AND GOL='Z' ", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3278,7 +3292,7 @@ exports.tambahpon = function (req, res) {
     connection.query("insert into po (NO_PO,TGL,JTEMPO,KODES,NAMAS,KD_BRG,NA_BRG,KG,HARGA,TOTAL,NOTES,RPRATE,RPHARGA,RPTOTAL,GOL) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Z')", [NO_PO, TGL, JTEMPO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES, RPRATE, RPHARGA, RPTOTAL],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -3306,7 +3320,7 @@ exports.ubahpon = function (req, res) {
     connection.query("UPDATE po SET NO_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KD_BRG=?, NA_BRG=?, KG=?, HARGA=?, TOTAL=?, NOTES=?, RPRATE=?, RPHARGA=?, RPTOTAL=? where NO_ID = ? ", [NO_PO, TGL, JTEMPO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES, RPRATE, RPHARGA, RPTOTAL, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -3319,7 +3333,7 @@ exports.hapuspon = function (req, res) {
     connection.query("DELETE FROM po WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -3337,7 +3351,7 @@ exports.beli_paginate = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ?) AND GOL='Y' LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3351,7 +3365,7 @@ exports.count_belipaginate = function (req, res) {
     connection.query("select COUNT(*) from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ?) AND GOL='Y' ", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -3362,7 +3376,7 @@ exports.caribeli = function (req, res) {
     connection.query("select * from beli where (NO_BUKTI like ? or KODES like ? or NAMAS like ? or KD_BRG like ? or NA_BRG like ?) AND GOL='Y' ", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3399,7 +3413,7 @@ exports.tambahbeli = function (req, res) {
     connection.query("insert into beli (NO_BUKTI, TGL, NO_PO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, LAIN, TOTAL, NOTES, RPRATE, RPHARGA, RPLAIN, RPTOTAL, AJU, BL, EMKL, JCONT, HARGAT, ACNOA, NACNOA, GOL) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Y')", [NO_BUKTI, TGL, NO_PO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, LAIN, TOTAL, NOTES, RPRATE, RPHARGA, RPLAIN, RPTOTAL, AJU, BL, EMKL, JCONT, HARGAT, ACNOA, NACNOA, GOL],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -3436,7 +3450,7 @@ exports.ubahbeli = function (req, res) {
     connection.query("UPDATE beli SET NO_BUKTI=?, TGL=?, NO_PO=?, KODES=?, NAMAS=?, KD_BRG=?, NA_BRG=?, KG=?, HARGA=?, LAIN=?, TOTAL=?, NOTES=?, RPRATE=?, RPHARGA=?, RPLAIN=?, RPTOTAL=?, AJU=?, BL=?, EMKL=?, JCONT=?, HARGAT=?, ACNOA=?, NACNOA=? where NO_ID = ? ", [NO_BUKTI, TGL, NO_PO, KODES, NAMAS, KD_BRG, NA_BRG, KG, HARGA, LAIN, TOTAL, NOTES, RPRATE, RPHARGA, RPLAIN, RPTOTAL, AJU, BL, EMKL, JCONT, HARGAT, ACNOA, NACNOA, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -3449,7 +3463,7 @@ exports.hapusbeli = function (req, res) {
     connection.query("DELETE FROM beli WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -3465,7 +3479,7 @@ exports.cariso = function (req, res) {
     connection.query("select * from so where NO_SO like ? or KODEC like ? or NAMAC like ? or KD_BRG like ? or NA_BRG like ?", [filter_cari, filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3490,7 +3504,7 @@ exports.tambahso = function (req, res) {
     connection.query("insert into so (NO_SO,TGL,JTEMPO,KODEC,NAMAC,KOTA,KD_BRG,NA_BRG,KG,HARGA,TOTAL,NOTES) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_SO, TGL, JTEMPO, KODEC, NAMAC, KOTA, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -3516,7 +3530,7 @@ exports.ubahso = function (req, res) {
     connection.query("UPDATE so SET NO_SO=?, TGL=?, JTEMPO=?, KODEC=?, NAMAC=?, KOTA=?, KD_BRG=?, NA_BRG=?, KG=?, HARGA=?, TOTAL=?, NOTES=? where NO_ID = ? ", [NO_SO, TGL, JTEMPO, KODEC, NAMAC, KOTA, KD_BRG, NA_BRG, KG, HARGA, TOTAL, NOTES, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -3529,7 +3543,7 @@ exports.hapusso = function (req, res) {
     connection.query("DELETE FROM so WHERE NO_ID=? ", [NOID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -3547,7 +3561,7 @@ exports.carikoreksistok = function (req, res) {
     connection.query("select * from stock where NO_BUKTI like ? or KD_BRG like ? or NA_BRG like ?", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -3569,7 +3583,7 @@ exports.tambahkoreksistok = function (req, res) {
     connection.query("insert into stock (NO_BUKTI,TGL,KD_BRG,NA_BRG,KG,NOTES,HARGA,TOTAL) values (?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, KD_BRG, NA_BRG, KG, NOTES, HARGA, TOTAL],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Data', res);
@@ -3592,7 +3606,7 @@ exports.ubahkoreksistok = function (req, res) {
     connection.query("UPDATE stock SET NO_BUKTI=?, TGL=?, KD_BRG=?, NA_BRG=?, KG=?, NOTES=?, HARGA=?, TOTAL=? where NO_ID = ? ", [NO_BUKTI, TGL, KD_BRG, NA_BRG, KG, NOTES, HARGA, TOTAL, NO_ID],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Ubah Data', res);
@@ -3606,7 +3620,7 @@ exports.hapuskoreksistok = function (req, res) {
     connection.query("DELETE FROM stock WHERE NO_BUKTI=? ", [NOBUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Hapus Data', res);
@@ -3616,7 +3630,7 @@ exports.hapuskoreksistok = function (req, res) {
 };
 
 
-///TRANSAKSI HEADER DETAIL KAS
+///=============/// TRANSAKSI HEADER DETAIL KAS ///=============///
 ///HEADER
 exports.tambahheaderkas = function (req, res) {
     var NO_BUKTI = req.body.nobukti;
@@ -3632,7 +3646,7 @@ exports.tambahheaderkas = function (req, res) {
     connection.query("insert into kas (NO_BUKTI,TGL,PER,TYPE,KET,USRNM,BACNO,BNAMA,JUMLAH,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TANGGAL, PER, TIPE, KET, USER, BACNO, BNAMA, JUMLAH, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Kas Header', res);
@@ -3655,7 +3669,7 @@ exports.tambahdetailkas = function (req, res) {
     connection.query("insert into kasd (REC,NO_BUKTI,PER,TYPE,ACNO,NACNO,URAIAN,JUMLAH,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, TIPE, ACNO, NACNO, URAIAN, JUMLAH, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Kas Detail', res);
@@ -3670,7 +3684,7 @@ exports.tampilkasmasuk = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND TYPE='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3685,7 +3699,7 @@ exports.tampilkaskeluar = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND TYPE='BKK'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3705,7 +3719,7 @@ exports.editheaderkas = function (req, res) {
     connection.query("UPDATE kas set TGL=?,KET=?,USRNM=?,BACNO=?,BNAMA=?,JUMLAH=? WHERE NO_BUKTI=?", [TANGGAL, KET, USER, BACNO, BNAMA, JUMLAH, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Kas Header', res);
@@ -3735,7 +3749,7 @@ exports.tambahheaderbank = function (req, res) {
     connection.query("insert into bank (NO_BUKTI,TGL,PER,TYPE,KET,USRNM,BACNO,BNAMA,JUMLAH,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TANGGAL, PER, TIPE, KET, USER, BACNO, BNAMA, JUMLAH, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -3758,7 +3772,7 @@ exports.tambahdetailbank = function (req, res) {
     connection.query("insert into bankd (REC,NO_BUKTI,PER,TYPE,ACNO,NACNO,URAIAN,JUMLAH,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, TIPE, ACNO, NACNO, URAIAN, JUMLAH, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Detail', res);
@@ -3773,7 +3787,7 @@ exports.tampilbankmasuk = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from bank where if(?<>'',NO_BUKTI=?,true) AND TGL BETWEEN ? AND ? AND TYPE='BBM'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3788,7 +3802,7 @@ exports.tampilbankkeluar = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from bank where if(?<>'',NO_BUKTI=?,true) AND TGL BETWEEN ? AND ? AND TYPE='BBK'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3808,7 +3822,7 @@ exports.editheaderbank = function (req, res) {
     connection.query("UPDATE bank set TGL=?,KET=?,USRNM=?,BACNO=?,BNAMA=?,JUMLAH=? WHERE NO_BUKTI=?", [TANGGAL, KET, USER, BACNO, BNAMA, JUMLAH, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Bank Header', res);
@@ -3832,7 +3846,7 @@ exports.tambahheadermemo = function (req, res) {
     connection.query("insert into memo (NO_BUKTI,TGL,KET,DEBET,KREDIT,PER,USRNM,FLAG) values (?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, KET, DEBET, KREDIT, PER, USRNM, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -3855,7 +3869,7 @@ exports.tambahdetailmemo = function (req, res) {
     connection.query("insert into memod (REC,NO_BUKTI,PER,ACNO,NACNO,URAIAN,DEBET,KREDIT,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, ACNO, NACNO, URAIAN, DEBET, KREDIT, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Detail', res);
@@ -3870,7 +3884,7 @@ exports.tampilmemo = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from memo where if(?<>'',NO_BUKTI=?,true) AND TGL BETWEEN ? AND ? AND FLAG='M'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -3891,7 +3905,7 @@ exports.editheadermemo = function (req, res) {
     connection.query("UPDATE memo set TGL=?,KET=?,DEBET=?,KREDIT=?,PER=?,USRNM=?,FLAG=? WHERE NO_BUKTI=?", [TGL, KET, DEBET, KREDIT, PER, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Memo Header', res);
@@ -3905,7 +3919,7 @@ exports.hapusmemo = function (req, res) {
     connection.query("DELETE from memo where NO_BUKTI=?; DELETE from memod where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4070,7 +4084,7 @@ exports.hapusstockbhn = function (req, res) {
     connection.query("DELETE from stocka where NO_BUKTI=?; DELETE from stockad where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4088,7 +4102,7 @@ exports.mutasibrg_paginate = function (req, res) {
     connection.query("select * from stockb where NO_BUKTI like ? or NOTES like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4103,7 +4117,7 @@ exports.count_mutasibrgpaginate = function (req, res) {
     connection.query("select COUNT(*) from stockb where NO_BUKTI like ? or NOTES like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -4121,7 +4135,7 @@ exports.tambahheadermutasibrg = function (req, res) {
     connection.query("insert into stockb (NO_BUKTI,TGL,NOTES,TOTAL_QTY,PER,USRNM,FLAG) values (?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NOTES, TOTAL_QTY, PER, USRNM, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Mutasi Header', res);
@@ -4145,7 +4159,7 @@ exports.tambahdetailmutasibrg = function (req, res) {
     connection.query("insert into stockbd (REC,NO_BUKTI,KD_BRG,NA_BRG,QTY,SATUAN,STOCKR,FISIK,PER,FLAG) values (?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, QTY, SATUAN, STOCKR, FISIK, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Mutasi Detail', res);
@@ -4160,7 +4174,7 @@ exports.tampilmutasibrg = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from stockb where if(?<>'',NO_BUKTI=?,true) AND TGL BETWEEN ? AND ? AND FLAG='KA'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -4180,7 +4194,7 @@ exports.editheadermutasibrg = function (req, res) {
     connection.query("UPDATE stockb set TGL=?,NOTES=?,TOTAL_QTY=?,PER=?,USRNM=?,FLAG=? WHERE NO_BUKTI=?", [TGL, NOTES, TOTAL_QTY, PER, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Mutasi Header', res);
@@ -4194,7 +4208,7 @@ exports.hapusmutasibrg = function (req, res) {
     connection.query("DELETE from stockb where NO_BUKTI=?; DELETE from stockad where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4359,7 +4373,7 @@ exports.hapuspakaibhn = function (req, res) {
     connection.query("DELETE from pakai where NO_BUKTI=?; DELETE from pakaid where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -4381,7 +4395,7 @@ exports.tambahheaderterima = function (req, res) {
     connection.query("insert into terima (NO_BUKTI,TGL,NOTES,TOTAL_QTY,PER,USRNM,FLAG) values (?,?,?,?,?,?,?)", [NO_BUKTI, TGL, NOTES, TOTAL_QTY, PER, USRNM, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Terima Header', res);
@@ -4404,7 +4418,7 @@ exports.tambahdetailterima = function (req, res) {
     connection.query("insert into terimad (REC,NO_BUKTI,KD_BRG,NA_BRG,KET,SATUAN,QTY,PER,FLAG) values (?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, KET, SATUAN, QTY, PER, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Terima Detail', res);
@@ -4419,7 +4433,7 @@ exports.tampilterima = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from terima where if(?<>'',NO_BUKTI=?,true) AND TGL BETWEEN ? AND ? AND FLAG='TR'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -4439,7 +4453,7 @@ exports.editheaderterima = function (req, res) {
     connection.query("UPDATE terima set TGL=?,NOTES=?,TOTAL_QTY=?,PER=?,USRNM=?,FLAG=? WHERE NO_BUKTI=?", [TGL, NOTES, TOTAL_QTY, PER, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Terima Header', res);
@@ -4453,7 +4467,7 @@ exports.hapusterima = function (req, res) {
     connection.query("DELETE from terima where NO_BUKTI=?; DELETE from terimad where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5411,7 +5425,7 @@ exports.so_paginate = function (req, res) {
     connection.query("select * from so where KODEC like ? or NAMAC like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5426,7 +5440,7 @@ exports.count_sopaginate = function (req, res) {
     connection.query("select COUNT(*) from so where KODEC like ? or NAMAC like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -5451,7 +5465,7 @@ exports.tambahheaderso = function (req, res) {
     connection.query("insert into so (NO_BUKTI,TGL,JTEMPO,PER,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, JTEMPO, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah SO Bahan Header', res);
@@ -5477,7 +5491,7 @@ exports.tambahdetailso = function (req, res) {
     connection.query("insert into sod (REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER) values (?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -5492,7 +5506,7 @@ exports.tampilso = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from so where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='SO'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5520,7 +5534,7 @@ exports.editheaderso = function (req, res) {
     connection.query("UPDATE so set TGL=?, JTEMPO=?, PER=?, KODEC=?, NAMAC=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL=?, NETT=?, USRNM=?, FLAG=? WHERE NO_BUKTI=?", [TGL, JTEMPO, PER, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit SO Header', res);
@@ -5535,7 +5549,7 @@ exports.modalso = function (req, res) {
         connection.query("select * from so where KODEC like ? or NAMAC like ? order by KODEC", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5546,7 +5560,7 @@ exports.modalso = function (req, res) {
         connection.query("select * from so order by KODEC",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5561,7 +5575,7 @@ exports.cariso = function (req, res) {
     connection.query("select * from so where (KODEC like ? or NAMAC like ? or ALAMAT like ? or KOTA like ?) and FLAG='SO' and POSTED='0'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5575,7 +5589,7 @@ exports.hapusso = function (req, res) {
     connection.query("DELETE from so where NO_BUKTI=?; DELETE from sod where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5606,7 +5620,7 @@ exports.tambahheadersuratjalan = function (req, res) {
     connection.query("insert into surat (NO_BUKTI,TGL,JTEMPO,PER,NO_SO,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE so SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI, TGL, JTEMPO, PER, NO_SO, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, POSTED],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Surat Header', res);
@@ -5632,7 +5646,7 @@ exports.tambahdetailsuratjalan = function (req, res) {
     connection.query("insert into suratd (REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER) values (?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Surat Detail', res);
@@ -5647,7 +5661,7 @@ exports.tampilsuratjalan = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from surat where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='SJ'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5676,7 +5690,7 @@ exports.editheadersuratjalan = function (req, res) {
     connection.query("UPDATE surat set TGL=?, JTEMPO=?, PER=?, NO_SO=?, KODEC=?, NAMAC=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL=?, NETT=?, USRNM=?, FLAG=? WHERE NO_BUKTI=?", [TGL, JTEMPO, PER, NO_SO, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -5691,7 +5705,7 @@ exports.modalsuratjalan = function (req, res) {
         connection.query("select * from surat where KODEC like ? or NAMAC like ? order by KODEC", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5702,7 +5716,7 @@ exports.modalsuratjalan = function (req, res) {
         connection.query("select * from surat order by KODEC",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5716,7 +5730,7 @@ exports.carisuratjalanjual = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from surat where (NO_BUKTI like ? or TOTAL like ?) and FLAG='SJ'", [filter_cari, filter_cari], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5729,7 +5743,7 @@ exports.carisuratjalan = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from surat where (NO_BUKTI like ? or TOTAL like ?) and FLAG='SJ'", [filter_cari, filter_cari], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5744,7 +5758,7 @@ exports.hapussuratjalan = function (req, res) {
     connection.query("DELETE from surat where NO_BUKTI=?; DELETE from suratd where NO_BUKTI=?; UPDATE po SET POSTED='0' WHERE NO_BUKTI=?", [no_bukti, no_bukti, posted],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5775,7 +5789,7 @@ exports.tambahheaderjual = function (req, res) {
     connection.query("insert into jual (NO_BUKTI,TGL,JTEMPO,PER,NO_SJ,KODEC,NAMAC,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL,NETT,USRNM,FLAG) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE surat SET POSTED=1 WHERE NO_BUKTI=?", [NO_BUKTI, TGL, JTEMPO, PER, NO_SJ, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, POSTED],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Jual Header', res);
@@ -5801,7 +5815,7 @@ exports.tambahdetailjual = function (req, res) {
     connection.query("insert into juald (REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER) values (?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BRG, NA_BRG, SATUAN, KET, HARGA, QTY, TOTAL, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Surat Detail', res);
@@ -5816,7 +5830,7 @@ exports.tampiljual = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from jual where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='JL'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5845,7 +5859,7 @@ exports.editheaderjual = function (req, res) {
     connection.query("UPDATE jual set TGL=?, JTEMPO=?, PER=?, NO_SJ=?, KODEC=?, NAMAC=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL=?, NETT=?, USRNM=?, FLAG=? WHERE NO_BUKTI=?", [TGL, JTEMPO, PER, NO_SJ, KODEC, NAMAC, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL, NETT, USRNM, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Jual Header', res);
@@ -5860,7 +5874,7 @@ exports.modaljual = function (req, res) {
         connection.query("select * from jual where KODEC like ? or NAMAC like ? order by KODEC", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5871,7 +5885,7 @@ exports.modaljual = function (req, res) {
         connection.query("select * from jual order by KODEC",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -5885,7 +5899,7 @@ exports.carijualpiu = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from jual where (NO_BUKTI like ? or NAMAC like ?) and FLAG='JL'", [filter_cari, filter_cari], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5898,7 +5912,7 @@ exports.carijual = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from jual where (NO_BUKTI like ? or TOTAL like ?) and FLAG='JL' and KODEC like ?", [filter_cari, filter_cari, filter_cari], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -5913,7 +5927,7 @@ exports.hapusjual = function (req, res) {
     connection.query("DELETE from jual where NO_BUKTI=?; DELETE from juald where NO_BUKTI=?; UPDATE po SET POSTED='0' WHERE NO_BUKTI=?", [no_bukti, no_bukti, posted],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -5951,7 +5965,7 @@ exports.tambahheaderpononbahan = function (req, res) {
     connection.query("insert into po (NO_BUKTI,DR,KODES,NAMAS,TGL,JTEMPO,KOTA,ALAMAT,KURS,RATE,PROD,JENIS,SUBDIV,AN,NOTESBL,NOTESKRM,KET,PKP,TOTAL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -5994,7 +6008,7 @@ exports.tampilpononbahan = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PB' AND FLAG2='NB'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6030,7 +6044,7 @@ exports.editheaderpononbahan = function (req, res) {
     connection.query("UPDATE po set DR=?, KODES=?, NAMAS=?, TGL=?, JTEMPO=?, KOTA=?,ALAMAT=?, KURS=?, RATE=?, PROD=?, JENIS=?, SUBDIV=?, AN=?, NOTESBL=?, NOTESKRM=?, KET=?, PKP=?, TOTAL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit PO Header', res);
@@ -6044,7 +6058,7 @@ exports.modalpononbahan = function (req, res) {
         connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6055,7 +6069,7 @@ exports.modalpononbahan = function (req, res) {
         connection.query("select * from po order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6070,7 +6084,7 @@ exports.caripononbahan = function (req, res) {
     connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PB' and FLAG2='NB'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -6108,7 +6122,7 @@ exports.tambahheaderpoimport = function (req, res) {
     connection.query("insert into po (NO_BUKTI,DR,KODES,NAMAS,TGL,JTEMPO,KOTA,ALAMAT,KURS,RATE,PROD,JENIS,SUBDIV,AN,NOTESBL,NOTESKRM,KET,PKP,TOTAL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -6136,7 +6150,7 @@ exports.tambahdetailpoimport = function (req, res) {
     connection.query("insert into pod (REC,NO_BUKTI,PER,KD_BHN,NA_BHN,SATUANPP,QTYPP,SATUAN,HARGA,QTY,TOTAL,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, KD_BRG, NA_BRG, SATUAN_PPC, QTY_PPC, SATUAN, HARGA, QTY, TOTAL, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -6151,7 +6165,7 @@ exports.tampilpoimport = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PB' AND FLAG2='IMP'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6187,7 +6201,7 @@ exports.editheaderpoimport = function (req, res) {
     connection.query("UPDATE po set DR=?, KODES=?, NAMAS=?, TGL=?, JTEMPO=?, KOTA=?,ALAMAT=?, KURS=?, RATE=?, PROD=?, JENIS=?, SUBDIV=?, AN=?, NOTESBL=?, NOTESKRM=?, KET=?, PKP=?, TOTAL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit PO Header', res);
@@ -6201,7 +6215,7 @@ exports.modalpoimport = function (req, res) {
         connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6212,7 +6226,7 @@ exports.modalpoimport = function (req, res) {
         connection.query("select * from po order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6227,7 +6241,7 @@ exports.caripoimport = function (req, res) {
     connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PB' and FLAG2='IMP'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -6265,7 +6279,7 @@ exports.tambahheaderpomesin = function (req, res) {
     connection.query("insert into po (NO_BUKTI,DR,KODES,NAMAS,TGL,JTEMPO,KOTA,ALAMAT,KURS,RATE,PROD,JENIS,SUBDIV,AN,NOTESBL,NOTESKRM,KET,PKP,TOTAL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -6293,7 +6307,7 @@ exports.tambahdetailpomesin = function (req, res) {
     connection.query("insert into pod (REC,NO_BUKTI,PER,KD_BHN,NA_BHN,SATUANPP,QTYPP,SATUAN,HARGA,QTY,TOTAL,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, KD_BRG, NA_BRG, SATUAN_PPC, QTY_PPC, SATUAN, HARGA, QTY, TOTAL, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -6308,7 +6322,7 @@ exports.tampilpomesin = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PB' AND FLAG2='IM'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6344,7 +6358,7 @@ exports.editheaderpomesin = function (req, res) {
     connection.query("UPDATE po set DR=?, KODES=?, NAMAS=?, TGL=?, JTEMPO=?, KOTA=?,ALAMAT=?, KURS=?, RATE=?, PROD=?, JENIS=?, SUBDIV=?, AN=?, NOTESBL=?, NOTESKRM=?, KET=?, PKP=?, TOTAL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit PO Header', res);
@@ -6358,7 +6372,7 @@ exports.modalpomesin = function (req, res) {
         connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6369,7 +6383,7 @@ exports.modalpomesin = function (req, res) {
         connection.query("select * from po order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6384,7 +6398,7 @@ exports.caripomesin = function (req, res) {
     connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PB' and FLAG2='IM'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -6422,7 +6436,7 @@ exports.tambahheaderposparepart = function (req, res) {
     connection.query("insert into po (NO_BUKTI,DR,KODES,NAMAS,TGL,JTEMPO,KOTA,ALAMAT,KURS,RATE,PROD,JENIS,SUBDIV,AN,NOTESBL,NOTESKRM,KET,PKP,TOTAL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Bank Header', res);
@@ -6450,7 +6464,7 @@ exports.tambahdetailposparepart = function (req, res) {
     connection.query("insert into pod (REC,NO_BUKTI,PER,KD_BHN,NA_BHN,SATUANPP,QTYPP,SATUAN,HARGA,QTY,TOTAL,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, PER, KD_BRG, NA_BRG, SATUAN_PPC, QTY_PPC, SATUAN, HARGA, QTY, TOTAL, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah PO Detail', res);
@@ -6465,7 +6479,7 @@ exports.tampilposparepart = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from po where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PB' AND FLAG2='SP'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6501,7 +6515,7 @@ exports.editheaderposparepart = function (req, res) {
     connection.query("UPDATE po set DR=?, KODES=?, NAMAS=?, TGL=?, JTEMPO=?, KOTA=?,ALAMAT=?, KURS=?, RATE=?, PROD=?, JENIS=?, SUBDIV=?, AN=?, NOTESBL=?, NOTESKRM=?, KET=?, PKP=?, TOTAL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [DRAGON, KODES, NAMAS, TANGGAL, JTEMPO, KOTA, ALAMAT, MATAUANG, KURS, PRODUK, JENIS, SUBDIV, AN, NOTABAYAR, NOTAKIRIM, NOTES, PAJAK, JUMLAH, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit PO Header', res);
@@ -6515,7 +6529,7 @@ exports.modalposparepart = function (req, res) {
         connection.query("select * from po where KODES like ? or NAMAS like ? order by KODES", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6526,7 +6540,7 @@ exports.modalposparepart = function (req, res) {
         connection.query("select * from po order by KODES",
             function (error, rows, fields) {
                 if (error) {
-                    connection.log(error);
+                    console.log(error);
                 } else {
 
                     response.ok(rows, res);
@@ -6541,7 +6555,7 @@ exports.cariposparepart = function (req, res) {
     connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PB' and FLAG2='SP'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -6852,7 +6866,7 @@ exports.tambahheaderbelinonbahan = function (req, res) {
     connection.query("insert into beli (NO_BUKTI,DR,NO_PO,TGL_PO,TGL,JTEMPO,KODES,NAMAS,KURS,KOTA,ALAMAT,TGL_FKTR,NO_FKTR,NOTES,PPN,NETT,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Header', res);
@@ -6885,7 +6899,7 @@ exports.tambahdetailbelinonbahan = function (req, res) {
     connection.query("insert into belid (REC,NO_BUKTI,KD_BHN,NA_BHN,DR,SATUANPP,QTYPP,SATUAN,QTY,HARGA,BULAT,TOTAL,DISK,VAL,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, DR, SATUANPP, QTYPP, SATUAN, QTY, HARGA, BULAT, TOTAL, DISK, VAL, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Detail', res);
@@ -6900,7 +6914,7 @@ exports.tampilbelinonbahan = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from beli where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='BL' AND FLAG2='NB'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6933,7 +6947,7 @@ exports.editheaderbelinonbahan = function (req, res) {
     connection.query("UPDATE beli set DR=?, NO_PO=?, TGL_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KURS=?, KOTA=?, ALAMAT=?, TGL_FKTR=?, NO_FKTR=?, NOTES=?, PPN=?, NETT=?, USRNM=?, FLAG=?, FLAG2=?, PER=? WHERE NO_BUKTI=?", [DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -6944,7 +6958,7 @@ exports.editheaderbelinonbahan = function (req, res) {
 exports.caribelinonbahan = function (req, res) {
     connection.query("select * from beli where FLAG2='NB'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -6980,7 +6994,7 @@ exports.tambahheaderbeliimport = function (req, res) {
     connection.query("insert into beli (NO_BUKTI,DR,NO_PO,TGL_PO,TGL,JTEMPO,KODES,NAMAS,KURS,KOTA,ALAMAT,TGL_FKTR,NO_FKTR,NOTES,PPN,NETT,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Header', res);
@@ -7013,7 +7027,7 @@ exports.tambahdetailbeliimport = function (req, res) {
     connection.query("insert into belid (REC,NO_BUKTI,KD_BHN,NA_BHN,DR,SATUANPP,QTYPP,SATUAN,QTY,HARGA,BULAT,TOTAL,DISK,VAL,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, DR, SATUANPP, QTYPP, SATUAN, QTY, HARGA, BULAT, TOTAL, DISK, VAL, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Detail', res);
@@ -7028,7 +7042,7 @@ exports.tampilbeliimport = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from beli where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='BL' AND FLAG2='IMP'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7061,7 +7075,7 @@ exports.editheaderbeliimport = function (req, res) {
     connection.query("UPDATE beli set DR=?, NO_PO=?, TGL_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KURS=?, KOTA=?, ALAMAT=?, TGL_FKTR=?, NO_FKTR=?, NOTES=?, PPN=?, NETT=?, USRNM=?, FLAG=?, FLAG2=?, PER=? WHERE NO_BUKTI=?", [DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -7072,7 +7086,7 @@ exports.editheaderbeliimport = function (req, res) {
 exports.caribeliimport = function (req, res) {
     connection.query("select * from beli where FLAG2='IMP'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7108,7 +7122,7 @@ exports.tambahheaderbelimesin = function (req, res) {
     connection.query("insert into beli (NO_BUKTI,DR,NO_PO,TGL_PO,TGL,JTEMPO,KODES,NAMAS,KURS,KOTA,ALAMAT,TGL_FKTR,NO_FKTR,NOTES,PPN,NETT,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Header', res);
@@ -7141,7 +7155,7 @@ exports.tambahdetailbelimesin = function (req, res) {
     connection.query("insert into belid (REC,NO_BUKTI,KD_BHN,NA_BHN,DR,SATUANPP,QTYPP,SATUAN,QTY,HARGA,BULAT,TOTAL,DISK,VAL,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, DR, SATUANPP, QTYPP, SATUAN, QTY, HARGA, BULAT, TOTAL, DISK, VAL, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Detail', res);
@@ -7156,7 +7170,7 @@ exports.tampilbelimesin = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from beli where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='BL' AND FLAG2='IM'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7189,7 +7203,7 @@ exports.editheaderbelimesin = function (req, res) {
     connection.query("UPDATE beli set DR=?, NO_PO=?, TGL_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KURS=?, KOTA=?, ALAMAT=?, TGL_FKTR=?, NO_FKTR=?, NOTES=?, PPN=?, NETT=?, USRNM=?, FLAG=?, FLAG2=?, PER=? WHERE NO_BUKTI=?", [DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -7200,7 +7214,7 @@ exports.editheaderbelimesin = function (req, res) {
 exports.caribelimesin = function (req, res) {
     connection.query("select * from beli where FLAG2='IM'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7236,7 +7250,7 @@ exports.tambahheaderbelisparepart = function (req, res) {
     connection.query("insert into beli (NO_BUKTI,DR,NO_PO,TGL_PO,TGL,JTEMPO,KODES,NAMAS,KURS,KOTA,ALAMAT,TGL_FKTR,NO_FKTR,NOTES,PPN,NETT,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Header', res);
@@ -7269,7 +7283,7 @@ exports.tambahdetailbelisparepart = function (req, res) {
     connection.query("insert into belid (REC,NO_BUKTI,KD_BHN,NA_BHN,DR,SATUANPP,QTYPP,SATUAN,QTY,HARGA,BULAT,TOTAL,DISK,VAL,USRNM,FLAG,FLAG2,PER) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, DR, SATUANPP, QTYPP, SATUAN, QTY, HARGA, BULAT, TOTAL, DISK, VAL, USRNM, FLAG, FLAG2, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Beli Detail', res);
@@ -7284,7 +7298,7 @@ exports.tampilbelisparepart = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from beli where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='BL' AND FLAG2='SP'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7317,7 +7331,7 @@ exports.editheaderbelisparepart = function (req, res) {
     connection.query("UPDATE beli set DR=?, NO_PO=?, TGL_PO=?, TGL=?, JTEMPO=?, KODES=?, NAMAS=?, KURS=?, KOTA=?, ALAMAT=?, TGL_FKTR=?, NO_FKTR=?, NOTES=?, PPN=?, NETT=?, USRNM=?, FLAG=?, FLAG2=?, PER=? WHERE NO_BUKTI=?", [DR, NO_PO, TGL_PO, TGL, JTEMPO, KODES, NAMAS, KURS, KOTA, ALAMAT, TGL_FKTR, NO_FKTR, NOTES, PPN, NETT, USRNM, FLAG, FLAG2, PER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -7328,7 +7342,7 @@ exports.editheaderbelisparepart = function (req, res) {
 exports.caribelisparepart = function (req, res) {
     connection.query("select * from beli where FLAG2='SP'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7346,7 +7360,7 @@ exports.hutbahan_paginate = function (req, res) {
     connection.query("select * from hut where KODES like ? or NAMAS like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7361,7 +7375,7 @@ exports.count_hutbahanpaginate = function (req, res) {
     connection.query("select COUNT(*) from hut where KODES like ? or NAMAS like ?", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
             }
@@ -7385,7 +7399,7 @@ exports.tambahheaderhutbahan = function (req, res) {
     connection.query("insert into hut (NO_BUKTI, TGL, PER, KODES, NAMAS, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, PER, KODES, NAMAS, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi thut Header', res);
@@ -7408,7 +7422,7 @@ exports.tambahdetailhutbahan = function (req, res) {
     connection.query("insert into hutd (REC,NO_BUKTI,NO_FAKTUR,URAIAN,TOTAL,BAYAR,FLAG,PER) values (?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, NO_FAKTUR, URAIAN, TOTAL, BAYAR, FLAG, PER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Transaksi Pembayaran Hutang Detail', res);
@@ -7423,7 +7437,7 @@ exports.tampilhutbahan = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from hut where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='PH'", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7449,7 +7463,7 @@ exports.editheaderhutbahan = function (req, res) {
     connection.query("UPDATE hut set TGL=?, PER=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, BAYAR=?, TOTAL=?, FLAG=?, USRNM=? WHERE NO_BUKTI=?", [TGL, PER, KODES, NAMAS, ALAMAT, KOTA, NOTES, BAYAR, TOTAL, FLAG, USRNM, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Transaksi Beli Header', res);
@@ -7460,7 +7474,7 @@ exports.editheaderhutbahan = function (req, res) {
 exports.carihutbahan = function (req, res) {
     connection.query("select * from hut where FLAG='PH'", function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7474,7 +7488,7 @@ exports.ambilhutdetail = function (req, res) {
     connection.query("SELECT * from hut where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
                 response.ok(rows, res);
 
@@ -7486,7 +7500,7 @@ exports.hapushutbahan = function (req, res) {
     connection.query("DELETE from hut where NO_BUKTI=?; DELETE from hutd where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7507,7 +7521,7 @@ exports.tambahheaderstok = function (req, res) {
     connection.query("insert into stocka (NO_BUKTI,TGL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?)", [NO_BUKTI, TGL, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Stok Header', res);
@@ -7534,7 +7548,7 @@ exports.tambahdetailstok = function (req, res) {
     connection.query("insert into stockad (REC,NO_BUKTI,KD_BHN,NA_BHN,WARNA,SIZE,GOL,QTYP,QTY,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, WARNA, SIZE, GOL, PAIR, LUSIN, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Stok Detail', res);
@@ -7549,7 +7563,7 @@ exports.tampilstok = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from stocka where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ?", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7568,7 +7582,7 @@ exports.editheaderstok = function (req, res) {
     connection.query("UPDATE stocka set TGL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [TGL, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Koreksi Header', res);
@@ -7587,7 +7601,7 @@ exports.tambahheaderstok = function (req, res) {
     connection.query("insert into stocka (NO_BUKTI,TGL,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?)", [NO_BUKTI, TGL, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Stok Header', res);
@@ -7614,7 +7628,7 @@ exports.tambahdetailstok = function (req, res) {
     connection.query("insert into stockad (REC,NO_BUKTI,KD_BHN,NA_BHN,WARNA,SIZE,GOL,QTYP,QTY,PER,FLAG,FLAG2,USRNM) values (?,?,?,?,?,?,?,?,?,?,?,?,?)", [REC, NO_BUKTI, KD_BHN, NA_BHN, WARNA, SIZE, GOL, PAIR, LUSIN, PER, FLAG, FLAG2, USER],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Tambah Stok Detail', res);
@@ -7629,7 +7643,7 @@ exports.tampilstok = function (req, res) {
     var tgl_akhir = req.body.tglakhir;
     connection.query("select * from stocka where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ?", [nobukti, nobukti, tgl_awal, tgl_akhir], function (error, rows, fields) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
 
             response.ok(rows, res);
@@ -7648,7 +7662,7 @@ exports.editheaderstok = function (req, res) {
     connection.query("UPDATE stocka set TGL=?, PER=?, FLAG=?, FLAG2=?, USRNM=? WHERE NO_BUKTI=?", [TGL, PER, FLAG, FLAG2, USER, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok('Berhasil Edit Koreksi Header', res);
@@ -7676,7 +7690,7 @@ exports.lappo = function (req, res) {
     connection.query("select po.NO_PO, po.TGL, po.JTEMPO, po.KODES, po.NAMAS, po.KD_BRG, po.NA_BRG, po.KG, po.HARGA, po.TOTAL, po.NOTES, po.RPRATE, po.RPHARGA, po.RPTOTAL from po where TGL between ? and ?  and po.NAMAS between ? and ? and gol='Y'", [tgla, tglb, namasa, namasb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7734,7 +7748,7 @@ exports.lappon = function (req, res) {
     connection.query(" select po.NO_PO, po.TGL, po.JTEMPO, po.KODES, po.NAMAS, po.KD_BRG, po.NA_BRG, po.KG, po.HARGA, po.TOTAL, po.NOTES, po.RPRATE, po.RPHARGA, po.RPTOTAL from po where TGL between ? and ?  and gol='Z'", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7754,7 +7768,7 @@ exports.lapbelibahan = function (req, res) {
     connection.query("SELECT * FROM	beli,	belid WHERE beli.NO_BUKTI = belid.NO_BUKTI AND beli.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', beli.KODES BETWEEN ? AND ?, beli.KODES BETWEEN ? AND '~~~'), true) AND IF(?<>'', IF(?<>'', belid.KD_BHN BETWEEN ? AND ?, belid.KD_BHN BETWEEN ? AND '~~~'), true) AND beli.FLAG = 'BL' ORDER BY beli.NO_BUKTI;", [tgl_a, tgl_b, sup_a, sup_b, sup_a, sup_b, sup_a, bhn_a, bhn_b, bhn_a, bhn_b, bhn_a],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7772,7 +7786,7 @@ exports.lapthutbahan = function (req, res) {
     connection.query("SELECT * FROM	beli WHERE beli.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', beli.KODES BETWEEN ? AND ?, beli.KODES BETWEEN ? AND '~~~'), true) AND beli.FLAG = 'HT' ORDER BY beli.NO_BUKTI;", [tgl_a, tgl_b, sup_a, sup_b, sup_a, sup_b, sup_a],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7790,7 +7804,7 @@ exports.laphutbahan = function (req, res) {
     connection.query("SELECT * FROM	hut WHERE hut.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', hut.KODES BETWEEN ? AND ?, hut.KODES BETWEEN ? AND '~~~'), true) AND hut.FLAG = 'PH' ORDER BY hut.NO_BUKTI;", [tgl_a, tgl_b, sup_a, sup_b, sup_a, sup_b, sup_a],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7810,7 +7824,7 @@ exports.lapso = function (req, res) {
     connection.query("SELECT * FROM	so, sod WHERE so.NO_BUKTI = sod.NO_BUKTI AND so.TGL BETWEEN ? AND ? AND IF(?<>'', IF(?<>'', so.KODEC BETWEEN ? AND ?, so.KODEC BETWEEN ? AND '~~~'), true) AND IF(?<>'', IF(?<>'', sod.KD_BRG BETWEEN ? AND ?, sod.KD_BRG BETWEEN ? AND '~~~'), true) AND so.FLAG = 'SO' ORDER BY so.NO_BUKTI;", [tgl_a, tgl_b, cus_a, cus_b, cus_a, cus_b, cus_a, brg_a, brg_b, brg_a, brg_b, brg_a],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7828,7 +7842,7 @@ exports.lapsj = function (req, res) {
     connection.query("select * from surat, suratd where surat.NO_BUKTI=suratd.NO_BUKTI and TGL between ? and ? and surat.flag='SJ' ORDER BY surat.NO_BUKTI;", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7844,7 +7858,7 @@ exports.lapjual = function (req, res) {
     connection.query("select * from jual, juald where jual.NO_BUKTI=juald.NO_BUKTI and TGL between ? and ? and jual.flag='JL' ORDER BY jual.NO_BUKTI;", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7860,7 +7874,7 @@ exports.lapstocka = function (req, res) {
     connection.query("select * from stocka, stockad where stocka.NO_BUKTI=stockad.NO_BUKTI and TGL between ? and ? and stocka.flag='KA' ORDER BY stocka.NO_BUKTI;", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7877,7 +7891,7 @@ exports.lapstockb = function (req, res) {
     connection.query("SELECT stocka.no_bukti AS NO_BUKTI, stockad.kd_bHN AS KD_BHN, stockad.na_bHN AS NA_BHN, stockad.satuan AS SATUAN, stockad.qty AS QTY, stockad.HARGA, stockad.TOTAL FROM stocka, stockad WHERE stocka.no_bukti = stockad.no_bukti AND stocka.PER = ? AND stocka.TGL = ? AND stocka.TGL = ? AND stockad.flag='KA' ORDER BY stockad.no_bukti;", [per, tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7895,7 +7909,7 @@ exports.lappakai = function (req, res) {
     connection.query("select * from pakai, pakaid where pakai.NO_BUKTI=pakaid.NO_BUKTI and TGL between ? and ? and pakai.flag='PK' ORDER BY pakai.NO_BUKTI;", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7913,7 +7927,7 @@ exports.lapterima = function (req, res) {
     connection.query("select * from terima, terimad where terima.NO_BUKTI=terimad.NO_BUKTI and TGL between ? and ? and terima.flag='TR' ORDER BY terima.NO_BUKTI;", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7929,7 +7943,7 @@ exports.lapkas = function (req, res) {
     connection.query(" select kas.NO_BUKTI, kas.TGL, kas.KET, kas.BACNO, kas.BNAMA, kas.TYPE, kas.JUMLAH from kas where TGL between ? and ?", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7945,7 +7959,7 @@ exports.lapbank = function (req, res) {
     connection.query(" select bank.NO_BUKTI, bank.TGL, bank.KET, bank.BACNO, bank.BNAMA, bank.TYPE, bank.JUMLAH from bank where TGL between ? and ?", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7961,7 +7975,7 @@ exports.lapmemo = function (req, res) {
     connection.query(" select memo.NO_BUKTI, memo.TGL, memo.KET, memo.DEBET, memo.KREDIT from memo where TGL between ? and ?", [tgla, tglb],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -7982,7 +7996,7 @@ exports.lapperincianstk_bhn = function (req, res) {
     connection.query("select bhn.KD_BHN AS KODE, bhn.NA_BHN AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from bhn, bhnd WHERE bhn.KD_BHN = bhnd.KD_BHN and bhnd.YER=? order by bhn.KD_BHN", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8003,7 +8017,7 @@ exports.lapperincianstk_brg = function (req, res) {
     connection.query("select brg.KD_BRG AS KODE, brg.NA_BRG AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from brg, brgd WHERE brg.KD_BRG = brgd.KD_BRG and brgd.YER=? order by brg.KD_BRG", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8024,7 +8038,7 @@ exports.lapperincian_hut = function (req, res) {
     connection.query("select sup.KODES AS KODE, sup.NAMAS AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from sup, supd WHERE sup.KODES = supd.KODES and supd.YER=? order by sup.KODES", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8045,7 +8059,7 @@ exports.lapperincian_piu = function (req, res) {
     connection.query("select cust.KODEC AS KODE, cust.NAMAC AS NAMA, ?? AS AWAL, ?? AS MASUK, ?? AS KELUAR, ?? AS LAIN, ?? AS AKHIR from cust, custd WHERE cust.KODEC = custd.KODEC and custd.YER=? order by cust.KODEC", [AW, MA, KE, LN, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8069,7 +8083,7 @@ exports.lapperincian_nera = function (req, res) {
     connection.query("select account.ACNO AS KODE, account.NAMA AS NAMA, ?? AS AWAL, ?? AS KAS_DEBET, ?? AS KAS_KREDIT, ?? AS BANK_DEBET, ?? AS BANK_KREDIT, ?? AS MEMO_DEBET, ?? AS MEMO_KREDIT, ?? AS AKHIR from account, accountd WHERE account.ACNO = accountd.ACNO and accountd.YER=? order by account.ACNO", [AW, KD, KK, BD, BK, MD, MK, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8104,7 +8118,7 @@ exports.lapkartustk_bhn = function (req, res) {
         function (error, rows, fields) {
 
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8138,7 +8152,7 @@ exports.lapkartustk_brg = function (req, res) {
         " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8176,7 +8190,7 @@ exports.lapkartu_hut = function (req, res) {
         " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8205,7 +8219,7 @@ exports.lapkartu_piu = function (req, res) {
         " ORDER BY KODE,URUT,NO_BUKTI", [yer, per, per, kode1, kode2, kode1, kode2, kode1],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8226,7 +8240,7 @@ exports.lapbuku_besar = function (req, res) {
     connection.query(string3, [],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8244,7 +8258,7 @@ exports.lapnera = function (req, res) {
     connection.query("SELECT NAMA AS NAMA, ?? AS JUM  FROM nera WHERE YER=? ORDER BY GOL", [JUM, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8263,7 +8277,7 @@ exports.laprl = function (req, res) {
     connection.query("SELECT NAMA AS NAMA, GOL AS GOL, ?? AS JUM, ?? AS AK FROM rl WHERE YER=? ORDER BY GOL", [JUM, AK, yer],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8279,7 +8293,7 @@ exports.jualins = function (req, res) {
     connection.query("Call jualins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8293,7 +8307,7 @@ exports.jualdel = function (req, res) {
     connection.query("Call jualdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8307,7 +8321,7 @@ exports.tpiuins = function (req, res) {
     connection.query("Call tpiuins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8321,7 +8335,7 @@ exports.tpiudel = function (req, res) {
     connection.query("Call tpiudel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8335,7 +8349,7 @@ exports.piuins = function (req, res) {
     connection.query("Call piuins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8349,7 +8363,7 @@ exports.piudel = function (req, res) {
     connection.query("Call piudel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8365,7 +8379,7 @@ exports.beliins = function (req, res) {
     connection.query("Call beliins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8379,7 +8393,7 @@ exports.belidel = function (req, res) {
     connection.query("Call belidel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8393,7 +8407,7 @@ exports.thutins = function (req, res) {
     connection.query("Call thutins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8407,7 +8421,7 @@ exports.thutdel = function (req, res) {
     connection.query("Call thutdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8421,7 +8435,7 @@ exports.hutins = function (req, res) {
     connection.query("Call hutins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8435,7 +8449,7 @@ exports.hutdel = function (req, res) {
     connection.query("Call hutdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8451,7 +8465,7 @@ exports.kasins = function (req, res) {
     connection.query("Call kasins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8465,7 +8479,7 @@ exports.kasdel = function (req, res) {
     connection.query("Call kasdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8479,7 +8493,7 @@ exports.bankins = function (req, res) {
     connection.query("Call bankins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8493,7 +8507,7 @@ exports.bankdel = function (req, res) {
     connection.query("Call bankdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8507,7 +8521,7 @@ exports.memoins = function (req, res) {
     connection.query("Call memoins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8521,7 +8535,7 @@ exports.memodel = function (req, res) {
     connection.query("Call memodel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8537,7 +8551,7 @@ exports.stockains = function (req, res) {
     connection.query("Call stockains(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8551,7 +8565,7 @@ exports.stockadel = function (req, res) {
     connection.query("Call stockadel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8565,7 +8579,7 @@ exports.stockbins = function (req, res) {
     connection.query("Call stockbins(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);
@@ -8579,7 +8593,7 @@ exports.stockbdel = function (req, res) {
     connection.query("Call stockbdel(?)", [NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
-                connection.log(error);
+                console.log(error);
             } else {
 
                 response.ok(rows, res);

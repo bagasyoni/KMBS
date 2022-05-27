@@ -1,12 +1,9 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../constants.dart';
 
 class model_account {
-  static String table = 'account';
-  koneksi_mysql m_koneksi = koneksi_mysql();
   String baseUrl = base_url;
 
   Future<List> data_accountcari(String cari) async {
@@ -83,7 +80,7 @@ class model_account {
       "BNK": data_insert['BNK'],
       "POS1": data_insert['POS1'],
       "USRNM": data_insert['USRNM'],
-      "TG_SMP": data_insert['TG_SMP'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
       "NON": data_insert['NON']
     });
     if (response.statusCode >= 200) {
@@ -106,7 +103,7 @@ class model_account {
       "BNK": data_insert['BNK'],
       "POS1": data_insert['POS1'],
       "USRNM": data_insert['USRNM'],
-      "TG_SMP": data_insert['TG_SMP'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
       "NON": data_insert['NON'],
     });
     if (response.statusCode >= 200) {
@@ -120,5 +117,15 @@ class model_account {
       Uri.parse("${baseUrl}:3000/hapusacc"),
       body: {"NO_ID": id},
     );
+  }
+
+  Future<List> check_no_bukti(
+      String kode, String paramkolom, String paramtabel) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/check_nobukti"),
+      body: {"cari": kode, "kolom": paramkolom, "tabel": paramtabel},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 }

@@ -1,12 +1,17 @@
+import 'package:akunt/controller/login_controller.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:akunt/model/model_bahan.dart';
-import 'package:akunt/model/model_satuan.dart';
+// import 'package:akunt/model/model_satuan.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BahanController with ChangeNotifier {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  SharedPreferences prefs;
+
   ///paginate
   bool proses = false;
   List data_bahanList = [];
@@ -19,6 +24,15 @@ class BahanController with ChangeNotifier {
   int limit = 50;
   double pageCount = 1;
   int page_index = 0;
+  String perx = '';
+  String tgl = '';
+
+  Future<void> baca_periodePrefs() async {
+    tgl = DateTime.now().toString();
+    prefs = await _prefs;
+    perx = prefs.getString("periode") ??
+        DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
+  }
 
   void setProses(bool proses) {
     this.proses = proses;
@@ -92,43 +106,32 @@ class BahanController with ChangeNotifier {
   //variable tambah supplier
   TextEditingController kd_bhnController = TextEditingController();
   TextEditingController na_bhnController = TextEditingController();
-  TextEditingController jenisController = TextEditingController();
   TextEditingController satuanController = TextEditingController();
-  TextEditingController typeController = TextEditingController();
-  TextEditingController kodevController = TextEditingController();
-  TextEditingController kd_bhnlmController = TextEditingController();
-  TextEditingController na_bhnlmController = TextEditingController();
-  TextEditingController kodeController = TextEditingController();
-  TextEditingController namaController = TextEditingController();
+  TextEditingController acnoController = TextEditingController();
+  TextEditingController acno_nmController = TextEditingController();
+  TextEditingController usrnmController = TextEditingController();
+  TextEditingController tg_smpController = TextEditingController();
   DateTime chooseDate = DateTime.now();
   final format_tanggal = new DateFormat("d-M-y");
   String satuan_barang = "";
   List<DropdownMenuItem<String>> dropdownList_satuan_barang;
 
-  Future<void> init_add_bahan() async {
-    satuan_barang = "";
-    // await data_satuan_barang();
-  }
-
   Future<void> init_edit_bahan(var data_bahan) async {
     kd_bhnController.text = data_bahan['KD_BHN'] ?? "";
     na_bhnController.text = data_bahan['NA_BHN'] ?? "";
-    jenisController.text = data_bahan['JENIS'] ?? "";
     satuanController.text = data_bahan['SATUAN'] ?? "";
-    typeController.text = data_bahan['TYPE'] ?? "";
-    kodevController.text = data_bahan['KODEV'] ?? "";
-    kd_bhnlmController.text = data_bahan['KD_BHNLM'] ?? "";
-    na_bhnlmController.text = data_bahan['NA_BHNLM'] ?? "";
-    kodeController.text = data_bahan['KODE'] ?? "";
-    namaController.text = data_bahan['NAMA'] ?? "";
-    bool cek_satuan = await model_satuan()
-        .cek_data_satuan(data_bahan['SATUAN'].toString().toLowerCase());
-    if (cek_satuan == true) {
-      satuan_barang = data_bahan['SATUAN'].toString();
-    } else {
-      satuan_barang = "";
-    }
-    notifyListeners();
+    acnoController.text = data_bahan['ACNO'] ?? "";
+    acno_nmController.text = data_bahan['ACNO_NM'] ?? "";
+    usrnmController.text = data_bahan['USRNM'] ?? "";
+    tg_smpController.text = data_bahan['TG_SMP'] ?? "";
+    // bool cek_satuan = await model_satuan()
+    //     .cek_data_satuan(data_bahan['SATUAN'].toString().toLowerCase());
+    // if (cek_satuan == true) {
+    //   satuan_barang = data_bahan['SATUAN'].toString();
+    // } else {
+    //   satuan_barang = "";
+    // }
+    // notifyListeners();
   }
 
   // Future<void> data_satuan_barang() async {
@@ -149,14 +152,11 @@ class BahanController with ChangeNotifier {
   void resetField() {
     kd_bhnController.clear();
     na_bhnController.clear();
-    jenisController.clear();
     satuanController.clear();
-    typeController.clear();
-    kodevController.clear();
-    kd_bhnlmController.clear();
-    na_bhnlmController.clear();
-    kodeController.clear();
-    namaController.clear();
+    acnoController.clear();
+    acno_nmController.clear();
+    usrnmController.clear();
+    tg_smpController.clear();
   }
 
   Future<bool> daftar_bahan() async {
@@ -167,14 +167,11 @@ class BahanController with ChangeNotifier {
         data_insert['NO_ID'] = null;
         data_insert['KD_BHN'] = kd_bhnController.text;
         data_insert['NA_BHN'] = na_bhnController.text;
-        data_insert['JENIS'] = jenisController.text;
         data_insert['SATUAN'] = satuanController.text;
-        data_insert['TYPE'] = typeController.text;
-        data_insert['KODEV'] = kodevController.text;
-        data_insert['KD_BHNLM'] = kd_bhnlmController.text;
-        data_insert['NA_BHNLM'] = na_bhnlmController.text;
-        data_insert['KODE'] = kodeController.text;
-        data_insert['NAMA'] = namaController.text;
+        data_insert['ACNO'] = acnoController.text;
+        data_insert['ACNO_NM'] = acno_nmController.text;
+        data_insert['USRNM'] = LoginController.nama_staff;
+        data_insert['TG_SMP'] = DateTime.now();
         await model_bahan().insert_data_bahan(data_insert);
         Toast("Success !!", "Berhasil menambah bahan !", true);
         ambil_bahan();
@@ -198,14 +195,11 @@ class BahanController with ChangeNotifier {
         data_insert['NO_ID'] = id;
         data_insert['KD_BHN'] = kd_bhnController.text;
         data_insert['NA_BHN'] = na_bhnController.text;
-        data_insert['JENIS'] = jenisController.text;
         data_insert['SATUAN'] = satuanController.text;
-        data_insert['TYPE'] = typeController.text;
-        data_insert['KODEV'] = kodevController.text;
-        data_insert['KD_BHNLM'] = kd_bhnlmController.text;
-        data_insert['NA_BHNLM'] = na_bhnlmController.text;
-        data_insert['KODE'] = kodeController.text;
-        data_insert['NAMA'] = namaController.text;
+        data_insert['ACNO'] = acnoController.text;
+        data_insert['ACNO_NM'] = acno_nmController.text;
+        data_insert['USRNM'] = LoginController.nama_staff;
+        data_insert['TG_SMP'] = DateTime.now();
         await model_bahan().update_data_bahan_by_id(data_insert);
         ambil_bahan();
         Toast("Success !!", "Berhasil Mengedit Bahan !", true);

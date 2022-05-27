@@ -4,7 +4,6 @@ import 'dart:convert';
 import '../constants.dart';
 
 class model_bahan {
-  static String table = 'bhn';
   String baseUrl = base_url;
 
   Future<List> cari_bahan(String key_cari) async {
@@ -64,14 +63,11 @@ class model_bahan {
         await http.post(Uri.parse("${baseUrl}:3000/tambahbahan"), body: {
       "KD_BHN": data_insert['KD_BHN'],
       "NA_BHN": data_insert['NA_BHN'],
-      "JENIS": data_insert['JENIS'],
       "SATUAN": data_insert['SATUAN'],
-      "TYPE": data_insert['TYPE'],
-      "KODEV": data_insert['KODEV'],
-      "KD_BHNLM": data_insert['KD_BHNLM'],
-      "NA_BHNLM": data_insert['NA_BHNLM'],
-      "KODE": data_insert['KODE'],
-      "NAMA": data_insert['NAMA'],
+      "ACNO": data_insert['ACNO'],
+      "ACNO_NM": data_insert['ACNO_NM'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;
@@ -85,14 +81,11 @@ class model_bahan {
       "NO_ID": data_insert['NO_ID'].toString(),
       "KD_BHN": data_insert['KD_BHN'],
       "NA_BHN": data_insert['NA_BHN'],
-      "JENIS": data_insert['JENIS'],
       "SATUAN": data_insert['SATUAN'],
-      "TYPE": data_insert['TYPE'],
-      "KODEV": data_insert['KODEV'],
-      "KD_BHNLM": data_insert['KD_BHNLM'],
-      "NA_BHNLM": data_insert['NA_BHNLM'],
-      "KODE": data_insert['KODE'],
-      "NAMA": data_insert['NAMA'],
+      "ACNO": data_insert['ACNO'],
+      "ACNO_NM": data_insert['ACNO_NM'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;

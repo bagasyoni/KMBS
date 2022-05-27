@@ -51,19 +51,9 @@ Widget AccountCard(BuildContext context, int index, AccountController val_bar,
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 10,
             child: Text(
-              val_bar.data_accountList[index]['NAMA_KEL'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              val_bar.data_accountList[index]['NM_GRUP'],
+              val_bar.data_accountList[index]['KEL'],
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

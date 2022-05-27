@@ -1,11 +1,9 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../constants.dart';
 
 class model_brg {
-  static String table = 'brg';
   String baseUrl = base_url;
 
   Future<List> cari_barang(String key_cari) async {
@@ -66,14 +64,16 @@ class model_brg {
         await http.post(Uri.parse("${baseUrl}:3000/tambahbrg"), body: {
       "KD_BRG": data_insert['KD_BRG'],
       "NA_BRG": data_insert['NA_BRG'],
-      "JENIS": data_insert['JENIS'],
       "SATUAN": data_insert['SATUAN'],
-      "TYPE": data_insert['TYPE'],
-      "KODEV": data_insert['KODEV'],
-      "KD_BRGLM": data_insert['KD_BRGLM'],
-      "NA_BRGLM": data_insert['NA_BRGLM'],
-      "KODE": data_insert['KODE'],
-      "NAMA": data_insert['NAMA'],
+      "ACNO": data_insert['ACNO'],
+      "ACNO_NM": data_insert['ACNO_NM'],
+      "PRODUK": data_insert['PRODUK'],
+      "SIZ": data_insert['SIZ'].toString(),
+      "WARNA": data_insert['WARNA'],
+      "JENIS": data_insert['JENIS'],
+      "NOTES": data_insert['NOTES'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;
@@ -87,14 +87,16 @@ class model_brg {
       "NO_ID": data_insert['NO_ID'].toString(),
       "KD_BRG": data_insert['KD_BRG'],
       "NA_BRG": data_insert['NA_BRG'],
-      "JENIS": data_insert['JENIS'],
       "SATUAN": data_insert['SATUAN'],
-      "TYPE": data_insert['TYPE'],
-      "KODEV": data_insert['KODEV'],
-      "KD_BRGLM": data_insert['KD_BRGLM'],
-      "NA_BRGLM": data_insert['NA_BRGLM'],
-      "KODE": data_insert['KODE'],
-      "NAMA": data_insert['NAMA'],
+      "ACNO": data_insert['ACNO'],
+      "ACNO_NM": data_insert['ACNO_NM'],
+      "PRODUK": data_insert['PRODUK'],
+      "SIZ": data_insert['SIZ'].toString(),
+      "WARNA": data_insert['WARNA'],
+      "JENIS": data_insert['JENIS'],
+      "NOTES": data_insert['NOTES'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;

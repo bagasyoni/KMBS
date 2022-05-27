@@ -8,6 +8,8 @@ class DataBrg {
   String na_brg;
   String satuan;
   String ket;
+  String acno;
+  String acno_nm;
   double harga;
   double qty;
   double stockr;
@@ -22,6 +24,8 @@ class DataBrg {
       this.na_brg,
       this.satuan,
       this.ket,
+      this.acno,
+      this.acno_nm,
       this.harga,
       this.qty,
       this.stockr,
@@ -37,6 +41,8 @@ class DataBrg {
       na_brg: parsedJson['NA_BRG'] as String,
       satuan: parsedJson['SATUAN'] as String,
       ket: parsedJson['NOTES'] as String,
+      acno: parsedJson['ACNO'] as String,
+      acno_nm: parsedJson['ACNO_NM'] as String,
       sisa: 0.00,
       harga: 0.00,
       qty: 0.00,

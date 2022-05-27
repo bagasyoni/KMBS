@@ -27,14 +27,12 @@ class _TambahBahanScreenState extends State<TambahBahanScreen>
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this, initialIndex: 0);
-    var m_bahan = Provider.of<BahanController>(context, listen: false);
-    m_bahan.init_add_bahan().then((value) {
-      if (widget.isModeEdit) {
-        m_bahan.init_edit_bahan(widget.data_bahan);
-      } else {
-        m_bahan.resetField();
-      }
-    });
+    if (widget.isModeEdit) {
+      Provider.of<BahanController>(context, listen: false)
+          .init_edit_bahan(widget.data_bahan);
+    } else {
+      Provider.of<BahanController>(context, listen: false).resetField();
+    }
     super.initState();
   }
 
@@ -99,7 +97,7 @@ class _TambahBahanScreenState extends State<TambahBahanScreen>
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     tabs: <Widget>[
                       Tab(
-                        text: "Keterangan Umum",
+                        text: "Main",
                       ),
                       Tab(
                         text: "Keterangan Lain",

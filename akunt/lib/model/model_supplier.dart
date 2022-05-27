@@ -4,7 +4,6 @@ import 'dart:convert';
 import '../constants.dart';
 
 class model_supplier {
-  static String table = 'sup';
   String baseUrl = base_url;
 
   Future<List> cari_supplier(String key_cari) async {
@@ -67,21 +66,24 @@ class model_supplier {
       "ALAMAT": data_insert['ALAMAT'],
       "KOTA": data_insert['KOTA'],
       "TELPON1": data_insert['TELPON1'],
-      "HP": data_insert['HP'],
       "FAX": data_insert['FAX'],
+      "HP": data_insert['HP'],
       "KONTAK": data_insert['KONTAK'],
       "EMAIL": data_insert['EMAIL'],
+      "NPWP": data_insert['NPWP'],
+      "KET": data_insert['KET'],
+      "BLACNOA": data_insert['BLACNOA'],
+      "BLACNOB": data_insert['BLACNOB'],
       "BANK": data_insert['BANK'],
-      "BANK_NAMA": data_insert['BANK_NAMA'],
-      "BANK_REK": data_insert['BANK_REK'],
       "BANK_CAB": data_insert['BANK_CAB'],
       "BANK_KOTA": data_insert['BANK_KOTA'],
-      "PKP": data_insert['PKP'],
-      "NPWP": data_insert['NPWP'],
-      "BARANG": data_insert['BARANG'],
-      "DISKON": data_insert['DISKON'],
-      "HARGA": data_insert['HARGA'],
-      "AKT": data_insert['AKT']
+      "BANK_NAMA": data_insert['BANK_NAMA'],
+      "BANK_REK": data_insert['BANK_REK'],
+      "LIM": data_insert['LIM'].toString(),
+      "HARI": data_insert['HARI'].toString(),
+      "TYP": data_insert['TYP'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;
@@ -98,21 +100,24 @@ class model_supplier {
       "ALAMAT": data_insert['ALAMAT'],
       "KOTA": data_insert['KOTA'],
       "TELPON1": data_insert['TELPON1'],
-      "HP": data_insert['HP'],
       "FAX": data_insert['FAX'],
+      "HP": data_insert['HP'],
       "KONTAK": data_insert['KONTAK'],
       "EMAIL": data_insert['EMAIL'],
+      "NPWP": data_insert['NPWP'],
+      "KET": data_insert['KET'],
+      "BLACNOA": data_insert['BLACNOA'],
+      "BLACNOB": data_insert['BLACNOB'],
       "BANK": data_insert['BANK'],
-      "BANK_NAMA": data_insert['BANK_NAMA'],
-      "BANK_REK": data_insert['BANK_REK'],
       "BANK_CAB": data_insert['BANK_CAB'],
       "BANK_KOTA": data_insert['BANK_KOTA'],
-      "PKP": data_insert['PKP'],
-      "NPWP": data_insert['NPWP'],
-      "BARANG": data_insert['BARANG'],
-      "DISKON": data_insert['DISKON'],
-      "HARGA": data_insert['HARGA'],
-      "AKT": data_insert['AKT']
+      "BANK_NAMA": data_insert['BANK_NAMA'],
+      "BANK_REK": data_insert['BANK_REK'],
+      "LIM": data_insert['LIM'].toString(),
+      "HARI": data_insert['HARI'].toString(),
+      "TYP": data_insert['TYP'],
+      "USRNM": data_insert['USRNM'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;

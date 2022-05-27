@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/invoice/invoice_order_penjualan.dart';
-import 'package:akunt/model/model_barang.dart';
+import 'package:akunt/model/model_brg.dart';
 import 'package:akunt/model/data_brg.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/model/model_pobarangimport.dart';
@@ -382,7 +382,7 @@ class PobarangimportController with ChangeNotifier {
             "PO/NON/I/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
-    await model_barang().cari_barang("").then((value) {
+    await model_brg().cari_barang("").then((value) {
       if (value != null) {
         brgList.clear();
         for (int i = 0; i < value.length; i++) {
@@ -454,7 +454,7 @@ class PobarangimportController with ChangeNotifier {
       data_brg_keranjang.add(mAccount);
     }
     hitungSubTotal();
-    await model_barang().cari_barang("").then((value) {
+    await model_brg().cari_barang("").then((value) {
       if (value != null) {
         brgList.clear();
         for (int i = 0; i < value.length; i++) {

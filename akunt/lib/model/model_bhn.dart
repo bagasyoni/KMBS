@@ -1,11 +1,9 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../constants.dart';
 
 class model_bhn {
-  static String table = 'bhn';
   String baseUrl = base_url;
 
   Future<List> cari_bahan(String key_cari) async {

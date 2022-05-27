@@ -201,7 +201,7 @@ class _DataAccountScreenState extends State<DataAccountScreen> {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        "Acno",
+                        "Kode",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -211,7 +211,7 @@ class _DataAccountScreenState extends State<DataAccountScreen> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        "Nama Account",
+                        "Nama",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -219,19 +219,9 @@ class _DataAccountScreenState extends State<DataAccountScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 10,
                       child: Text(
-                        "Nama Kelompok",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Nama Grup",
+                        "Kelompok",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -263,7 +253,7 @@ class _DataAccountScreenState extends State<DataAccountScreen> {
                                 MaterialPageRoute(
                                     builder: (_) => TambahAccountScreen(
                                           isModeEdit: true,
-                                          data_account: accountController
+                                          data_edit: accountController
                                               .data_accountList[index],
                                         )));
                           }, pressDelete: () {

@@ -49,6 +49,12 @@ class LapPerincianpiuController with ChangeNotifier {
   double pageCount = 1;
   int page_index = 0;
 
+  Future<void> baca_periodePrefs() async {
+    prefs = await _prefs;
+    perx = prefs.getString("periode") ??
+        DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
+  }
+
   Future<void> select_data() async {
     String filterpermodal = per == '' ? periode : per;
     data_list = await m_lapperincian_piu.data_lap(filterpermodal);

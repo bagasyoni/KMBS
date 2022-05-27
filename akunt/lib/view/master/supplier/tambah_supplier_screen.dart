@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/supplier_controller.dart';
-import 'package:akunt/view/master/supplier/widget/keterangan_pemilik.dart';
 import 'package:provider/provider.dart';
+import 'package:akunt/view/master/supplier/widget/account_info.dart';
+import 'package:akunt/view/master/supplier/widget/bank_info.dart';
+import 'package:akunt/view/master/supplier/widget/detail.dart';
 
 import 'widget/keterangan_umum.dart';
 
@@ -26,15 +28,13 @@ class _TambahSupplierScreenState extends State<TambahSupplierScreen>
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this, initialIndex: 0);
-    var m_supplier = Provider.of<SupplierController>(context, listen: false);
-    m_supplier.init_add_supplier().then((value) {
-      if (widget.isModeEdit) {
-        m_supplier.init_edit_supplier(widget.data_supplier);
-      } else {
-        m_supplier.resetField();
-      }
-    });
+    _tabController = new TabController(length: 4, vsync: this, initialIndex: 0);
+    if (widget.isModeEdit) {
+      Provider.of<SupplierController>(context, listen: false)
+          .init_edit_supplier(widget.data_supplier);
+    } else {
+      Provider.of<SupplierController>(context, listen: false).resetField();
+    }
     super.initState();
   }
 
@@ -93,16 +93,22 @@ class _TambahSupplierScreenState extends State<TambahSupplierScreen>
                     controller: _tabController,
                     unselectedLabelColor: kPrimaryColor,
                     labelColor: Colors.black,
-                    indicatorWeight: 2,
+                    indicatorWeight: 4,
                     indicatorColor: HijauColor,
                     labelStyle:
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     tabs: <Widget>[
                       Tab(
-                        text: "Keterangan Umum",
+                        text: "Main",
                       ),
                       Tab(
-                        text: "Keterangan Lain",
+                        text: "Account Info",
+                      ),
+                      Tab(
+                        text: "Bank Info",
+                      ),
+                      Tab(
+                        text: "Detail",
                       ),
                     ],
                   ),
@@ -114,7 +120,9 @@ class _TambahSupplierScreenState extends State<TambahSupplierScreen>
                   controller: _tabController,
                   children: <Widget>[
                     KeteranganUmum(supplierController),
-                    KeteranganPemilik(context, supplierController),
+                    AccountInfo(context, supplierController),
+                    BankInfo(context, supplierController),
+                    Detail(context, supplierController),
                   ],
                 ),
               ),
@@ -182,7 +190,7 @@ class _TambahSupplierScreenState extends State<TambahSupplierScreen>
                         onTap: () {
                           if (widget.isModeEdit) {
                             supplierController
-                                .edit_supplier(widget.data_supplier['NO_ID'])
+                                .edit_supplier(widget.data_supplier['no_id'])
                                 .then((value) {
                               if (value != null) {
                                 if (value) {

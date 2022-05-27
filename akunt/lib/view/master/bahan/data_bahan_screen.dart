@@ -9,6 +9,9 @@ import 'package:akunt/view/master/bahan/bahan_card.dart';
 import 'package:akunt/view/master/bahan/tambah_bahan_screen.dart';
 import 'package:provider/provider.dart';
 
+// IMPORT PRINT WEB
+// import 'dart:js' as js;
+
 class DataBahanScreen extends StatefulWidget {
   @override
   _DataBahanScreenState createState() => _DataBahanScreenState();
@@ -60,6 +63,42 @@ class _DataBahanScreenState extends State<DataBahanScreen> {
             ),
           ),
           actions: [
+            OnHoverButton(
+              child: InkWell(
+                hoverColor: Colors.white,
+                onTap: () {
+                  // lapPerincianpiu.proses_export_lapperincianpiu(1);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masterbhn.php'
+                  // ]);
+                },
+                child: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/images/ic_print.png",
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Cetak",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 16,
+            ),
             OnHoverButton(
               child: InkWell(
                 hoverColor: Colors.transparent,

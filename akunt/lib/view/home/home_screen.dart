@@ -90,7 +90,6 @@ import 'package:akunt/view/bankmasuk/bankmasuk_screen.dart';
 import 'package:akunt/view/bankkeluar/bankkeluar_screen.dart';
 import 'package:akunt/view/memo/memo_screen.dart';
 
-import 'package:akunt/view/penerimaan/penerimaan_screen.dart';
 import 'package:akunt/view/po/data_po_screen.dart';
 import 'package:akunt/view/pon/data_pon_screen.dart';
 import 'package:akunt/view/beli/data_beli_screen.dart';

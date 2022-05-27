@@ -8,6 +8,8 @@ class DataBhn {
   String na_bhn;
   String satuan;
   String ket;
+  String acno;
+  String acno_nm;
   double harga;
   double qty;
   double stockr;
@@ -28,6 +30,8 @@ class DataBhn {
       this.na_bhn,
       this.satuan,
       this.ket,
+      this.acno,
+      this.acno_nm,
       this.harga,
       this.qty,
       this.stockr,
@@ -49,6 +53,8 @@ class DataBhn {
       na_bhn: parsedJson['NA_BHN'] as String,
       satuan: parsedJson['SATUAN'] as String,
       ket: parsedJson['NOTES'] as String,
+      acno: parsedJson['ACNO'] as String,
+      acno_nm: parsedJson['ACNO_NM'] as String,
       sisa: 0.00,
       harga: 0.00,
       qty: 0.00,
