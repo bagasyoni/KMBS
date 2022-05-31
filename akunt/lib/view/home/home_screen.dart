@@ -18,6 +18,8 @@ import 'package:akunt/view/master/account/data_account_screen.dart';
 import 'package:akunt/view/master/supplier/data_supplier_screen.dart';
 import 'package:akunt/view/master/bahan/data_bahan_screen.dart';
 import 'package:akunt/view/master/brg/data_brg_screen.dart';
+import 'package:akunt/view/master/currency/data_currency_screen.dart';
+import 'package:akunt/view/master/toko/data_toko_screen.dart';
 import 'package:akunt/view/master/nonbahan/data_nonbahan_screen.dart';
 import 'package:akunt/view/master/emkl/data_emkl_screen.dart';
 import 'package:akunt/view/master/gudang/data_gudang_screen.dart';
@@ -295,6 +297,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     value: 104,
                                   ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_user_warna.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("Currency"),
+                                      ],
+                                    ),
+                                    value: 105,
+                                  ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_user_warna.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("Toko"),
+                                      ],
+                                    ),
+                                    value: 106,
+                                  ),
                                 ];
                               },
                               onSelected: (value) async {
@@ -320,6 +352,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MaterialPageRoute(
                                           builder: (_) =>
                                               DataCustomerScreen()));
+                                } else if (value == 105) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              DataCurrencyScreen()));
+                                } else if (value == 106) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              DataTokoScreen()));
                                 }
                               },
                             ),

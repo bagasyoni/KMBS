@@ -1,26 +1,23 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../constants.dart';
 
-class model_currency {
-  static String table = 'currency';
-  koneksi_mysql m_koneksi = koneksi_mysql();
+class model_toko {
   String baseUrl = base_url;
 
-  Future<List> data_currencycari(String cari) async {
+  Future<List> data_tokocari(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampilcurr"),
+      Uri.parse("${baseUrl}:3000/tampiltoko"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> cari_currency(String key_cari) async {
+  Future<List> cari_toko(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/caricurr"),
+      Uri.parse("${baseUrl}:3000/caritoko"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
@@ -28,10 +25,10 @@ class model_currency {
   }
 
   /// paginate
-  Future<List> data_currpaginate(
+  Future<List> data_tokopaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/currpaginate"),
+      Uri.parse("${baseUrl}:3000/tokopaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -43,33 +40,32 @@ class model_currency {
   }
 
   ///paginate
-  Future countCurrPaginate(String key_cari) async {
+  Future countTokoPaginate(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countcurrpaginate"),
+      Uri.parse("${baseUrl}:3000/counttokopaginate"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> data_modal_curr(String cari) async {
+  Future<List> data_modal_toko(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_curr"),
+      Uri.parse("${baseUrl}:3000/modal_toko"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<bool> insert_data_currency(Map data_insert) async {
+  Future<bool> insert_data_toko(Map data_insert) async {
     final response =
-        await http.post(Uri.parse("${baseUrl}:3000/tambahcurr"), body: {
+        await http.post(Uri.parse("${baseUrl}:3000/tambahtoko"), body: {
       "KODE": data_insert['KODE'],
       "NAMA": data_insert['NAMA'],
-      "RATE": data_insert['RATE'].toString(),
-      "RATE_BYR": data_insert['RATE_BYR'].toString(),
-      "TGL": data_insert['TGL'].toString(),
-      "KET": data_insert['KET'],
+      "ALAMAT": data_insert['ALAMAT'],
+      "KOTA": data_insert['KOTA'],
+      "TELPON": data_insert['TELPON'],
       "USRNM": data_insert['USRNM'],
       "TG_SMP": data_insert['TG_SMP'].toString(),
     });
@@ -79,18 +75,17 @@ class model_currency {
     return false;
   }
 
-  Future<bool> update_data_currency_by_id(Map data_insert) async {
+  Future<bool> update_data_toko_by_id(Map data_insert) async {
     final response =
-        await http.post(Uri.parse("${baseUrl}:3000/ubahcurr"), body: {
+        await http.post(Uri.parse("${baseUrl}:3000/ubahtoko"), body: {
       "NO_ID": data_insert['NO_ID'].toString(),
       "KODE": data_insert['KODE'],
       "NAMA": data_insert['NAMA'],
-      "RATE": data_insert['RATE'].toString(),
-      "RATE_BYR": data_insert['RATE_BYR'].toString(),
-      "TGL": data_insert['TGL'].toString(),
-      "KET": data_insert['KET'],
+      "ALAMAT": data_insert['ALAMAT'],
+      "KOTA": data_insert['KOTA'],
+      "TELPON": data_insert['TELPON'],
       "USRNM": data_insert['USRNM'],
-      "TG_SMP": data_insert['TG_SMP'],
+      "TG_SMP": data_insert['TG_SMP'].toString(),
     });
     if (response.statusCode >= 200) {
       return true;
@@ -98,9 +93,9 @@ class model_currency {
     return false;
   }
 
-  Future<List> delete_currency_byID(String id) async {
+  Future<List> delete_toko_byID(String id) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapuscurr"),
+      Uri.parse("${baseUrl}:3000/hapustoko"),
       body: {"NO_ID": id},
     );
   }

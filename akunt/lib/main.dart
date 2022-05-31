@@ -13,6 +13,7 @@ import 'package:akunt/controller/customer_controller.dart';
 import 'package:akunt/controller/supplier_controller.dart';
 import 'package:akunt/controller/account_controller.dart';
 import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/toko_controller.dart';
 import 'package:akunt/controller/peg_controller.dart';
 import 'package:akunt/controller/bhn_controller.dart';
 import 'package:akunt/controller/sparepart_controller.dart';
@@ -149,6 +150,7 @@ Future<void> init() async {
   ///MASTER///
   sl.registerFactory(() => AccountController());
   sl.registerFactory(() => CurrencyController());
+  sl.registerFactory(() => TokoController());
   sl.registerFactory(() => SupplierController());
   sl.registerFactory(() => BahanController());
   sl.registerFactory(() => NonbahanController());
@@ -226,6 +228,7 @@ Future<void> main() async {
           ///MASTER///
           ChangeNotifierProvider(create: (context) => sl<AccountController>()),
           ChangeNotifierProvider(create: (context) => sl<CurrencyController>()),
+          ChangeNotifierProvider(create: (context) => sl<TokoController>()),
           ChangeNotifierProvider(create: (context) => sl<SupplierController>()),
           ChangeNotifierProvider(create: (context) => sl<BahanController>()),
           ChangeNotifierProvider(create: (context) => sl<NonbahanController>()),
@@ -366,7 +369,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "PT. Karya Mitra Budi Sentosa",
+      title: "PT. Karyamitra Budisentosa",
       theme: theme(),
       home: LoginScreen(),
       debugShowCheckedModeBanner: false,

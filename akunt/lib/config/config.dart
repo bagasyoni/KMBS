@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart' as open_file;
 
 class config {
-  static const String nama_perusahaan = "PT. Karya Mitra Budi Sentosa";
+  static const String nama_perusahaan = "PT. Karyamitra Budisentosa";
 
   final formatCurrency = new NumberFormat.simpleCurrency(
       locale: 'id_ID', name: ' ', decimalDigits: 2);

@@ -3,28 +3,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/toko_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
-import 'package:akunt/view/master/currency/currency_card.dart';
-import 'package:akunt/view/master/currency/tambah_currency_screen.dart';
+import 'package:akunt/view/master/toko/toko_card.dart';
+import 'package:akunt/view/master/toko/tambah_toko_screen.dart';
 import 'package:provider/provider.dart';
 
-class DataCurrencyScreen extends StatefulWidget {
+class DataTokoScreen extends StatefulWidget {
   @override
-  _DataCurrencyScreenState createState() => _DataCurrencyScreenState();
+  _DataTokoScreenState createState() => _DataTokoScreenState();
 }
 
-class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
+class _DataTokoScreenState extends State<DataTokoScreen> {
   @override
   void initState() {
-    Provider.of<CurrencyController>(context, listen: false).initData();
+    Provider.of<TokoController>(context, listen: false).initData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CurrencyController>(
-        builder: (context, currencyController, child) {
+    return Consumer<TokoController>(
+        builder: (context, tokoController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                 width: 20,
               ),
               Text(
-                "Data Currency",
+                "Data Toko",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (_) =>
-                              TambahCurrencyScreen(isModeEdit: false)));
+                              TambahTokoScreen(isModeEdit: false)));
                 },
                 child: Container(
                   height: 30,
@@ -146,12 +146,12 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                                 height: 30,
                                 child: TextField(
                                   controller:
-                                      currencyController.searchController,
+                                      tokoController.searchController,
                                   onChanged: (value) {
-                                    Provider.of<CurrencyController>(context,
+                                    Provider.of<TokoController>(context,
                                             listen: false)
                                         .setProses(true);
-                                    Provider.of<CurrencyController>(context,
+                                    Provider.of<TokoController>(context,
                                             listen: false)
                                         .search(value);
                                   },
@@ -221,7 +221,7 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        "Keterangan",
+                        "Alamat",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -242,19 +242,19 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                 ),
               ),
               Expanded(
-                child: (currencyController.data_currencyList.length > 0)
+                child: (tokoController.data_tokoList.length > 0)
                     ? ListView.builder(
-                        itemCount: currencyController.data_currencyList.length,
+                        itemCount: tokoController.data_tokoList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return CurrencyCard(context, index, currencyController,
+                          return TokoCard(context, index, tokoController,
                               pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => TambahCurrencyScreen(
+                                    builder: (_) => TambahTokoScreen(
                                           isModeEdit: true,
-                                          data_currency: currencyController
-                                              .data_currencyList[index],
+                                          data_toko: tokoController
+                                              .data_tokoList[index],
                                         )));
                           }, pressDelete: () {
                             showAnimatedDialog_withCallBack(
@@ -262,9 +262,9 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                                 callback: (value) {
                               if (value != null) {
                                 if (value) {
-                                  currencyController.hapus_akun(
-                                      currencyController
-                                          .data_currencyList[index]);
+                                  tokoController.hapus_akun(
+                                      tokoController
+                                          .data_tokoList[index]);
                                 }
                               }
                             });
@@ -307,18 +307,18 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (currencyController.data_currencyList.length > 0)
+                if (tokoController.data_tokoList.length > 0)
                   Text(
-                    (currencyController.offset + 1 <
-                            currencyController.totalNotaTerima)
-                        ? "Showing ${currencyController.offset + 1} to ${currencyController.offset + currencyController.limit} of ${currencyController.totalNotaTerima} entries"
-                        : "Showing ${currencyController.offset + 1} to ${currencyController.totalNotaTerima} of ${currencyController.totalNotaTerima} entries",
+                    (tokoController.offset + 1 <
+                            tokoController.totalNotaTerima)
+                        ? "Showing ${tokoController.offset + 1} to ${tokoController.offset + tokoController.limit} of ${tokoController.totalNotaTerima} entries"
+                        : "Showing ${tokoController.offset + 1} to ${tokoController.totalNotaTerima} of ${tokoController.totalNotaTerima} entries",
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Colors.black),
                   ),
-                if (currencyController.data_currencyList.length > 0)
+                if (tokoController.data_tokoList.length > 0)
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Container(
@@ -342,12 +342,12 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                           child: DropdownButton(
                             isExpanded: true,
                             iconEnabledColor: HijauColor,
-                            value: currencyController.limit,
-                            items: currencyController.dropdownLimit,
+                            value: tokoController.limit,
+                            items: tokoController.dropdownLimit,
                             onChanged: (value) {
                               if (value != null) {
-                                currencyController.limit = value;
-                                currencyController.selectDataPaginate(false);
+                                tokoController.limit = value;
+                                tokoController.selectDataPaginate(false);
                               }
                             },
                           ),
@@ -358,12 +358,12 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                 Spacer(),
                 InkWell(
                   onTap: () {
-                    if (currencyController.page_index > 0) {
-                      currencyController.offset -= currencyController.limit;
-                      currencyController.page_index--;
-                      currencyController.c_page.text =
-                          (currencyController.page_index + 1).toString();
-                      currencyController.selectDataPaginate(false);
+                    if (tokoController.page_index > 0) {
+                      tokoController.offset -= tokoController.limit;
+                      tokoController.page_index--;
+                      tokoController.c_page.text =
+                          (tokoController.page_index + 1).toString();
+                      tokoController.selectDataPaginate(false);
                     }
                   },
                   child: Container(
@@ -387,7 +387,7 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: (currencyController.offset == 0)
+                            color: (tokoController.offset == 0)
                                 ? GreyColor
                                 : Colors.black),
                       ),
@@ -397,13 +397,13 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                 pageField(),
                 InkWell(
                   onTap: () {
-                    if (currencyController.page_index <=
-                        currencyController.pageCount - 1) {
-                      currencyController.offset += currencyController.limit;
-                      currencyController.page_index++;
-                      currencyController.c_page.text =
-                          (currencyController.page_index + 1).toString();
-                      currencyController.selectDataPaginate(false);
+                    if (tokoController.page_index <=
+                        tokoController.pageCount - 1) {
+                      tokoController.offset += tokoController.limit;
+                      tokoController.page_index++;
+                      tokoController.c_page.text =
+                          (tokoController.page_index + 1).toString();
+                      tokoController.selectDataPaginate(false);
                     }
                   },
                   child: Container(
@@ -427,8 +427,8 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: ((currencyController.pageCount -
-                                        currencyController.page_index) <=
+                            color: ((tokoController.pageCount -
+                                        tokoController.page_index) <=
                                     1)
                                 ? GreyColor
                                 : Colors.black),
@@ -446,8 +446,8 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
 
   ///paginate
   Widget pageField() {
-    CurrencyController pageTerima =
-        Provider.of<CurrencyController>(context, listen: false);
+    TokoController pageTerima =
+        Provider.of<TokoController>(context, listen: false);
     return Container(
       width: 70,
       height: 35,

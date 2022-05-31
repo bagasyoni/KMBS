@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
-import 'package:akunt/view/master/currency/widget/keterangan_pemilik.dart';
+import 'package:akunt/controller/toko_controller.dart';
+import 'package:akunt/view/master/toko/widget/keterangan_pemilik.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/keterangan_umum.dart';
 
-class TambahCurrencyScreen extends StatefulWidget {
+class TambahTokoScreen extends StatefulWidget {
   bool isModeEdit;
-  var data_currency;
+  var data_toko;
 
-  TambahCurrencyScreen({this.isModeEdit, this.data_currency});
+  TambahTokoScreen({this.isModeEdit, this.data_toko});
 
   @override
-  _TambahCurrencyScreenState createState() => _TambahCurrencyScreenState();
+  _TambahTokoScreenState createState() => _TambahTokoScreenState();
 }
 
-class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
+class _TambahTokoScreenState extends State<TambahTokoScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   int menu_index = 0;
@@ -27,12 +27,12 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this, initialIndex: 0);
-    var m_currency = Provider.of<CurrencyController>(context, listen: false);
+    var m_toko = Provider.of<TokoController>(context, listen: false);
     if (widget.isModeEdit) {
-      Provider.of<CurrencyController>(context, listen: false)
-          .init_edit_currency(widget.data_currency);
+      Provider.of<TokoController>(context, listen: false)
+          .init_edit_toko(widget.data_toko);
     } else {
-      Provider.of<CurrencyController>(context, listen: false).resetField();
+      Provider.of<TokoController>(context, listen: false).resetField();
     }
 
     super.initState();
@@ -40,8 +40,8 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CurrencyController>(
-        builder: (context, currencyController, child) {
+    return Consumer<TokoController>(
+        builder: (context, tokoController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -57,7 +57,7 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
                 width: 20,
               ),
               Text(
-                (widget.isModeEdit) ? "Edit Currency" : "Tambah Currency",
+                (widget.isModeEdit) ? "Edit Toko" : "Tambah Toko",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -113,8 +113,8 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
                   physics: BouncingScrollPhysics(),
                   controller: _tabController,
                   children: <Widget>[
-                    KeteranganUmum(context, currencyController),
-                    KeteranganPemilik(context, currencyController),
+                    KeteranganUmum(context, tokoController),
+                    KeteranganPemilik(context, tokoController),
                   ],
                 ),
               ),
@@ -181,8 +181,8 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
                         ),
                         onTap: () {
                           if (widget.isModeEdit) {
-                            currencyController
-                                .edit_currency(widget.data_currency['NO_ID'])
+                            tokoController
+                                .edit_toko(widget.data_toko['NO_ID'])
                                 .then((value) {
                               if (value != null) {
                                 if (value) {
@@ -191,7 +191,7 @@ class _TambahCurrencyScreenState extends State<TambahCurrencyScreen>
                               }
                             });
                           } else {
-                            currencyController.daftar_currency().then((value) {
+                            tokoController.daftar_toko().then((value) {
                               if (value != null) {
                                 if (value) {
                                   Navigator.pop(context);

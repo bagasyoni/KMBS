@@ -102,22 +102,22 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Spacer(),
-                Center(
-                    child: LottieBuilder.network(
-                  'https://assets3.lottiefiles.com/packages/lf20_tb8ugi81.json',
-                  height: 190,
-                )
-                    //     // child: Image.asset(
-                    //     //   "assets/images/ic_logo_3.png",
-                    //     //   height: 90,
-                    //     // ),
-                    ),
+              Center(
+                  child: LottieBuilder.network(
+                'https://assets3.lottiefiles.com/packages/lf20_tb8ugi81.json',
+                height: 190,
+              )
+                  //     // child: Image.asset(
+                  //     //   "assets/images/ic_logo_3.png",
+                  //     //   height: 90,
+                  //     // ),
+                  ),
               Center(
                 child: Stack(
                   children: <Widget>[
                     // Stroked text as border.
                     Text(
-                      'PT. KARYA MITRA BUDI SENTOSA',
+                      'PT. KARYAMITRA BUDISENTOSA',
                       // 'CV SATRIA DHARMA GUNA',
                       style: TextStyle(
                         fontSize: 48,

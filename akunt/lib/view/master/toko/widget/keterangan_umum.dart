@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/toko_controller.dart';
 
-Widget KeteranganUmum(
-    BuildContext context, CurrencyController currencyController) {
+Widget KeteranganUmum(BuildContext context, TokoController tokoController) {
   return Container(
     child: SingleChildScrollView(
       child: Column(
@@ -47,8 +46,7 @@ Widget KeteranganUmum(
                                   ),
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: TextFormField(
-                                    controller:
-                                        currencyController.kodeController,
+                                    controller: tokoController.kodeController,
                                     decoration: InputDecoration(
                                       contentPadding:
                                           EdgeInsets.only(top: 18, bottom: 18),
@@ -117,8 +115,7 @@ Widget KeteranganUmum(
                                   ),
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: TextFormField(
-                                    controller:
-                                        currencyController.namaController,
+                                    controller: tokoController.namaController,
                                     decoration: InputDecoration(
                                       contentPadding:
                                           EdgeInsets.only(top: 18, bottom: 18),
@@ -170,98 +167,7 @@ Widget KeteranganUmum(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Tanggal",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Container(
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: GreyColor),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: TextFormField(
-                                    controller:
-                                        currencyController.tglController,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.only(top: 15, bottom: 18),
-                                      icon: Image.asset(
-                                        "assets/images/ic_tanggal.png",
-                                        height: 20,
-                                      ),
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      focusedErrorBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                    ),
-                                    onTap: () async {
-                                      currencyController.chooseDate =
-                                          await showDatePicker(
-                                                  context: context,
-                                                  initialDate:
-                                                      currencyController
-                                                              .chooseDate ??
-                                                          DateTime.now(),
-                                                  lastDate: DateTime(2050),
-                                                  firstDate: DateTime(
-                                                      DateTime.now().year)) ??
-                                              currencyController.chooseDate;
-                                      currencyController.tglController.text =
-                                          currencyController.format_tanggal
-                                              .format(currencyController
-                                                  .chooseDate);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 23,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24, top: 7),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Rate",
+                                  "Alamat",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -278,10 +184,8 @@ Widget KeteranganUmum(
                                   ),
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: TextFormField(
-                                    controller:
-                                        currencyController.rateController,
+                                    controller: tokoController.alamatController,
                                     decoration: InputDecoration(
-                                      hintText: "0.0000",
                                       contentPadding:
                                           EdgeInsets.only(top: 18, bottom: 14),
                                       border: InputBorder.none,
@@ -332,7 +236,7 @@ Widget KeteranganUmum(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Rate Bayar",
+                                  "Kota",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -349,10 +253,8 @@ Widget KeteranganUmum(
                                   ),
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: TextFormField(
-                                    controller:
-                                        currencyController.rate_byrController,
+                                    controller: tokoController.kotaController,
                                     decoration: InputDecoration(
-                                      hintText: "0.0000",
                                       contentPadding:
                                           EdgeInsets.only(top: 18, bottom: 14),
                                       border: InputBorder.none,
@@ -403,7 +305,7 @@ Widget KeteranganUmum(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Keterangan",
+                                  "Telepon",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -420,8 +322,7 @@ Widget KeteranganUmum(
                                   ),
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: TextFormField(
-                                    controller:
-                                        currencyController.ketController,
+                                    controller: tokoController.telponController,
                                     decoration: InputDecoration(
                                       contentPadding:
                                           EdgeInsets.only(top: 18, bottom: 18),

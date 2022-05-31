@@ -82,6 +82,23 @@ module.exports = function (app) {
     app.route('/hapuscurr')
         .post(jsonku.hapuscurr);
 
+    app.route('/tokopaginate')
+        .post(jsonku.toko_paginate);
+    app.route('/counttokopaginate')
+        .post(jsonku.count_tokopaginate);
+    app.route('/caritoko')
+        .post(jsonku.caritoko);
+    app.route('/tampiltoko')
+        .post(jsonku.tampiltoko);
+    app.route('/modal_toko')
+        .post(jsonku.modaltoko);
+    app.route('/tambahtoko')
+        .post(jsonku.tambahtoko);
+    app.route('/ubahtoko')
+        .post(jsonku.ubahtoko);
+    app.route('/hapustoko')
+        .post(jsonku.hapustoko);
+
     app.route('/brgpaginate')
         .post(jsonku.brg_paginate);
     app.route('/countbrgpaginate')

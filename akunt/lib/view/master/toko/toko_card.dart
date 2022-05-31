@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/toko_controller.dart';
 import 'package:provider/provider.dart';
 
-Widget CurrencyCard(BuildContext context, int index, CurrencyController val_bar,
+Widget TokoCard(BuildContext context, int index, TokoController val_bar,
     {Function pressEdit, Function pressDelete}) {
-  int offset = Provider.of<CurrencyController>(context, listen: false).offset;
+  int offset = Provider.of<TokoController>(context, listen: false).offset;
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
     child: Container(
@@ -33,7 +33,7 @@ Widget CurrencyCard(BuildContext context, int index, CurrencyController val_bar,
           Expanded(
             flex: 2,
             child: Text(
-              val_bar.data_currencyList[index]['KODE'],
+              val_bar.data_tokoList[index]['KODE'],
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -43,7 +43,7 @@ Widget CurrencyCard(BuildContext context, int index, CurrencyController val_bar,
           Expanded(
             flex: 3,
             child: Text(
-              val_bar.data_currencyList[index]['NAMA'],
+              val_bar.data_tokoList[index]['NAMA'],
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ Widget CurrencyCard(BuildContext context, int index, CurrencyController val_bar,
           Expanded(
             flex: 3,
             child: Text(
-              val_bar.data_currencyList[index]['KET'],
+              val_bar.data_tokoList[index]['ALAMAT'],
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

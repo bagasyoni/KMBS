@@ -1,18 +1,18 @@
 import 'package:akunt/controller/login_controller.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:akunt/model/model_currency.dart';
+import 'package:akunt/model/model_toko.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CurrencyController with ChangeNotifier {
+class TokoController with ChangeNotifier {
   ///paginate
   bool proses = false;
-  List data_currencyList = [];
+  List data_tokoList = [];
   TextEditingController c_page = new TextEditingController();
   TextEditingController searchController = TextEditingController();
-  model_currency m_currency = model_currency();
+  model_toko m_toko = model_toko();
   List<DropdownMenuItem<int>> dropdownLimit;
   int totalNotaTerima = 0;
   int offset = 0;
@@ -24,14 +24,14 @@ class CurrencyController with ChangeNotifier {
     this.proses = proses;
   }
 
-  Future<void> ambil_currency() async {
-    data_currencyList = await model_currency().data_currencycari('');
+  Future<void> ambil_toko() async {
+    data_tokoList = await model_toko().data_tokocari('');
     proses = false;
     notifyListeners();
   }
 
   void selectData(String cari) async {
-    data_currencyList = await model_currency().data_modal_curr(cari);
+    data_tokoList = await model_toko().data_modal_toko(cari);
     notifyListeners();
   }
 
@@ -49,9 +49,9 @@ class CurrencyController with ChangeNotifier {
       offset = 0;
       page_index = 0;
     }
-    data_currencyList = await m_currency.data_currpaginate(
+    data_tokoList = await m_toko.data_tokopaginate(
         searchController.text, offset, limit);
-    var count = await m_currency.countCurrPaginate(searchController.text);
+    var count = await m_toko.countTokoPaginate(searchController.text);
     totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
     pageCount = totalNotaTerima / limit;
     notifyListeners();
@@ -79,36 +79,34 @@ class CurrencyController with ChangeNotifier {
     limit = dropdownLimit[0].value;
   }
 
-  void modalDataCurr(String cari) async {
-    data_currencyList = await model_currency().data_modal_curr(cari);
+  void modalDataToko(String cari) async {
+    data_tokoList = await model_toko().data_modal_toko(cari);
     notifyListeners();
   }
 
   Future<void> search(var cari) async {
-    data_currencyList = await model_currency().cari_currency(cari);
+    data_tokoList = await model_toko().cari_toko(cari);
     proses = false;
     notifyListeners();
   }
 
-  //variable tambah supplier
+  //variable tambah toko
   TextEditingController kodeController = TextEditingController();
   TextEditingController namaController = TextEditingController();
-  TextEditingController rateController = TextEditingController();
-  TextEditingController rate_byrController = TextEditingController();
-  TextEditingController tglController = TextEditingController();
-  TextEditingController ketController = TextEditingController();
+  TextEditingController alamatController = TextEditingController();
+  TextEditingController kotaController = TextEditingController();
+  TextEditingController telponController = TextEditingController();
   TextEditingController usrnmController = TextEditingController();
   TextEditingController tg_smpController = TextEditingController();
   DateTime chooseDate = DateTime.now();
   final format_tanggal = new DateFormat("dd/MM/yyyy");
 
-  Future<void> init_edit_currency(var data_currency) async {
+  Future<void> init_edit_toko(var data_currency) async {
     kodeController.text = data_currency['KODE'];
     namaController.text = data_currency['NAMA'];
-    rateController.text = data_currency['Rate'].toString();
-    rate_byrController.text = data_currency['Rate_BYR'].toString();
-    chooseDate = DateTime.tryParse(data_currency['TGL']);
-    ketController.text = data_currency['KET'];
+    alamatController.text = data_currency['ALAMAT'];
+    kotaController.text = data_currency['KOTA'];
+    telponController.text = data_currency['TELPON'];
     usrnmController.text = data_currency['USRNM'];
     tg_smpController.text = data_currency['TG_SMP'];
     notifyListeners();
@@ -117,16 +115,14 @@ class CurrencyController with ChangeNotifier {
   void resetField() {
     kodeController.clear();
     namaController.clear();
-    rateController.clear();
-    rate_byrController.clear();
-    tglController.clear();
-    ketController.clear();
+    alamatController.clear();
+    kotaController.clear();
+    telponController.clear();
     usrnmController.clear();
     tg_smpController.clear();
-    tglController.text = format_tanggal.format(chooseDate);
   }
 
-  Future<bool> daftar_currency() async {
+  Future<bool> daftar_toko() async {
     if (kodeController.text.isNotEmpty) {
       if (namaController.text.isNotEmpty) {
         BotToast.showLoading();
@@ -134,20 +130,19 @@ class CurrencyController with ChangeNotifier {
         data_insert['NO_ID'] = null;
         data_insert['KODE'] = kodeController.text;
         data_insert['NAMA'] = namaController.text;
-        data_insert['RATE'] = rateController.text;
-        data_insert['RATE_BYR'] = rate_byrController.text;
-        data_insert['TGL'] = DateFormat("yyy-MM-dd").format(chooseDate);
-        data_insert['KET'] = ketController.text;
+        data_insert['ALAMAT'] = alamatController.text;
+        data_insert['KOTA'] = kotaController.text;
+        data_insert['TELPON'] = telponController.text;
         data_insert['USRNM'] = LoginController.nama_staff;
         data_insert['TG_SMP'] = DateTime.now();
-        await model_currency().insert_data_currency(data_insert);
-        Toast("Success !!", "Berhasil menambah currency !", true);
-        ambil_currency();
+        await model_toko().insert_data_toko(data_insert);
+        Toast("Success !!", "Berhasil menambah toko !", true);
+        ambil_toko();
         BotToast.closeAllLoading();
         return true;
         // }
       } else {
-        Toast("Peringatan !", "Silahkan isi acno !", false);
+        Toast("Peringatan !", "Silahkan isi kode !", false);
         return false;
       }
     } else {
@@ -156,7 +151,7 @@ class CurrencyController with ChangeNotifier {
     }
   }
 
-  Future<bool> edit_currency(var id) async {
+  Future<bool> edit_toko(var id) async {
     if (kodeController.text.isNotEmpty) {
       if (namaController.text.isNotEmpty) {
         BotToast.showLoading();
@@ -164,15 +159,14 @@ class CurrencyController with ChangeNotifier {
         data_insert['NO_ID'] = id;
         data_insert['KODE'] = kodeController.text;
         data_insert['NAMA'] = namaController.text;
-        data_insert['RATE'] = rateController.text;
-        data_insert['RATE_BYR'] = rate_byrController.text;
-        data_insert['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-        data_insert['KET'] = ketController.text;
+        data_insert['ALAMAT'] = alamatController.text;
+        data_insert['KOTA'] = kotaController.text;
+        data_insert['TELPON'] = telponController.text;
         data_insert['USRNM'] = LoginController.nama_staff;
         data_insert['TG_SMP'] = DateTime.now();
-        await model_currency().update_data_currency_by_id(data_insert);
-        ambil_currency();
-        Toast("Success !!", "Berhasil Mengedit currency !", true);
+        await model_toko().update_data_toko_by_id(data_insert);
+        ambil_toko();
+        Toast("Success !!", "Berhasil Mengedit Toko !", true);
         BotToast.closeAllLoading();
         return true;
       } else {
@@ -186,7 +180,7 @@ class CurrencyController with ChangeNotifier {
   }
 
   Future<bool> hapus_akun(var data) async {
-    await model_currency().delete_currency_byID(data['NO_ID'].toString());
+    await model_toko().delete_toko_byID(data['NO_ID'].toString());
     selectData("");
   }
 }
