@@ -4,11 +4,16 @@ module.exports = function (app) {
     var jsonku = require('./controller');
 
     ///======================== MASTER CONTROLLER ========================///
-    // var jsonku = require('./controller/master/account_controller');
-    // var jsonku = require('./controller/master/barang_controller');
-    // var jsonku = require('./controller/master/bahan_controller');
-    // var jsonku = require('./controller/master/customer_controller');
-    // var jsonku = require('./controller/master/supplier_controller');
+    var accjs = require('../apprestapi/controller/master/finansial/account_controller');
+
+    var brgjs = require('../apprestapi/controller/master/operasional/barang_controller');
+    var bhnjs = require('../apprestapi/controller/master/operasional/bahan_controller');
+    var currjs = require('../apprestapi/controller/master/operasional/currency_controller');
+    var custjs = require('../apprestapi/controller/master/operasional/customer_controller');
+    var supjs = require('../apprestapi/controller/master/operasional/supplier_controller');
+    var tokojs = require('../apprestapi/controller/master/operasional/toko_controller');
+    var userjs = require('../apprestapi/controller/master/operasional/user_controller');
+    var hsjs = require('../apprestapi/controller/master/operasional/hs_controller');
 
 
     ///======================== TRANSAKSI CONTROLLER ========================///
@@ -48,124 +53,180 @@ module.exports = function (app) {
     app.route('/hapusbagas')
         .post(jsonku.hapusbagas);
 
+     ///========================/// START MASTER ACCOUNTING ///========================///
     app.route('/accpaginate')
-        .post(jsonku.acc_paginate);
+        .post(accjs.acc_paginate);
     app.route('/countaccpaginate')
-        .post(jsonku.count_accpaginate);
+        .post(accjs.count_accpaginate);
     app.route('/cariacc')
-        .post(jsonku.cariacc);
+        .post(accjs.cariacc);
     app.route('/tampilacc')
-        .post(jsonku.tampilacc);
+        .post(accjs.tampilacc);
     app.route('/modal_acc_stok')
-        .post(jsonku.modalaccstok);
+        .post(accjs.modalaccstok);
     app.route('/tambahacc')
-        .post(jsonku.tambahacc);
+        .post(accjs.tambahacc);
     app.route('/ubahacc')
-        .post(jsonku.ubahacc);
+        .post(accjs.ubahacc);
     app.route('/hapusacc')
-        .post(jsonku.hapusacc);
+        .post(accjs.hapusacc);
+    ///========================/// END MASTER ACCOUNTING ///========================///
 
+    ///========================/// START MASTER CURRENCY ///========================///
     app.route('/currpaginate')
-        .post(jsonku.curr_paginate);
+        .post(currjs.curr_paginate);
     app.route('/countcurrpaginate')
-        .post(jsonku.count_currpaginate);
+        .post(currjs.count_currpaginate);
     app.route('/caricurr')
-        .post(jsonku.caricurr);
+        .post(currjs.caricurr);
     app.route('/tampilcurr')
-        .post(jsonku.tampilcurr);
+        .post(currjs.tampilcurr);
     app.route('/modal_curr')
-        .post(jsonku.modalcurr);
+        .post(currjs.modalcurr);
     app.route('/tambahcurr')
-        .post(jsonku.tambahcurr);
+        .post(currjs.tambahcurr);
     app.route('/ubahcurr')
-        .post(jsonku.ubahcurr);
+        .post(currjs.ubahcurr);
     app.route('/hapuscurr')
-        .post(jsonku.hapuscurr);
+        .post(currjs.hapuscurr);
+    ///========================/// END MASTER CURRENCY ///========================///
 
+    ///========================/// START MASTER TOKO ///========================///
     app.route('/tokopaginate')
-        .post(jsonku.toko_paginate);
+        .post(tokojs.toko_paginate);
     app.route('/counttokopaginate')
-        .post(jsonku.count_tokopaginate);
+        .post(tokojs.count_tokopaginate);
     app.route('/caritoko')
-        .post(jsonku.caritoko);
+        .post(tokojs.caritoko);
     app.route('/tampiltoko')
-        .post(jsonku.tampiltoko);
+        .post(tokojs.tampiltoko);
     app.route('/modal_toko')
-        .post(jsonku.modaltoko);
+        .post(tokojs.modaltoko);
     app.route('/tambahtoko')
-        .post(jsonku.tambahtoko);
+        .post(tokojs.tambahtoko);
     app.route('/ubahtoko')
-        .post(jsonku.ubahtoko);
+        .post(tokojs.ubahtoko);
     app.route('/hapustoko')
-        .post(jsonku.hapustoko);
+        .post(tokojs.hapustoko);
+    ///========================/// END MASTER TOKO ///========================///
 
+    ///========================/// START MASTER USER ///========================///
+    app.route('/userpaginate')
+        .post(userjs.user_paginate);
+    app.route('/countuserpaginate')
+        .post(userjs.count_userpaginate);
+    app.route('/cariuser')
+        .post(userjs.cariuser);
+    app.route('/tampiluser')
+        .post(userjs.tampiluser);
+    app.route('/modal_user')
+        .post(userjs.modaluser);
+    app.route('/tambahuser')
+        .post(userjs.tambahuser);
+    app.route('/ubahuser')
+        .post(userjs.ubahuser);
+    app.route('/hapususer')
+        .post(userjs.hapususer);
+    app.route('/check_username')
+        .post(userjs.checkusername);
+    ///========================/// END MASTER USER ///========================///
+
+    ///========================/// START MASTER HS ///========================///
+    app.route('/hspaginate')
+        .post(hsjs.hs_paginate);
+    app.route('/counthspaginate')
+        .post(hsjs.count_hspaginate);
+    app.route('/carihs')
+        .post(hsjs.carihs);
+    app.route('/tampilhs')
+        .post(hsjs.tampilhs);
+    app.route('/modal_hs')
+        .post(hsjs.modalhs);
+    app.route('/tambahhs')
+        .post(hsjs.tambahhs);
+    app.route('/ubahhs')
+        .post(hsjs.ubahhs);
+    app.route('/hapushs')
+        .post(hsjs.hapushs);
+    app.route('/check_hs')
+        .post(hsjs.checkhs);
+    ///========================/// END MASTER HS ///========================///
+
+    ///========================/// START MASTER BARANG ///========================///
     app.route('/brgpaginate')
-        .post(jsonku.brg_paginate);
+        .post(brgjs.brg_paginate);
     app.route('/countbrgpaginate')
-        .post(jsonku.count_brgpaginate);
+        .post(brgjs.count_brgpaginate);
     app.route('/caribrg')
-        .post(jsonku.caribrg);
+        .post(brgjs.caribrg);
     app.route('/tampilbrg')
-        .post(jsonku.tampilbrg);
+        .post(brgjs.tampilbrg);
     app.route('/modal_brg_stok')
-        .post(jsonku.modalbrgstok);
+        .post(brgjs.modalbrgstok);
     app.route('/tambahbrg')
-        .post(jsonku.tambahbrg);
+        .post(brgjs.tambahbrg);
     app.route('/ubahbrg')
-        .post(jsonku.ubahbrg);
+        .post(brgjs.ubahbrg);
     app.route('/hapusbrg')
-        .post(jsonku.hapusbrg);
+        .post(brgjs.hapusbrg);
+    ///========================/// END MASTER BARANG ///========================///
 
+    ///========================/// START MASTER CUSTOMER ///========================///
     app.route('/cuspaginate')
-        .post(jsonku.cus_paginate);
+        .post(custjs.cus_paginate);
     app.route('/countcuspaginate')
-        .post(jsonku.count_cuspaginate);
+        .post(custjs.count_cuspaginate);
     app.route('/caricus')
-        .post(jsonku.caricus);
+        .post(custjs.caricus);
     app.route('/tampilcus')
-        .post(jsonku.tampilcus);
+        .post(custjs.tampilcus);
     app.route('/modal_cus_stok')
-        .post(jsonku.modalcusstok);
+        .post(custjs.modalcusstok);
     app.route('/tambahcus')
-        .post(jsonku.tambahcus);
+        .post(custjs.tambahcus);
     app.route('/ubahcus')
-        .post(jsonku.ubahcus);
+        .post(custjs.ubahcus);
     app.route('/hapuscus')
-        .post(jsonku.hapuscus);
+        .post(custjs.hapuscus);
+    ///========================/// END MASTER CUSTOMER ///========================///
 
+    ///========================/// START MASTER SUPPLIER ///========================///
     app.route('/suppaginate')
-        .post(jsonku.sup_paginate);
+        .post(supjs.sup_paginate);
     app.route('/countsuppaginate')
-        .post(jsonku.count_suppaginate);
+        .post(supjs.count_suppaginate);
     app.route('/carisup')
-        .post(jsonku.carisup);
+        .post(supjs.carisup);
     app.route('/tampilsup')
-        .post(jsonku.tampilsup);
+        .post(supjs.tampilsup);
     app.route('/modal_sup_stok')
-        .post(jsonku.modalsupstok);
+        .post(supjs.modalsupstok);
     app.route('/tambahsup')
-        .post(jsonku.tambahsup);
+        .post(supjs.tambahsup);
     app.route('/ubahsup')
-        .post(jsonku.ubahsup);
+        .post(supjs.ubahsup);
     app.route('/hapussup')
-        .post(jsonku.hapussup);
+        .post(supjs.hapussup);
+    ///========================/// END MASTER SUPPLIER ///========================///
 
+    ///========================/// START MASTER BAHAN ///========================///
     app.route('/bahanpaginate')
-        .post(jsonku.bahan_paginate);
+        .post(bhnjs.bahan_paginate);
     app.route('/countbahanpaginate')
-        .post(jsonku.count_bahanpaginate);
+        .post(bhnjs.count_bahanpaginate);
     app.route('/caribahan')
-        .post(jsonku.caribahan);
+        .post(bhnjs.caribahan);
     app.route('/tampilbahan')
-        .post(jsonku.tampilbahan);
+        .post(bhnjs.tampilbahan);
     app.route('/modal_bahan_stok')
-        .post(jsonku.modalbahanstok);
+        .post(bhnjs.modalbahanstok);
     app.route('/tambahbahan')
-        .post(jsonku.tambahbahan);
+        .post(bhnjs.tambahbahan);
     app.route('/ubahbahan')
-        .post(jsonku.ubahbahan);
+        .post(bhnjs.ubahbahan);
     app.route('/hapusbahan')
-        .post(jsonku.hapusbahan);
+        .post(bhnjs.hapusbahan);
+    ///========================/// END MASTER BAHAN ///========================///
 
     app.route('/nonbahanpaginate')
         .post(jsonku.nonbahan_paginate);

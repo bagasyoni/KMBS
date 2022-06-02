@@ -5,13 +5,17 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:akunt/controller/dragonpo_controller.dart';
 
-///////////////////////MASTER///////////////////////
+///////////////////////MASTER FINANSIAL///////////////////////
+import 'package:akunt/controller/account_controller.dart';
+
+///////////////////////MASTER OPERASIONAL///////////////////////
+import 'package:akunt/controller/master/operasional/hs_controller.dart';
+import 'package:akunt/controller/master/operasional/user_controller.dart';
 import 'package:akunt/controller/brg_controller.dart';
 import 'package:akunt/controller/gudang_controller.dart';
 import 'package:akunt/controller/emkl_controller.dart';
 import 'package:akunt/controller/customer_controller.dart';
 import 'package:akunt/controller/supplier_controller.dart';
-import 'package:akunt/controller/account_controller.dart';
 import 'package:akunt/controller/currency_controller.dart';
 import 'package:akunt/controller/toko_controller.dart';
 import 'package:akunt/controller/peg_controller.dart';
@@ -147,8 +151,12 @@ Future<void> init() async {
   sl.registerFactory(() => MemoController());
   sl.registerFactory(() => BrgController());
 
-  ///MASTER///
+  ///MASTER FINANSIAL///
   sl.registerFactory(() => AccountController());
+
+  ///MASTER OPERASIONAL///
+  sl.registerFactory(() => HsController());
+  sl.registerFactory(() => UserController());
   sl.registerFactory(() => CurrencyController());
   sl.registerFactory(() => TokoController());
   sl.registerFactory(() => SupplierController());
@@ -225,8 +233,12 @@ Future<void> main() async {
   await initializeDateFormatting('id_ID', null).then((_) =>
       runApp(MultiProvider(
         providers: [
-          ///MASTER///
+          ///MASTER FINANSIAL///
           ChangeNotifierProvider(create: (context) => sl<AccountController>()),
+
+          ///MASTER OPERASIONAL///
+          ChangeNotifierProvider(create: (context) => sl<HsController>()),
+          ChangeNotifierProvider(create: (context) => sl<UserController>()),
           ChangeNotifierProvider(create: (context) => sl<CurrencyController>()),
           ChangeNotifierProvider(create: (context) => sl<TokoController>()),
           ChangeNotifierProvider(create: (context) => sl<SupplierController>()),

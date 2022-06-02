@@ -12,17 +12,19 @@ import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';
 
-///MASTER///
-import 'package:akunt/view/master/customer/data_customer_screen.dart';
-import 'package:akunt/view/master/account/data_account_screen.dart';
-import 'package:akunt/view/master/supplier/data_supplier_screen.dart';
-import 'package:akunt/view/master/bahan/data_bahan_screen.dart';
-import 'package:akunt/view/master/brg/data_brg_screen.dart';
-import 'package:akunt/view/master/currency/data_currency_screen.dart';
-import 'package:akunt/view/master/toko/data_toko_screen.dart';
-import 'package:akunt/view/master/nonbahan/data_nonbahan_screen.dart';
-import 'package:akunt/view/master/emkl/data_emkl_screen.dart';
-import 'package:akunt/view/master/gudang/data_gudang_screen.dart';
+///MASTER FINANSIAL///
+import 'package:akunt/view/master/finansial/account/data_account_screen.dart';
+
+
+///MASTER OPERASIONAL///
+import 'package:akunt/view/master/operasional/customer/data_customer_screen.dart';
+import 'package:akunt/view/master/operasional/supplier/data_supplier_screen.dart';
+import 'package:akunt/view/master/operasional/bahan/data_bahan_screen.dart';
+import 'package:akunt/view/master/operasional/brg/data_brg_screen.dart';
+import 'package:akunt/view/master/operasional/currency/data_currency_screen.dart';
+import 'package:akunt/view/master/operasional/toko/data_toko_screen.dart';
+import 'package:akunt/view/master/operasional/user/data_user_screen.dart';
+import 'package:akunt/view/master/operasional/hs/data_hs_screen.dart';
 
 ///TRANSAKSI///
 import 'package:akunt/view/po_bahan_lokal/pobahanlokal_screen.dart';
@@ -327,6 +329,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     value: 106,
                                   ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_user_warna.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("User"),
+                                      ],
+                                    ),
+                                    value: 107,
+                                  ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_user_warna.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("HS"),
+                                      ],
+                                    ),
+                                    value: 108,
+                                  ),
                                 ];
                               },
                               onSelected: (value) async {
@@ -364,6 +396,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MaterialPageRoute(
                                           builder: (_) =>
                                               DataTokoScreen()));
+                                } else if (value == 107) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              DataUserScreen()));
+                                } else if (value == 108) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              DataHsScreen()));
                                 }
                               },
                             ),
