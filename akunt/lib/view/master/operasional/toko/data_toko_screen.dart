@@ -9,6 +9,9 @@ import 'package:akunt/view/master/operasional/toko/toko_card.dart';
 import 'package:akunt/view/master/operasional/toko/tambah_toko_screen.dart';
 import 'package:provider/provider.dart';
 
+// IMPORT PRINT WEB
+import 'dart:js' as js;
+
 class DataTokoScreen extends StatefulWidget {
   @override
   _DataTokoScreenState createState() => _DataTokoScreenState();
@@ -23,8 +26,7 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TokoController>(
-        builder: (context, tokoController, child) {
+    return Consumer<TokoController>(builder: (context, tokoController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -62,13 +64,48 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
           actions: [
             OnHoverButton(
               child: InkWell(
+                hoverColor: Colors.white,
+                onTap: () {
+                  // lapPerincianpiu.proses_export_lapperincianpiu(1);
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastertoko.php'
+                  ]);
+                },
+                child: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/images/ic_print.png",
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Cetak",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 16,
+            ),
+            OnHoverButton(
+              child: InkWell(
                 hoverColor: Colors.transparent,
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) =>
-                              TambahTokoScreen(isModeEdit: false)));
+                          builder: (_) => TambahTokoScreen(isModeEdit: false)));
                 },
                 child: Container(
                   height: 30,
@@ -145,8 +182,7 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
                               child: Container(
                                 height: 30,
                                 child: TextField(
-                                  controller:
-                                      tokoController.searchController,
+                                  controller: tokoController.searchController,
                                   onChanged: (value) {
                                     Provider.of<TokoController>(context,
                                             listen: false)
@@ -263,8 +299,7 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
                               if (value != null) {
                                 if (value) {
                                   tokoController.hapus_akun(
-                                      tokoController
-                                          .data_tokoList[index]);
+                                      tokoController.data_tokoList[index]);
                                 }
                               }
                             });
@@ -309,8 +344,7 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
               children: [
                 if (tokoController.data_tokoList.length > 0)
                   Text(
-                    (tokoController.offset + 1 <
-                            tokoController.totalNotaTerima)
+                    (tokoController.offset + 1 < tokoController.totalNotaTerima)
                         ? "Showing ${tokoController.offset + 1} to ${tokoController.offset + tokoController.limit} of ${tokoController.totalNotaTerima} entries"
                         : "Showing ${tokoController.offset + 1} to ${tokoController.totalNotaTerima} of ${tokoController.totalNotaTerima} entries",
                     style: GoogleFonts.poppins(

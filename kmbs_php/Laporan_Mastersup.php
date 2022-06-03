@@ -9,27 +9,27 @@ header("Content-Type: application/json; charset=UTF-8");
 include "config.php";
 
 // $postjson = json_decode(file_get_contents('php://input'), true);
-$TGL = date('dd/MM/YYYY');
+$TGL = date('d/M/Y');
 $PER = $_GET['PER'];
 
 include('phpjasperxml/class/tcpdf/tcpdf.php');
 include('phpjasperxml/class/PHPJasperXML.inc.php');
 include('phpjasperxml/setting.php');
 $PHPJasperXML = new \PHPJasperXML();
-$PHPJasperXML->load_xml_file("phpjasperxml/Laporan_Master_Bahan.jrxml");
+$PHPJasperXML->load_xml_file("phpjasperxml/Laporan_Master_Supplier.jrxml");
 
 $PHPJasperXML->transferDBtoArray(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $PHPJasperXML->arraysqltable = array();
-$query = "SELECT KD_BHN, NA_BHN, SATUAN, '$PER' AS PER, '$TGL' AS TGL, NOTES AS NOTES FROM bhn ORDER BY KD_BHN";
+$query = "SELECT KODES, NAMAS, ALAMAT, KOTA, '$PER' AS PER, '$TGL' AS TGL FROM sup ORDER BY KODES";
 $result1 = mysqli_query($mysqli, $query);
 while ($row1 = mysqli_fetch_assoc($result1)) {
 	array_push($PHPJasperXML->arraysqltable, array(
-		"KD_BHN" => $row1["KD_BHN"],
-		"NA_BHN" => $row1["NA_BHN"],
-		"SATUAN" => $row1["SATUAN"],
+		"KODES" => $row1["KODES"],
+		"NAMAS" => $row1["NAMAS"],
+		"ALAMAT" => $row1["ALAMAT"],
+		"KOTA" => $row1["KOTA"],
 		"PER" => $row1["PER"],
 		"TGL" => $row1["TGL"],
-		"NOTES" => $row1["NOTES"],
 	));
 }
 ob_end_clean();

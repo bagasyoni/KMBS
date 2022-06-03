@@ -9,6 +9,9 @@ import 'package:akunt/view/master/operasional/supplier/supplier_card.dart';
 import 'package:akunt/view/master/operasional/supplier/tambah_supplier_screen.dart';
 import 'package:provider/provider.dart';
 
+// IMPORT PRINT WEB
+import 'dart:js' as js;
+
 class DataSupplierScreen extends StatefulWidget {
   @override
   _DataSupplierScreenState createState() => _DataSupplierScreenState();
@@ -60,6 +63,41 @@ class _DataSupplierScreenState extends State<DataSupplierScreen> {
             ),
           ),
           actions: [
+            OnHoverButton(
+              child: InkWell(
+                hoverColor: Colors.white,
+                onTap: () {
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastersup.php'
+                  ]);
+                },
+                child: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/images/ic_print.png",
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Cetak",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 16,
+            ),
             OnHoverButton(
               child: InkWell(
                 hoverColor: Colors.transparent,

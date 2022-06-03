@@ -9,6 +9,9 @@ import 'package:akunt/view/master/operasional/currency/currency_card.dart';
 import 'package:akunt/view/master/operasional/currency/tambah_currency_screen.dart';
 import 'package:provider/provider.dart';
 
+// IMPORT PRINT WEB
+import 'dart:js' as js;
+
 class DataCurrencyScreen extends StatefulWidget {
   @override
   _DataCurrencyScreenState createState() => _DataCurrencyScreenState();
@@ -60,6 +63,41 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
             ),
           ),
           actions: [
+            OnHoverButton(
+              child: InkWell(
+                hoverColor: Colors.white,
+                onTap: () {
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastercurr.php'
+                  ]);
+                },
+                child: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/images/ic_print.png",
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Cetak",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 16,
+            ),
             OnHoverButton(
               child: InkWell(
                 hoverColor: Colors.transparent,

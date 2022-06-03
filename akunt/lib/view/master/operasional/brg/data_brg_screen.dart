@@ -9,6 +9,9 @@ import 'package:akunt/view/master/operasional/brg/brg_card.dart';
 import 'package:akunt/view/master/operasional/brg/tambah_brg_screen.dart';
 import 'package:provider/provider.dart';
 
+// IMPORT PRINT WEB
+import 'dart:js' as js;
+
 class DataBrgScreen extends StatefulWidget {
   @override
   _DataBrgScreenState createState() => _DataBrgScreenState();
@@ -59,6 +62,41 @@ class _DataBrgScreenState extends State<DataBrgScreen> {
             ),
           ),
           actions: [
+            OnHoverButton(
+              child: InkWell(
+                hoverColor: Colors.white,
+                onTap: () {
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masterbrg.php'
+                  ]);
+                },
+                child: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/images/ic_print.png",
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Cetak",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 16,
+            ),
             OnHoverButton(
               child: InkWell(
                 hoverColor: Colors.transparent,

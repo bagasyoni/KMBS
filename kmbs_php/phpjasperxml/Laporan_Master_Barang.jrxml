@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Master_Bahan" language="groovy" pageWidth="612" pageHeight="792" columnWidth="0" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Master_Barang" language="groovy" pageWidth="612" pageHeight="792" columnWidth="0" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="145"/>
 	<property name="ireport.y" value="0"/>
@@ -21,7 +21,7 @@
 	<field name="KD_BHN" class="java.lang.String"/>
 	<field name="NA_BHN" class="java.lang.String"/>
 	<field name="SATUAN" class="java.lang.String"/>
-	<field name="NOTES" class="java.lang.String"/>
+	<field name="WARNA" class="java.lang.String"/>
 	<group name="SUB">
 		<groupExpression><![CDATA[$F{ARTICLE}]]></groupExpression>
 	</group>
@@ -35,7 +35,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["DAFTAR MASTER BAHAN"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["DAFTAR MASTER BARANG"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="77" width="28" height="20" uuid="2724d6d0-5a13-4ff7-a297-5fd2b80c5734"/>
@@ -138,7 +138,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Keterangan"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Warna"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -208,7 +208,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{NOTES}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{WARNA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

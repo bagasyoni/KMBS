@@ -4,8 +4,11 @@ module.exports = function (app) {
     var jsonku = require('./controller');
 
     ///======================== MASTER CONTROLLER ========================///
+    ///=====>>> START FINANSIAL
     var accjs = require('../apprestapi/controller/master/finansial/account_controller');
+    ///===== END FINANSIAL
 
+    ///===== START OPERASIONAL
     var brgjs = require('../apprestapi/controller/master/operasional/barang_controller');
     var bhnjs = require('../apprestapi/controller/master/operasional/bahan_controller');
     var currjs = require('../apprestapi/controller/master/operasional/currency_controller');
@@ -14,15 +17,19 @@ module.exports = function (app) {
     var tokojs = require('../apprestapi/controller/master/operasional/toko_controller');
     var userjs = require('../apprestapi/controller/master/operasional/user_controller');
     var hsjs = require('../apprestapi/controller/master/operasional/hs_controller');
+    ///=====>>> END OPERASIONAL
 
 
     ///======================== TRANSAKSI CONTROLLER ========================///
-    // var jsonku = require('./controller/transaksi/po_controller');
-    // var jsonku = require('./controller/transaksi/beli_controller');
-    // var jsonku = require('./controller/transaksi/hut_controller');
-    // var jsonku = require('./controller/transaksi/pakai_controller');
-    // var jsonku = require('./controller/transaksi/stocka_controller');
+    ///=====>>> START FINANSIAL
+    ///=====>>> END FINANSIAL
 
+    ///=====>>> START OPERASIONAL
+    var pobhn_lokaljs = require('../apprestapi/controller/transaksi/operasional/pobhn_lokal_controller');
+    var pobhn_importjs = require('../apprestapi/controller/transaksi/operasional/pobhn_import_controller');
+    var pobrg_lokaljs = require('../apprestapi/controller/transaksi/operasional/pobrg_lokal_controller');
+    var pobrg_importjs = require('../apprestapi/controller/transaksi/operasional/pobrg_import_controller');
+    ///=====>>> END OPERASIONAL
 
     ///======================== LAPORAN CONTROLLER ========================///
 
@@ -301,91 +308,91 @@ module.exports = function (app) {
     ///TRANSAKSI///
     ///====================/// PO BAHAN LOKAL ///====================///
     app.route('/pobahanlokalpaginate')
-        .post(jsonku.pobahanlokal_paginate);
+        .post(pobhn_lokaljs.pobahanlokal_paginate);
     app.route('/countpobahanlokalpaginate')
-        .post(jsonku.count_pobahanlokalpaginate);
+        .post(pobhn_lokaljs.count_pobahanlokalpaginate);
     app.route('/tambah_header_po_bahan_lokal')
-        .post(jsonku.tambahheaderpobahanlokal);
+        .post(pobhn_lokaljs.tambahheaderpobahanlokal);
     app.route('/tambah_detail_po_bahan_lokal')
-        .post(jsonku.tambahdetailpobahanlokal);
+        .post(pobhn_lokaljs.tambahdetailpobahanlokal);
     app.route('/tampil_po_bahan_lokal')
-        .post(jsonku.tampilpobahanlokal);
+        .post(pobhn_lokaljs.tampilpobahanlokal);
     app.route('/edit_header_po_bahan_lokal')
-        .post(jsonku.editheaderpobahanlokal);
+        .post(pobhn_lokaljs.editheaderpobahanlokal);
     app.route('/modal_po_bahan_lokal')
-        .post(jsonku.modalpobahanlokal);
+        .post(pobhn_lokaljs.modalpobahanlokal);
     app.route('/cari_po_bahan_lokal')
-        .post(jsonku.caripobahanlokal);
+        .post(pobhn_lokaljs.caripobahanlokal);
     app.route('/ambil_po_detail')
-        .post(jsonku.ambilpodetail);
+        .post(pobhn_lokaljs.ambilpodetail);
     app.route('/hapus_po_bahanlokal')
-        .post(jsonku.hapuspobahanlokal);
+        .post(pobhn_lokaljs.hapuspobahanlokal);
 
     ///====================/// PO BAHAN IMPORT ///====================///
     app.route('/pobahanimportpaginate')
-        .post(jsonku.pobahanimport_paginate);
+        .post(pobhn_importjs.pobahanimport_paginate);
     app.route('/countpobahanimportpaginate')
-        .post(jsonku.count_pobahanimportpaginate);
+        .post(pobhn_importjs.count_pobahanimportpaginate);
     app.route('/tambah_header_po_bahan_import')
-        .post(jsonku.tambahheaderpobahanimport);
+        .post(pobhn_importjs.tambahheaderpobahanimport);
     app.route('/tambah_detail_po_bahan_import')
-        .post(jsonku.tambahdetailpobahanimport);
+        .post(pobhn_importjs.tambahdetailpobahanimport);
     app.route('/tampil_po_bahan_import')
-        .post(jsonku.tampilpobahanimport);
+        .post(pobhn_importjs.tampilpobahanimport);
     app.route('/edit_header_po_bahan_import')
-        .post(jsonku.editheaderpobahanimport);
+        .post(pobhn_importjs.editheaderpobahanimport);
     app.route('/modal_po_bahan_import')
-        .post(jsonku.modalpobahanimport);
+        .post(pobhn_importjs.modalpobahanimport);
     app.route('/cari_po_bahan_import')
-        .post(jsonku.caripobahanimport);
+        .post(pobhn_importjs.caripobahanimport);
     app.route('/ambil_po_detail')
-        .post(jsonku.ambilpodetail);
+        .post(pobhn_importjs.ambilpodetail);
     app.route('/hapus_po_bahanimport')
-        .post(jsonku.hapuspobahanimport);
+        .post(pobhn_importjs.hapuspobahanimport);
 
     ///====================/// PO BARANG LOKAL ///====================///
     app.route('/pobaranglokalpaginate')
-        .post(jsonku.pobaranglokal_paginate);
+        .post(pobrg_lokaljs.pobaranglokal_paginate);
     app.route('/countpobaranglokalpaginate')
-        .post(jsonku.count_pobaranglokalpaginate);
+        .post(pobrg_lokaljs.count_pobaranglokalpaginate);
     app.route('/tambah_header_po_barang_lokal')
-        .post(jsonku.tambahheaderpobaranglokal);
+        .post(pobrg_lokaljs.tambahheaderpobaranglokal);
     app.route('/tambah_detail_po_barang_lokal')
-        .post(jsonku.tambahdetailpobaranglokal);
+        .post(pobrg_lokaljs.tambahdetailpobaranglokal);
     app.route('/tampil_po_barang_lokal')
-        .post(jsonku.tampilpobaranglokal);
+        .post(pobrg_lokaljs.tampilpobaranglokal);
     app.route('/edit_header_po_barang_lokal')
-        .post(jsonku.editheaderpobaranglokal);
+        .post(pobrg_lokaljs.editheaderpobaranglokal);
     app.route('/modal_po_barang_lokal')
-        .post(jsonku.modalpobaranglokal);
+        .post(pobrg_lokaljs.modalpobaranglokal);
     app.route('/cari_po_barang_lokal')
-        .post(jsonku.caripobaranglokal);
+        .post(pobrg_lokaljs.caripobaranglokal);
     app.route('/ambil_po_detail')
-        .post(jsonku.ambilpodetail);
+        .post(pobrg_lokaljs.ambilpodetail);
     app.route('/hapus_po_baranglokal')
-        .post(jsonku.hapuspobaranglokal);
+        .post(pobrg_lokaljs.hapuspobaranglokal);
 
     ///====================/// PO BARANG IMPORT ///====================///
     app.route('/pobarangimportpaginate')
-        .post(jsonku.pobarangimport_paginate);
+        .post(pobrg_importjs.pobarangimport_paginate);
     app.route('/countpobarangimportpaginate')
-        .post(jsonku.count_pobarangimportpaginate);
+        .post(pobrg_importjs.count_pobarangimportpaginate);
     app.route('/tambah_header_po_barang_import')
-        .post(jsonku.tambahheaderpobarangimport);
+        .post(pobrg_importjs.tambahheaderpobarangimport);
     app.route('/tambah_detail_po_barang_import')
-        .post(jsonku.tambahdetailpobarangimport);
+        .post(pobrg_importjs.tambahdetailpobarangimport);
     app.route('/tampil_po_barang_import')
-        .post(jsonku.tampilpobarangimport);
+        .post(pobrg_importjs.tampilpobarangimport);
     app.route('/edit_header_po_barang_import')
-        .post(jsonku.editheaderpobarangimport);
+        .post(pobrg_importjs.editheaderpobarangimport);
     app.route('/modal_po_barang_import')
-        .post(jsonku.modalpobarangimport);
+        .post(pobrg_importjs.modalpobarangimport);
     app.route('/cari_po_barang_import')
-        .post(jsonku.caripobarangimport);
+        .post(pobrg_importjs.caripobarangimport);
     app.route('/ambil_po_detail')
-        .post(jsonku.ambilpodetail);
+        .post(pobrg_importjs.ambilpodetail);
     app.route('/hapus_po_barangimport')
-        .post(jsonku.hapuspobarangimport);
+        .post(pobrg_importjs.hapuspobarangimport);
 
 
     app.route('/sopaginate')

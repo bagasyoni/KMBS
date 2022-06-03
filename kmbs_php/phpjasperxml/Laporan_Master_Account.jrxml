@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Master_Bahan" language="groovy" pageWidth="612" pageHeight="792" columnWidth="0" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan Master_Account" language="groovy" pageWidth="612" pageHeight="792" columnWidth="0" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="5662dcdd-2947-4030-a126-8345a6e9bd94">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="145"/>
 	<property name="ireport.y" value="0"/>
@@ -18,10 +18,10 @@
 	</queryString>
 	<field name="TGL" class="java.lang.String"/>
 	<field name="PER" class="java.lang.String"/>
-	<field name="KD_BHN" class="java.lang.String"/>
-	<field name="NA_BHN" class="java.lang.String"/>
-	<field name="SATUAN" class="java.lang.String"/>
-	<field name="NOTES" class="java.lang.String"/>
+	<field name="ACNO" class="java.lang.String"/>
+	<field name="NAMA" class="java.lang.String"/>
+	<field name="KODE" class="java.lang.String"/>
+	<field name="GRUP" class="java.lang.String"/>
 	<group name="SUB">
 		<groupExpression><![CDATA[$F{ARTICLE}]]></groupExpression>
 	</group>
@@ -35,7 +35,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["DAFTAR MASTER BAHAN"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["DAFTAR MASTER ACCOUNT"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="77" width="28" height="20" uuid="2724d6d0-5a13-4ff7-a297-5fd2b80c5734"/>
@@ -63,7 +63,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Kode"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Acno"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="120" y="77" width="237" height="20" uuid="24ecc9df-8607-4a08-8d5d-2780b2c3d8aa"/>
@@ -89,7 +89,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Satuan"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Kode"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="32" width="278" height="15" uuid="13f3ed13-ad7e-49ff-85e8-a658e5dc1f89">
@@ -138,7 +138,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Keterangan"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Grup"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -169,7 +169,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{KD_BHN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ACNO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="120" y="0" width="237" height="20" uuid="fa134d1f-aa1b-4a70-873e-4bf22385cd9f"/>
@@ -182,7 +182,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{NA_BHN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NAMA}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="357" y="0" width="63" height="20" uuid="94f2d259-4469-429a-9834-3641070a4c74"/>
@@ -195,7 +195,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{SATUAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{KODE}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="420" y="0" width="140" height="20" uuid="0cf5316f-f409-43a8-bd97-abea088128b0"/>
@@ -208,7 +208,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{NOTES}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{GRUP}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

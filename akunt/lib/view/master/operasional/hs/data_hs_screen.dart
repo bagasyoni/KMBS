@@ -11,7 +11,7 @@ import 'package:responsive_table/responsive_table.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
-// import 'dart:js' as js;
+import 'dart:js' as js;
 
 class DataHsScreen extends StatefulWidget {
   @override
@@ -68,10 +68,9 @@ class _DataHsScreenState extends State<DataHsScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  // lapPerincianpiu.proses_export_lapperincianpiu(1);
-                  // js.context.callMethod('open', [
-                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masterbhn.php'
-                  // ]);
+                  js.context.callMethod('open', [
+                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masterhs.php'
+                  ]);
                 },
                 child: Container(
                   height: 30,
