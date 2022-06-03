@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:akunt/model/data_brg.dart';
+import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';

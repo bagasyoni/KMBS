@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:akunt/model/data_bhn.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../config/export_pdf_array_9a.dart';
 import '../model/model_lapbuku_besar.dart';
 import '../model/model_periode.dart';
-import '../model/model_account.dart';
+import '../model/master/finansial/model_account.dart';
 
 class LapBukubesarController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();

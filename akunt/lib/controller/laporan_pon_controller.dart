@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/invoice/invoice_order_pembelian.dart';
-import 'package:akunt/model/model_brg.dart';
-import 'package:akunt/model/data_brg.dart';
+import 'package:akunt/model/master/operasional/model_brg.dart';
+import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../config/export_pdf_array_10a.dart';
-import '../model/data_brg.dart';
+import '../model/master/operasional/data_brg.dart';
 import '../model/model_lappon.dart';
-import '../model/model_supplier.dart';
+import '../model/master/operasional/model_supplier.dart';
 
 class LapPonController with ChangeNotifier {
   model_lappon m_data = model_lappon();

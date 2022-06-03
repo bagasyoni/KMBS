@@ -26,11 +26,14 @@ import 'package:akunt/view/master/operasional/toko/data_toko_screen.dart';
 import 'package:akunt/view/master/operasional/user/data_user_screen.dart';
 import 'package:akunt/view/master/operasional/hs/data_hs_screen.dart';
 
-///TRANSAKSI///
-import 'package:akunt/view/po_bahan_lokal/pobahanlokal_screen.dart';
-import 'package:akunt/view/po_bahan_import/pobahanimport_screen.dart';
-import 'package:akunt/view/po_barang_lokal/pobaranglokal_screen.dart';
-import 'package:akunt/view/po_barang_import/pobarangimport_screen.dart';
+///TRANSAKSI FINANSIAL///
+
+///TRANSAKSI OPERASIONAL///
+import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pobahanlokal_screen.dart';
+import 'package:akunt/view/transaksi/operasional/po_bahan_import/pobahanimport_screen.dart';
+import 'package:akunt/view/transaksi/operasional/po_barang_lokal/pobaranglokal_screen.dart';
+import 'package:akunt/view/transaksi/operasional/po_barang_import/pobarangimport_screen.dart';
+
 import 'package:akunt/view/po_nonbahan/pononbahan_screen.dart';
 import 'package:akunt/view/po_import/poimport_screen.dart';
 import 'package:akunt/view/po_mesin/pomesin_screen.dart';

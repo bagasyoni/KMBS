@@ -6,33 +6,37 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:akunt/controller/dragonpo_controller.dart';
 
 ///////////////////////MASTER FINANSIAL///////////////////////
-import 'package:akunt/controller/account_controller.dart';
+import 'package:akunt/controller/master/finansial/account_controller.dart';
 
 ///////////////////////MASTER OPERASIONAL///////////////////////
 import 'package:akunt/controller/master/operasional/hs_controller.dart';
 import 'package:akunt/controller/master/operasional/user_controller.dart';
-import 'package:akunt/controller/brg_controller.dart';
+import 'package:akunt/controller/master/operasional/brg_controller.dart';
+import 'package:akunt/controller/master/operasional/customer_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
+import 'package:akunt/controller/master/operasional/currency_controller.dart';
+import 'package:akunt/controller/master/operasional/toko_controller.dart';
+import 'package:akunt/controller/master/operasional/bahan_controller.dart';
+
 import 'package:akunt/controller/gudang_controller.dart';
 import 'package:akunt/controller/emkl_controller.dart';
-import 'package:akunt/controller/customer_controller.dart';
-import 'package:akunt/controller/supplier_controller.dart';
-import 'package:akunt/controller/currency_controller.dart';
-import 'package:akunt/controller/toko_controller.dart';
 import 'package:akunt/controller/peg_controller.dart';
 import 'package:akunt/controller/bhn_controller.dart';
 import 'package:akunt/controller/sparepart_controller.dart';
 import 'package:akunt/controller/mesin_controller.dart';
-import 'package:akunt/controller/bahan_controller.dart';
 import 'package:akunt/controller/nonbahan_controller.dart';
 import 'package:akunt/controller/bagas_controller.dart';
 import 'package:akunt/controller/bank_controller.dart';
 import 'package:akunt/controller/periode_controller.dart';
 
-///////////////////////TRANSAKSI///////////////////////
-import 'package:akunt/controller/pobahanlokal_controller.dart';
-import 'package:akunt/controller/pobahanimport_controller.dart';
-import 'package:akunt/controller/pobaranglokal_controller.dart';
-import 'package:akunt/controller/pobarangimport_controller.dart';
+///////////////////////TRANSAKSI FINANSIAL///////////////////////
+
+///////////////////////TRANSAKSI OPERASIONAL///////////////////////
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobaranglokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobarangimport_controller.dart';
+
 import 'package:akunt/controller/pononbahan_controller.dart';
 import 'package:akunt/controller/poimport_controller.dart';
 import 'package:akunt/controller/pomesin_controller.dart';

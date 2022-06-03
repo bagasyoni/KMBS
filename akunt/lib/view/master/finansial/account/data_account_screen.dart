@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/account_controller.dart';
+import 'package:akunt/controller/master/finansial/account_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/master/finansial/account/account_card.dart';
 import 'package:akunt/view/master/finansial/account/tambah_account_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:akunt/model/model_bhn.dart';
+import 'package:akunt/model/master/operasional/model_bhn.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:flutter/material.dart';
 

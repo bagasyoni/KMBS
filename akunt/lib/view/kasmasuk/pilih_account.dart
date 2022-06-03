@@ -1,6 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/account_controller.dart';
+import 'package:akunt/controller/master/finansial/account_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
