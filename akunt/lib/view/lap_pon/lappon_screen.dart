@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_pon_controller.dart';
-import '../../model/data_supp.dart';
+import '../../model/master/operasional/data_supp.dart';
 import 'widget/filter_tanggal.dart';
 
 class LapPonScreen extends StatefulWidget {

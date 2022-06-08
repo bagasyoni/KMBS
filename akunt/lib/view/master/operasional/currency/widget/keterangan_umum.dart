@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/master/operasional/currency_controller.dart';
 
 Widget KeteranganUmum(
     BuildContext context, CurrencyController currencyController) {

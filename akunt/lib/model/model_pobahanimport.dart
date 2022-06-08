@@ -114,7 +114,7 @@ class model_pobahanimport {
     }
   }
 
-  ///UPDATE PO BAHAN import DETAIL
+  ///UPDATE PO BAHAN IMPORT DETAIL
   Future<List> update_po_bahan_import(Map data_insert) async {
     try {
       await http.post(

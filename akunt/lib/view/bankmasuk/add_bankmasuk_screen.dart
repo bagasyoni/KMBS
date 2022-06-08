@@ -6,7 +6,7 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/bankmasuk_controller.dart';
-import 'package:akunt/model/data_account.dart';
+import 'package:akunt/model/master/finansial/data_account.dart';
 import 'package:akunt/view/bankmasuk/pilih_account.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
 import 'package:akunt/view/bankmasuk/widget/add_bankmasuk_card.dart';

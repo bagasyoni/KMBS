@@ -1,17 +1,19 @@
+import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/pobahanlokal_controller.dart';
-import 'package:akunt/model/data_bhn.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pilih_currency.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pilih_supplier.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pilih_account.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/widget/add_pobahanlokal_card.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddPobahanlokalScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class AddPobahanlokalScreen extends StatefulWidget {
 class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataBhn>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
-  bool isChecked = false;
+  var f = NumberFormat("#,##0.00", "en_US");
 
   _AddPobahanScreenState();
 
@@ -35,7 +37,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
   void initState() {
     if (widget.isModeEdit) {
       Provider.of<PobahanlokalController>(context, listen: false)
-          .initData_editPobahan(widget.data_edit);
+          .initData_editPobahanlokal(widget.data_edit);
     } else {
       Provider.of<PobahanlokalController>(context, listen: false)
           .initData_addPobahan();
@@ -45,20 +47,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.greenAccent;
-      }
-      return Colors.blue;
-    }
-
     return Consumer<PobahanlokalController>(
-        builder: (context, pobahanController, child) {
+        builder: (context, pobahanlokalController, child) {
       return Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
@@ -101,7 +91,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
               child: InkWell(
                 onTap: () {
                   if (widget.isModeEdit) {
-                    pobahanController.editPobahan().then((value) {
+                    pobahanlokalController.editPobahan().then((value) {
                       if (value != null) {
                         if (value) {
                           Navigator.pop(context, true);
@@ -109,7 +99,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                       }
                     });
                   } else {
-                    pobahanController.savePobahan().then((value) {
+                    pobahanlokalController.savePobahan().then((value) {
                       if (value != null) {
                         if (value) {
                           showAnimatedDialog_withCallBack(
@@ -119,10 +109,10 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
-                                pobahanController.initData_addPobahan();
-                                pobahanController.notifyListeners();
+                                pobahanlokalController.initData_addPobahan();
+                                pobahanlokalController.notifyListeners();
                               } else {
-                                pobahanController.notifyListeners();
+                                pobahanlokalController.notifyListeners();
                                 Navigator.pop(context, true);
                               }
                             }
@@ -205,7 +195,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobahanController
+                                        controller: pobahanlokalController
                                             .no_buktiController,
                                         // readOnly: widget.isModeEdit,
                                         readOnly: true,
@@ -272,8 +262,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.kodesController,
+                                        controller: pobahanlokalController
+                                            .kodesController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -298,14 +288,14 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           showAnimatedDialog(
                                               context,
                                               PilihSupplier(
-                                                  pobahanController
+                                                  pobahanlokalController
                                                           .kodesController
                                                           .text
                                                           .isEmpty
                                                       ? null
-                                                      : pobahanController
+                                                      : pobahanlokalController
                                                           .namasController.text,
-                                                  pobahanController),
+                                                  pobahanlokalController),
                                               isFlip: false);
                                         },
                                       ),
@@ -361,8 +351,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.acno1Controller,
+                                        controller: pobahanlokalController
+                                            .acno1Controller,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -387,15 +377,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           showAnimatedDialog(
                                               context,
                                               PilihAccount(
-                                                  pobahanController
+                                                  pobahanlokalController
                                                           .acno1Controller
                                                           .text
                                                           .isEmpty
                                                       ? null
-                                                      : pobahanController
+                                                      : pobahanlokalController
                                                           .acno1_nmController
                                                           .text,
-                                                  pobahanController),
+                                                  pobahanlokalController),
                                               isFlip: false);
                                         },
                                       ),
@@ -458,8 +448,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.tglController,
+                                        controller: pobahanlokalController
+                                            .tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
                                               top: 15, bottom: 18),
@@ -475,21 +465,24 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          pobahanController.chooseDate =
+                                          pobahanlokalController.chooseDate =
                                               await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          pobahanController
+                                                          pobahanlokalController
                                                                   .chooseDate ??
                                                               DateTime.now(),
                                                       lastDate: DateTime(2050),
                                                       firstDate: DateTime(
                                                           DateTime.now()
                                                               .year)) ??
-                                                  pobahanController.chooseDate;
-                                          pobahanController.tglController.text =
-                                              pobahanController.format_tanggal
-                                                  .format(pobahanController
+                                                  pobahanlokalController
+                                                      .chooseDate;
+                                          pobahanlokalController
+                                                  .tglController.text =
+                                              pobahanlokalController
+                                                  .format_tanggal
+                                                  .format(pobahanlokalController
                                                       .chooseDate);
                                         },
                                       ),
@@ -524,8 +517,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.jtempoController,
+                                        controller: pobahanlokalController
+                                            .jtempoController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -542,23 +535,24 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          pobahanController.chooseDateJT =
+                                          pobahanlokalController.chooseDateJT =
                                               await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          pobahanController
+                                                          pobahanlokalController
                                                                   .chooseDateJT ??
                                                               DateTime.now(),
                                                       lastDate: DateTime(2050),
                                                       firstDate: DateTime(
                                                           DateTime.now()
                                                               .year)) ??
-                                                  pobahanController
+                                                  pobahanlokalController
                                                       .chooseDateJT;
-                                          pobahanController
+                                          pobahanlokalController
                                                   .jtempoController.text =
-                                              pobahanController.format_tanggal
-                                                  .format(pobahanController
+                                              pobahanlokalController
+                                                  .format_tanggal
+                                                  .format(pobahanlokalController
                                                       .chooseDateJT);
                                         },
                                       ),
@@ -594,8 +588,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.namasController,
+                                        controller: pobahanlokalController
+                                            .namasController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -644,7 +638,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobahanController
+                                        controller: pobahanlokalController
                                             .acno1_nmController,
                                         readOnly: true,
                                         decoration: InputDecoration(
@@ -706,8 +700,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.currController,
+                                        controller: pobahanlokalController
+                                            .currController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -732,15 +726,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           showAnimatedDialog(
                                               context,
                                               PilihCurrency(
-                                                  pobahanController
+                                                  pobahanlokalController
                                                           .currController
                                                           .text
                                                           .isEmpty
                                                       ? null
-                                                      : pobahanController
+                                                      : pobahanlokalController
                                                           .currnmController
                                                           .text,
-                                                  pobahanController),
+                                                  pobahanlokalController),
                                               isFlip: false);
                                         },
                                       ),
@@ -776,8 +770,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.currnmController,
+                                        controller: pobahanlokalController
+                                            .currnmController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -826,8 +820,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.alamatController,
+                                        controller: pobahanlokalController
+                                            .alamatController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -920,8 +914,12 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.rateController,
+                                        controller: pobahanlokalController
+                                            .rateController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -933,6 +931,24 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                           enabledBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                         ),
+                                        onChanged: (numb) {
+                                          if (numb.isNotEmpty) {
+                                            PobahanlokalController.rate =
+                                                config().convert_rupiah(
+                                                    pobahanlokalController
+                                                        .rateController.text);
+                                            pobahanlokalController
+                                                .hitungSubTotal();
+                                          }
+                                        },
+                                        onFieldSubmitted: (value) {
+                                          PobahanlokalController.rate = config()
+                                              .convert_rupiah(
+                                                  pobahanlokalController
+                                                      .rateController.text);
+                                          pobahanlokalController
+                                              .hitungSubTotal();
+                                        },
                                       ),
                                     ),
                                   ],
@@ -957,23 +973,31 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      child: Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: isChecked,
-                                        onChanged: (bool newvalue) {
-                                          setState(() {
-                                            isChecked = newvalue;
-                                            newvalue = PobahanlokalController
-                                                .rateksController;
-                                          });
-                                          if (isChecked == true) {
-                                            print(1);
-                                          } else
-                                            print(0);
-                                        },
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: pobahanlokalController
+                                            .rateksController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 18),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -1007,8 +1031,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.kotaController,
+                                        controller: pobahanlokalController
+                                            .kotaController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -1073,8 +1097,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            pobahanController.notesController,
+                                        controller: pobahanlokalController
+                                            .notesController,
                                         readOnly: false,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -1168,14 +1192,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                           harga: item.harga,
                           qty: item.qty,
                           total: item.total,
+                          total1: item.total1,
                         );
                         searchTextField.textField.controller.clear();
-                        pobahanController.addKeranjang(db_item);
+                        pobahanlokalController.addKeranjang(db_item);
                       },
                       submitOnSuggestionTap: true,
                       clearOnSubmit: false,
                       key: key,
-                      suggestions: pobahanController.bhnList,
+                      suggestions: pobahanlokalController.bhnList,
                       itemBuilder: (context, item) {
                         return Container(
                           child: Column(
@@ -1316,6 +1341,16 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                             color: Colors.black87),
                       ),
                     ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Total (Rp)",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
                     SizedBox(
                       width: 36,
                     ),
@@ -1323,71 +1358,759 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: pobahanController.data_bhn_keranjang.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AddPobahanCard(context, index,
-                        pobahanController.data_bhn_keranjang[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(flex: 15, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Qty : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: pobahanController.sumQty.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount:
+                            pobahanlokalController.data_bhn_keranjang.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AddPobahanCard(context, index,
+                              pobahanlokalController.data_bhn_keranjang[index]);
+                        },
                       ),
-                    ],
-                  ),
-                ),
+                    )),
               ),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Total : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: config().format_rupiah(
-                            pobahanController.sumTotal.toString()),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+              Container(
+                height: 235,
+                decoration: BoxDecoration(
+                    border: Border.all(color: GreyColor), color: Colors.white),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 20, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 5, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total Qty",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  pobahanlokalController.sumQty.toString(),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumTotal),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumTotal1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Disc",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.discController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanlokalController.disc = config()
+                                        .convert_rupiah(pobahanlokalController
+                                            .discController.text);
+                                    pobahanlokalController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanlokalController.disc = config()
+                                      .convert_rupiah(pobahanlokalController
+                                          .discController.text);
+                                  pobahanlokalController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumDisc),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Disc",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.disc1Controller,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanlokalController.disc1 = config()
+                                        .convert_rupiah(pobahanlokalController
+                                            .disc1Controller.text);
+                                    pobahanlokalController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanlokalController.disc1 = config()
+                                      .convert_rupiah(pobahanlokalController
+                                          .disc1Controller.text);
+                                  pobahanlokalController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumDisc1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPN",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.ppnController,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                  hintText: "11.00",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumPPN),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPN",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.ppn1Controller,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                  hintText: "11.00",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumPPN1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPH",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.pphController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanlokalController.pph = config()
+                                        .convert_rupiah(pobahanlokalController
+                                            .pphController.text);
+                                    pobahanlokalController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanlokalController.pph = config()
+                                      .convert_rupiah(pobahanlokalController
+                                          .pphController.text);
+                                  pobahanlokalController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumPPH),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPH",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanlokalController.pph1Controller,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanlokalController.pph1 = config()
+                                        .convert_rupiah(pobahanlokalController
+                                            .pph1Controller.text);
+                                    pobahanlokalController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanlokalController.pph1 = config()
+                                      .convert_rupiah(pobahanlokalController
+                                          .pph1Controller.text);
+                                  pobahanlokalController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumPPH1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Nett",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumNett),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Nett",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanlokalController.sumNett1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                width: 240,
               ),
             ],
           ),

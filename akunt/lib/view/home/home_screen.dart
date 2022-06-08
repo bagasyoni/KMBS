@@ -7,7 +7,7 @@ import 'package:akunt/view/base_widget/toast.dart';
 import 'package:akunt/controller/home_controller.dart';
 import 'package:akunt/controller/login_controller.dart';
 
-import 'package:akunt/controller/pobahanlokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
 import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';

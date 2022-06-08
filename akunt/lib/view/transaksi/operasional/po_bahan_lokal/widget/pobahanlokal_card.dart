@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobahanlokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

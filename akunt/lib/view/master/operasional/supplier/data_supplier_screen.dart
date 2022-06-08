@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/supplier_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/master/operasional/supplier/supplier_card.dart';
 import 'package:akunt/view/master/operasional/supplier/tambah_supplier_screen.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 class DataSupplierScreen extends StatefulWidget {
   @override
@@ -67,9 +67,9 @@ class _DataSupplierScreenState extends State<DataSupplierScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  js.context.callMethod('open', [
-                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastersup.php'
-                  ]);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastersup.php'
+                  // ]);
                 },
                 child: Container(
                   height: 30,

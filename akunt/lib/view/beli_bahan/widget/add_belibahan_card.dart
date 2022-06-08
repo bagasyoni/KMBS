@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
-import 'package:akunt/model/data_bhn.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:provider/provider.dart';
 
 Widget AddBelibahanCard(BuildContext context, int index, DataBhn data_bhn) {

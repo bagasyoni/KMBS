@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/master/operasional/currency_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/master/operasional/currency/currency_card.dart';
 import 'package:akunt/view/master/operasional/currency/tambah_currency_screen.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 class DataCurrencyScreen extends StatefulWidget {
   @override
@@ -67,9 +67,9 @@ class _DataCurrencyScreenState extends State<DataCurrencyScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  js.context.callMethod('open', [
-                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastercurr.php'
-                  ]);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Mastercurr.php'
+                  // ]);
                 },
                 child: Container(
                   height: 30,

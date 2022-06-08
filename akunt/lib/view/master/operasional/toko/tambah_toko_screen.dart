@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/toko_controller.dart';
+import 'package:akunt/controller/master/operasional/toko_controller.dart';
 import 'package:akunt/view/master/operasional/toko/widget/keterangan_pemilik.dart';
 import 'package:provider/provider.dart';
 

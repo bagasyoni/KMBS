@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/jual_controller.dart';
-import 'package:akunt/model/data_brg.dart';
+import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:provider/provider.dart';
 
 Widget AddJualCard(BuildContext context, int index, DataBrg data_brg) {

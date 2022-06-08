@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/pobahanimport_controller.dart';
-import 'package:akunt/model/data_bhn.dart';
-import 'package:intl/intl.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:provider/provider.dart';
 
 Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
@@ -15,6 +14,8 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
   TextEditingController hargaController = new TextEditingController();
   TextEditingController qtyController = new TextEditingController();
   double subTotal = data_bhn.qty * data_bhn.harga;
+  double subTotal1 = (data_bhn.qty * data_bhn.harga) *
+      double.parse((PobahanimportController.rate).toString());
   kd_bhnController.value = TextEditingValue(
     text: data_bhn.kd_bhn.toString(),
     selection: TextSelection.fromPosition(
@@ -322,6 +323,16 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
             flex: 3,
             child: Text(
               config().format_rupiah(subTotal.toString()),
+              style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              config().format_rupiah(subTotal1.toString()),
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

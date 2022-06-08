@@ -1,4 +1,4 @@
-import 'package:akunt/model/data_brg.dart';
+import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

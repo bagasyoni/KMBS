@@ -11,7 +11,7 @@ import 'package:responsive_table/responsive_table.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 class DataUserScreen extends StatefulWidget {
   @override
@@ -68,9 +68,9 @@ class _DataUserScreenState extends State<DataUserScreen> {
               child: InkWell(
                 hoverColor: Colors.white,
                 onTap: () {
-                  js.context.callMethod('open', [
-                    'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masteruser.php'
-                  ]);
+                  // js.context.callMethod('open', [
+                  //   'http://localhost/KMBS/KMBS/kmbs_php/Laporan_Masteruser.php'
+                  // ]);
                 },
                 child: Container(
                   height: 30,

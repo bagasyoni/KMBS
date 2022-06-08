@@ -6,7 +6,7 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/pononbahan_controller.dart';
-import 'package:akunt/model/data_brg.dart';
+import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:akunt/view/po_nonbahan/pilih_supplier.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
 import 'package:akunt/view/po_nonbahan/widget/add_pononbahan_card.dart';

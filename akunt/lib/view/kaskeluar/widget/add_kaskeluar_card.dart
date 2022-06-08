@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/kaskeluar_controller.dart';
-import 'package:akunt/model/data_account.dart';
+import 'package:akunt/model/master/finansial/data_account.dart';
 import 'package:provider/provider.dart';
 
 Widget AddKasKeluarCard(

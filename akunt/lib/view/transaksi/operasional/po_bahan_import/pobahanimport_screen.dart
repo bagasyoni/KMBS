@@ -4,8 +4,7 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobahanimport_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/add_pobahanimport_screen.dart';
@@ -110,88 +109,6 @@ class _PobahanimportScreenState extends State<DataPobahanimportScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        pobahanimportController.proses_export_detail();
-                      } else if (value == 2) {
-                        pobahanimportController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (pobahanimportController.index_terpilih != null) {
-                    pobahanimportController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -341,7 +258,8 @@ class _PobahanimportScreenState extends State<DataPobahanimportScreen> {
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount: pobahanimportController.data_pobahan_list.length,
+                        itemCount:
+                            pobahanimportController.data_pobahan_list.length,
                         itemBuilder: (BuildContext context, int index) {
                           return PobahanCard(index, pressEdit: () {
                             Navigator.push(
@@ -511,7 +429,8 @@ class _PobahanimportScreenState extends State<DataPobahanimportScreen> {
                 InkWell(
                   onTap: () {
                     if (pobahanimportController.page_index > 0) {
-                      pobahanimportController.offset -= pobahanimportController.limit;
+                      pobahanimportController.offset -=
+                          pobahanimportController.limit;
                       pobahanimportController.page_index--;
                       pobahanimportController.c_page.text =
                           (pobahanimportController.page_index + 1).toString();
@@ -551,7 +470,8 @@ class _PobahanimportScreenState extends State<DataPobahanimportScreen> {
                   onTap: () {
                     if (pobahanimportController.page_index <=
                         pobahanimportController.pageCount - 1) {
-                      pobahanimportController.offset += pobahanimportController.limit;
+                      pobahanimportController.offset +=
+                          pobahanimportController.limit;
                       pobahanimportController.page_index++;
                       pobahanimportController.c_page.text =
                           (pobahanimportController.page_index + 1).toString();

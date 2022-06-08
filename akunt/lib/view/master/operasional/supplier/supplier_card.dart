@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/supplier_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:provider/provider.dart';
 
 Widget SupplierCard(BuildContext context, int index, SupplierController val_bar,

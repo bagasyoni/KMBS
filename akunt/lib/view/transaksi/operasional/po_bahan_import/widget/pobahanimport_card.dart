@@ -4,7 +4,7 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobahanimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/currency_controller.dart';
+import 'package:akunt/controller/master/operasional/currency_controller.dart';
 import 'package:akunt/view/master/operasional/currency/widget/keterangan_pemilik.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/supplier_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:akunt/controller/laporan_pobahan_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';

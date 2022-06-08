@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/toko_controller.dart';
+import 'package:akunt/controller/master/operasional/toko_controller.dart';
 import 'package:provider/provider.dart';
 
 Widget TokoCard(BuildContext context, int index, TokoController val_bar,

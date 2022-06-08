@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_pobahan_controller.dart';
-import '../../controller/pobahanlokal_controller.dart';
+import '../../controller/transaksi/operasional/pobahanlokal_controller.dart';
 import 'package:akunt/view/lap_pobahan/widget/filter_tanggal.dart';
 import 'package:akunt/view/lap_pobahan/pilih_bahan_a.dart';
 import 'package:akunt/view/lap_pobahan/pilih_bahan_b.dart';

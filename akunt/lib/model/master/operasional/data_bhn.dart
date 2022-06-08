@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
 import 'package:flutter/services.dart';
 
 class DataBhn {
@@ -23,6 +23,7 @@ class DataBhn {
   double blt;
   double disc;
   double rpdisc;
+  double rate;
 
   DataBhn(
       {this.noid,
@@ -44,7 +45,8 @@ class DataBhn {
       this.total1,
       this.blt,
       this.disc,
-      this.rpdisc});
+      this.rpdisc,
+      this.rate});
 
   factory DataBhn.fromJson(var parsedJson) {
     return DataBhn(
@@ -68,6 +70,7 @@ class DataBhn {
       blt: 0.00,
       disc: 0.00,
       rpdisc: 0.00,
+      rate: 0.00,
     );
   }
 }

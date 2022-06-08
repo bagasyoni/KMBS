@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/customer_controller.dart';
+import 'package:akunt/controller/master/operasional/customer_controller.dart';
 
 Widget KeteranganUmum(CustomerController customerController) {
   return Container(

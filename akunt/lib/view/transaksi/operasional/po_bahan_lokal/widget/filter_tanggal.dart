@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/pobahanlokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 

@@ -4,7 +4,7 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/pobarangimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobarangimport_controller.dart';
 import 'package:akunt/view/base_widget/mode_export.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';

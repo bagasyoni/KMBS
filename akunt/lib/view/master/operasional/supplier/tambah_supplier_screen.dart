@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/supplier_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:akunt/view/master/operasional/supplier/widget/account_info.dart';
 import 'package:akunt/view/master/operasional/supplier/widget/bank_info.dart';

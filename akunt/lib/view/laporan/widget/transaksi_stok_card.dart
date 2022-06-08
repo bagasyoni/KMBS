@@ -1,4 +1,4 @@
-import 'package:akunt/controller/customer_controller.dart';
+import 'package:akunt/controller/master/operasional/customer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

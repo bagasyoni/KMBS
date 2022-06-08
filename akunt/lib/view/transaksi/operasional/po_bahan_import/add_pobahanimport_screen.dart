@@ -1,17 +1,19 @@
+import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/pobahanimport_controller.dart';
-import 'package:akunt/model/data_bhn.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/pilih_supplier.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/pilih_account.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/pilih_currency.dart';
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/widget/add_pobahanimport_card.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddPobahanimportScreen extends StatefulWidget {
@@ -27,6 +29,7 @@ class AddPobahanimportScreen extends StatefulWidget {
 class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataBhn>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
+  var f = NumberFormat("#,##0.00", "en_US");
 
   _AddPobahanimportScreenState();
 
@@ -924,6 +927,24 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                           enabledBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                         ),
+                                        onChanged: (numb) {
+                                          if (numb.isNotEmpty) {
+                                            PobahanimportController.rate =
+                                                config().convert_rupiah(
+                                                    pobahanimportController
+                                                        .rateController.text);
+                                            pobahanimportController
+                                                .hitungSubTotal();
+                                          }
+                                        },
+                                        onFieldSubmitted: (value) {
+                                          PobahanimportController.rate =
+                                              config().convert_rupiah(
+                                                  pobahanimportController
+                                                      .rateController.text);
+                                          pobahanimportController
+                                              .hitungSubTotal();
+                                        },
                                       ),
                                     ),
                                   ],
@@ -1163,6 +1184,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                           harga: item.harga,
                           qty: item.qty,
                           total: item.total,
+                          total1: item.total1,
                         );
                         searchTextField.textField.controller.clear();
                         pobahanimportController.addKeranjang(db_item);
@@ -1311,6 +1333,16 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                             color: Colors.black87),
                       ),
                     ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Total (Rp)",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
                     SizedBox(
                       width: 36,
                     ),
@@ -1318,71 +1350,762 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: pobahanimportController.data_bhn_keranjang.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AddPobahanCard(context, index,
-                        pobahanimportController.data_bhn_keranjang[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(flex: 15, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Qty : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: pobahanimportController.sumQty.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount:
+                            pobahanimportController.data_bhn_keranjang.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AddPobahanCard(
+                              context,
+                              index,
+                              pobahanimportController
+                                  .data_bhn_keranjang[index]);
+                        },
                       ),
-                    ],
-                  ),
-                ),
+                    )),
               ),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Total : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: config().format_rupiah(
-                            pobahanimportController.sumTotal.toString()),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+              Container(
+                height: 235,
+                decoration: BoxDecoration(
+                    border: Border.all(color: GreyColor), color: Colors.white),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 20, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 5, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total Qty",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  pobahanimportController.sumQty.toString(),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumTotal),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumTotal1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Disc",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.discController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanimportController.disc = config()
+                                        .convert_rupiah(pobahanimportController
+                                            .discController.text);
+                                    pobahanimportController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanimportController.disc = config()
+                                      .convert_rupiah(pobahanimportController
+                                          .discController.text);
+                                  pobahanimportController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumDisc),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Disc",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.disc1Controller,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanimportController.disc1 = config()
+                                        .convert_rupiah(pobahanimportController
+                                            .disc1Controller.text);
+                                    pobahanimportController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanimportController.disc1 = config()
+                                      .convert_rupiah(pobahanimportController
+                                          .disc1Controller.text);
+                                  pobahanimportController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumDisc1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPN",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.ppnController,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                  hintText: "11.00",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumPPN),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPN",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.ppn1Controller,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                  hintText: "11.00",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumPPN1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPH",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.pphController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanimportController.pph = config()
+                                        .convert_rupiah(pobahanimportController
+                                            .pphController.text);
+                                    pobahanimportController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanimportController.pph = config()
+                                      .convert_rupiah(pobahanimportController
+                                          .pphController.text);
+                                  pobahanimportController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumPPH),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "PPH",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                textAlign: TextAlign.right,
+                                controller:
+                                    pobahanimportController.pph1Controller,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9]")),
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 12, bottom: 13),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: GreyColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                  hintText: "%",
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
+                                onChanged: (numb) {
+                                  if (numb.isNotEmpty) {
+                                    pobahanimportController.pph1 = config()
+                                        .convert_rupiah(pobahanimportController
+                                            .pph1Controller.text);
+                                    pobahanimportController.hitungSubTotal();
+                                  }
+                                },
+                                onFieldSubmitted: (value) {
+                                  pobahanimportController.pph1 = config()
+                                      .convert_rupiah(pobahanimportController
+                                          .pph1Controller.text);
+                                  pobahanimportController.hitungSubTotal();
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumPPH1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 11, child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Nett",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumNett),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Nett",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(pobahanimportController.sumNett1),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                width: 240,
               ),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/customer_controller.dart';
+import 'package:akunt/controller/master/operasional/customer_controller.dart';
 import 'package:akunt/view/master/operasional/customer/pilih_bank.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';

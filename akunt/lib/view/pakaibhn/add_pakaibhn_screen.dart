@@ -6,7 +6,7 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/pakaibhn_controller.dart';
-import 'package:akunt/model/data_bhn.dart';
+import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
 import 'package:akunt/view/pakaibhn/widget/add_pakaibhn_card.dart';
 import 'package:provider/provider.dart';
