@@ -17,6 +17,7 @@ import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:akunt/controller/master/operasional/currency_controller.dart';
 import 'package:akunt/controller/master/operasional/toko_controller.dart';
 import 'package:akunt/controller/master/operasional/bahan_controller.dart';
+import 'package:akunt/controller/master/operasional/brand_controller.dart';
 
 import 'package:akunt/controller/gudang_controller.dart';
 import 'package:akunt/controller/emkl_controller.dart';
@@ -36,6 +37,7 @@ import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.d
 import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
 import 'package:akunt/controller/transaksi/operasional/pobaranglokal_controller.dart';
 import 'package:akunt/controller/transaksi/operasional/pobarangimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 
 import 'package:akunt/controller/pononbahan_controller.dart';
 import 'package:akunt/controller/poimport_controller.dart';
@@ -56,7 +58,6 @@ import 'package:akunt/controller/pakaibhn_controller.dart';
 import 'package:akunt/controller/terima_controller.dart';
 import 'package:akunt/controller/stockbhn_controller.dart';
 import 'package:akunt/controller/mutasibrg_controller.dart';
-import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/surat_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';
 import 'package:akunt/controller/tpiu_controller.dart';
@@ -93,7 +94,6 @@ import 'package:akunt/controller/laporan_rl_controller.dart';
 ///OPERASIONAL///
 import 'package:akunt/controller/po_controller.dart';
 import 'package:akunt/controller/pon_controller.dart';
-import 'package:akunt/controller/so_controller.dart';
 import 'package:akunt/controller/beli_controller.dart';
 import 'package:akunt/controller/stok_controller.dart';
 
@@ -171,6 +171,7 @@ Future<void> init() async {
   sl.registerFactory(() => BagasController());
   sl.registerFactory(() => BankController());
   sl.registerFactory(() => PeriodeController());
+  sl.registerFactory(() => BrandController());
 
   ///TRANSAKSI///
   sl.registerFactory(() => PobahanlokalController());
@@ -254,6 +255,7 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (context) => sl<BagasController>()),
           ChangeNotifierProvider(create: (context) => sl<BankController>()),
           ChangeNotifierProvider(create: (context) => sl<PeriodeController>()),
+          ChangeNotifierProvider(create: (context) => sl<BrandController>()),
 
           ///TRANSAKSI///
           ChangeNotifierProvider(

@@ -4,12 +4,12 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/so_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/so/add_so_screen.dart';
-import 'package:akunt/view/so/widget/so_card.dart';
+import 'package:akunt/view/transaksi/operasional/so/add_so_screen.dart';
+import 'package:akunt/view/transaksi/operasional/so/widget/so_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/filter_tanggal.dart';
@@ -20,6 +20,7 @@ class DataSoScreen extends StatefulWidget {
 }
 
 class _SoScreenState extends State<DataSoScreen> {
+  var komes = NumberFormat("#,##0.00", "en_US");
   @override
   void initState() {
     Provider.of<SoController>(context, listen: false).initData();
@@ -28,7 +29,8 @@ class _SoScreenState extends State<DataSoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SoController>(builder: (context, soController, child) {
+    return Consumer<SoController>(
+        builder: (context, soController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -72,9 +74,10 @@ class _SoScreenState extends State<DataSoScreen> {
                   hoverColor: Colors.transparent,
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => AddSoScreen(false))).then((value) {
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AddSoScreen(false)))
+                        .then((value) {
                       if (value != null) {
                         if (value) {
                           soController.select_data();
@@ -106,88 +109,6 @@ class _SoScreenState extends State<DataSoScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        soController.proses_export_detail();
-                      } else if (value == 2) {
-                        soController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (soController.index_terpilih != null) {
-                    soController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -239,7 +160,8 @@ class _SoScreenState extends State<DataSoScreen> {
                               child: Container(
                                 height: 30,
                                 child: TextField(
-                                  controller: soController.searchController,
+                                  controller:
+                                      soController.searchController,
                                   decoration: InputDecoration(
                                     hintText: "Cari Disini",
                                     hintStyle: GoogleFonts.poppins(
@@ -336,7 +258,8 @@ class _SoScreenState extends State<DataSoScreen> {
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount: soController.data_so_list.length,
+                        itemCount:
+                            soController.data_so_list.length,
                         itemBuilder: (BuildContext context, int index) {
                           return SoCard(index, pressEdit: () {
                             Navigator.push(
@@ -392,7 +315,255 @@ class _SoScreenState extends State<DataSoScreen> {
             ],
           ),
         ),
+        bottomNavigationBar: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: GreyColor,
+                spreadRadius: 1,
+                blurRadius: 4,
+                offset: Offset(1, 2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (soController.data_so_list.length > 0)
+                  Text(
+                    (soController.offset + 1 <
+                            soController.totalNotaTerima)
+                        ? "Showing ${soController.offset + 1} to ${soController.offset + soController.limit} of ${soController.totalNotaTerima} entries"
+                        : "Showing ${soController.offset + 1} to ${soController.totalNotaTerima} of ${soController.totalNotaTerima} entries",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                if (soController.data_so_list.length > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Container(
+                      width: 100,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: GreyColor,
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            iconEnabledColor: HijauColor,
+                            value: soController.limit,
+                            items: soController.dropdownLimit,
+                            onChanged: (value) {
+                              if (value != null) {
+                                soController.limit = value;
+                                soController.select_data();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                Spacer(),
+                SizedBox(
+                  width: 500,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "Total Qty : ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: soController.qty.toString(),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "Total Pengeluaran : ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: komes.format(soController.total),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    if (soController.page_index > 0) {
+                      soController.offset -=
+                          soController.limit;
+                      soController.page_index--;
+                      soController.c_page.text =
+                          (soController.page_index + 1).toString();
+                      soController.select_data();
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Previous",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: (soController.offset == 0)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                pageField(),
+                InkWell(
+                  onTap: () {
+                    if (soController.page_index <=
+                        soController.pageCount - 1) {
+                      soController.offset +=
+                          soController.limit;
+                      soController.page_index++;
+                      soController.c_page.text =
+                          (soController.page_index + 1).toString();
+                      soController.select_data();
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: ((soController.pageCount -
+                                        soController.page_index) <=
+                                    1)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     });
+  }
+
+  Widget pageField() {
+    SoController pageTerima =
+        Provider.of<SoController>(context, listen: false);
+    return Container(
+      width: 70,
+      height: 35,
+      child: TextField(
+        textAlign: TextAlign.center,
+        controller: pageTerima.c_page,
+        decoration: InputDecoration(
+          hintText: "1",
+          hintStyle: GoogleFonts.poppins(
+              fontSize: 14, fontWeight: FontWeight.w400, color: GreyColor),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+          border: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+        ),
+        onSubmitted: (value) {
+          int index = 1;
+          try {
+            index = int.parse(value.trim());
+          } catch (e) {
+            index = 1;
+          }
+          if (index == 0) {
+            index = 1;
+          } else {
+            if (index > 0) {
+              index = index - 1;
+            }
+          }
+          if (index > pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.select_data();
+          } else if (index < pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.select_data();
+          }
+        },
+      ),
+    );
   }
 }

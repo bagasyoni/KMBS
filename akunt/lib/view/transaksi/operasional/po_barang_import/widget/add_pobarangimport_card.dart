@@ -15,6 +15,8 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
   TextEditingController hargaController = new TextEditingController();
   TextEditingController qtyController = new TextEditingController();
   double subTotal = data_brg.qty * data_brg.harga;
+  double subTotal1 = (data_brg.qty * data_brg.harga) *
+      double.parse((PobarangimportController.rate).toString());
   kd_brgController.value = TextEditingValue(
     text: data_brg.kd_brg.toString(),
     selection: TextSelection.fromPosition(
@@ -322,6 +324,16 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
             flex: 3,
             child: Text(
               config().format_rupiah(subTotal.toString()),
+              style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              config().format_rupiah(subTotal1.toString()),
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

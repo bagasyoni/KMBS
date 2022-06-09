@@ -113,88 +113,6 @@ class _PobaranglokalScreenState extends State<DataPobaranglokalScreen> {
             SizedBox(
               width: 16,
             ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        pobaranglokalController.proses_export_detail();
-                      } else if (value == 2) {
-                        pobaranglokalController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (pobaranglokalController.index_terpilih != null) {
-                    pobaranglokalController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
           ],
         ),
         backgroundColor: kBackgroundColor,
@@ -367,7 +285,8 @@ class _PobaranglokalScreenState extends State<DataPobaranglokalScreen> {
                                 if (value) {
                                   pobaranglokalController
                                       .deletePobarang(pobaranglokalController
-                                          .data_pobarang_list[index]['NO_BUKTI'])
+                                              .data_pobarang_list[index]
+                                          ['NO_BUKTI'])
                                       .then((value) {
                                     if (value) {
                                       Toast("Delete Success !",

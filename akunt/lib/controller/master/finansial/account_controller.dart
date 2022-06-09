@@ -2,7 +2,6 @@ import 'package:akunt/controller/login_controller.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:akunt/model/master/finansial/model_account.dart';
-import 'package:akunt/model/model_satuan.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

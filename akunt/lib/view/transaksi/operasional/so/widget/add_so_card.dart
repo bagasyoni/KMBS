@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/so_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +14,8 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
   TextEditingController hargaController = new TextEditingController();
   TextEditingController qtyController = new TextEditingController();
   double subTotal = data_brg.qty * data_brg.harga;
+  double subTotal1 = (data_brg.qty * data_brg.harga) *
+      double.parse((SoController.rate).toString());
   kd_brgController.value = TextEditingValue(
     text: data_brg.kd_brg.toString(),
     selection: TextSelection.fromPosition(
@@ -91,8 +93,8 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
               child: Container(
                 height: 40,
                 child: TextFormField(
-                  readOnly: true,
                   controller: na_brgController,
+                  readOnly: true,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 14.0,
@@ -145,7 +147,7 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
                   decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Satuan",
+                    hintText: "-",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
@@ -258,7 +260,7 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
                       );
                       soController.data_brg_keranjang[index].harga =
                           config().convert_rupiah(hargaController.text);
-                      soController.notifyListeners();
+                      // soController.notifyListeners();
                       soController.hitungSubTotal();
                     }
                   },
@@ -301,15 +303,16 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
                       soController.data_brg_keranjang[index].qty =
-                          double.parse(qtyController.text);
-                      // soController.notifyListeners();
+                          config().convert_rupiah(qtyController.text);
                       // soController.hitungSubTotal();
+                      // soController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
                     soController.data_brg_keranjang[index].qty =
-                        double.parse(qtyController.text);
+                        config().convert_rupiah(qtyController.text);
                     soController.hitungSubTotal();
+                    // soController.notifyListeners();
                   },
                 ),
               ),
@@ -319,6 +322,16 @@ Widget AddSoCard(BuildContext context, int index, DataBrg data_brg) {
             flex: 3,
             child: Text(
               config().format_rupiah(subTotal.toString()),
+              style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              config().format_rupiah(subTotal1.toString()),
               style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

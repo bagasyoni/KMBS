@@ -1,3 +1,4 @@
+import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,51 +6,47 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/transaksi/operasional/pobarangimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/model/master/operasional/data_brg.dart';
-import 'package:akunt/view/transaksi/operasional/po_barang_import/pilih_currency.dart';
-import 'package:akunt/view/transaksi/operasional/po_barang_import/pilih_supplier.dart';
-import 'package:akunt/view/transaksi/operasional/po_barang_import/pilih_account.dart';
-import 'package:akunt/view/transaksi/operasional/po_barang_import/pilih_brand.dart';
-import 'package:akunt/view/transaksi/operasional/po_barang_import/widget/add_pobarangimport_card.dart';
+import 'package:akunt/view/transaksi/operasional/so/pilih_supplier.dart';
+import 'package:akunt/view/transaksi/operasional/so/pilih_account.dart';
+import 'package:akunt/view/transaksi/operasional/so/pilih_currency.dart';
+import 'package:akunt/view/transaksi/operasional/so/widget/add_so_card.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddPobarangimportScreen extends StatefulWidget {
+class AddSoScreen extends StatefulWidget {
   bool isModeEdit;
   var data_edit;
 
-  AddPobarangimportScreen(this.isModeEdit, {this.data_edit});
+  AddSoScreen(this.isModeEdit, {this.data_edit});
 
   @override
-  _AddPobarangScreenState createState() => _AddPobarangScreenState();
+  _AddSoScreenState createState() => _AddSoScreenState();
 }
 
-class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
+class _AddSoScreenState extends State<AddSoScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataBrg>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
   var f = NumberFormat("#,##0.00", "en_US");
 
-  _AddPobarangScreenState();
+  _AddSoScreenState();
 
   @override
   void initState() {
     if (widget.isModeEdit) {
-      Provider.of<PobarangimportController>(context, listen: false)
-          .initData_editPobarang(widget.data_edit);
+      Provider.of<SoController>(context, listen: false)
+          .initData_editSo(widget.data_edit);
     } else {
-      Provider.of<PobarangimportController>(context, listen: false)
-          .initData_addPobarang();
+      Provider.of<SoController>(context, listen: false).initData_addSo();
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PobarangimportController>(
-        builder: (context, pobarangimportController, child) {
+    return Consumer<SoController>(builder: (context, soController, child) {
       return Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
@@ -66,9 +63,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                 width: 20,
               ),
               Text(
-                (widget.isModeEdit)
-                    ? "Edit Purchase Order Barang Import"
-                    : "Tambah Purchase Order Barang Import",
+                (widget.isModeEdit) ? "Edit Sales Order" : "Tambah Sales Order",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -92,7 +87,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
               child: InkWell(
                 onTap: () {
                   if (widget.isModeEdit) {
-                    pobarangimportController.editPobarang().then((value) {
+                    soController.editSo().then((value) {
                       if (value != null) {
                         if (value) {
                           Navigator.pop(context, true);
@@ -100,20 +95,20 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                       }
                     });
                   } else {
-                    pobarangimportController.savePobarang().then((value) {
+                    soController.saveSo().then((value) {
                       if (value != null) {
                         if (value) {
                           showAnimatedDialog_withCallBack(
                               context,
                               SaveSuccess("Success !!",
-                                  "Berhasil menyimpan Purchase Order Barang Import...!!"),
+                                  "Berhasil menyimpan Sales Order...!!"),
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
-                                pobarangimportController.initData_addPobarang();
-                                pobarangimportController.notifyListeners();
+                                soController.initData_addSo();
+                                soController.notifyListeners();
                               } else {
-                                pobarangimportController.notifyListeners();
+                                soController.notifyListeners();
                                 Navigator.pop(context, true);
                               }
                             }
@@ -196,8 +191,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .no_buktiController,
+                                        controller:
+                                            soController.no_buktiController,
                                         // readOnly: widget.isModeEdit,
                                         readOnly: true,
                                         decoration: InputDecoration(
@@ -245,7 +240,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Supplier",
+                                      "Customer",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -263,8 +258,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .kodesController,
+                                        controller:
+                                            soController.kodecController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -288,15 +283,13 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                         onTap: () {
                                           showAnimatedDialog(
                                               context,
-                                              PilihSupplier(
-                                                  pobarangimportController
-                                                          .kodesController
-                                                          .text
-                                                          .isEmpty
+                                              PilihCustomer(
+                                                  soController.kodecController
+                                                          .text.isEmpty
                                                       ? null
-                                                      : pobarangimportController
-                                                          .namasController.text,
-                                                  pobarangimportController),
+                                                      : soController
+                                                          .namacController.text,
+                                                  soController),
                                               isFlip: false);
                                         },
                                       ),
@@ -352,8 +345,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .acno1Controller,
+                                        controller:
+                                            soController.acno1Controller,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -378,15 +371,13 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                           showAnimatedDialog(
                                               context,
                                               PilihAccount(
-                                                  pobarangimportController
-                                                          .acno1Controller
-                                                          .text
-                                                          .isEmpty
+                                                  soController.acno1Controller
+                                                          .text.isEmpty
                                                       ? null
-                                                      : pobarangimportController
+                                                      : soController
                                                           .acno1_nmController
                                                           .text,
-                                                  pobarangimportController),
+                                                  soController),
                                               isFlip: false);
                                         },
                                       ),
@@ -449,8 +440,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .tglController,
+                                        controller: soController.tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
                                               top: 15, bottom: 18),
@@ -466,25 +456,21 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          pobarangimportController
-                                              .chooseDate = await showDatePicker(
-                                                  context: context,
-                                                  initialDate:
-                                                      pobarangimportController
+                                          soController.chooseDate =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate: soController
                                                               .chooseDate ??
                                                           DateTime.now(),
-                                                  lastDate: DateTime(2050),
-                                                  firstDate: DateTime(
-                                                      DateTime.now().year)) ??
-                                              pobarangimportController
-                                                  .chooseDate;
-                                          pobarangimportController
-                                                  .tglController.text =
-                                              pobarangimportController
-                                                  .format_tanggal
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  soController.chooseDate;
+                                          soController.tglController.text =
+                                              soController.format_tanggal
                                                   .format(
-                                                      pobarangimportController
-                                                          .chooseDate);
+                                                      soController.chooseDate);
                                         },
                                       ),
                                     ),
@@ -518,8 +504,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .jtempoController,
+                                        controller:
+                                            soController.jtempoController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -536,25 +522,21 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          pobarangimportController
-                                              .chooseDateJT = await showDatePicker(
-                                                  context: context,
-                                                  initialDate:
-                                                      pobarangimportController
+                                          soController.chooseDateJT =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate: soController
                                                               .chooseDateJT ??
                                                           DateTime.now(),
-                                                  lastDate: DateTime(2050),
-                                                  firstDate: DateTime(
-                                                      DateTime.now().year)) ??
-                                              pobarangimportController
-                                                  .chooseDateJT;
-                                          pobarangimportController
-                                                  .jtempoController.text =
-                                              pobarangimportController
-                                                  .format_tanggal
-                                                  .format(
-                                                      pobarangimportController
-                                                          .chooseDateJT);
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  soController.chooseDateJT;
+                                          soController.jtempoController.text =
+                                              soController.format_tanggal
+                                                  .format(soController
+                                                      .chooseDateJT);
                                         },
                                       ),
                                     ),
@@ -570,7 +552,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Nama Supplier",
+                                      "Nama Customer",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -589,8 +571,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .namasController,
+                                        controller:
+                                            soController.namacController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -639,8 +621,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .acno1_nmController,
+                                        controller:
+                                            soController.acno1_nmController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -701,8 +683,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .currController,
+                                        controller: soController.currController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -727,15 +708,13 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                           showAnimatedDialog(
                                               context,
                                               PilihCurrency(
-                                                  pobarangimportController
-                                                          .currController
-                                                          .text
-                                                          .isEmpty
+                                                  soController.currController
+                                                          .text.isEmpty
                                                       ? null
-                                                      : pobarangimportController
+                                                      : soController
                                                           .currnmController
                                                           .text,
-                                                  pobarangimportController),
+                                                  soController),
                                               isFlip: false);
                                         },
                                       ),
@@ -771,8 +750,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .currnmController,
+                                        controller:
+                                            soController.currnmController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -821,8 +800,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .alamatController,
+                                        controller:
+                                            soController.alamatController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -848,7 +827,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Brand",
+                                      "",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -856,54 +835,6 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                     ),
                                     SizedBox(
                                       height: 8,
-                                    ),
-                                    Container(
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller: pobarangimportController
-                                            .brandController,
-                                        readOnly: widget.isModeEdit,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 14),
-                                          hintText: "Cari Brand",
-                                          hintStyle: GoogleFonts.poppins(
-                                              color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
-                                          icon: Image.asset(
-                                            "assets/images/ic_search.png",
-                                            height: 20,
-                                          ),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                        onTap: () {
-                                          showAnimatedDialog(
-                                              context,
-                                              PilihBrand(
-                                                  pobarangimportController
-                                                          .brandController
-                                                          .text
-                                                          .isEmpty
-                                                      ? null
-                                                      : pobarangimportController
-                                                          .brandController.text,
-                                                  pobarangimportController),
-                                              isFlip: false);
-                                        },
-                                      ),
                                     ),
                                   ],
                                 ),
@@ -963,8 +894,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .rateController,
+                                        controller: soController.rateController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -978,21 +908,17 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                         ),
                                         onChanged: (numb) {
                                           if (numb.isNotEmpty) {
-                                            PobarangimportController.rate =
-                                                config().convert_rupiah(
-                                                    pobarangimportController
-                                                        .rateController.text);
-                                            pobarangimportController
-                                                .hitungSubTotal();
+                                            SoController.rate = config()
+                                                .convert_rupiah(soController
+                                                    .rateController.text);
+                                            soController.hitungSubTotal();
                                           }
                                         },
                                         onFieldSubmitted: (value) {
-                                          PobarangimportController.rate =
-                                              config().convert_rupiah(
-                                                  pobarangimportController
-                                                      .rateController.text);
-                                          pobarangimportController
-                                              .hitungSubTotal();
+                                          SoController.rate = config()
+                                              .convert_rupiah(soController
+                                                  .rateController.text);
+                                          soController.hitungSubTotal();
                                         },
                                       ),
                                     ),
@@ -1000,52 +926,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Rate Kesepakatan",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller: pobarangimportController
-                                            .rateksController,
-                                        readOnly: widget.isModeEdit,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(flex: 4, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -1072,8 +953,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .kotaController,
+                                        controller: soController.kotaController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -1138,8 +1018,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: pobarangimportController
-                                            .notesController,
+                                        controller:
+                                            soController.notesController,
                                         readOnly: false,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -1225,22 +1105,23 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                       ),
                       itemSubmitted: (item) {
                         DataBrg db_item = DataBrg(
-                            noid: item.noid,
-                            kd_brg: item.kd_brg,
-                            na_brg: item.na_brg,
-                            satuan: item.satuan,
-                            ket: item.ket,
-                            harga: item.harga,
-                            qty: item.qty,
-                            total: item.total,
-                            total1: item.total1);
+                          noid: item.noid,
+                          kd_brg: item.kd_brg,
+                          na_brg: item.na_brg,
+                          satuan: item.satuan,
+                          ket: item.ket,
+                          harga: item.harga,
+                          qty: item.qty,
+                          total: item.total,
+                          total1: item.total1,
+                        );
                         searchTextField.textField.controller.clear();
-                        pobarangimportController.addKeranjang(db_item);
+                        soController.addKeranjang(db_item);
                       },
                       submitOnSuggestionTap: true,
                       clearOnSubmit: false,
                       key: key,
-                      suggestions: pobarangimportController.brgList,
+                      suggestions: soController.brgList,
                       itemBuilder: (context, item) {
                         return Container(
                           child: Column(
@@ -1404,14 +1285,10 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 200,
                       child: ListView.builder(
-                        itemCount:
-                            pobarangimportController.data_brg_keranjang.length,
+                        itemCount: soController.data_brg_keranjang.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return AddPobarangCard(
-                              context,
-                              index,
-                              pobarangimportController
-                                  .data_brg_keranjang[index]);
+                          return AddSoCard(context, index,
+                              soController.data_brg_keranjang[index]);
                         },
                       ),
                     )),
@@ -1454,7 +1331,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  pobarangimportController.sumQty.toString(),
+                                  soController.sumQty.toString(),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
@@ -1490,7 +1367,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumTotal),
+                                  f.format(soController.sumTotal),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
@@ -1526,7 +1403,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumTotal1),
+                                  f.format(soController.sumTotal1),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
@@ -1571,8 +1448,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.discController,
+                                controller: soController.discController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   WhitelistingTextInputFormatter(
@@ -1597,17 +1473,15 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 ),
                                 onChanged: (numb) {
                                   if (numb.isNotEmpty) {
-                                    pobarangimportController.disc = config()
-                                        .convert_rupiah(pobarangimportController
-                                            .discController.text);
-                                    pobarangimportController.hitungSubTotal();
+                                    soController.disc = config().convert_rupiah(
+                                        soController.discController.text);
+                                    soController.hitungSubTotal();
                                   }
                                 },
                                 onFieldSubmitted: (value) {
-                                  pobarangimportController.disc = config()
-                                      .convert_rupiah(pobarangimportController
-                                          .discController.text);
-                                  pobarangimportController.hitungSubTotal();
+                                  soController.disc = config().convert_rupiah(
+                                      soController.discController.text);
+                                  soController.hitungSubTotal();
                                 },
                               ),
                             ),
@@ -1626,7 +1500,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumDisc),
+                                  f.format(soController.sumDisc),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
@@ -1659,8 +1533,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.disc1Controller,
+                                controller: soController.disc1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   WhitelistingTextInputFormatter(
@@ -1685,17 +1558,16 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 ),
                                 onChanged: (numb) {
                                   if (numb.isNotEmpty) {
-                                    pobarangimportController.disc1 = config()
-                                        .convert_rupiah(pobarangimportController
-                                            .disc1Controller.text);
-                                    pobarangimportController.hitungSubTotal();
+                                    soController.disc1 = config()
+                                        .convert_rupiah(
+                                            soController.disc1Controller.text);
+                                    soController.hitungSubTotal();
                                   }
                                 },
                                 onFieldSubmitted: (value) {
-                                  pobarangimportController.disc1 = config()
-                                      .convert_rupiah(pobarangimportController
-                                          .disc1Controller.text);
-                                  pobarangimportController.hitungSubTotal();
+                                  soController.disc1 = config().convert_rupiah(
+                                      soController.disc1Controller.text);
+                                  soController.hitungSubTotal();
                                 },
                               ),
                             ),
@@ -1714,7 +1586,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumDisc1),
+                                  f.format(soController.sumDisc1),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -1760,8 +1632,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.ppnController,
+                                controller: soController.ppnController,
                                 readOnly: true,
                                 decoration: InputDecoration(
                                   contentPadding:
@@ -1795,7 +1666,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumPPN),
+                                  f.format(soController.sumPPN),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -1829,8 +1700,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.ppn1Controller,
+                                controller: soController.ppn1Controller,
                                 readOnly: true,
                                 decoration: InputDecoration(
                                   contentPadding:
@@ -1864,7 +1734,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumPPN1),
+                                  f.format(soController.sumPPN1),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -1909,8 +1779,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.pphController,
+                                controller: soController.pphController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   WhitelistingTextInputFormatter(
@@ -1935,17 +1804,15 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 ),
                                 onChanged: (numb) {
                                   if (numb.isNotEmpty) {
-                                    pobarangimportController.pph = config()
-                                        .convert_rupiah(pobarangimportController
-                                            .pphController.text);
-                                    pobarangimportController.hitungSubTotal();
+                                    soController.pph = config().convert_rupiah(
+                                        soController.pphController.text);
+                                    soController.hitungSubTotal();
                                   }
                                 },
                                 onFieldSubmitted: (value) {
-                                  pobarangimportController.pph = config()
-                                      .convert_rupiah(pobarangimportController
-                                          .pphController.text);
-                                  pobarangimportController.hitungSubTotal();
+                                  soController.pph = config().convert_rupiah(
+                                      soController.pphController.text);
+                                  soController.hitungSubTotal();
                                 },
                               ),
                             ),
@@ -1964,7 +1831,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumPPH),
+                                  f.format(soController.sumPPH),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -1997,8 +1864,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 textAlign: TextAlign.right,
-                                controller:
-                                    pobarangimportController.pph1Controller,
+                                controller: soController.pph1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   WhitelistingTextInputFormatter(
@@ -2023,17 +1889,15 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 ),
                                 onChanged: (numb) {
                                   if (numb.isNotEmpty) {
-                                    pobarangimportController.pph1 = config()
-                                        .convert_rupiah(pobarangimportController
-                                            .pph1Controller.text);
-                                    pobarangimportController.hitungSubTotal();
+                                    soController.pph1 = config().convert_rupiah(
+                                        soController.pph1Controller.text);
+                                    soController.hitungSubTotal();
                                   }
                                 },
                                 onFieldSubmitted: (value) {
-                                  pobarangimportController.pph1 = config()
-                                      .convert_rupiah(pobarangimportController
-                                          .pph1Controller.text);
-                                  pobarangimportController.hitungSubTotal();
+                                  soController.pph1 = config().convert_rupiah(
+                                      soController.pph1Controller.text);
+                                  soController.hitungSubTotal();
                                 },
                               ),
                             ),
@@ -2052,7 +1916,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumPPH1),
+                                  f.format(soController.sumPPH1),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -2100,7 +1964,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumNett),
+                                  f.format(soController.sumNett),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
@@ -2136,7 +2000,7 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(pobarangimportController.sumNett1),
+                                  f.format(soController.sumNett1),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,

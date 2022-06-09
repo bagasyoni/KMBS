@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../controller/laporan_so_controller.dart';
-import '../../controller/so_controller.dart';
+import '../../controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/view/lap_so/widget/filter_tanggal.dart';
 import 'package:akunt/view/lap_so/pilih_barang_a.dart';
 import 'package:akunt/view/lap_so/pilih_barang_b.dart';

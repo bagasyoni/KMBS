@@ -4,19 +4,25 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/so_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 Widget SoCard(int index, {Function pressEdit, Function pressDelete}) {
-  return Consumer<SoController>(builder: (context, soController, child) {
-    int offset = Provider.of<SoController>(context, listen: false).offset;
+  return Consumer<SoController>(
+      builder: (context, soController, child) {
+    int offset =
+        Provider.of<SoController>(context, listen: false).offset;
     var data_so = soController.data_so_list[index];
+    var sapi = NumberFormat("#,##0.00", "en_US");
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_so['TGL']));
     String nobukti = data_so['NO_BUKTI'];
     String namac = data_so['NAMAC'];
-    String total = config().format_rupiah(data_so['TOTAL'].toString());
+    String total_qty = data_so['TOTAL_QTY'].toString();
+    String kirim = data_so['KIRIM'].toString();
+    String sisa = data_so['SISA'].toString();
+    String total = sapi.format(data_so['TOTAL']);
     bool isDelivered = data_so['POSTED'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -59,7 +65,7 @@ Widget SoCard(int index, {Function pressEdit, Function pressDelete}) {
                 ),
               ),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: RichText(
                   text: TextSpan(
                     text: "Tanggal : $tanggal",
@@ -89,7 +95,7 @@ Widget SoCard(int index, {Function pressEdit, Function pressDelete}) {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -121,6 +127,69 @@ Widget SoCard(int index, {Function pressEdit, Function pressDelete}) {
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Total Qty : ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: total_qty.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Kirim : ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: kirim.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Sisa : ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: sisa.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
                       ),
                     ],
                   ),

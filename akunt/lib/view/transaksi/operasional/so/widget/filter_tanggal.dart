@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/so_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -12,7 +12,8 @@ class FilterTanggal extends StatefulWidget {
 class _FilterTanggalState extends State<FilterTanggal> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<SoController>(builder: (context, SoController, child) {
+    return Consumer<SoController>(
+        builder: (context, SoController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
@@ -69,8 +70,10 @@ class _FilterTanggalState extends State<FilterTanggal> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SfDateRangePicker(
-                          controller: SoController.filter_tanggalController,
-                          onSelectionChanged: SoController.onSelectionChanged,
+                          controller:
+                              SoController.filter_tanggalController,
+                          onSelectionChanged:
+                              SoController.onSelectionChanged,
                           selectionMode: DateRangePickerSelectionMode.range,
                           selectionColor: HijauColor,
                           endRangeSelectionColor: HijauColor,

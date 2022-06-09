@@ -4,7 +4,7 @@ import 'package:akunt/config/config.dart';
 import 'package:akunt/invoice/invoice_order_penjualan.dart';
 import 'package:akunt/model/master/operasional/data_brg.dart';
 import 'package:akunt/model/master/operasional/model_brg.dart';
-import 'package:akunt/model/model_so.dart';
+import 'package:akunt/model/transaksi/operasional/model_so.dart';
 import 'package:akunt/model/model_surat.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';

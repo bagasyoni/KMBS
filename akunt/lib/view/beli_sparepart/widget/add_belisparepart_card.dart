@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/belisparepart_controller.dart';
-import 'package:akunt/model/data_pod.dart';
+import 'package:akunt/model/transaksi/operasional/data_pod.dart';
 import 'package:provider/provider.dart';
 
 Widget AddBelisparepartCard(BuildContext context, int index, DataPod data_pod) {

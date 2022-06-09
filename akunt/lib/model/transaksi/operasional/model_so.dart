@@ -2,16 +2,16 @@ import 'package:akunt/controller/login_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../constants.dart';
+import '../../../constants.dart';
 
-class model_pobaranglokal {
+class model_so {
   String baseUrl = base_url;
 
   /// paginate
-  Future<List> data_pobaranglokalpaginate(
+  Future<List> data_sopaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/pobaranglokalpaginate"),
+      Uri.parse("${baseUrl}:3000/sopaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -23,9 +23,9 @@ class model_pobaranglokal {
   }
 
   ///paginate
-  Future countPobaranglokalPaginate(String key_cari) async {
+  Future countSoPaginate(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countpobaranglokalpaginate"),
+      Uri.parse("${baseUrl}:3000/countsopaginate"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
@@ -34,17 +34,17 @@ class model_pobaranglokal {
 
   Future<List> data_modal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_po_barang_lokal"),
+      Uri.parse("${baseUrl}:3000/modal_so"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> insert_po_barang_lokal(Map data_insert) async {
+  Future<List> insert_so(Map data_insert) async {
     try {
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_po_barang_lokal"),
+        Uri.parse("${baseUrl}:3000/tambah_header_so"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
@@ -52,8 +52,8 @@ class model_pobaranglokal {
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
-          "KODES": data_insert['KODES'].toString(),
-          "NAMAS": data_insert['NAMAS'].toString(),
+          "KODEC": data_insert['KODEC'].toString(),
+          "NAMAC": data_insert['NAMAC'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
@@ -83,7 +83,6 @@ class model_pobaranglokal {
           "TYP": data_insert['TYP'].toString(),
           "GOL": data_insert['GOL'].toString(),
           "BRAND": data_insert['BRAND'].toString(),
-          "rateks": data_insert['rateks'].toString(),
           "ACNO1": data_insert['ACNO1'].toString(),
           "ACNO1_NM": data_insert['ACNO1_NM'].toString(),
         },
@@ -93,7 +92,7 @@ class model_pobaranglokal {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_barang_lokal"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_so"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
@@ -114,8 +113,8 @@ class model_pobaranglokal {
     }
   }
 
-  ///UPDATE PO barang LOKAL DETAIL
-  Future<List> update_po_barang_lokal(Map data_insert) async {
+  ///UPDATE SO DETAIL
+  Future<List> update_so(Map data_insert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
@@ -128,7 +127,7 @@ class model_pobaranglokal {
 
       ///DATA HEADER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_po_barang_lokal"),
+        Uri.parse("${baseUrl}:3000/edit_header_so"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
@@ -136,8 +135,8 @@ class model_pobaranglokal {
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
-          "KODES": data_insert['KODES'].toString(),
-          "NAMAS": data_insert['NAMAS'].toString(),
+          "KODEC": data_insert['KODEC'].toString(),
+          "NAMAC": data_insert['NAMAC'].toString(),
           "ALAMAT": data_insert['ALAMAT'].toString(),
           "KOTA": data_insert['KOTA'].toString(),
           "NOTES": data_insert['NOTES'].toString(),
@@ -167,7 +166,6 @@ class model_pobaranglokal {
           "TYP": data_insert['TYP'].toString(),
           "GOL": data_insert['GOL'].toString(),
           "BRAND": data_insert['BRAND'].toString(),
-          "rateks": data_insert['rateks'].toString(),
           "ACNO1": data_insert['ACNO1'].toString(),
           "ACNO1_NM": data_insert['ACNO1_NM'].toString(),
         },
@@ -177,7 +175,7 @@ class model_pobaranglokal {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_barang_lokal"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_so"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
@@ -218,9 +216,9 @@ class model_pobaranglokal {
     return results2['data'].toList();
   }
 
-  Future<List> cari_po_barang_lokal(String cari) async {
+  Future<List> cari_so(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_po_barang_lokal"),
+      Uri.parse("${baseUrl}:3000/cari_so"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
@@ -228,10 +226,10 @@ class model_pobaranglokal {
   }
 
   ///SELECT HEADER
-  Future<List> select_po_barang_lokal(
+  Future<List> select_so(
       String cari, String start_date, String end_date, String periode) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_po_barang_lokal"),
+      Uri.parse("${baseUrl}:3000/tampil_so"),
       body: {
         "cari": cari,
         "tglawal": start_date,
@@ -244,7 +242,7 @@ class model_pobaranglokal {
   }
 
   ///SELECT DETAIL
-  Future<List> select_po_barang_lokal_detail(
+  Future<List> select_so_detail(
       String no_bukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
@@ -257,16 +255,16 @@ class model_pobaranglokal {
   ///COBA COBA SELECT DETAIL
   Future<List> select_detail(String no_bukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/ambil_po_detail"),
+      Uri.parse("${baseUrl}:3000/ambil_so_detail"),
       body: {"cari": no_bukti},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> delete_po_barang_lokal(String no_bukti) async {
+  Future<List> delete_so(String no_bukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapus_po_baranglokal"),
+      Uri.parse("${baseUrl}:3000/hapus_so"),
       body: {"no_bukti": no_bukti},
     );
     var results2 = json.decode(response.body);

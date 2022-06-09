@@ -17,11 +17,16 @@ module.exports = function (app) {
     var tokojs = require('../apprestapi/controller/master/operasional/toko_controller');
     var userjs = require('../apprestapi/controller/master/operasional/user_controller');
     var hsjs = require('../apprestapi/controller/master/operasional/hs_controller');
+    var brandjs = require('../apprestapi/controller/master/operasional/brand_controller');
     ///=====>>> END OPERASIONAL
 
 
     ///======================== TRANSAKSI CONTROLLER ========================///
     ///=====>>> START FINANSIAL
+    var kasmjs = require('../apprestapi/controller/transaksi/finansial/kasm_controller');
+    var kaskjs = require('./controller/transaksi/finansial/kasm_controller');
+    var bankmjs = require('../apprestapi/controller/transaksi/finansial/bankm_controller');
+    var bankkjs = require('../apprestapi/controller/transaksi/finansial/bankk_controller');
     ///=====>>> END FINANSIAL
 
     ///=====>>> START OPERASIONAL
@@ -29,6 +34,8 @@ module.exports = function (app) {
     var pobhn_importjs = require('../apprestapi/controller/transaksi/operasional/pobhn_import_controller');
     var pobrg_lokaljs = require('../apprestapi/controller/transaksi/operasional/pobrg_lokal_controller');
     var pobrg_importjs = require('../apprestapi/controller/transaksi/operasional/pobrg_import_controller');
+
+    var sojs = require('../apprestapi/controller/transaksi/operasional/so_controller');
     ///=====>>> END OPERASIONAL
 
     ///======================== LAPORAN CONTROLLER ========================///
@@ -235,77 +242,64 @@ module.exports = function (app) {
         .post(bhnjs.hapusbahan);
     ///========================/// END MASTER BAHAN ///========================///
 
-    app.route('/nonbahanpaginate')
-        .post(jsonku.nonbahan_paginate);
-    app.route('/countnonbahanpaginate')
-        .post(jsonku.count_nonbahanpaginate);
-    app.route('/carinonbahan')
-        .post(jsonku.carinonbahan);
-    app.route('/tampilnonbahan')
-        .post(jsonku.tampilnonbahan);
-    app.route('/modal_nonbahan')
-        .post(jsonku.modalnonbahan);
+    ///========================/// START MASTER BRAND ///========================///
+    app.route('/tampilbrand')
+        .post(brandjs.tampilbrand);
+    app.route('/modal_brand')
+        .post(brandjs.modal_brand);
+    ///========================/// END MASTER BRAND ///========================///
 
-    app.route('/mesinpaginate')
-        .post(jsonku.mesin_paginate);
-    app.route('/countmesinpaginate')
-        .post(jsonku.count_mesinpaginate);
-    app.route('/carimesin')
-        .post(jsonku.carimesin);
-    app.route('/tampilmesin')
-        .post(jsonku.tampilmesin);
-    app.route('/modal_mesin')
-        .post(jsonku.modalmesin);
+    ///TRANSAKSI FINANSIAL///
+    ///====================/// KAS MASUK ///====================///
+    app.route('/kasmpaginate')
+        .post(kasmjs.kasm_paginate);
+    app.route('/countkasmpaginate')
+        .post(kasmjs.count_kasmpaginate);
+    app.route('/tambah_header_kasm')
+        .post(kasmjs.tambahheaderkasm);
+    app.route('/tambah_detail_kasm')
+        .post(kasmjs.tambahdetailkasm);
+    app.route('/tampil_kasm')
+        .post(kasmjs.tampilkasm);
+    app.route('/edit_header_kasm')
+        .post(kasmjs.editheaderkasm);
+    app.route('/modal_kasm')
+        .post(kasmjs.modalkasm);
+    app.route('/cari_kasm')
+        .post(kasmjs.carikasm);
+    app.route('/ambil_kasm_detail')
+        .post(kasmjs.ambilkasmdetail);
+    app.route('/hapus_kasm')
+        .post(kasmjs.hapuskasm);
 
-    app.route('/sparepartpaginate')
-        .post(jsonku.sparepart_paginate);
-    app.route('/countsparepartpaginate')
-        .post(jsonku.count_sparepartpaginate);
-    app.route('/carisparepart')
-        .post(jsonku.carisparepart);
-    app.route('/tampilsparepart')
-        .post(jsonku.tampilsparepart);
-    app.route('/modal_sparepart')
-        .post(jsonku.modalsparepart);
-    app.route('/tambahsparepart')
-        .post(jsonku.tambahsparepart);
-    app.route('/ubahsparepart')
-        .post(jsonku.ubahsparepart);
-    app.route('/hapussparepart')
-        .post(jsonku.hapussparepart);
+    ///====================/// KAS KELUAR ///====================///
+    app.route('/kaskpaginate')
+        .post(kaskjs.kask_paginate);
+    app.route('/countkaskpaginate')
+        .post(kaskjs.count_kaskpaginate);
+    app.route('/tambah_header_kask')
+        .post(kaskjs.tambahheaderkask);
+    app.route('/tambah_detail_kask')
+        .post(kaskjs.tambahdetailkask);
+    app.route('/tampil_kask')
+        .post(kaskjs.tampilkask);
+    app.route('/edit_header_kask')
+        .post(kaskjs.editheaderkask);
+    app.route('/modal_kask')
+        .post(kaskjs.modalkask);
+    app.route('/cari_kask')
+        .post(kaskjs.carikask);
+    app.route('/ambil_kask_detail')
+        .post(kaskjs.ambilkaskdetail);
+    app.route('/hapus_kask')
+        .post(kaskjs.hapuskask);
 
-    app.route('/gudpaginate')
-        .post(jsonku.gud_paginate);
-    app.route('/countgudpaginate')
-        .post(jsonku.count_gudpaginate);
-    app.route('/carigud')
-        .post(jsonku.carigud);
-    app.route('/tampilgud')
-        .post(jsonku.tampilgud);
-    app.route('/tambahgud')
-        .post(jsonku.tambahgud);
-    app.route('/ubahgud')
-        .post(jsonku.ubahgud);
-    app.route('/hapusgud')
-        .post(jsonku.hapusgud);
+    ///====================/// BANK MASUK ///====================///
+    ///====================/// BANK KELUAR ///====================///
 
 
-    app.route('/emklpaginate')
-        .post(jsonku.emkl_paginate);
-    app.route('/countemklpaginate')
-        .post(jsonku.count_emklpaginate);
-    app.route('/cariemkl')
-        .post(jsonku.cariemkl);
-    app.route('/tampilemkl')
-        .post(jsonku.tampilemkl);
-    app.route('/tambahemkl')
-        .post(jsonku.tambahemkl);
-    app.route('/ubahemkl')
-        .post(jsonku.ubahemkl);
-    app.route('/hapusemkl')
-        .post(jsonku.hapusemkl);
 
-    ///TRANSAKSI///
+    ///TRANSAKSI OPERASIONAL///
     ///====================/// PO BAHAN LOKAL ///====================///
     app.route('/pobahanlokalpaginate')
         .post(pobhn_lokaljs.pobahanlokal_paginate);
@@ -394,27 +388,27 @@ module.exports = function (app) {
     app.route('/hapus_po_barangimport')
         .post(pobrg_importjs.hapuspobarangimport);
 
-
+    ///====================/// SO ///====================///
     app.route('/sopaginate')
-        .post(jsonku.so_paginate);
+        .post(sojs.so_paginate);
     app.route('/countsopaginate')
-        .post(jsonku.count_sopaginate);
+        .post(sojs.count_sopaginate);
     app.route('/tambah_header_so')
-        .post(jsonku.tambahheaderso);
+        .post(sojs.tambahheaderso);
     app.route('/tambah_detail_so')
-        .post(jsonku.tambahdetailso);
+        .post(sojs.tambahdetailso);
     app.route('/tampil_so')
-        .post(jsonku.tampilso);
+        .post(sojs.tampilso);
     app.route('/edit_header_so')
-        .post(jsonku.editheaderso);
+        .post(sojs.editheaderso);
     app.route('/modal_so')
-        .post(jsonku.modalso);
+        .post(sojs.modalso);
     app.route('/cari_so')
-        .post(jsonku.cariso);
+        .post(sojs.cariso);
     app.route('/ambil_so_detail')
-        .post(jsonku.ambilsodetail);
+        .post(sojs.ambilsodetail);
     app.route('/hapus_so')
-        .post(jsonku.hapusso);
+        .post(sojs.hapusso);
 
     app.route('/tambah_header_surat_jalan')
         .post(jsonku.tambahheadersuratjalan);
@@ -779,17 +773,6 @@ module.exports = function (app) {
     app.route('/hapus_beli')
         .post(jsonku.hapusbeli);
 
-
-    app.route('/cari_so')
-        .post(jsonku.cariso);
-    app.route('/tambah_so')
-        .post(jsonku.tambahso);
-    app.route('/ubah_so')
-        .post(jsonku.ubahso);
-    app.route('/hapus_so')
-        .post(jsonku.hapusso);
-
-
     app.route('/cari_koreksi_stok')
         .post(jsonku.carikoreksistok);
     app.route('/tambah_koreksi_stok')
@@ -798,20 +781,6 @@ module.exports = function (app) {
         .post(jsonku.ubahkoreksistok);
     app.route('/hapus_koreksi_stok')
         .post(jsonku.hapuskoreksistok);
-
-
-    ///TRANSAKSI HEADER DETAIL KAS
-    app.route('/tambah_header_kas')
-        .post(jsonku.tambahheaderkas);
-    app.route('/tambah_detail_kas')
-        .post(jsonku.tambahdetailkas);
-    app.route('/tampil_kas_masuk')
-        .post(jsonku.tampilkasmasuk);
-    app.route('/tampil_kas_keluar')
-        .post(jsonku.tampilkaskeluar);
-    app.route('/edit_header_kas')
-        .post(jsonku.editheaderkas);
-
 
     ///TRANSAKSI HEADER DETAIL BANK
     app.route('/tambah_header_bank')

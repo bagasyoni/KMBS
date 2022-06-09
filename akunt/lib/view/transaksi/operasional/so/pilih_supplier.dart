@@ -1,43 +1,43 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
+import 'package:akunt/controller/master/operasional/customer_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class PilihSo extends StatefulWidget {
-  String so_terpilih;
+class PilihCustomer extends StatefulWidget {
+  String customer_terpilih;
   var controller;
 
-  PilihSo(this.so_terpilih, this.controller);
+  PilihCustomer(this.customer_terpilih, this.controller);
 
   @override
-  _PilihSoState createState() => _PilihSoState();
+  _PilihCustomerState createState() => _PilihCustomerState();
 }
 
-class _PilihSoState extends State<PilihSo> {
+class _PilihCustomerState extends State<PilihCustomer> {
   TextEditingController searchController = TextEditingController();
   int index_terpilih;
-  var dataterpilih;
 
   @override
   void initState() {
-    Provider.of<SoController>(context, listen: false).selectData("");
+    Provider.of<CustomerController>(context, listen: false).selectData("");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SoController>(builder: (context, soController, child) {
+    return Consumer<CustomerController>(
+        builder: (context, customerController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
-          width: MediaQuery.of(context).size.width / 1,
+          width: MediaQuery.of(context).size.width / 1.5,
           height: MediaQuery.of(context).size.height - 100,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Text("Pilih Sales Order",
+              child: Text("Pilih Customer",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class _PilihSoState extends State<PilihSo> {
                       disabledBorder: InputBorder.none,
                     ),
                     onChanged: (value) {
-                      soController.selectData(value);
+                      customerController.selectData(value);
                     },
                   ),
                 ),
@@ -91,47 +91,7 @@ class _PilihSoState extends State<PilihSo> {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Text(
-                      "No.",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "No SO",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Tanggal SO",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Jatuh Tempo",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Text(
                       "Kode Customer",
                       style: GoogleFonts.poppins(
@@ -141,7 +101,7 @@ class _PilihSoState extends State<PilihSo> {
                     ),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: Text(
                       "Nama Customer",
                       style: GoogleFonts.poppins(
@@ -151,7 +111,7 @@ class _PilihSoState extends State<PilihSo> {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Text(
                       "Kota",
                       style: GoogleFonts.poppins(
@@ -170,16 +130,6 @@ class _PilihSoState extends State<PilihSo> {
                           color: GreyColor),
                     ),
                   ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Keterangan",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -188,9 +138,9 @@ class _PilihSoState extends State<PilihSo> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: soController.data_so_list.length,
+                itemCount: customerController.data_customerList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SoCard(index);
+                  return SupplierCard(index);
                 },
               ),
             ),
@@ -219,23 +169,15 @@ class _PilihSoState extends State<PilihSo> {
                   child: InkWell(
                 onTap: () async {
                   if (index_terpilih != null) {
-                    widget.controller.nosoController.text =
-                        soController.data_so_list[index_terpilih]['NO_BUKTI'];
-                    widget.controller.tglController.text =
-                        soController.data_so_list[index_terpilih]['TGL'];
-                    widget.controller.jtempoController.text =
-                        soController.data_so_list[index_terpilih]['JTEMPO'];
-                    widget.controller.kodecController.text =
-                        soController.data_so_list[index_terpilih]['KODEC'];
-                    widget.controller.namacController.text =
-                        soController.data_so_list[index_terpilih]['NAMAC'];
-                    widget.controller.kotaController.text =
-                        soController.data_so_list[index_terpilih]['KOTA'];
-                    widget.controller.alamatController.text =
-                        soController.data_so_list[index_terpilih]['ALAMAT'];
-                    widget.controller.notesController.text =
-                        soController.data_so_list[index_terpilih]['NOTES'];
-                    Navigator.pop(context, dataterpilih);
+                    widget.controller.kodecController.text = customerController
+                        .data_customerList[index_terpilih]['KODEC'];
+                    widget.controller.namacController.text = customerController
+                        .data_customerList[index_terpilih]['NAMAC'];
+                    widget.controller.kotaController.text = customerController
+                        .data_customerList[index_terpilih]['KOTA'];
+                    widget.controller.alamatController.text = customerController
+                        .data_customerList[index_terpilih]['ALAMAT'];
+                    Navigator.pop(context);
                   } else {
                     Toast("Peringatan", "Belum ada data terpilih", false);
                   }
@@ -263,22 +205,20 @@ class _PilihSoState extends State<PilihSo> {
     });
   }
 
-  Widget SoCard(int index) {
+  Widget SupplierCard(int index) {
     bool isActive = index == index_terpilih;
-    var data_so =
-        Provider.of<SoController>(context, listen: false).data_so_list[index];
-    if (widget.so_terpilih != null) {
-      if (data_so['NO_BUKTI'] == widget.so_terpilih) {
+    var data_supplier = Provider.of<CustomerController>(context, listen: false)
+        .data_customerList[index];
+    if (widget.customer_terpilih != null) {
+      if (data_supplier['NAMAC'] == widget.customer_terpilih) {
         isActive = true;
         index_terpilih = index;
       }
     }
     return InkWell(
       onTap: () {
-        widget.so_terpilih = data_so['NO_BUKTI'];
         index_terpilih = index;
-        dataterpilih = Provider.of<SoController>(context, listen: false)
-            .data_so_list[index_terpilih];
+        widget.customer_terpilih = data_supplier['NAMAC'];
         setState(() {});
       },
       child: Container(
@@ -289,9 +229,9 @@ class _PilihSoState extends State<PilihSo> {
             Row(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Text(
-                    data_so['NO_ID'].toString(),
+                    data_supplier['KODEC'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -301,27 +241,7 @@ class _PilihSoState extends State<PilihSo> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    data_so['NO_BUKTI'].toString(),
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_so['TGL'].toString(),
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_so['JTEMPO'].toString(),
+                    data_supplier['NAMAC'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -331,27 +251,7 @@ class _PilihSoState extends State<PilihSo> {
                 Expanded(
                   flex: 3,
                   child: Text(
-                    data_so['KODEC'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Text(
-                    data_so['NAMAC'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    data_so['KOTA'],
+                    data_supplier['KOTA'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -361,17 +261,7 @@ class _PilihSoState extends State<PilihSo> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    data_so['ALAMAT'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_so['NOTES'],
+                    data_supplier['ALAMAT'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

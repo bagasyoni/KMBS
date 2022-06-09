@@ -6,7 +6,7 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/belisparepart_controller.dart';
-import 'package:akunt/model/data_pod.dart';
+import 'package:akunt/model/transaksi/operasional/data_pod.dart';
 import 'package:akunt/view/beli_sparepart/pilih_posparepart.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
 import 'package:akunt/view/beli_sparepart/widget/add_belisparepart_card.dart';

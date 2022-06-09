@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/invoice/invoice_order_penjualan.dart';
 import 'package:akunt/model/model_pod.dart';
-import 'package:akunt/model/data_pod.dart';
+import 'package:akunt/model/transaksi/operasional/data_pod.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/model/model_belinonbahan.dart';
 import 'package:akunt/view/base_widget/toast.dart';

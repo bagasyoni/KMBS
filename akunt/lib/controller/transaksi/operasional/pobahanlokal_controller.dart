@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:akunt/model/master/operasional/model_bahan.dart';
 import 'package:akunt/model/master/operasional/data_bhn.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:akunt/model/model_pobahanlokal.dart';
+import 'package:akunt/model/transaksi/operasional/model_pobahanlokal.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';

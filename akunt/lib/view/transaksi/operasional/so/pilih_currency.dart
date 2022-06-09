@@ -1,43 +1,43 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/master/operasional/customer_controller.dart';
+import 'package:akunt/controller/master/operasional/currency_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class PilihCustomer extends StatefulWidget {
-  String customer_terpilih;
+class PilihCurrency extends StatefulWidget {
+  String currency_terpilih;
   var controller;
 
-  PilihCustomer(this.customer_terpilih, this.controller);
+  PilihCurrency(this.currency_terpilih, this.controller);
 
   @override
-  _PilihCustomerState createState() => _PilihCustomerState();
+  _PilihCurrencyState createState() => _PilihCurrencyState();
 }
 
-class _PilihCustomerState extends State<PilihCustomer> {
+class _PilihCurrencyState extends State<PilihCurrency> {
   TextEditingController searchController = TextEditingController();
   int index_terpilih;
 
   @override
   void initState() {
-    Provider.of<CustomerController>(context, listen: false).selectData("");
+    Provider.of<CurrencyController>(context, listen: false).selectData("");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CustomerController>(
-        builder: (context, customerController, child) {
+    return Consumer<CurrencyController>(
+        builder: (context, currencyController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
-          width: MediaQuery.of(context).size.width / 1.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           height: MediaQuery.of(context).size.height - 100,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Text("Pilih Customer",
+              child: Text("Pilih Currency",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class _PilihCustomerState extends State<PilihCustomer> {
                       disabledBorder: InputBorder.none,
                     ),
                     onChanged: (value) {
-                      customerController.selectData(value);
+                      currencyController.selectData(value);
                     },
                   ),
                 ),
@@ -91,39 +91,9 @@ class _PilihCustomerState extends State<PilihCustomer> {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Text(
-                      "No.",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      "Kode Customer",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text(
-                      "Nama Customer",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
                     flex: 3,
                     child: Text(
-                      "Kota",
+                      "Kode",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -133,12 +103,25 @@ class _PilihCustomerState extends State<PilihCustomer> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "Alamat",
+                      "Nama",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: GreyColor),
                     ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      "Rate",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: GreyColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
                   ),
                 ],
               ),
@@ -148,9 +131,9 @@ class _PilihCustomerState extends State<PilihCustomer> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: customerController.data_customerList.length,
+                itemCount: currencyController.data_currencyList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return CustomerCard(index);
+                  return currencyCard(index);
                 },
               ),
             ),
@@ -179,14 +162,13 @@ class _PilihCustomerState extends State<PilihCustomer> {
                   child: InkWell(
                 onTap: () async {
                   if (index_terpilih != null) {
-                    widget.controller.kodecController.text = customerController
-                        .data_customerList[index_terpilih]['KODEC'];
-                    widget.controller.namacController.text = customerController
-                        .data_customerList[index_terpilih]['NAMAC'];
-                    widget.controller.kotaController.text = customerController
-                        .data_customerList[index_terpilih]['KOTA'];
-                    widget.controller.alamatController.text = customerController
-                        .data_customerList[index_terpilih]['ALAMAT'];
+                    widget.controller.currController.text = currencyController
+                        .data_currencyList[index_terpilih]['KODE'];
+                    widget.controller.currnmController.text = currencyController
+                        .data_currencyList[index_terpilih]['NAMA'];
+                    widget.controller.rateController.text = currencyController
+                        .data_currencyList[index_terpilih]['Rate']
+                        .toString();
                     Navigator.pop(context);
                   } else {
                     Toast("Peringatan", "Belum ada data terpilih", false);
@@ -215,88 +197,78 @@ class _PilihCustomerState extends State<PilihCustomer> {
     });
   }
 
-  Widget CustomerCard(int index) {
+  Widget currencyCard(int index) {
     bool isActive = index == index_terpilih;
-    var data_customer = Provider.of<CustomerController>(context, listen: false)
-        .data_customerList[index];
-    if (widget.customer_terpilih != null) {
-      if (data_customer['NAMAC'] == widget.customer_terpilih) {
+    var data_currency = Provider.of<CurrencyController>(context, listen: false)
+        .data_currencyList[index];
+    if (widget.currency_terpilih != null) {
+      if (data_currency['KODE'] == widget.currency_terpilih) {
         isActive = true;
         index_terpilih = index;
       }
     }
-    return InkWell(
-      onTap: () {
-        index_terpilih = index;
-        widget.customer_terpilih = data_customer['NAMAC'];
-        setState(() {});
-      },
-      child: Container(
-        color: isActive ? kPrimaryColor : Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    data_customer['NO_ID'].toString(),
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: InkWell(
+        onTap: () {
+          index_terpilih = index;
+          widget.currency_terpilih = data_currency['KODE'];
+          setState(() {});
+        },
+        child: Container(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      data_currency['KODE'],
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    data_customer['KODEC'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      data_currency['NAMA'],
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Text(
-                    data_customer['NAMAC'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      data_currency['Rate'].toString(),
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    data_customer['KOTA'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    data_customer['ALAMAT'],
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isActive ? Colors.white : Colors.black),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(
-              height: 1,
-            ),
-          ],
+                  (isActive)
+                      ? Image.asset(
+                          "assets/images/ic_success.png",
+                          width: 30,
+                        )
+                      : SizedBox(
+                          width: 30,
+                          height: 30,
+                        ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(
+                height: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -15,8 +15,10 @@ class DataBrg {
   double stockr;
   double fisik;
   double total;
+  double total1;
   double sisa;
   double kirim;
+  double rate;
 
   DataBrg(
       {this.noid,
@@ -31,8 +33,10 @@ class DataBrg {
       this.stockr,
       this.fisik,
       this.total,
+      this.total1,
       this.sisa,
-      this.kirim});
+      this.kirim,
+      this.rate});
 
   factory DataBrg.fromJson(var parsedJson) {
     return DataBrg(
@@ -49,25 +53,9 @@ class DataBrg {
       stockr: 0.00,
       fisik: 0.00,
       total: 0.00,
+      total1: 0.00,
       kirim: 0.00,
+      rate: 0.00,
     );
-  }
-}
-
-class BahanViewModel {
-  static List<DataBrg> bahanList;
-
-  static Future loadBahan() async {
-    try {
-      bahanList = new List<DataBrg>();
-      String jsonString = await rootBundle.loadString('assets/file/bahan.json');
-      Map parsedJson = json.decode(jsonString);
-      var categoryJson = parsedJson['bahan'] as List;
-      for (int i = 0; i < categoryJson.length; i++) {
-        bahanList.add(new DataBrg.fromJson(categoryJson[i]));
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }

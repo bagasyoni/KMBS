@@ -8,13 +8,12 @@ import 'package:akunt/controller/home_controller.dart';
 import 'package:akunt/controller/login_controller.dart';
 
 import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
-import 'package:akunt/controller/so_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';
 
 ///MASTER FINANSIAL///
 import 'package:akunt/view/master/finansial/account/data_account_screen.dart';
-
 
 ///MASTER OPERASIONAL///
 import 'package:akunt/view/master/operasional/customer/data_customer_screen.dart';
@@ -33,6 +32,7 @@ import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pobahanlokal_scr
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/pobahanimport_screen.dart';
 import 'package:akunt/view/transaksi/operasional/po_barang_lokal/pobaranglokal_screen.dart';
 import 'package:akunt/view/transaksi/operasional/po_barang_import/pobarangimport_screen.dart';
+import 'package:akunt/view/transaksi/operasional/so/so_screen.dart';
 
 import 'package:akunt/view/po_nonbahan/pononbahan_screen.dart';
 import 'package:akunt/view/po_import/poimport_screen.dart';
@@ -53,7 +53,6 @@ import 'package:akunt/view/stockbhn/stockbhn_screen.dart';
 import 'package:akunt/view/mutasibrg/mutasibrg_screen.dart';
 import 'package:akunt/view/pakaibhn/pakaibhn_screen.dart';
 import 'package:akunt/view/terima/terima_screen.dart';
-import 'package:akunt/view/so/so_screen.dart';
 import 'package:akunt/view/surat/surat_screen.dart';
 import 'package:akunt/view/jual/jual_screen.dart';
 import 'package:akunt/view/tpiu/tpiu_screen.dart';
@@ -397,20 +396,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) =>
-                                              DataTokoScreen()));
+                                          builder: (_) => DataTokoScreen()));
                                 } else if (value == 107) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) =>
-                                              DataUserScreen()));
+                                          builder: (_) => DataUserScreen()));
                                 } else if (value == 108) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) =>
-                                              DataHsScreen()));
+                                          builder: (_) => DataHsScreen()));
                                 }
                               },
                             ),

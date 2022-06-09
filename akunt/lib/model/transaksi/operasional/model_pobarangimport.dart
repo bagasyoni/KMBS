@@ -2,16 +2,16 @@ import 'package:akunt/controller/login_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../constants.dart';
+import '../../../constants.dart';
 
-class model_pobahanimport {
+class model_pobarangimport {
   String baseUrl = base_url;
 
   /// paginate
-  Future<List> data_pobahanimportpaginate(
+  Future<List> data_pobarangimportpaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/pobahanimportpaginate"),
+      Uri.parse("${baseUrl}:3000/pobarangimportpaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -23,9 +23,9 @@ class model_pobahanimport {
   }
 
   ///paginate
-  Future countPobahanimportPaginate(String key_cari) async {
+  Future countPobarangimportPaginate(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countpobahanimportpaginate"),
+      Uri.parse("${baseUrl}:3000/countpobarangimportpaginate"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
@@ -34,17 +34,17 @@ class model_pobahanimport {
 
   Future<List> data_modal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_po_bahan_import"),
+      Uri.parse("${baseUrl}:3000/modal_po_barang_import"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> insert_po_bahan_import(Map data_insert) async {
+  Future<List> insert_po_barang_import(Map data_insert) async {
     try {
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_po_bahan_import"),
+        Uri.parse("${baseUrl}:3000/tambah_header_po_barang_import"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
@@ -93,14 +93,14 @@ class model_pobahanimport {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan_import"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_po_barang_import"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
             "PER": data_insert['PER'].toString(),
             "FLAG": data_insert['FLAG'].toString(),
-            "KD_BHN": data_detail[i]['KD_BHN'].toString(),
-            "NA_BHN": data_detail[i]['NA_BHN'].toString(),
+            "KD_BRG": data_detail[i]['KD_BRG'].toString(),
+            "NA_BRG": data_detail[i]['NA_BRG'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
             "HARGA": data_detail[i]['HARGA'].toString(),
@@ -114,8 +114,7 @@ class model_pobahanimport {
     }
   }
 
-  ///UPDATE PO BAHAN IMPORT DETAIL
-  Future<List> update_po_bahan_import(Map data_insert) async {
+  Future<List> update_po_barang_import(Map data_insert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
@@ -128,7 +127,7 @@ class model_pobahanimport {
 
       ///DATA HEADER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_po_bahan_import"),
+        Uri.parse("${baseUrl}:3000/edit_header_po_barang_import"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
@@ -177,14 +176,14 @@ class model_pobahanimport {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_po_bahan_import"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_po_barang_import"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
             "PER": data_insert['PER'].toString(),
             "FLAG": data_insert['FLAG'].toString(),
-            "KD_BHN": data_detail[i]['KD_BHN'].toString(),
-            "NA_BHN": data_detail[i]['NA_BHN'].toString(),
+            "KD_BRG": data_detail[i]['KD_BRG'].toString(),
+            "NA_BRG": data_detail[i]['NA_BRG'].toString(),
             "SATUAN": data_detail[i]['SATUAN'].toString(),
             "QTY": data_detail[i]['QTY'].toString(),
             "HARGA": data_detail[i]['HARGA'].toString(),
@@ -218,9 +217,9 @@ class model_pobahanimport {
     return results2['data'].toList();
   }
 
-  Future<List> cari_po_bahan_import(String cari) async {
+  Future<List> cari_po_barang_import(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_po_bahan_import"),
+      Uri.parse("${baseUrl}:3000/cari_po_barang_import"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
@@ -228,10 +227,10 @@ class model_pobahanimport {
   }
 
   ///SELECT HEADER
-  Future<List> select_po_bahan_import(
+  Future<List> select_po_barang_import(
       String cari, String start_date, String end_date, String periode) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_po_bahan_import"),
+      Uri.parse("${baseUrl}:3000/tampil_po_barang_import"),
       body: {
         "cari": cari,
         "tglawal": start_date,
@@ -244,7 +243,7 @@ class model_pobahanimport {
   }
 
   ///SELECT DETAIL
-  Future<List> select_po_bahan_import_detail(
+  Future<List> select_po_barang_import_detail(
       String no_bukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
@@ -264,9 +263,9 @@ class model_pobahanimport {
     return results2['data'].toList();
   }
 
-  Future<List> delete_po_bahan_import(String no_bukti) async {
+  Future<List> delete_po_barang_import(String no_bukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapus_po_bahanimport"),
+      Uri.parse("${baseUrl}:3000/hapus_po_barangimport"),
       body: {"no_bukti": no_bukti},
     );
     var results2 = json.decode(response.body);
