@@ -24,9 +24,12 @@ module.exports = function (app) {
     ///======================== TRANSAKSI CONTROLLER ========================///
     ///=====>>> START FINANSIAL
     var kasmjs = require('../apprestapi/controller/transaksi/finansial/kasm_controller');
-    var kaskjs = require('./controller/transaksi/finansial/kasm_controller');
+    var kaskjs = require('../apprestapi/controller/transaksi/finansial/kask_controller');
     var bankmjs = require('../apprestapi/controller/transaksi/finansial/bankm_controller');
     var bankkjs = require('../apprestapi/controller/transaksi/finansial/bankk_controller');
+    var girokjs = require('../apprestapi/controller/transaksi/finansial/girok_controller');
+    var giromjs = require('../apprestapi/controller/transaksi/finansial/girom_controller');
+    var memojs = require('../apprestapi/controller/transaksi/finansial/memo_controller');
     ///=====>>> END FINANSIAL
 
     ///=====>>> START OPERASIONAL
@@ -34,7 +37,6 @@ module.exports = function (app) {
     var pobhn_importjs = require('../apprestapi/controller/transaksi/operasional/pobhn_import_controller');
     var pobrg_lokaljs = require('../apprestapi/controller/transaksi/operasional/pobrg_lokal_controller');
     var pobrg_importjs = require('../apprestapi/controller/transaksi/operasional/pobrg_import_controller');
-
     var sojs = require('../apprestapi/controller/transaksi/operasional/so_controller');
     ///=====>>> END OPERASIONAL
 
@@ -295,8 +297,114 @@ module.exports = function (app) {
         .post(kaskjs.hapuskask);
 
     ///====================/// BANK MASUK ///====================///
-    ///====================/// BANK KELUAR ///====================///
+    app.route('/bankmpaginate')
+        .post(bankmjs.bankm_paginate);
+    app.route('/countbankmpaginate')
+        .post(bankmjs.count_bankmpaginate);
+    app.route('/tambah_header_bankm')
+        .post(bankmjs.tambahheaderbankm);
+    app.route('/tambah_detail_bankm')
+        .post(bankmjs.tambahdetailbankm);
+    app.route('/tampil_bankm')
+        .post(bankmjs.tampilbankm);
+    app.route('/edit_header_bankm')
+        .post(bankmjs.editheaderbankm);
+    app.route('/modal_bankm')
+        .post(bankmjs.modalbankm);
+    app.route('/cari_bankm')
+        .post(bankmjs.caribankm);
+    app.route('/ambil_bankm_detail')
+        .post(bankmjs.ambilbankmdetail);
+    app.route('/hapus_bankm')
+        .post(bankmjs.hapusbankm);
 
+    ///====================/// BANK KELUAR ///====================///
+    app.route('/bankkpaginate')
+        .post(bankkjs.bankk_paginate);
+    app.route('/countbankkpaginate')
+        .post(bankkjs.count_bankkpaginate);
+    app.route('/tambah_header_bankk')
+        .post(bankkjs.tambahheaderbankk);
+    app.route('/tambah_detail_bankk')
+        .post(bankkjs.tambahdetailbankk);
+    app.route('/tampil_bankk')
+        .post(bankkjs.tampilbankk);
+    app.route('/edit_header_bankk')
+        .post(bankkjs.editheaderbankk);
+    app.route('/modal_bankk')
+        .post(bankkjs.modalbankk);
+    app.route('/cari_bankk')
+        .post(bankkjs.caribankk);
+    app.route('/ambil_bankk_detail')
+        .post(bankkjs.ambilbankkdetail);
+    app.route('/hapus_bankk')
+        .post(bankkjs.hapusbankk);
+
+    ///====================/// GIRO MASUK ///====================///
+    app.route('/girokpaginate')
+        .post(girokjs.girok_paginate);
+    app.route('/countgirokpaginate')
+        .post(girokjs.count_girokpaginate);
+    app.route('/tambah_header_girok')
+        .post(girokjs.tambahheadergirok);
+    app.route('/tambah_detail_girok')
+        .post(girokjs.tambahdetailgirok);
+    app.route('/tampil_girok')
+        .post(girokjs.tampilgirok);
+    app.route('/edit_header_girok')
+        .post(girokjs.editheadergirok);
+    app.route('/modal_girok')
+        .post(girokjs.modalgirok);
+    app.route('/cari_girok')
+        .post(girokjs.carigirok);
+    app.route('/ambil_girok_detail')
+        .post(girokjs.ambilgirokdetail);
+    app.route('/hapus_girok')
+        .post(girokjs.hapusgirok);
+
+    ///====================/// GIRO KELUAR ///====================///
+    app.route('/girompaginate')
+        .post(giromjs.girom_paginate);
+    app.route('/countgirompaginate')
+        .post(giromjs.count_girompaginate);
+    app.route('/tambah_header_girom')
+        .post(giromjs.tambahheadergirom);
+    app.route('/tambah_detail_girom')
+        .post(giromjs.tambahdetailgirom);
+    app.route('/tampil_girom')
+        .post(giromjs.tampilgirom);
+    app.route('/edit_header_girom')
+        .post(giromjs.editheadergirom);
+    app.route('/modal_girom')
+        .post(giromjs.modalgirom);
+    app.route('/cari_girom')
+        .post(giromjs.carigirom);
+    app.route('/ambil_girom_detail')
+        .post(giromjs.ambilgiromdetail);
+    app.route('/hapus_girom')
+        .post(giromjs.hapusgirom);
+
+    ///====================/// MEMORIAL ///====================///
+    app.route('/memopaginate')
+        .post(memojs.memo_paginate);
+    app.route('/countmemopaginate')
+        .post(memojs.count_memopaginate);
+    app.route('/tambah_header_memo')
+        .post(memojs.tambahheadermemo);
+    app.route('/tambah_detail_memo')
+        .post(memojs.tambahdetailmemo);
+    app.route('/tampil_memo')
+        .post(memojs.tampilmemo);
+    app.route('/edit_header_memo')
+        .post(memojs.editheadermemo);
+    app.route('/modal_memo')
+        .post(memojs.modalmemo);
+    app.route('/cari_memo')
+        .post(memojs.carimemo);
+    app.route('/ambil_memo_detail')
+        .post(memojs.ambilmemodetail);
+    app.route('/hapus_memo')
+        .post(memojs.hapusmemo);
 
 
     ///TRANSAKSI OPERASIONAL///

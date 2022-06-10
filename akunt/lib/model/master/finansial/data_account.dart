@@ -10,6 +10,13 @@ class DataAccount {
   double debet;
   double kredit;
   double jumlah;
+  double jumlah1;
+  double jumlahinv;
+  double um;
+  double currd;
+  double rated;
+  String no_faktur;
+  String noinv;
 
   DataAccount({
     this.noid,
@@ -19,6 +26,13 @@ class DataAccount {
     this.debet,
     this.kredit,
     this.jumlah,
+    this.jumlah1,
+    this.jumlahinv,
+    this.um,
+    this.currd,
+    this.rated,
+    this.no_faktur,
+    this.noinv,
   });
 
   factory DataAccount.fromJson(var parsedJson) {
@@ -29,26 +43,14 @@ class DataAccount {
       reff: parsedJson['URAIAN'] as String ?? "",
       debet: 0.00,
       kredit: 0.00,
-      jumlah: parsedJson['JUMLAH'] ?? 0.00,
+      jumlah: 0.00,
+      jumlah1: 0.00,
+      jumlahinv: 0.00,
+      um: 0.00,
+      currd: 0.00,
+      rated: 0.00,
+      no_faktur: "",
+      noinv: "",
     );
-  }
-}
-
-class AccountViewModel {
-  static List<DataAccount> accountList;
-
-  static Future loadAccount() async {
-    try {
-      accountList = List<DataAccount>();
-      String jsonString =
-          await rootBundle.loadString('assets/file/account.json');
-      Map parsedJson = json.decode(jsonString);
-      var categoryJson = parsedJson['account'] as List;
-      for (int i = 0; i < categoryJson.length; i++) {
-        accountList.add(DataAccount.fromJson(categoryJson[i]));
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }

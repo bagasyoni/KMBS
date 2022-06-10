@@ -8,8 +8,8 @@ exports.index = function (req, res) {
     response.ok('aplikasi rest api berjalan', res)
 };
 
-///========================/// TRANSAKSI KAS MASUK ///========================///
-exports.kasm_paginate = function (req, res) {
+///========================/// TRANSAKSI KAS KELUAR ///========================///
+exports.kask_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
@@ -25,9 +25,9 @@ exports.kasm_paginate = function (req, res) {
         });
 }
 
-exports.count_kasmpaginate = function (req, res) {
+exports.count_kaskpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from kas where TYP='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from kas where TYP='BKK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -38,7 +38,7 @@ exports.count_kasmpaginate = function (req, res) {
 }
 
 ///HEADER
-exports.tambahheaderkasm = function (req, res) {
+exports.tambahheaderkask = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
@@ -75,7 +75,7 @@ exports.tambahheaderkasm = function (req, res) {
 };
 
 ///DETAIL
-exports.tambahdetailkasm = function (req, res) {
+exports.tambahdetailkask = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var REC = req.body.REC;
     var PER = req.body.PER;
@@ -105,12 +105,12 @@ exports.tambahdetailkasm = function (req, res) {
         });
 };
 
-exports.tampilkasm = function (req, res) {
+exports.tampilkask = function (req, res) {
     var nobukti = '%' + req.body.cari + '%';
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYP='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYP='BKK'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -121,7 +121,7 @@ exports.tampilkasm = function (req, res) {
     });
 };
 
-exports.editheaderkasm = function (req, res) {
+exports.editheaderkask = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
@@ -157,7 +157,7 @@ exports.editheaderkasm = function (req, res) {
         });
 };
 
-exports.modalkasm = function (req, res) {
+exports.modalkask = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
         connection.query("select * from kas where BACNO like ? or BNAMA like ? order by BACNO", [cari, cari],
@@ -184,7 +184,7 @@ exports.modalkasm = function (req, res) {
     };
 };
 
-exports.carikasm = function (req, res) {
+exports.carikask = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKM'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
@@ -198,7 +198,7 @@ exports.carikasm = function (req, res) {
         });
 }
 
-exports.hapuskasm = function (req, res) {
+exports.hapuskask = function (req, res) {
     var no_bukti = req.body.no_bukti;
     connection.query("DELETE from kas where NO_BUKTI=?; DELETE from kasd where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
@@ -213,9 +213,8 @@ exports.hapuskasm = function (req, res) {
 }
 
 ///SELECT DETAIL TRANSAKSI
-exports.ambilkasmdetail = function (req, res) {
+exports.ambilkaskdetail = function (req, res) {
     var nobukti = req.body.cari;
-    // var filter_cari = '%'+req.body.cari+'%';
     connection.query("SELECT * from kas where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {

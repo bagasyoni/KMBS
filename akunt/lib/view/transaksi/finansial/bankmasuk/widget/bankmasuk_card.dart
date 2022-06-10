@@ -4,36 +4,36 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/bankkeluar_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget OrderPenjualanCard(int index,
+Widget BankmCard(int index,
     {Function pressEdit, Function pressDelete}) {
-  return Consumer<BankkeluarController>(
-      builder: (context, bankkeluarController, child) {
-    var data_so = bankkeluarController.data_order_penjualan_list[index];
+  return Consumer<BankmController>(
+      builder: (context, bankmasukController, child) {
+    var data_bankm = bankmasukController.data_bankm_list[index];
     String tanggal =
-        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_so['TGL']));
-    String nobukti = data_so['NO_BUKTI'];
-    String ket = data_so['KET'];
-    // double qty = data_so['JUMLAH'];
-    String jumlah = config().format_rupiah(data_so['JUMLAH'].toString());
-    bool isDelivered = data_so['POSTED'] == 1 ? true : false;
+        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_bankm['TGL']));
+    String nobukti = data_bankm['NO_BUKTI'];
+    String ket = data_bankm['KET'];
+    // double qty = data_bankm['JUMLAH'];
+    String jumlah = config().format_rupiah(data_bankm['JUMLAH'].toString());
+    bool isDelivered = data_bankm['POSTED'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () {
-          bankkeluarController.index_terpilih = index;
-          bankkeluarController.notifyListeners();
+          bankmasukController.index_terpilih = index;
+          bankmasukController.notifyListeners();
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-                color: (index == bankkeluarController.index_terpilih)
+                color: (index == bankmasukController.index_terpilih)
                     ? HijauColor
                     : GreyColor),
             color: Colors.white,

@@ -4,14 +4,13 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/bankmasuk_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/bankmasuk/add_bankmasuk_screen.dart';
-import 'package:akunt/view/bankmasuk/widget/bankmasuk_card.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/add_bankmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/widget/bankmasuk_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'widget/filter_tanggal.dart';
 
 class BankMasukScreen extends StatefulWidget {
@@ -20,15 +19,16 @@ class BankMasukScreen extends StatefulWidget {
 }
 
 class _BankMasukScreenState extends State<BankMasukScreen> {
+  var komes = NumberFormat("#,##0.00", "en_US");
   @override
   void initState() {
-    Provider.of<BankmasukController>(context, listen: false).initData();
+    Provider.of<BankmController>(context, listen: false).initData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BankmasukController>(
+    return Consumer<BankmController>(
         builder: (context, bankmasukController, child) {
       return Scaffold(
         appBar: AppBar(
@@ -108,88 +108,6 @@ class _BankMasukScreenState extends State<BankMasukScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        bankmasukController.proses_export_detail();
-                      } else if (value == 2) {
-                        bankmasukController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (bankmasukController.index_terpilih != null) {
-                    bankmasukController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -335,22 +253,22 @@ class _BankMasukScreenState extends State<BankMasukScreen> {
                 ),
               ),
               Expanded(
-                child: (bankmasukController.data_order_penjualan_list.length >
+                child: (bankmasukController.data_bankm_list.length >
                         0)
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
                         itemCount: bankmasukController
-                            .data_order_penjualan_list.length,
+                            .data_bankm_list.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return OrderPenjualanCard(index, pressEdit: () {
+                          return BankmCard(index, pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => AddBankMasukScreen(
                                           true,
                                           data_edit: bankmasukController
-                                              .data_order_penjualan_list[index],
+                                              .data_bankm_list[index],
                                         ))).then((value) {
                               if (value != null) {
                                 if (value) {
@@ -365,8 +283,8 @@ class _BankMasukScreenState extends State<BankMasukScreen> {
                               if (value != null) {
                                 if (value) {
                                   bankmasukController
-                                      .deleteBankmasuk(bankmasukController
-                                              .data_order_penjualan_list[index]
+                                      .deleteBankm(bankmasukController
+                                              .data_bankm_list[index]
                                           ['NO_BUKTI'])
                                       .then((value) {
                                     if (value) {

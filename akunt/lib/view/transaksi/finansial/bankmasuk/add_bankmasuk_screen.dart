@@ -1,15 +1,19 @@
+import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/bankmasuk_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
 import 'package:akunt/model/master/finansial/data_account.dart';
-import 'package:akunt/view/bankmasuk/pilih_account.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_customer.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_account.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_currency.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/widget/add_bankmasuk_card.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
-import 'package:akunt/view/bankmasuk/widget/add_bankmasuk_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddBankMasukScreen extends StatefulWidget {
@@ -25,24 +29,24 @@ class AddBankMasukScreen extends StatefulWidget {
 class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataAccount>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
+  var f = NumberFormat("#,##0.00", "en_US");
 
   _AddBankMasukScreenState();
 
   @override
   void initState() {
     if (widget.isModeEdit) {
-      Provider.of<BankmasukController>(context, listen: false)
-          .initData_editBankmasuk(widget.data_edit);
+      Provider.of<BankmController>(context, listen: false)
+          .initData_editBankm(widget.data_edit);
     } else {
-      Provider.of<BankmasukController>(context, listen: false)
-          .initData_addBankmasuk();
+      Provider.of<BankmController>(context, listen: false).initData_addBankm();
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BankmasukController>(
+    return Consumer<BankmController>(
         builder: (context, bankmasukController, child) {
       return Scaffold(
         backgroundColor: kBackgroundColor,
@@ -84,7 +88,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
               child: InkWell(
                 onTap: () {
                   if (widget.isModeEdit) {
-                    bankmasukController.editBankmasuk().then((value) {
+                    bankmasukController.editBankm().then((value) {
                       if (value != null) {
                         if (value) {
                           Navigator.pop(context, true);
@@ -92,7 +96,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                       }
                     });
                   } else {
-                    bankmasukController.saveBankmasuk().then((value) {
+                    bankmasukController.saveBankm().then((value) {
                       if (value != null) {
                         if (value) {
                           showAnimatedDialog_withCallBack(
@@ -102,7 +106,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
-                                bankmasukController.initData_addBankmasuk();
+                                bankmasukController.initData_addBankm();
                                 bankmasukController.notifyListeners();
                               } else {
                                 bankmasukController.notifyListeners();
@@ -188,7 +192,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
                                         controller: bankmasukController
-                                            .nobuktiController,
+                                            .no_buktiController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -206,7 +210,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -265,7 +269,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                                       .chooseDate;
                                           bankmasukController
                                                   .tanggalController.text =
-                                              bankmasukController.format_tanggal
+                                              bankmasukController
+                                                  .format_tanggal
                                                   .format(bankmasukController
                                                       .chooseDate);
                                         },
@@ -275,7 +280,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 3, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -291,7 +296,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Cash#",
+                                      "Bank#",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -309,8 +314,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            bankmasukController.bacnoController,
+                                        controller: bankmasukController
+                                            .bacnoController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -346,7 +351,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -354,7 +359,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Cash-Nm",
+                                      "Bank-Nm",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -372,8 +377,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller:
-                                            bankmasukController.bnamaController,
+                                        controller: bankmasukController
+                                            .bnamaController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -395,7 +400,296 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 3, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Currency",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            bankmasukController.currController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihAccount(
+                                                  bankmasukController
+                                                          .currController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : bankmasukController
+                                                          .currnmController
+                                                          .text,
+                                                  bankmasukController),
+                                              isFlip: false);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Curr-Nm",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: bankmasukController
+                                            .currnmController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Rate",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            bankmasukController.rateController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Kode Supplier",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            bankmasukController.kodeController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihAccount(
+                                                  bankmasukController
+                                                          .kodeController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : bankmasukController
+                                                          .namaController.text,
+                                                  bankmasukController),
+                                              isFlip: false);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Nama",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            bankmasukController.namaController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 3, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -429,8 +723,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: bankmasukController
-                                            .keteranganController,
+                                        controller:
+                                            bankmasukController.ketController,
                                         // readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -578,9 +872,9 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Text(
-                        "Acc#",
+                        "Kode",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -600,6 +894,16 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                     Expanded(
                       flex: 2,
                       child: Text(
+                        "No Faktur",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
                         "Uraian",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
@@ -610,7 +914,67 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                     Expanded(
                       flex: 2,
                       child: Text(
+                        "Jml Invoice",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
                         "Jumlah",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Jumlah (Rp)",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Uang Muka",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Currency",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Rate",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "No Inv",
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

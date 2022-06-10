@@ -8,7 +8,7 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/model/master/operasional/data_brg.dart';
-import 'package:akunt/view/transaksi/operasional/so/pilih_supplier.dart';
+import 'package:akunt/view/transaksi/operasional/so/pilih_customer.dart';
 import 'package:akunt/view/transaksi/operasional/so/pilih_account.dart';
 import 'package:akunt/view/transaksi/operasional/so/pilih_currency.dart';
 import 'package:akunt/view/transaksi/operasional/so/widget/add_so_card.dart';

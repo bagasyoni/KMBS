@@ -8,12 +8,12 @@ exports.index = function (req, res) {
     response.ok('aplikasi rest api berjalan', res)
 };
 
-///========================/// TRANSAKSI KAS MASUK ///========================///
-exports.kasm_paginate = function (req, res) {
+///========================/// TRANSAKSI MEMO ///========================///
+exports.memo_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from kas where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from memo where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -25,9 +25,9 @@ exports.kasm_paginate = function (req, res) {
         });
 }
 
-exports.count_kasmpaginate = function (req, res) {
+exports.count_memopaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from kas where TYP='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from memo where TYP='' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='M')", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -38,7 +38,7 @@ exports.count_kasmpaginate = function (req, res) {
 }
 
 ///HEADER
-exports.tambahheaderkasm = function (req, res) {
+exports.tambahheadermemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
@@ -47,22 +47,17 @@ exports.tambahheaderkasm = function (req, res) {
     var CURR = req.body.CURR;
     var CURRNM = req.body.CURRNM;
     var RATE = req.body.RATE;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
     var KET = req.body.KET;
     var PER = req.body.PER;
-    var JUMLAH1 = req.body.JUMLAH1;
-    var JUMLAH = req.body.JUMLAH;
+    var DEBET = req.body.DEBET;
+    var KREDIT = req.body.KREDIT;
+    var DEBET1 = req.body.DEBET11;
+    var KREDIT1 = req.body.KREDIT1;
     var USRIN = req.body.USRIN;
     var TG_IN = req.body.TG_IN;
-    var UM = req.body.UM;
-    var KODECAB = req.body.KODECAB;
-    var NAMACAB = req.body.NAMACAB;
-    var BRAND = req.body.BRAND;
-    var TC = req.body.TC;
     var FLAG = req.body.FLAG;
 
-    connection.query("INSERT INTO kas (NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, PER, JUMLAH1, JUMLAH, USRIN, TG_IN, UM, KODECAB, NAMACAB, BRAND, TC, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, PER, JUMLAH1, JUMLAH, USRIN, TG_IN, UM, KODECAB, NAMACAB, BRAND, TC, FLAG],
+    connection.query("INSERT INTO memo (NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -75,25 +70,25 @@ exports.tambahheaderkasm = function (req, res) {
 };
 
 ///DETAIL
-exports.tambahdetailkasm = function (req, res) {
+exports.tambahdetailmemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var REC = req.body.REC;
     var PER = req.body.PER;
     var TYPE = req.body.TYPE;
     var ACNO = req.body.ACNO;
     var NACNO = req.body.NACNO;
-    var NO_FAKTUR = req.body.NO_FAKTUR;
+    var ACNOB = req.body.ACNOB;
+    var NACNOB = req.body.NACNOB;
     var URAIAN = req.body.URAIAN;
-    var JUMLAHINV = req.body.JUMLAHINV;
+    var DEBET = req.body.DEBET;
+    var DEBET1 = req.body.DEBET1;
+    var KREDIT = req.body.KREDIT;
+    var KREDIT1 = req.body.KREDIT1;
     var JUMLAH = req.body.JUMLAH;
     var JUMLAH1 = req.body.JUMLAH1;
     var FLAG = req.body.FLAG;
-    var UM = req.body.UM;
-    var CURRD = req.body.CURRD;
-    var RATED = req.body.RATED;
-    var NOINV = req.body.NOINV;
 
-    connection.query("INSERT INTO kasd (REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE kas, kasd SET kasd.ID = kas.NO_ID WHERE kasd.NO_BUKTI = kas.NO_BUKTI;", [REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV],
+    connection.query("INSERT INTO memod (REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE memo, memod SET memod.ID = memo.NO_ID WHERE memod.NO_BUKTI = memo.NO_BUKTI;", [REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -105,12 +100,12 @@ exports.tambahdetailkasm = function (req, res) {
         });
 };
 
-exports.tampilkasm = function (req, res) {
+exports.tampilmemo = function (req, res) {
     var nobukti = '%' + req.body.cari + '%';
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYP='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from memo where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='M' AND PER=? AND TYP=''", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -121,7 +116,7 @@ exports.tampilkasm = function (req, res) {
     });
 };
 
-exports.editheaderkasm = function (req, res) {
+exports.editheadermemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
@@ -130,37 +125,32 @@ exports.editheaderkasm = function (req, res) {
     var CURR = req.body.CURR;
     var CURRNM = req.body.CURRNM;
     var RATE = req.body.RATE;
-    var KODE = req.body.KODE;
-    var NAMA = req.body.NAMA;
     var KET = req.body.KET;
     var PER = req.body.PER;
-    var JUMLAH1 = req.body.JUMLAH1;
-    var JUMLAH = req.body.JUMLAH;
+    var DEBET = req.body.DEBET;
+    var KREDIT = req.body.KREDIT;
+    var DEBET1 = req.body.DEBET11;
+    var KREDIT1 = req.body.KREDIT1;
     var USRIN = req.body.USRIN;
     var TG_IN = req.body.TG_IN;
-    var UM = req.body.UM;
-    var KODECAB = req.body.KODECAB;
-    var NAMACAB = req.body.NAMACAB;
-    var BRAND = req.body.BRAND;
-    var TC = req.body.TC;
     var FLAG = req.body.FLAG;
 
-    connection.query("UPDATE kas set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KODE=?, NAMA=?, KET=?, PER=?, JUMLAH1=?, JUMLAH=?, USRIN=?, TG_IN=?, UM=?, UM=?, KODECAB=?, NAMACAB=?, BRAND=?, TC=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, PER, JUMLAH1, JUMLAH, USRIN, TG_IN, UM, KODECAB, NAMACAB, BRAND, TC, FLAG, NO_BUKTI],
+    connection.query("UPDATE memo set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KET=?, PER=?, DEBET=?, KREDIT=?, DEBET1=?, KREDIT1=?, USRIN=?, TG_IN=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
             } else {
 
-                response.ok('Berhasil Edit Kas Header', res);
+                response.ok('Berhasil Edit Memo Header', res);
 
             }
         });
 };
 
-exports.modalkasm = function (req, res) {
+exports.modalmemo = function (req, res) {
     var cari = '%' + req.body.cari + '%';
     if ([cari] != '') {
-        connection.query("select * from kas where BACNO like ? or BNAMA like ? order by BACNO", [cari, cari],
+        connection.query("select * from memo where BACNO like ? or BNAMA like ? order by BACNO", [cari, cari],
             function (error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -171,7 +161,7 @@ exports.modalkasm = function (req, res) {
                 }
             });
     } else {
-        connection.query("select * from kas order by BACNO",
+        connection.query("select * from memo order by BACNO",
             function (error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -184,9 +174,9 @@ exports.modalkasm = function (req, res) {
     };
 };
 
-exports.carikasm = function (req, res) {
+exports.carimemo = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKM'", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("select * from memo where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='M' and TYPE=''", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -198,9 +188,9 @@ exports.carikasm = function (req, res) {
         });
 }
 
-exports.hapuskasm = function (req, res) {
+exports.hapusmemo = function (req, res) {
     var no_bukti = req.body.no_bukti;
-    connection.query("DELETE from kas where NO_BUKTI=?; DELETE from kasd where NO_BUKTI=?", [no_bukti, no_bukti],
+    connection.query("DELETE from memo where NO_BUKTI=?; DELETE from memod where NO_BUKTI=?", [no_bukti, no_bukti],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -213,10 +203,10 @@ exports.hapuskasm = function (req, res) {
 }
 
 ///SELECT DETAIL TRANSAKSI
-exports.ambilkasmdetail = function (req, res) {
+exports.ambilmemodetail = function (req, res) {
     var nobukti = req.body.cari;
     // var filter_cari = '%'+req.body.cari+'%';
-    connection.query("SELECT * from kas where NO_BUKTI=?", [nobukti],
+    connection.query("SELECT * from memo where NO_BUKTI=?", [nobukti],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
