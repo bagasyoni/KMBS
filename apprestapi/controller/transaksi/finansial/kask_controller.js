@@ -225,3 +225,16 @@ exports.ambilkaskdetail = function (req, res) {
             }
         });
 }
+
+exports.carihutangkask = function (req, res) {
+    var cari = req.body.cari;
+    connection.query("SELECT * FROM (SELECT hut.NO_BUKTI, hut.TGL, hut.KODES, hut.NAMAS, hutd.ACNO, account.NAMA AS NACNO, SUM(hutd.HSISA) AS SISA, ROUND(SUM((HSISA/HTOTAL) * JUMLAHRP),4) AS JUMLAHRP, CONCAT(TRIM(hutd.NO_BUKTI), TRIM(hutd.ACNO)) AS INFO, hut.CURR, hut.RATE, '' AS NOINV FROM hut, hutd, account WHERE hut.NO_BUKTI=hutd.NO_BUKTI AND hutd.HSISA<>0 AND hutd.ACNO=account.ACNO GROUP BY hut.NO_BUKTI, hutd.ACNO UNION ALL SELECT hutang.NO_BUKTI, hutang.TGL, hutang.KODES, hutang.NAMAS, hutang.ACNO, account.NAMA AS NACNO, SUM(hutang.SISA) AS SISA, ROUND(SUM((SISA/NETT)*JUMLAHRP),4) AS JUMLAHRP, CONCAT (TRIM(hutang.NO_BUKTI), TRIM(hutang.ACNO)) AS INFO, hutang.FLAG, hutang.CURR, hutang.RATE, '' AS NOINV FROM hutang, account WHERE hutang.ACNO=account.ACNO AND hutang.flag='UM' AND hutang.SISA<>0 GROUP BY hutang.NO_BUKTI, hutang.ACNO) AS BBB WHERE NO_BUKTI<>''", [cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(rows, res);
+
+            }
+        });
+}

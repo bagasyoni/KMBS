@@ -3,14 +3,14 @@ import 'package:http/http.dart' as http;
 
 import '../../../constants.dart';
 
-class model_kask {
+class model_girom {
   String baseUrl = base_url;
 
   /// paginate
-  Future<List> data_kaskpaginate(
+  Future<List> data_girompaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/kaskpaginate"),
+      Uri.parse("${baseUrl}:3000/girompaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -22,9 +22,9 @@ class model_kask {
   }
 
   ///paginate
-  Future countKaskPaginate(String key_cari) async {
+  Future countGiromPaginate(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countkaskpaginate"),
+      Uri.parse("${baseUrl}:3000/countgirompaginate"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
@@ -33,23 +33,23 @@ class model_kask {
 
   Future<List> data_modal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_kask"),
+      Uri.parse("${baseUrl}:3000/modal_girom"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> insert_kask(Map data_insert) async {
+  Future<List> insert_girom(Map data_insert) async {
     try {
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_kask"),
+        Uri.parse("${baseUrl}:3000/tambah_header_girom"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
           "TYPE": data_insert['TYPE'].toString(),
           "BACNO": data_insert['BACNO'].toString(),
-          "BNAMA": data_insert['BANAMA'].toString(),
+          "BNAMA": data_insert['BNAMA'].toString(),
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
@@ -61,7 +61,8 @@ class model_kask {
           "JUMLAH": data_insert['JUMLAH'].toString(),
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
-          "UM": data_insert['UM'].toString(),
+          "BG": data_insert['BG'].toString(),
+          "JTEMPO": data_insert['JTEMPO'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -69,7 +70,7 @@ class model_kask {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_kask"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_girom"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
@@ -95,19 +96,19 @@ class model_kask {
     }
   }
 
-  Future<List> update_kask(Map data_insert) async {
+  Future<List> update_girom(Map data_insert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
         body: {
-          "no_bukti": data_insert['no_bukti'].toString(),
+          "no_bukti": data_insert['NO_BUKTI'].toString(),
           "kolom": "NO_BUKTI",
-          "tabel": "kasd"
+          "tabel": "girod"
         },
       );
 
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_kask"),
+        Uri.parse("${baseUrl}:3000/edit_header_girom"),
         body: {
           "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
           "TGL": data_insert['TGL'].toString(),
@@ -125,7 +126,7 @@ class model_kask {
           "JUMLAH": data_insert['JUMLAH'].toString(),
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
-          "UM": data_insert['UM'].toString(),
+          "BG": data_insert['BG'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -133,7 +134,7 @@ class model_kask {
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_kask"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_girom"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
@@ -179,9 +180,9 @@ class model_kask {
     return results2['data'].toList();
   }
 
-  Future<List> cari_kask(String cari) async {
+  Future<List> cari_girom(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_kask"),
+      Uri.parse("${baseUrl}:3000/cari_girom"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
@@ -189,10 +190,10 @@ class model_kask {
   }
 
   ///SELECT HEADER
-  Future<List> select_kask(
+  Future<List> select_girom(
       String cari, String start_date, String end_date, String periode) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_kask"),
+      Uri.parse("${baseUrl}:3000/tampil_girom"),
       body: {
         "cari": cari,
         "tglawal": start_date,
@@ -205,7 +206,7 @@ class model_kask {
   }
 
   ///SELECT DETAIL
-  Future<List> select_kask_detail(
+  Future<List> select_girom_detail(
       String no_bukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
@@ -215,19 +216,10 @@ class model_kask {
     return results2['data'].toList();
   }
 
-  Future<List> delete_kask(String no_bukti) async {
+  Future<List> delete_girom(String no_bukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapus_kask"),
+      Uri.parse("${baseUrl}:3000/hapus_girom"),
       body: {"no_bukti": no_bukti},
-    );
-    var results2 = json.decode(response.body);
-    return results2['data'].toList();
-  }
-
-    Future<List> cari_hutang_kask(String key_cari) async {
-    final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_hutang_kask"),
-      body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();

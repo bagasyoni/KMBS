@@ -100,7 +100,7 @@ class model_bankk {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
         body: {
-          "no_bukti": data_insert['no_bukti'].toString(),
+          "no_bukti": data_insert['NO_BUKTI'].toString(),
           "kolom": "NO_BUKTI",
           "tabel": "bankd"
         },

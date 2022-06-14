@@ -1,55 +1,92 @@
-import 'package:akunt/mysql/koneksi_mysql.dart';
-import 'package:akunt/controller/login_controller.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../constants.dart';
+import '../../../constants.dart';
 
-class model_kasmasuk {
-  static String table = 'kas';
-  static String table_detail = 'kasd';
-  static String tipe = 'BKM';
-  koneksi_mysql m_koneksi = koneksi_mysql();
+class model_kasm {
   String baseUrl = base_url;
 
-  Future<List> insert_kasmasuk(Map data_insert) async {
+  /// paginate
+  Future<List> data_kasmpaginate(
+      String cari, int paramoffset, int paramlimit) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/kasmpaginate"),
+      body: {
+        "cari": cari,
+        "offset": paramoffset.toString(),
+        "limit": paramlimit.toString()
+      },
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  ///paginate
+  Future countKasmPaginate(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/countkasmpaginate"),
+      body: {"cari": key_cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  Future<List> data_modal(String cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/modal_kasm"),
+      body: {"cari": cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  Future<List> insert_kasm(Map data_insert) async {
     try {
-      ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_kas"),
+        Uri.parse("${baseUrl}:3000/tambah_header_kasm"),
         body: {
-          "nobukti": data_insert['no_bukti'].toString(),
-          "tgl": data_insert['tanggal'].toString(),
-          "per": data_insert['per'].toString(),
-          "tipe": "BKM",
-          "flag": "K",
-          "ket": data_insert['keterangan'].toString(),
-          "user": LoginController.nama_staff.toString(),
-          "bacno": data_insert['bacno'].toString(),
-          "bnama": data_insert['nama'].toString(),
-          "jumlah": data_insert['sumjumlah'].toString(),
+          "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+          "TGL": data_insert['TGL'].toString(),
+          "TYPE": data_insert['TYPE'].toString(),
+          "BACNO": data_insert['BACNO'].toString(),
+          "BNAMA": data_insert['BANAMA'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
+          "KODE": data_insert['KODE'].toString(),
+          "NAMA": data_insert['NAMA'].toString(),
+          "KET": data_insert['KET'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "JUMLAH1": data_insert['JUMLAH1'].toString(),
+          "JUMLAH": data_insert['JUMLAH'].toString(),
+          "USRIN": data_insert['USRIN'].toString(),
+          "TG_IN": data_insert['TG_IN'].toString(),
+          "UM": data_insert['UM'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
         },
       );
 
-      ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
-      // PER,TYPE,ACNO,NACNO,URAIAN,JUMLAH
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_kas"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_kasm"),
           body: {
-            "rec": (i + 1).toString(),
-            "nobukti": data_insert['no_bukti'].toString(),
-            "per": data_insert['per'].toString(),
-            "tipe": "BKM",
-            "flag": "K",
-            "acno": data_detail[i]['acno'].toString(),
-            "nacno": data_detail[i]['nacno'].toString(),
-            "uraian": data_detail[i]['uraian'].toString(),
-            "jumlah": data_detail[i]['jumlah'].toString(),
+            "REC": (i + 1).toString(),
+            "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "PER": data_insert['PER'].toString(),
+            "TYPE": data_insert['TYPE'].toString(),
+            "ACNO": data_detail[i]['ACNO'].toString(),
+            "NACNO": data_detail[i]['NACNO'].toString(),
+            "NO_FAKTUR": data_detail[i]['NO_FAKTUR'].toString(),
+            "URAIAN": data_detail[i]['URAIAN'].toString(),
+            "JUMLAHINV": data_detail[i]['JUMLAHINV'].toString(),
+            "JUMLAH": data_detail[i]['JUMLAH'].toString(),
+            "JUMLAH1": data_detail[i]['JUMLAH1'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
+            "UM": data_detail[i]['UM'].toString(),
+            "CURRD": data_detail[i]['CURRD'].toString(),
+            "RATED": data_detail[i]['RATED'].toString(),
+            "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
       }
@@ -58,7 +95,7 @@ class model_kasmasuk {
     }
   }
 
-  Future<List> update_kasmasuk(Map data_insert) async {
+  Future<List> update_kasm(Map data_insert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
@@ -69,52 +106,57 @@ class model_kasmasuk {
         },
       );
 
-      ///DATA HEADER
-      ///AMBIL DARI CONTROLLER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_kas"),
+        Uri.parse("${baseUrl}:3000/edit_header_kasm"),
         body: {
-          "nobukti": data_insert['no_bukti'].toString(),
-          "tgl": data_insert['tanggal'].toString(),
-          "ket": data_insert['keterangan'].toString(),
-          "user": LoginController.nama_staff.toString(),
-          "bacno": data_insert['bacno'].toString(),
-          "bnama": data_insert['nama'].toString(),
-          "jumlah": data_insert['sumjumlah'].toString(),
+          "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+          "TGL": data_insert['TGL'].toString(),
+          "TYPE": data_insert['TYPE'].toString(),
+          "BACNO": data_insert['BACNO'].toString(),
+          "BNAMA": data_insert['BANAMA'].toString(),
+          "CURR": data_insert['CURR'].toString(),
+          "CURRNM": data_insert['CURRNM'].toString(),
+          "RATE": data_insert['RATE'].toString(),
+          "KODE": data_insert['KODE'].toString(),
+          "NAMA": data_insert['NAMA'].toString(),
+          "KET": data_insert['KET'].toString(),
+          "PER": data_insert['PER'].toString(),
+          "JUMLAH1": data_insert['JUMLAH1'].toString(),
+          "JUMLAH": data_insert['JUMLAH'].toString(),
+          "USRIN": data_insert['USRIN'].toString(),
+          "TG_IN": data_insert['TG_IN'].toString(),
+          "UM": data_insert['UM'].toString(),
+          "FLAG": data_insert['FLAG'].toString(),
         },
       );
 
-      ///DATA DETAIL
-      ///AMBIL DARI CONTROLLER
-      // PER,TYPE,ACNO,NACNO,URAIAN,JUMLAH
       List data_detail = data_insert['tabeld'];
       for (int i = 0; i < data_detail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_kas"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_kasm"),
           body: {
-            "rec": (i + 1).toString(),
-            "nobukti": data_insert['no_bukti'].toString(),
-            "per": data_insert['per'].toString(),
-            "tipe": "BKM",
-            "flag": "K",
-            "acno": data_detail[i]['acno'].toString(),
-            "nacno": data_detail[i]['nacno'].toString(),
-            "uraian": data_detail[i]['uraian'].toString(),
-            "jumlah": data_detail[i]['jumlah'].toString(),
+            "REC": (i + 1).toString(),
+            "NO_BUKTI": data_insert['NO_BUKTI'].toString(),
+            "PER": data_insert['PER'].toString(),
+            "TYPE": data_insert['TYPE'].toString(),
+            "ACNO": data_detail[i]['ACNO'].toString(),
+            "NACNO": data_detail[i]['NACNO'].toString(),
+            "NO_FAKTUR": data_detail[i]['NO_FAKTUR'].toString(),
+            "URAIAN": data_detail[i]['URAIAN'].toString(),
+            "JUMLAHINV": data_detail[i]['JUMLAHINV'].toString(),
+            "JUMLAH": data_detail[i]['JUMLAH'].toString(),
+            "JUMLAH1": data_detail[i]['JUMLAH1'].toString(),
+            "FLAG": data_insert['FLAG'].toString(),
+            "UM": data_detail[i]['UM'].toString(),
+            "CURRD": data_detail[i]['CURRD'].toString(),
+            "RATED": data_detail[i]['RATED'].toString(),
+            "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
       }
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  Future<List> countKasMasuk(String date) async {
-    var konek = await m_koneksi.koneksi();
-    var result = await konek
-        .query("SELECT no_bukti FROM $table where TGL like '$date%';");
-    await konek.close();
-    return result.toList();
   }
 
   Future<List> check_no_bukti(
@@ -137,35 +179,33 @@ class model_kasmasuk {
     return results2['data'].toList();
   }
 
-  ///SELECT HEADER
-  Future<List> select_kasmasuk(
-      String cari, String start_date, String end_date) async {
+  Future<List> cari_kasm(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_kas_masuk"),
-      body: {"cari": cari, "tglawal": start_date, "tglakhir": end_date},
+      Uri.parse("${baseUrl}:3000/cari_kasm"),
+      body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> select_kasmasuk_aktif(String cari, String sales, String customer,
-      String start_date, String end_date) async {
-    var konek = await m_koneksi.koneksi();
-    String filter_extra = "";
-    if (sales.isNotEmpty) {
-      filter_extra = " and sales = '$sales' ";
-    }
-    if (customer.isNotEmpty) {
-      filter_extra += " and customer = '$customer' ";
-    }
-    var results2 = await konek.query(
-        "select * from $table where (NO_BUKTI like '%$cari%') $filter_extra and POSTED = '0' and TGL between '$start_date' and '$end_date';");
-    await konek.close();
-    return results2.toList();
+  ///SELECT HEADER
+  Future<List> select_kasm(
+      String cari, String start_date, String end_date, String periode) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/tampil_kasm"),
+      body: {
+        "cari": cari,
+        "tglawal": start_date,
+        "tglakhir": end_date,
+        "periode": periode
+      },
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 
   ///SELECT DETAIL
-  Future<List> select_kasmasuk_detail(
+  Future<List> select_kasm_detail(
       String no_bukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
@@ -175,21 +215,12 @@ class model_kasmasuk {
     return results2['data'].toList();
   }
 
-  Future<List> delete_kasmasuk(String no_bukti) async {
-    var konek = await m_koneksi.koneksi();
-    var results1 =
-        await konek.query("delete from $table where NO_BUKTI = '$no_bukti';");
-    var results2 = await konek
-        .query("delete from $table_detail where NO_BUKTI = '$no_bukti';");
-    await konek.close();
-    return results2.toList();
-  }
-
-  Future<List> update_status_diterima(String no_bukti) async {
-    var konek = await m_koneksi.koneksi();
-    var results = await konek
-        .query("update $table set POSTED = '1' where NO_BUKTI = '$no_bukti';");
-    await konek.close();
-    return results.toList();
+  Future<List> delete_kasm(String no_bukti) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/hapus_kasm"),
+      body: {"no_bukti": no_bukti},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
   }
 }

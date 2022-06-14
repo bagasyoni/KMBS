@@ -295,6 +295,8 @@ module.exports = function (app) {
         .post(kaskjs.ambilkaskdetail);
     app.route('/hapus_kask')
         .post(kaskjs.hapuskask);
+    app.route('/cari_hutang_kask')
+        .post(kaskjs.carihutangkask);
 
     ///====================/// BANK MASUK ///====================///
     app.route('/bankmpaginate')

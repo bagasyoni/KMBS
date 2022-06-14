@@ -1,27 +1,23 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/invoice/invoice_order_penjualan.dart';
 import 'package:akunt/model/master/finansial/model_account.dart';
 import 'package:akunt/model/master/finansial/data_account.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:akunt/model/model_kasmasuk.dart';
+import 'package:akunt/model/transaksi/finansial/model_kasmasuk.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../login_controller.dart';
 
-class KasmasukController with ChangeNotifier {
+class KasmController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   SharedPreferences prefs;
-  model_kasmasuk m_order = model_kasmasuk();
+  model_kasm m_kasm = model_kasm();
   TextEditingController searchController = TextEditingController();
   DateRangePickerController filter_tanggalController =
       new DateRangePickerController();
-  List data_order_penjualan_list = [];
+  List data_kasm_list = [];
+  static List home_kasm_list = [];
   bool isEnable_button = true;
   String selectedDate = '';
   String dateCount = '';
@@ -30,7 +26,65 @@ class KasmasukController with ChangeNotifier {
   String rangeCount = '';
   String tanggal_awal = "";
   String tanggal_akhir = "";
+  double total = 0;
+  double qty = 0;
+  double disc = 0;
+  double disc1 = 0;
+  double ppn = 0;
+  double ppn1 = 0;
+  double pph = 0;
+  double pph1 = 0;
   int index_terpilih;
+  TextEditingController c_page = new TextEditingController();
+  List<DropdownMenuItem<int>> dropdownLimit;
+  int totalNotaTerima = 0;
+  int offset = 0;
+  int limit = 50;
+  double pageCount = 1;
+  int page_index = 0;
+
+  void limitPaging() {
+    dropdownLimit = [];
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('10'),
+      value: 10,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('30'),
+      value: 30,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('50'),
+      value: 50,
+    ));
+    dropdownLimit.add(DropdownMenuItem(
+      child: Text('100'),
+      value: 100,
+    ));
+    limit = dropdownLimit[0].value;
+  }
+
+  ///paginate
+  Future<void> selectDataPaginate(bool reload) async {
+    if (reload) {
+      offset = 0;
+      page_index = 0;
+    }
+    data_kasm_list =
+        await m_kasm.data_kasmpaginate(searchController.text, offset, limit);
+    home_kasm_list =
+        await m_kasm.data_kasmpaginate(searchController.text, offset, limit);
+    var count = await m_kasm.countKasmPaginate(searchController.text);
+    totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
+    pageCount = totalNotaTerima / limit;
+    notifyListeners();
+  }
+
+  void modalData(String cari) async {
+    data_kasm_list = await model_kasm().data_modal(cari);
+    home_kasm_list = await model_kasm().data_modal(cari);
+    notifyListeners();
+  }
 
   Future<void> baca_periodePrefs() async {
     prefs = await _prefs;
@@ -39,12 +93,24 @@ class KasmasukController with ChangeNotifier {
   }
 
   Future<void> select_data() async {
-    data_order_penjualan_list = await m_order.select_kasmasuk(
-        searchController.text, tanggal_awal, tanggal_akhir);
+    data_kasm_list = await m_kasm.select_kasm(
+        searchController.text, tanggal_awal, tanggal_akhir, perx);
+    home_kasm_list = await m_kasm.select_kasm(
+        searchController.text, tanggal_awal, tanggal_akhir, perx);
+    notifyListeners();
+  }
+
+  void selectData(String cari) async {
+    data_kasm_list = await model_kasm().cari_kasm(cari);
+    home_kasm_list = await model_kasm().cari_kasm(cari);
+    await baca_periodePrefs();
     notifyListeners();
   }
 
   void initData() {
+    c_page.text = '1';
+    limitPaging();
+    selectDataPaginate(true);
     index_terpilih = null;
     tanggal_awal =
         DateFormat('yyyy-MM-dd', "id_ID").format(DateTime.now()).toString();
@@ -54,6 +120,7 @@ class KasmasukController with ChangeNotifier {
         DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString() +
             ' - ' +
             DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString();
+    baca_periodePrefs();
     select_data();
   }
 
@@ -94,122 +161,24 @@ class KasmasukController with ChangeNotifier {
     }
   }
 
-  void proses_export() {
-    if (data_order_penjualan_list.length > 0) {
-      BotToast.showLoading();
-      List header_excel = new List();
-      List isi_excel = new List();
-      header_excel.add("Tanggal");
-      header_excel.add("No bukti");
-      header_excel.add("Sales");
-      header_excel.add("Customer");
-      header_excel.add("keterangan");
-      header_excel.add("Qty");
-      header_excel.add("Total");
-      header_excel.add("Status");
-      for (int i = 0; i < data_order_penjualan_list.length; i++) {
-        Map<String, dynamic> isi_map = new Map<String, dynamic>();
-        isi_map['a'] = data_order_penjualan_list[i]['tanggal'];
-        isi_map['b'] = data_order_penjualan_list[i]['no_bukti'];
-        isi_map['c'] = data_order_penjualan_list[i]['sales'];
-        isi_map['d'] = data_order_penjualan_list[i]['customer'];
-        isi_map['e'] = data_order_penjualan_list[i]['keterangan'];
-        isi_map['f'] = data_order_penjualan_list[i]['total_qty'];
-        isi_map['g'] = data_order_penjualan_list[i]['total_so'];
-        if (data_order_penjualan_list[i]['status'] == 1) {
-          isi_map['h'] = "Diterima";
-        } else {
-          isi_map['h'] = "Belum Diterima";
-        }
-        isi_excel.add(isi_map);
-      }
-      String judul = "Laporan Order Penjualan (${range.replaceAll("/", "")})";
-      config().createExcel(header_excel, isi_excel, judul);
-    } else {
-      Toast("Tidak ada data untuk di export", "", false);
-    }
-  }
-
-  Future<void> proses_export_detail() async {
-    if (index_terpilih != null) {
-      BotToast.showLoading();
-      List header_excel = new List();
-      List header_detail_excel = new List();
-      List isi_excel = new List();
-      List isi_detail_excel = new List();
-      List footer_excel = new List();
-      header_excel.add("Tanggal");
-      header_excel.add("No bukti");
-      header_excel.add("Sales");
-      header_excel.add("Customer");
-      header_excel.add("keterangan");
-      header_excel.add("Status");
-      Map<String, dynamic> map_transaksi = new Map<String, dynamic>();
-      map_transaksi['a'] = data_order_penjualan_list[index_terpilih]['tanggal'];
-      map_transaksi['b'] =
-          data_order_penjualan_list[index_terpilih]['no_bukti'];
-      map_transaksi['c'] = data_order_penjualan_list[index_terpilih]['sales'];
-      map_transaksi['d'] =
-          data_order_penjualan_list[index_terpilih]['customer'];
-      map_transaksi['e'] =
-          data_order_penjualan_list[index_terpilih]['keterangan'];
-      if (data_order_penjualan_list[index_terpilih]['status'] == 1) {
-        map_transaksi['f'] = "Diterima";
-      } else {
-        map_transaksi['f'] = "Belum Diterima";
-      }
-      isi_excel.add(map_transaksi);
-
-      header_detail_excel.add("Kode Barang");
-      header_detail_excel.add("Nama Barang");
-      header_detail_excel.add("Satuan");
-      header_detail_excel.add("Qty");
-      header_detail_excel.add("Harga");
-      header_detail_excel.add("SubTotal");
-      List data_account = await m_order.select_kasmasuk_detail(
-          data_order_penjualan_list[index_terpilih]['no_bukti'],
-          "NO_BUKTI",
-          "kas");
-      for (int i = 0; i < data_account.length; i++) {
-        Map<String, dynamic> isi_map = new Map<String, dynamic>();
-        isi_map['a'] = data_account[i]['kd_brg'];
-        isi_map['b'] = data_account[i]['na_brg'];
-        isi_map['c'] = data_account[i]['satuan'];
-        isi_map['d'] = data_account[i]['qty'];
-        isi_map['e'] = data_account[i]['harga_so'];
-        isi_map['f'] = data_account[i]['sub_total'];
-        isi_detail_excel.add(isi_map);
-      }
-      footer_excel.add("");
-      footer_excel.add("");
-      footer_excel.add("Jumlah");
-      footer_excel.add(data_order_penjualan_list[index_terpilih]['total_qty']);
-      footer_excel.add("Total");
-      footer_excel.add(data_order_penjualan_list[index_terpilih]['total_so']);
-      String judul =
-          "Invoice Order Penjualan (${data_order_penjualan_list[index_terpilih]['no_bukti']})";
-      config().createExcel2(header_excel, header_detail_excel, isi_excel,
-          isi_detail_excel, footer_excel, judul);
-    } else {
-      Toast("Silahkan pilih 1 invoice untuk di download !", "", false);
-    }
-  }
-
-  Future<void> proses_print() async {
-    List data_account = await m_order.select_kasmasuk_detail(
-        data_order_penjualan_list[index_terpilih]['no_bukti'],
-        "NO_BUKTI",
-        "kas");
-    InvoiceOrderPenjualan()
-        .proses_print(data_order_penjualan_list[index_terpilih], data_account);
-  }
-
-  //add order pembelian
-  TextEditingController nobuktiController = TextEditingController();
+  TextEditingController no_buktiController = TextEditingController();
   TextEditingController tanggalController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
   TextEditingController bacnoController = TextEditingController();
   TextEditingController bnamaController = TextEditingController();
-  TextEditingController keteranganController = TextEditingController();
+  TextEditingController currController = TextEditingController();
+  TextEditingController currnmController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
+  TextEditingController kodeController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController ketController = TextEditingController();
+  TextEditingController perController = TextEditingController();
+  TextEditingController jumlah1Controller = TextEditingController();
+  TextEditingController jumlahController = TextEditingController();
+  TextEditingController usrinController = TextEditingController();
+  TextEditingController tg_inController = TextEditingController();
+  TextEditingController umController = TextEditingController();
+  TextEditingController flagController = TextEditingController();
   final format_tanggal = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
@@ -222,32 +191,38 @@ class KasmasukController with ChangeNotifier {
   String uraian, reff;
   int no_urut = 0;
   List<DataAccount> accountList = List<DataAccount>();
-  bool status_kasmasuk = true;
 
-  Future<void> initData_addKasmasuk() async {
+  Future<void> initData_addKasm() async {
     data_account_keranjang = new List<DataAccount>();
-    nobuktiController.clear();
+    no_buktiController.clear();
+    tanggalController.clear();
+    typeController.clear();
     bacnoController.clear();
     bnamaController.clear();
-    keteranganController.clear();
+    currController.clear();
+    currnmController.clear();
+    rateController.clear();
+    kodeController.clear();
+    namaController.clear();
+    ketController.clear();
+    perController.clear();
+    jumlah1Controller.clear();
+    jumlahController.clear();
+    usrinController.clear();
+    tg_inController.clear();
+    umController.clear();
+    flagController.clear();
     tanggalController.text = format_tanggal.format(chooseDate);
     sumQty = 0;
     sumTotal = 0;
     await baca_periodePrefs();
-    await m_order
-        .countKasMasuk(format_created_at2.format(DateTime.now()))
-        .then((value) {
+    await m_kasm.get_no_bukti('KM', 'NO_BUKTI', 'kas').then((value) {
       if (value != null) {
-        if (value.length > 0) {
-          no_urut = value.length;
-        } else {
-          no_urut = 0;
-        }
-        nobuktiController.text =
-            "BKM${format_no_bukti.format(DateTime.now())}K-${no_urut + 1}";
+        no_buktiController.text =
+            "KM${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
-    await model_account().data_accountcari("").then((value) {
+    await model_account().cari_account("").then((value) {
       if (value != null) {
         accountList.clear();
         for (int i = 0; i < value.length; i++) {
@@ -257,17 +232,27 @@ class KasmasukController with ChangeNotifier {
     });
   }
 
-  ///HEADER///
-  Future<void> initData_editKasmasuk(var data_edit) async {
-    nobuktiController.text = data_edit['NO_BUKTI'];
+  Future<void> initData_editKasm(var data_edit) async {
+    no_buktiController.text = data_edit['NO_BUKTI'];
     chooseDate = DateTime.parse(data_edit['TGL']);
     tanggalController.text = format_tanggal.format(chooseDate);
+    typeController.text = data_edit['TYPE'];
     bacnoController.text = data_edit['BACNO'];
     bnamaController.text = data_edit['BNAMA'];
-    keteranganController.text = data_edit['KET'];
-    // chooseDate = DateFormat("yyyy-MM-dd").parse(data_edit['TGL']);
-    // status_kasmasuk = data_edit['POSTED'] == 1 ? true : false;
-    List data_lama = await m_order.select_kasmasuk_detail(
+    currController.text = data_edit['CURR'];
+    currnmController.text = data_edit['CURRNM'];
+    rateController.text = data_edit['RATE'];
+    kodeController.text = data_edit['KODE'];
+    namaController.text = data_edit['NAMA'];
+    ketController.text = data_edit['KET'];
+    perController.text = data_edit['PER'];
+    jumlah1Controller.text = data_edit['JUMLAH1'];
+    jumlahController.text = data_edit['JUMLAH'];
+    usrinController.text = data_edit['USRIN'];
+    tg_inController.text = data_edit['TG_IN'];
+    umController.text = data_edit['UM'];
+    flagController.text = data_edit['FLAG'];
+    List data_lama = await m_kasm.select_kasm_detail(
         data_edit['NO_BUKTI'], "NO_BUKTI", "kasd");
     data_account_keranjang = new List<DataAccount>();
 
@@ -276,8 +261,15 @@ class KasmasukController with ChangeNotifier {
         noid: data_lama[i]['NO_ID'],
         acno: data_lama[i]['ACNO'],
         nacno: data_lama[i]['NACNO'],
+        no_faktur: data_lama[i]['NO_FAKTUR'],
         reff: data_lama[i]['URAIAN'],
+        jumlahinv: double.parse(data_lama[i]['JUMLAHINV'].toString()) ?? 0.00,
         jumlah: double.parse(data_lama[i]['JUMLAH'].toString()) ?? 0.00,
+        jumlah1: double.parse(data_lama[i]['JUMLAH1'].toString()) ?? 0.00,
+        um: double.parse(data_lama[i]['UM'].toString()) ?? 0.00,
+        currd: double.parse(data_lama[i]['CURRD'].toString()) ?? 0.00,
+        rated: double.parse(data_lama[i]['RATED'].toString()) ?? 0.00,
+        noinv: data_lama[i]['NOINV'],
       );
       data_account_keranjang.add(mAccount);
     }
@@ -309,29 +301,40 @@ class KasmasukController with ChangeNotifier {
   }
 
   /// data header
-  Future<bool> saveKasmasuk() async {
+  Future<bool> saveKasm() async {
     hitungSubTotal();
-    if (nobuktiController.text.isNotEmpty) {
+    if (no_buktiController.text.isNotEmpty) {
       if (data_account_keranjang.length > 0) {
         BotToast.showLoading();
-        var data_ready = await m_order.check_no_bukti(
-            nobuktiController.text, "NO_BUKTI", "kas");
+        var data_ready = await m_kasm.get_no_bukti(
+            no_buktiController.text, "NO_BUKTI", "kas");
         if (data_ready.length > 0) {
           Toast("Peringatan !",
-              "No bukti '${nobuktiController.text}' sudah ada", false);
+              "No bukti '${no_buktiController.text}' sudah ada", false);
           BotToast.closeAllLoading();
           return false;
         } else {
           Map obj = new Map();
-          obj['tanggal'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['no_bukti'] = nobuktiController.text;
-          obj['bacno'] = bacnoController.text;
-          obj['nama'] = bnamaController.text;
-          obj['sumjumlah'] = sumTotal;
-          obj['keterangan'] = keteranganController.text;
-          obj['per'] = perx;
+          obj['NO_BUKTI'] = no_buktiController.text;
+          obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+          obj['TYPE'] = "BKM";
+          obj['BACNO'] = bacnoController.text;
+          obj['BNAMA'] = bnamaController.text;
+          obj['CURR'] = currController.text;
+          obj['CURRNM'] = currnmController.text;
+          obj['RATE'] = rateController.text;
+          obj['KODE'] = kodeController.text;
+          obj['NAMA'] = namaController.text;
+          obj['KET'] = ketController.text;
+          obj['PER'] = perx;
+          obj['JUMLAH1'] = "0.00";
+          obj['JUMLAH'] = "0.00";
+          obj['USRIN'] = LoginController.nama_staff;
+          obj['TG_IN'] = DateTime.now();
+          obj['UM'] = "0.00";
+          obj['FLAG'] = "K";
           obj['tabeld'] = await baca_tabeld();
-          await m_order.insert_kasmasuk(obj);
+          await m_kasm.insert_kasm(obj);
           BotToast.closeAllLoading();
           return true;
         }
@@ -345,21 +348,32 @@ class KasmasukController with ChangeNotifier {
     }
   }
 
-  Future<bool> editKasmasuk() async {
+  Future<bool> editKasm() async {
     hitungSubTotal();
-    if (nobuktiController.text.isNotEmpty) {
+    if (no_buktiController.text.isNotEmpty) {
       if (data_account_keranjang.length > 0) {
         BotToast.showLoading();
         Map obj = new Map();
-        obj['tanggal'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-        obj['no_bukti'] = nobuktiController.text;
-        obj['bacno'] = bacnoController.text;
-        obj['nama'] = bnamaController.text;
-        obj['sumjumlah'] = sumTotal;
-        obj['keterangan'] = keteranganController.text;
-        obj['per'] = perx;
-        obj['tabeld'] = await baca_tabeld();
-        await m_order.update_kasmasuk(obj);
+        obj['NO_BUKTI'] = no_buktiController.text;
+          obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+          obj['TYPE'] = "BKM";
+          obj['BACNO'] = bacnoController.text;
+          obj['BNAMA'] = bnamaController.text;
+          obj['CURR'] = currController.text;
+          obj['CURRNM'] = currnmController.text;
+          obj['RATE'] = rateController.text;
+          obj['KODE'] = kodeController.text;
+          obj['NAMA'] = namaController.text;
+          obj['KET'] = ketController.text;
+          obj['PER'] = perx;
+          obj['JUMLAH1'] = "0.00";
+          obj['JUMLAH'] = "0.00";
+          obj['USRIN'] = LoginController.nama_staff;
+          obj['TG_IN'] = DateTime.now();
+          obj['UM'] = "0.00";
+          obj['FLAG'] = "K";
+          obj['tabeld'] = await baca_tabeld();
+        await m_kasm.update_kasm(obj);
         BotToast.closeAllLoading();
         Toast("Success !", "Berhasil mengedit data", true);
         return true;
@@ -373,9 +387,9 @@ class KasmasukController with ChangeNotifier {
     }
   }
 
-  Future<bool> deleteKasmasuk(String no_bukti) async {
+  Future<bool> deleteKasm(String no_bukti) async {
     try {
-      var delete = await m_order.delete_kasmasuk(no_bukti);
+      var delete = await m_kasm.delete_kasm(no_bukti);
       await select_data();
       return true;
     } catch (e) {
@@ -387,14 +401,23 @@ class KasmasukController with ChangeNotifier {
   Future<List> baca_tabeld() async {
     List accountList = [];
     for (int i = 0; i < data_account_keranjang.length; i++) {
+      double jumlahinv = data_account_keranjang[i].jumlah;
       double jumlah = data_account_keranjang[i].jumlah;
-      double subTotal = jumlah;
+      double jumlah1 = data_account_keranjang[i].jumlah;
+      double um = data_account_keranjang[i].jumlah;
+      double currd = data_account_keranjang[i].jumlah;
+      double rated = data_account_keranjang[i].jumlah;
       Map obj = new Map();
-      obj['acno'] = data_account_keranjang[i].acno;
-      obj['nacno'] = data_account_keranjang[i].nacno;
-      obj['uraian'] = data_account_keranjang[i].reff;
-      obj['jumlah'] = jumlah ?? 0.00;
-      // obj['sub_total'] = subTotal ?? 0.00;
+      obj['ACNO'] = data_account_keranjang[i].acno;
+      obj['NACNO'] = data_account_keranjang[i].nacno;
+      obj['NO_FAKTUR'] = data_account_keranjang[i].reff;
+      obj['URAIAN'] = data_account_keranjang[i].reff;
+      obj['JUMLAHINV'] = jumlahinv ?? 0.00;
+      obj['JUMLAH'] = jumlah ?? 0.00;
+      obj['JUMLAH1'] = jumlah1 ?? 0.00;
+      obj['UM'] = um ?? 0.00;
+      obj['CURRD'] = currd ?? 0.00;
+      obj['RATED'] = rated ?? 0.00;
       accountList.add(obj);
     }
     return accountList;

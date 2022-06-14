@@ -1,15 +1,18 @@
+import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/kaskeluar_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kaskeluar_controller.dart';
 import 'package:akunt/model/master/finansial/data_account.dart';
-import 'package:akunt/view/kaskeluar/pilih_account.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/pilih_supplier.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/pilih_account.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/pilih_currency.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/widget/add_kaskeluar_card.dart';
 import 'package:akunt/view/base_widget/save_success.dart';
-import 'package:akunt/view/kaskeluar/widget/add_kaskeluar_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddKasKeluarScreen extends StatefulWidget {
@@ -26,23 +29,24 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
   GlobalKey<AutoCompleteTextFieldState<DataAccount>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
 
+  var f = NumberFormat("#,##0.00", "en_US");
+
   _AddKasKeluarScreenState();
 
   @override
   void initState() {
     if (widget.isModeEdit) {
-      Provider.of<KaskeluarController>(context, listen: false)
-          .initData_editKaskeluar(widget.data_edit);
+      Provider.of<KaskController>(context, listen: false)
+          .initData_editKask(widget.data_edit);
     } else {
-      Provider.of<KaskeluarController>(context, listen: false)
-          .initData_addKaskeluar();
+      Provider.of<KaskController>(context, listen: false).initData_addKask();
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KaskeluarController>(
+    return Consumer<KaskController>(
         builder: (context, kaskeluarController, child) {
       return Scaffold(
         backgroundColor: kBackgroundColor,
@@ -84,7 +88,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
               child: InkWell(
                 onTap: () {
                   if (widget.isModeEdit) {
-                    kaskeluarController.editKaskeluar().then((value) {
+                    kaskeluarController.editKask().then((value) {
                       if (value != null) {
                         if (value) {
                           Navigator.pop(context, true);
@@ -92,7 +96,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                       }
                     });
                   } else {
-                    kaskeluarController.saveKaskeluar().then((value) {
+                    kaskeluarController.saveKask().then((value) {
                       if (value != null) {
                         if (value) {
                           showAnimatedDialog_withCallBack(
@@ -102,7 +106,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
-                                kaskeluarController.initData_addKaskeluar();
+                                kaskeluarController.initData_addKask();
                                 kaskeluarController.notifyListeners();
                               } else {
                                 kaskeluarController.notifyListeners();
@@ -188,7 +192,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
                                         controller: kaskeluarController
-                                            .nobuktiController,
+                                            .no_buktiController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -261,7 +265,8 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                                       firstDate: DateTime(
                                                           DateTime.now()
                                                               .year)) ??
-                                                  kaskeluarController.chooseDate;
+                                                  kaskeluarController
+                                                      .chooseDate;
                                           kaskeluarController
                                                   .tanggalController.text =
                                               kaskeluarController.format_tanggal
@@ -290,7 +295,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Cash#",
+                                      "Kas",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -353,7 +358,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Cash-Nm",
+                                      "Nama",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -373,6 +378,294 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                       child: TextFormField(
                                         controller:
                                             kaskeluarController.bnamaController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 2, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Currency",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            kaskeluarController.currController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihCurrency(
+                                                  kaskeluarController
+                                                          .currController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : kaskeluarController
+                                                          .currnmController.text,
+                                                  kaskeluarController),
+                                              isFlip: false);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "-",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            kaskeluarController.currnmController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Rate",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            kaskeluarController.rateController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tax.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Supplier",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            kaskeluarController.kodeController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 18, bottom: 18),
+                                          icon: Image.asset(
+                                            "assets/images/ic_search.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () {
+                                          showAnimatedDialog(
+                                              context,
+                                              PilihSupplier(
+                                                  kaskeluarController
+                                                          .kodeController
+                                                          .text
+                                                          .isEmpty
+                                                      ? null
+                                                      : kaskeluarController
+                                                          .namaController.text,
+                                                  kaskeluarController),
+                                              isFlip: false);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Nama",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            kaskeluarController.namaController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
@@ -429,7 +722,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
                                         controller: kaskeluarController
-                                            .keteranganController,
+                                            .ketController,
                                         // readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(

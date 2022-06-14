@@ -3,21 +3,21 @@ import 'package:intl/intl.dart';
 import 'package:akunt/model/master/finansial/model_account.dart';
 import 'package:akunt/model/master/finansial/data_account.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:akunt/model/transaksi/finansial/model_kaskeluar.dart';
+import 'package:akunt/model/transaksi/finansial/model_girokeluar.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../login_controller.dart';
 
-class KaskController with ChangeNotifier {
+class GirokController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   SharedPreferences prefs;
-  model_kask m_kask = model_kask();
+  model_girok m_girok = model_girok();
   TextEditingController searchController = TextEditingController();
   DateRangePickerController filter_tanggalController =
       new DateRangePickerController();
-  List data_kask_list = [];
-  static List home_kask_list = [];
+  List data_girok_list = [];
+  static List home_girok_list = [];
   bool isEnable_button = true;
   String selectedDate = '';
   String dateCount = '';
@@ -70,19 +70,19 @@ class KaskController with ChangeNotifier {
       offset = 0;
       page_index = 0;
     }
-    data_kask_list =
-        await m_kask.data_kaskpaginate(searchController.text, offset, limit);
-    home_kask_list =
-        await m_kask.data_kaskpaginate(searchController.text, offset, limit);
-    var count = await m_kask.countKaskPaginate(searchController.text);
+    data_girok_list =
+        await m_girok.data_girokpaginate(searchController.text, offset, limit);
+    home_girok_list =
+        await m_girok.data_girokpaginate(searchController.text, offset, limit);
+    var count = await m_girok.countGirokPaginate(searchController.text);
     totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
     pageCount = totalNotaTerima / limit;
     notifyListeners();
   }
 
   void modalData(String cari) async {
-    data_kask_list = await model_kask().data_modal(cari);
-    home_kask_list = await model_kask().data_modal(cari);
+    data_girok_list = await model_girok().data_modal(cari);
+    home_girok_list = await model_girok().data_modal(cari);
     notifyListeners();
   }
 
@@ -93,16 +93,16 @@ class KaskController with ChangeNotifier {
   }
 
   Future<void> select_data() async {
-    data_kask_list = await m_kask.select_kask(
+    data_girok_list = await m_girok.select_girok(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
-    home_kask_list = await m_kask.select_kask(
+    home_girok_list = await m_girok.select_girok(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
     notifyListeners();
   }
 
   void selectData(String cari) async {
-    data_kask_list = await model_kask().cari_kask(cari);
-    home_kask_list = await model_kask().cari_kask(cari);
+    data_girok_list = await model_girok().cari_girok(cari);
+    home_girok_list = await model_girok().cari_girok(cari);
     await baca_periodePrefs();
     notifyListeners();
   }
@@ -177,13 +177,16 @@ class KaskController with ChangeNotifier {
   TextEditingController jumlahController = TextEditingController();
   TextEditingController usrinController = TextEditingController();
   TextEditingController tg_inController = TextEditingController();
-  TextEditingController umController = TextEditingController();
+  TextEditingController bgController = TextEditingController();
+  TextEditingController jtempoController = TextEditingController();
   TextEditingController flagController = TextEditingController();
   final format_tanggal = new DateFormat("dd/MM/yyyy");
+  final format_tanggal_JT = new DateFormat("dd/MM/yyyy");
   final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
   final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
   final format_no_bukti = DateFormat("yyMM", "id_ID");
   DateTime chooseDate = DateTime.now();
+  DateTime chooseDateJT = DateTime.now();
   String tanggal;
   List<DataAccount> data_account_keranjang = List<DataAccount>();
   double sumQty = 0;
@@ -192,7 +195,7 @@ class KaskController with ChangeNotifier {
   int no_urut = 0;
   List<DataAccount> accountList = List<DataAccount>();
 
-  Future<void> initData_addKask() async {
+  Future<void> initData_addGirok() async {
     data_account_keranjang = new List<DataAccount>();
     no_buktiController.clear();
     tanggalController.clear();
@@ -210,19 +213,21 @@ class KaskController with ChangeNotifier {
     jumlahController.clear();
     usrinController.clear();
     tg_inController.clear();
-    umController.clear();
+    bgController.clear();
+    jtempoController.clear();
     flagController.clear();
     tanggalController.text = format_tanggal.format(chooseDate);
+    jtempoController.text = format_tanggal_JT.format(chooseDate);
     sumQty = 0;
     sumTotal = 0;
     await baca_periodePrefs();
-    await m_kask.get_no_bukti('KK', 'NO_BUKTI', 'kas').then((value) {
+    await m_girok.get_no_bukti('GK', 'NO_BUKTI', 'giro').then((value) {
       if (value != null) {
         no_buktiController.text =
-            "KK${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
+            "GK${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
       }
     });
-    await model_kask().cari_hutang_kask("").then((value) {
+    await model_account().cari_account("").then((value) {
       if (value != null) {
         accountList.clear();
         for (int i = 0; i < value.length; i++) {
@@ -232,7 +237,7 @@ class KaskController with ChangeNotifier {
     });
   }
 
-  Future<void> initData_editKask(var data_edit) async {
+  Future<void> initData_editGirok(var data_edit) async {
     no_buktiController.text = data_edit['NO_BUKTI'];
     chooseDate = DateTime.parse(data_edit['TGL']);
     tanggalController.text = format_tanggal.format(chooseDate);
@@ -250,10 +255,10 @@ class KaskController with ChangeNotifier {
     jumlahController.text = data_edit['JUMLAH'];
     usrinController.text = data_edit['USRIN'];
     tg_inController.text = data_edit['TG_IN'];
-    umController.text = data_edit['UM'];
+    bgController.text = data_edit['BG'];
     flagController.text = data_edit['FLAG'];
-    List data_lama = await m_kask.select_kask_detail(
-        data_edit['NO_BUKTI'], "NO_BUKTI", "kasd");
+    List data_lama = await m_girok.select_girok_detail(
+        data_edit['NO_BUKTI'], "NO_BUKTI", "girod");
     data_account_keranjang = new List<DataAccount>();
 
     for (int i = 0; i < data_lama.length; i++) {
@@ -301,13 +306,13 @@ class KaskController with ChangeNotifier {
   }
 
   /// data header
-  Future<bool> saveKask() async {
+  Future<bool> saveKasm() async {
     hitungSubTotal();
     if (no_buktiController.text.isNotEmpty) {
       if (data_account_keranjang.length > 0) {
         BotToast.showLoading();
-        var data_ready = await m_kask.get_no_bukti(
-            no_buktiController.text, "NO_BUKTI", "kas");
+        var data_ready = await m_girok.get_no_bukti(
+            no_buktiController.text, "NO_BUKTI", "giro");
         if (data_ready.length > 0) {
           Toast("Peringatan !",
               "No bukti '${no_buktiController.text}' sudah ada", false);
@@ -317,7 +322,7 @@ class KaskController with ChangeNotifier {
           Map obj = new Map();
           obj['NO_BUKTI'] = no_buktiController.text;
           obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['TYPE'] = "BKK";
+          obj['TYPE'] = "BGK";
           obj['BACNO'] = bacnoController.text;
           obj['BNAMA'] = bnamaController.text;
           obj['CURR'] = currController.text;
@@ -331,10 +336,10 @@ class KaskController with ChangeNotifier {
           obj['JUMLAH'] = "0.00";
           obj['USRIN'] = LoginController.nama_staff;
           obj['TG_IN'] = DateTime.now();
-          obj['UM'] = "0.00";
-          obj['FLAG'] = "K";
+          obj['BG'] = "0.00";
+          obj['FLAG'] = "G";
           obj['tabeld'] = await baca_tabeld();
-          await m_kask.insert_kask(obj);
+          await m_girok.insert_girok(obj);
           BotToast.closeAllLoading();
           return true;
         }
@@ -348,32 +353,32 @@ class KaskController with ChangeNotifier {
     }
   }
 
-  Future<bool> editKask() async {
+  Future<bool> editGirok() async {
     hitungSubTotal();
     if (no_buktiController.text.isNotEmpty) {
       if (data_account_keranjang.length > 0) {
         BotToast.showLoading();
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
-          obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['TYPE'] = "BKK";
-          obj['BACNO'] = bacnoController.text;
-          obj['BNAMA'] = bnamaController.text;
-          obj['CURR'] = currController.text;
-          obj['CURRNM'] = currnmController.text;
-          obj['RATE'] = rateController.text;
-          obj['KODE'] = kodeController.text;
-          obj['NAMA'] = namaController.text;
-          obj['KET'] = ketController.text;
-          obj['PER'] = perx;
-          obj['JUMLAH1'] = "0.00";
-          obj['JUMLAH'] = "0.00";
-          obj['USRIN'] = LoginController.nama_staff;
-          obj['TG_IN'] = DateTime.now();
-          obj['UM'] = "0.00";
-          obj['FLAG'] = "K";
-          obj['tabeld'] = await baca_tabeld();
-        await m_kask.update_kask(obj);
+        obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+        obj['TYPE'] = "BGK";
+        obj['BACNO'] = bacnoController.text;
+        obj['BNAMA'] = bnamaController.text;
+        obj['CURR'] = currController.text;
+        obj['CURRNM'] = currnmController.text;
+        obj['RATE'] = rateController.text;
+        obj['KODE'] = kodeController.text;
+        obj['NAMA'] = namaController.text;
+        obj['KET'] = ketController.text;
+        obj['PER'] = perx;
+        obj['JUMLAH1'] = "0.00";
+        obj['JUMLAH'] = "0.00";
+        obj['USRIN'] = LoginController.nama_staff;
+        obj['TG_IN'] = DateTime.now();
+        obj['BG'] = "0.00";
+        obj['FLAG'] = "G";
+        obj['tabeld'] = await baca_tabeld();
+        await m_girok.update_girok(obj);
         BotToast.closeAllLoading();
         Toast("Success !", "Berhasil mengedit data", true);
         return true;
@@ -387,9 +392,9 @@ class KaskController with ChangeNotifier {
     }
   }
 
-  Future<bool> deleteKask(String no_bukti) async {
+  Future<bool> deleteGirok(String no_bukti) async {
     try {
-      var delete = await m_kask.delete_kask(no_bukti);
+      var delete = await m_girok.delete_girok(no_bukti);
       await select_data();
       return true;
     } catch (e) {
