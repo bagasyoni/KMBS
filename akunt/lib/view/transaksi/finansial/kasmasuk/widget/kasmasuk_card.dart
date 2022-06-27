@@ -4,23 +4,23 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/kasmasuk_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kasmasuk_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget OrderPenjualanCard(int index,
+Widget KasmCard(int index,
     {Function pressEdit, Function pressDelete}) {
-  return Consumer<KasmasukController>(
+  return Consumer<KasmController>(
       builder: (context, kasmasukController, child) {
-    var data_so = kasmasukController.data_order_penjualan_list[index];
+    var data_kasm = kasmasukController.data_kasm_list[index];
     String tanggal =
-        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_so['TGL']));
-    String nobukti = data_so['NO_BUKTI'];
-    String ket = data_so['KET'];
-    // double qty = data_so['JUMLAH'];
-    String jumlah = config().format_rupiah(data_so['JUMLAH'].toString());
-    bool isDelivered = data_so['POSTED'] == 1 ? true : false;
+        DateFormat('dd/MM/yyyy').format(DateTime.parse(data_kasm['TGL']));
+    String nobukti = data_kasm['NO_BUKTI'];
+    String ket = data_kasm['KET'];
+    // double qty = data_kasm['JUMLAH'];
+    String jumlah = config().format_rupiah(data_kasm['JUMLAH'].toString());
+    bool isDelivered = data_kasm['POSTED'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(

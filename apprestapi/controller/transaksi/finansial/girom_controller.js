@@ -13,7 +13,7 @@ exports.girom_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from giro where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ? or LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from giro where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.girom_paginate = function (req, res) {
 
 exports.count_girompaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from giro where TYP='BGM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='G')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from giro where TYPE='BGM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='G')", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -107,7 +107,7 @@ exports.tampilgirom = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from giro where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='G' AND PER=? AND TYP='BGM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from giro where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='G' AND PER=? AND TYPE='BGM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {

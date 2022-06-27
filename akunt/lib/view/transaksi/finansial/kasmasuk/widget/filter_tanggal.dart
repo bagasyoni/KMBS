@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/kasmasuk_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kasmasuk_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -12,7 +12,7 @@ class FilterTanggal extends StatefulWidget {
 class _FilterTanggalState extends State<FilterTanggal> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<KasmasukController>(
+    return Consumer<KasmController>(
         builder: (context, kasmasukController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

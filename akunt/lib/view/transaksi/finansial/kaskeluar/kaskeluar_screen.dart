@@ -261,7 +261,7 @@ class _KasKeluarScreenState extends State<KasKeluarScreen> {
                         itemCount: kaskeluarController
                             .data_kask_list.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return OrderPenjualanCard(index, pressEdit: () {
+                          return KaskCard(index, pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

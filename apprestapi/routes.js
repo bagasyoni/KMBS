@@ -273,6 +273,8 @@ module.exports = function (app) {
         .post(kasmjs.ambilkasmdetail);
     app.route('/hapus_kasm')
         .post(kasmjs.hapuskasm);
+    app.route('/cari_piutang')
+        .post(kasmjs.caripiutang)
 
     ///====================/// KAS KELUAR ///====================///
     app.route('/kaskpaginate')
@@ -295,8 +297,8 @@ module.exports = function (app) {
         .post(kaskjs.ambilkaskdetail);
     app.route('/hapus_kask')
         .post(kaskjs.hapuskask);
-    app.route('/cari_hutang_kask')
-        .post(kaskjs.carihutangkask);
+    app.route('/cari_hutang')
+        .post(kaskjs.carihutang);
 
     ///====================/// BANK MASUK ///====================///
     app.route('/bankmpaginate')
@@ -1129,6 +1131,8 @@ module.exports = function (app) {
     ///NO URUT
     app.route('/no_urut')
         .post(jsonku.nourut);
+    app.route('/no_urut_kas')
+        .post(jsonku.nourutkas);
 
     ///CHECK NO BUKTI
     app.route('/check_nobukti')

@@ -62,6 +62,10 @@ class model_kasm {
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
           "UM": data_insert['UM'].toString(),
+          "KODECAB": data_insert['KODECAB'].toString(),
+          "NAMACAB": data_insert['NAMACAB'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "TC": data_insert['TC'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -81,11 +85,11 @@ class model_kasm {
             "URAIAN": data_detail[i]['URAIAN'].toString(),
             "JUMLAHINV": data_detail[i]['JUMLAHINV'].toString(),
             "JUMLAH": data_detail[i]['JUMLAH'].toString(),
-            "JUMLAH1": data_detail[i]['JUMLAH1'].toString(),
+            "JUMLAH1": data_detail[i]['JUMLAHRP'].toString(),
             "FLAG": data_insert['FLAG'].toString(),
             "UM": data_detail[i]['UM'].toString(),
             "CURRD": data_detail[i]['CURRD'].toString(),
-            "RATED": data_detail[i]['RATED'].toString(),
+            "RATED": data_detail[i]['RATE'].toString(),
             "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
@@ -126,6 +130,10 @@ class model_kasm {
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
           "UM": data_insert['UM'].toString(),
+          "KODECAB": data_insert['KODECAB'].toString(),
+          "NAMACAB": data_insert['NAMACAB'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "TC": data_insert['TC'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -172,7 +180,7 @@ class model_kasm {
   Future<List> get_no_bukti(
       String tipe, String paramkolom, String paramtabel) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/no_urut"),
+      Uri.parse("${baseUrl}:3000/no_urut_kas"),
       body: {"tipe": tipe, "kolom": paramkolom, "tabel": paramtabel},
     );
     var results2 = json.decode(response.body);
@@ -219,6 +227,16 @@ class model_kasm {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/hapus_kasm"),
       body: {"no_bukti": no_bukti},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  //MODEL PIUTANG
+  Future<List> cari_piutang(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/cari_piutang"),
+      body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();

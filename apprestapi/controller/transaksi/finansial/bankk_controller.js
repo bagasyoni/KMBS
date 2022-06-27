@@ -13,7 +13,7 @@ exports.bankk_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from bank where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from bank where NO_BUKTI like ? or BACNO like ? or BNAMA like ?  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.bankk_paginate = function (req, res) {
 
 exports.count_bankkpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from bank where TYP='BBK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='B')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from bank where TYPE='BBK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='B')", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -89,7 +89,7 @@ exports.tambahdetailbankk = function (req, res) {
     var RATED = req.body.RATED;
     var NOINV = req.body.NOINV;
 
-    connection.query("INSERT INTO bankd (REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE kas, kasd SET kasd.ID = kas.NO_ID WHERE kasd.NO_BUKTI = kas.NO_BUKTI;", [REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV],
+    connection.query("INSERT INTO bankd (REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE bank, bankd SET bankd.ID = bank.NO_ID WHERE bankd.NO_BUKTI = bank.NO_BUKTI;", [REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, NO_FAKTUR, URAIAN, JUMLAHINV, JUMLAH,JUMLAH1, FLAG, UM, CURRD, RATED, NOINV],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -106,7 +106,7 @@ exports.tampilbankk = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from bank where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='B' AND PER=? AND TYP='BBK'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from bank where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='B' AND PER=? AND TYPE='BBK'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -178,7 +178,7 @@ exports.modalbankk = function (req, res) {
 
 exports.caribankk = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from bank where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKK'", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("select * from bank where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BBK'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

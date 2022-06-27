@@ -2,22 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/controller/memo_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/memo_controller.dart';
 import 'package:akunt/model/master/finansial/data_account.dart';
 import 'package:provider/provider.dart';
 
-Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
-  TextEditingController acnoController = new TextEditingController();
+Widget AddMemoCard(
+    BuildContext context, int index, DataAccount data_account) {
   TextEditingController nacnoController = new TextEditingController();
   TextEditingController reffController = new TextEditingController();
-  TextEditingController debetController = new TextEditingController();
-  TextEditingController kreditController = new TextEditingController();
-  acnoController.value = TextEditingValue(
-    text: data_account.acno.toString(),
-    selection: TextSelection.fromPosition(
-      TextPosition(offset: data_account.acno.toString().length),
-    ),
-  );
+  TextEditingController hargaController = new TextEditingController();
+  double subTotal = data_account.jumlah;
   nacnoController.value = TextEditingValue(
     text: data_account.nacno.toString(),
     selection: TextSelection.fromPosition(
@@ -30,22 +24,16 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
       TextPosition(offset: data_account.reff.toString().length),
     ),
   );
-  debetController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.debet.toString()),
-    selection: TextSelection.fromPosition(
-      TextPosition(
-          offset: config().format_rupiah(data_account.debet.toString()).length),
-    ),
-  );
-  kreditController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.kredit.toString()),
+  hargaController.value = TextEditingValue(
+    text: config().format_rupiah(data_account.jumlah.toString()),
     selection: TextSelection.fromPosition(
       TextPosition(
           offset:
-              config().format_rupiah(data_account.kredit.toString()).length),
+              config().format_rupiah(data_account.jumlah.toString()).length),
     ),
   );
-  var memoController = Provider.of<MemoController>(context, listen: false);
+  var memoController =
+      Provider.of<MemoController>(context, listen: false);
 
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
@@ -69,7 +57,7 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Text(
               data_account.acno ?? "",
               style: GoogleFonts.poppins(
@@ -79,7 +67,7 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Container(
@@ -124,7 +112,7 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Container(
@@ -138,7 +126,7 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
                   decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "uraian",
+                    hintText: "Uraian",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
@@ -174,7 +162,7 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
               child: Container(
                 height: 40,
                 child: TextFormField(
-                  controller: debetController,
+                  controller: hargaController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 14.0,
@@ -196,77 +184,24 @@ Widget AddMemoCard(BuildContext context, int index, DataAccount data_account) {
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      debetController.value = TextEditingValue(
-                        text: config().format_rupiah(debetController.text),
+                      hargaController.value = TextEditingValue(
+                        text: config().format_rupiah(hargaController.text),
                         selection: TextSelection.fromPosition(
                           TextPosition(
                               offset: config()
-                                  .format_rupiah(debetController.text)
+                                  .format_rupiah(hargaController.text)
                                   .length),
                         ),
                       );
-                      memoController.data_account_keranjang[index].debet =
-                          config().convert_rupiah(debetController.text);
+                      memoController.data_account_keranjang[index].jumlah =
+                          config().convert_rupiah(hargaController.text);
                       memoController.hitungSubTotal();
                       memoController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    memoController.data_account_keranjang[index].debet =
-                        config().convert_rupiah(debetController.text);
-                    memoController.hitungSubTotal();
-                  },
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                height: 40,
-                child: TextFormField(
-                  controller: kreditController,
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Rp 0",
-                    hintStyle: GoogleFonts.poppins(
-                        color: GreyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (numb) {
-                    if (numb.isNotEmpty) {
-                      kreditController.value = TextEditingValue(
-                        text: config().format_rupiah(kreditController.text),
-                        selection: TextSelection.fromPosition(
-                          TextPosition(
-                              offset: config()
-                                  .format_rupiah(kreditController.text)
-                                  .length),
-                        ),
-                      );
-                      memoController.data_account_keranjang[index].kredit =
-                          config().convert_rupiah(kreditController.text);
-                      memoController.hitungSubTotal();
-                      memoController.notifyListeners();
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    memoController.data_account_keranjang[index].kredit =
-                        config().convert_rupiah(kreditController.text);
+                    memoController.data_account_keranjang[index].jumlah =
+                        config().convert_rupiah(hargaController.text);
                     memoController.hitungSubTotal();
                   },
                 ),

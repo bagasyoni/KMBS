@@ -4,14 +4,13 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/kasmasuk_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/transaksi/finansial/kasmasuk_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/kasmasuk/add_kasmasuk_screen.dart';
-import 'package:akunt/view/kasmasuk/widget/kasmasuk_card.dart';
+import 'package:akunt/view/transaksi/finansial/kasmasuk/add_kasmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/kasmasuk/widget/kasmasuk_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'widget/filter_tanggal.dart';
 
 class KasMasukScreen extends StatefulWidget {
@@ -20,15 +19,16 @@ class KasMasukScreen extends StatefulWidget {
 }
 
 class _KasMasukScreenState extends State<KasMasukScreen> {
+  var sapi = NumberFormat("#,##0.00", "en_US");
   @override
   void initState() {
-    Provider.of<KasmasukController>(context, listen: false).initData();
+    Provider.of<KasmController>(context, listen: false).initData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KasmasukController>(
+    return Consumer<KasmController>(
         builder: (context, kasmasukController, child) {
       return Scaffold(
         appBar: AppBar(
@@ -108,88 +108,6 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        kasmasukController.proses_export_detail();
-                      } else if (value == 2) {
-                        kasmasukController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (kasmasukController.index_terpilih != null) {
-                    kasmasukController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -335,21 +253,20 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                 ),
               ),
               Expanded(
-                child: (kasmasukController.data_order_penjualan_list.length > 0)
+                child: (kasmasukController.data_kasm_list.length > 0)
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount:
-                            kasmasukController.data_order_penjualan_list.length,
+                        itemCount: kasmasukController.data_kasm_list.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return OrderPenjualanCard(index, pressEdit: () {
+                          return KasmCard(index, pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => AddKasMasukScreen(
                                           true,
                                           data_edit: kasmasukController
-                                              .data_order_penjualan_list[index],
+                                              .data_kasm_list[index],
                                         ))).then((value) {
                               if (value != null) {
                                 if (value) {
@@ -364,9 +281,8 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                               if (value != null) {
                                 if (value) {
                                   kasmasukController
-                                      .deleteKasmasuk(kasmasukController
-                                              .data_order_penjualan_list[index]
-                                          ['NO_BUKTI'])
+                                      .deleteKasm(kasmasukController
+                                          .data_kasm_list[index]['NO_BUKTI'])
                                       .then((value) {
                                     if (value) {
                                       Toast("Delete Success !",
@@ -397,7 +313,253 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
             ],
           ),
         ),
+        bottomNavigationBar: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: GreyColor,
+                spreadRadius: 1,
+                blurRadius: 4,
+                offset: Offset(1, 2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (kasmasukController.data_kasm_list.length > 0)
+                  Text(
+                    (kasmasukController.offset + 1 <
+                            kasmasukController.totalNotaTerima)
+                        ? "Showing ${kasmasukController.offset + 1} to ${kasmasukController.offset + kasmasukController.limit} of ${kasmasukController.totalNotaTerima} entries"
+                        : "Showing ${kasmasukController.offset + 1} to ${kasmasukController.totalNotaTerima} of ${kasmasukController.totalNotaTerima} entries",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                if (kasmasukController.data_kasm_list.length > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Container(
+                      width: 100,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: GreyColor,
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            iconEnabledColor: HijauColor,
+                            value: kasmasukController.limit,
+                            items: kasmasukController.dropdownLimit,
+                            onChanged: (value) {
+                              if (value != null) {
+                                kasmasukController.limit = value;
+                                kasmasukController.select_data();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                Spacer(),
+                SizedBox(
+                  width: 500,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "Total Qty : ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: kasmasukController.qty.toString(),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "Total Pengeluaran : ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: sapi.format(kasmasukController.total),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    if (kasmasukController.page_index > 0) {
+                      kasmasukController.offset -= kasmasukController.limit;
+                      kasmasukController.page_index--;
+                      kasmasukController.c_page.text =
+                          (kasmasukController.page_index + 1).toString();
+                      kasmasukController.select_data();
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Previous",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: (kasmasukController.offset == 0)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                pageField(),
+                InkWell(
+                  onTap: () {
+                    if (kasmasukController.page_index <=
+                        kasmasukController.pageCount - 1) {
+                      kasmasukController.offset += kasmasukController.limit;
+                      kasmasukController.page_index++;
+                      kasmasukController.c_page.text =
+                          (kasmasukController.page_index + 1).toString();
+                      kasmasukController.select_data();
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: ((kasmasukController.pageCount -
+                                        kasmasukController.page_index) <=
+                                    1)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     });
+  }
+
+  Widget pageField() {
+    KasmController pageTerima =
+        Provider.of<KasmController>(context, listen: false);
+    return Container(
+      width: 70,
+      height: 35,
+      child: TextField(
+        textAlign: TextAlign.center,
+        controller: pageTerima.c_page,
+        decoration: InputDecoration(
+          hintText: "1",
+          hintStyle: GoogleFonts.poppins(
+              fontSize: 14, fontWeight: FontWeight.w400, color: GreyColor),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+          border: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+        ),
+        onSubmitted: (value) {
+          int index = 1;
+          try {
+            index = int.parse(value.trim());
+          } catch (e) {
+            index = 1;
+          }
+          if (index == 0) {
+            index = 1;
+          } else {
+            if (index > 0) {
+              index = index - 1;
+            }
+          }
+          if (index > pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.select_data();
+          } else if (index < pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.select_data();
+          }
+        },
+      ),
+    );
   }
 }

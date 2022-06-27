@@ -9,7 +9,9 @@ class DataHutang {
   String namas;
   String acno;
   String nacno;
+  String uraian;
   double sisa;
+  double jumlah;
   double jumlahrp;
   String info;
   String flag;
@@ -17,22 +19,23 @@ class DataHutang {
   double rate;
   String noinv;
 
-  DataHutang({
-    this.noid,
-    this.no_bukti,
-    this.tgl,
-    this.kodes,
-    this.namas,
-    this.acno,
-    this.nacno,
-    this.sisa,
-    this.jumlahrp,
-    this.info,
-    this.flag,
-    this.curr,
-    this.rate,
-    this.noinv
-  });
+  DataHutang(
+      {this.noid,
+      this.no_bukti,
+      this.tgl,
+      this.kodes,
+      this.namas,
+      this.acno,
+      this.nacno,
+      this.uraian,
+      this.sisa,
+      this.jumlah,
+      this.jumlahrp,
+      this.info,
+      this.flag,
+      this.curr,
+      this.rate,
+      this.noinv});
 
   factory DataHutang.fromJson(var parsedJson) {
     return DataHutang(
@@ -43,12 +46,14 @@ class DataHutang {
       namas: parsedJson['NAMAS'] as String,
       acno: parsedJson['ACNO'] as String,
       nacno: parsedJson['NACNO'] as String,
-      sisa: 0.00,
-      jumlahrp: 0.00,
-      info: "",
+      uraian: parsedJson['INFO'] as String,
+      sisa: double.parse(parsedJson['SISA'].toString()),
+      jumlah: double.parse(parsedJson['JUMLAH'].toString()),
+      jumlahrp: double.parse(parsedJson['JUMLAH'].toString()),
+      info: parsedJson['INFO'] as String,
       flag: parsedJson['FLAG'] as String,
       curr: parsedJson['CURR'] as String,
-      rate: 0.00,
+      rate: double.parse(parsedJson['RATE'].toString()),
       noinv: "",
     );
   }

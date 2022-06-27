@@ -219,10 +219,10 @@ class KaskController with ChangeNotifier {
     await m_kask.get_no_bukti('KK', 'NO_BUKTI', 'kas').then((value) {
       if (value != null) {
         no_buktiController.text =
-            "KK${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
+            "KK${format_no_bukti.format(DateTime.now())}-${value[0]['NOMOR']}";
       }
     });
-    await model_kask().cari_hutang_kask("").then((value) {
+    await model_account().cari_account("").then((value) {
       if (value != null) {
         accountList.clear();
         for (int i = 0; i < value.length; i++) {
@@ -355,24 +355,24 @@ class KaskController with ChangeNotifier {
         BotToast.showLoading();
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
-          obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['TYPE'] = "BKK";
-          obj['BACNO'] = bacnoController.text;
-          obj['BNAMA'] = bnamaController.text;
-          obj['CURR'] = currController.text;
-          obj['CURRNM'] = currnmController.text;
-          obj['RATE'] = rateController.text;
-          obj['KODE'] = kodeController.text;
-          obj['NAMA'] = namaController.text;
-          obj['KET'] = ketController.text;
-          obj['PER'] = perx;
-          obj['JUMLAH1'] = "0.00";
-          obj['JUMLAH'] = "0.00";
-          obj['USRIN'] = LoginController.nama_staff;
-          obj['TG_IN'] = DateTime.now();
-          obj['UM'] = "0.00";
-          obj['FLAG'] = "K";
-          obj['tabeld'] = await baca_tabeld();
+        obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
+        obj['TYPE'] = "BKK";
+        obj['BACNO'] = bacnoController.text;
+        obj['BNAMA'] = bnamaController.text;
+        obj['CURR'] = currController.text;
+        obj['CURRNM'] = currnmController.text;
+        obj['RATE'] = rateController.text;
+        obj['KODE'] = kodeController.text;
+        obj['NAMA'] = namaController.text;
+        obj['KET'] = ketController.text;
+        obj['PER'] = perx;
+        obj['JUMLAH1'] = "0.00";
+        obj['JUMLAH'] = "0.00";
+        obj['USRIN'] = LoginController.nama_staff;
+        obj['TG_IN'] = DateTime.now();
+        obj['UM'] = "0.00";
+        obj['FLAG'] = "K";
+        obj['tabeld'] = await baca_tabeld();
         await m_kask.update_kask(obj);
         BotToast.closeAllLoading();
         Toast("Success !", "Berhasil mengedit data", true);

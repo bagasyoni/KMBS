@@ -90,11 +90,11 @@ import 'package:akunt/view/lap_buku_besar/lap_buku_besar_screen.dart';
 
 import 'package:akunt/view/login/login_screen.dart';
 
-import 'package:akunt/view/kasmasuk/kasmasuk_screen.dart';
-import 'package:akunt/view/kaskeluar/kaskeluar_screen.dart';
-import 'package:akunt/view/bankmasuk/bankmasuk_screen.dart';
-import 'package:akunt/view/bankkeluar/bankkeluar_screen.dart';
-import 'package:akunt/view/memo/memo_screen.dart';
+import 'package:akunt/view/transaksi/finansial/kasmasuk/kasmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/kaskeluar_screen.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/bankmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/bankkeluar/bankkeluar_screen.dart';
+import 'package:akunt/view/transaksi/finansial/memo/memo_screen.dart';
 
 import 'package:akunt/view/po/data_po_screen.dart';
 import 'package:akunt/view/pon/data_pon_screen.dart';

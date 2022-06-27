@@ -13,7 +13,7 @@ exports.kask_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from kas where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from kas where NO_BUKTI like ? or BACNO like ? or BNAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.kask_paginate = function (req, res) {
 
 exports.count_kaskpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from kas where TYP='BKK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from kas where TYPE='BKK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -110,7 +110,7 @@ exports.tampilkask = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYP='BKK'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYPE='BKK'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -186,7 +186,7 @@ exports.modalkask = function (req, res) {
 
 exports.carikask = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKM'", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKK'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -226,9 +226,9 @@ exports.ambilkaskdetail = function (req, res) {
         });
 }
 
-exports.carihutangkask = function (req, res) {
-    var cari = req.body.cari;
-    connection.query("SELECT * FROM (SELECT hut.NO_BUKTI, hut.TGL, hut.KODES, hut.NAMAS, hutd.ACNO, account.NAMA AS NACNO, SUM(hutd.HSISA) AS SISA, ROUND(SUM((HSISA/HTOTAL) * JUMLAHRP),4) AS JUMLAHRP, CONCAT(TRIM(hutd.NO_BUKTI), TRIM(hutd.ACNO)) AS INFO, hut.CURR, hut.RATE, '' AS NOINV FROM hut, hutd, account WHERE hut.NO_BUKTI=hutd.NO_BUKTI AND hutd.HSISA<>0 AND hutd.ACNO=account.ACNO GROUP BY hut.NO_BUKTI, hutd.ACNO UNION ALL SELECT hutang.NO_BUKTI, hutang.TGL, hutang.KODES, hutang.NAMAS, hutang.ACNO, account.NAMA AS NACNO, SUM(hutang.SISA) AS SISA, ROUND(SUM((SISA/NETT)*JUMLAHRP),4) AS JUMLAHRP, CONCAT (TRIM(hutang.NO_BUKTI), TRIM(hutang.ACNO)) AS INFO, hutang.FLAG, hutang.CURR, hutang.RATE, '' AS NOINV FROM hutang, account WHERE hutang.ACNO=account.ACNO AND hutang.flag='UM' AND hutang.SISA<>0 GROUP BY hutang.NO_BUKTI, hutang.ACNO) AS BBB WHERE NO_BUKTI<>''", [cari],
+exports.carihutang = function (req, res) {
+    var cari = '%'+req.body.cari+'+';
+    connection.query("SELECT * FROM (SELECT hut.NO_BUKTI, hut.TGL, hut.KODES, hut.NAMAS, hutd.ACNO, account.NAMA AS NACNO, SUM(hutd.HSISA) AS SISA, ROUND(SUM((HSISA/HTOTAL) * JUMLAHRP),4) AS JUMLAHRP, CONCAT(TRIM(hutd.NO_BUKTI), TRIM(hutd.ACNO)) AS INFO, HUT.FLAG, hut.CURR, hut.RATE, '' AS NOINV FROM hut, hutd, account WHERE hut.NO_BUKTI=hutd.NO_BUKTI AND hutd.HSISA<>0 AND hutd.ACNO=account.ACNO GROUP BY hut.NO_BUKTI, hutd.ACNO UNION ALL SELECT hutang.NO_BUKTI, hutang.TGL, hutang.KODES, hutang.NAMAS, hutang.ACNO, account.NAMA AS NACNO, SUM(hutang.SISA) AS SISA, ROUND(SUM((SISA/NETT)*JUMLAHRP),4) AS JUMLAHRP, CONCAT (TRIM(hutang.NO_BUKTI), TRIM(hutang.ACNO)) AS INFO, hutang.FLAG, hutang.CURR, hutang.RATE, '' AS NOINV FROM hutang, account WHERE hutang.ACNO=account.ACNO AND hutang.flag='UM' AND hutang.SISA<>0 GROUP BY hutang.NO_BUKTI, hutang.ACNO) AS BBB WHERE NO_BUKTI<>'' AND (NO_BUKTI LIKE ? OR KODES LIKE ? OR NAMAS LIKE ?)", [cari,cari,cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

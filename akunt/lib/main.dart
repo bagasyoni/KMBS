@@ -98,11 +98,11 @@ import 'package:akunt/controller/beli_controller.dart';
 import 'package:akunt/controller/stok_controller.dart';
 
 ///FINANSIAL///
-import 'package:akunt/controller/bankmasuk_controller.dart';
-import 'package:akunt/controller/bankkeluar_controller.dart';
-import 'package:akunt/controller/kasmasuk_controller.dart';
-import 'package:akunt/controller/kaskeluar_controller.dart';
-import 'package:akunt/controller/memo_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/bankkeluar_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kasmasuk_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kaskeluar_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/memo_controller.dart';
 
 ///////////////////////LAPORAN///////////////////////
 ///OPERASIONAL///
@@ -148,10 +148,10 @@ Future<void> init() async {
   sl.registerFactory(() => LoginController());
   sl.registerFactory(() => RegisterController());
   sl.registerFactory(() => db_controller());
-  sl.registerFactory(() => KasmasukController());
-  sl.registerFactory(() => KaskeluarController());
-  sl.registerFactory(() => BankmasukController());
-  sl.registerFactory(() => BankkeluarController());
+  sl.registerFactory(() => KasmController());
+  sl.registerFactory(() => KaskController());
+  sl.registerFactory(() => BankmController());
+  sl.registerFactory(() => BankkController());
   sl.registerFactory(() => MemoController());
   sl.registerFactory(() => BrgController());
 
@@ -368,13 +368,10 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (context) => sl<RegisterController>()),
           ChangeNotifierProvider(create: (context) => sl<db_controller>()),
 
-          ChangeNotifierProvider(create: (context) => sl<KasmasukController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<KaskeluarController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<BankmasukController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<BankkeluarController>()),
+          ChangeNotifierProvider(create: (context) => sl<KasmController>()),
+          ChangeNotifierProvider(create: (context) => sl<KaskController>()),
+          ChangeNotifierProvider(create: (context) => sl<BankmController>()),
+          ChangeNotifierProvider(create: (context) => sl<BankkController>()),
           ChangeNotifierProvider(create: (context) => sl<MemoController>()),
 
           ChangeNotifierProvider(create: (context) => sl<BrgController>()),

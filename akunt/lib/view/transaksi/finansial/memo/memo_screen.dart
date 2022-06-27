@@ -4,14 +4,13 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/memo_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
+import 'package:akunt/controller/transaksi/finansial/memo_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/memo/add_memo_screen.dart';
-import 'package:akunt/view/memo/widget/memo_card.dart';
+import 'package:akunt/view/transaksi/finansial/memo/add_memo_screen.dart';
+import 'package:akunt/view/transaksi/finansial/memo/widget/memo_card.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'widget/filter_tanggal.dart';
 
 class MemoScreen extends StatefulWidget {
@@ -20,6 +19,7 @@ class MemoScreen extends StatefulWidget {
 }
 
 class _MemoScreenState extends State<MemoScreen> {
+  var sapi = NumberFormat("#,##0.00", "en_US");
   @override
   void initState() {
     Provider.of<MemoController>(context, listen: false).initData();
@@ -108,88 +108,6 @@ class _MemoScreenState extends State<MemoScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        memoController.proses_export_detail();
-                      } else if (value == 2) {
-                        memoController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (memoController.index_terpilih != null) {
-                    memoController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -335,12 +253,13 @@ class _MemoScreenState extends State<MemoScreen> {
                 ),
               ),
               Expanded(
-                child: (memoController.data_memo_list.length > 0)
+                child: (memoController.data_memo_list.length >
+                        0)
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount:
-                            memoController.data_memo_list.length,
+                        itemCount: memoController
+                            .data_memo_list.length,
                         itemBuilder: (BuildContext context, int index) {
                           return MemoCard(index, pressEdit: () {
                             Navigator.push(

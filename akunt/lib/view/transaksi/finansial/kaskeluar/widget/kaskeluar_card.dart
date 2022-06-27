@@ -4,16 +4,16 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/kaskeluar_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/kaskeluar_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget OrderPenjualanCard(int index,
+Widget KaskCard(int index,
     {Function pressEdit, Function pressDelete}) {
-  return Consumer<KaskeluarController>(
+  return Consumer<KaskController>(
       builder: (context, kaskeluarController, child) {
-    var data_so = kaskeluarController.data_order_penjualan_list[index];
+    var data_so = kaskeluarController.data_kask_list[index];
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_so['TGL']));
     String nobukti = data_so['NO_BUKTI'];

@@ -4,20 +4,22 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/memo_controller.dart';
+import 'package:akunt/controller/transaksi/finansial/memo_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget MemoCard(int index, {Function pressEdit, Function pressDelete}) {
-  return Consumer<MemoController>(builder: (context, memoController, child) {
+Widget MemoCard(int index,
+    {Function pressEdit, Function pressDelete}) {
+  return Consumer<MemoController>(
+      builder: (context, memoController, child) {
     var data_memo = memoController.data_memo_list[index];
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_memo['TGL']));
-    String no_bukti = data_memo['NO_BUKTI'];
+    String nobukti = data_memo['NO_BUKTI'];
     String ket = data_memo['KET'];
-    String debet = config().format_rupiah(data_memo['DEBET'].toString());
-    String kredit = config().format_rupiah(data_memo['KREDIT'].toString());
+    // double qty = data_memo['JUMLAH'];
+    String jumlah = config().format_rupiah(data_memo['JUMLAH'].toString());
     bool isDelivered = data_memo['POSTED'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -56,7 +58,7 @@ Widget MemoCard(int index, {Function pressEdit, Function pressDelete}) {
                             color: Colors.black),
                         children: [
                           TextSpan(
-                            text: no_bukti,
+                            text: nobukti,
                             style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -86,7 +88,7 @@ Widget MemoCard(int index, {Function pressEdit, Function pressDelete}) {
                             width: 8,
                           ),
                           Text(
-                            "Keterangan",
+                            "Dari/Kepada",
                             style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -107,38 +109,17 @@ Widget MemoCard(int index, {Function pressEdit, Function pressDelete}) {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: RichText(
                   text: TextSpan(
-                    text: "Debet: ",
+                    text: "Jumlah : ",
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                     children: [
                       TextSpan(
-                        text: debet.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Kredit: ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: kredit.toString(),
+                        text: jumlah.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

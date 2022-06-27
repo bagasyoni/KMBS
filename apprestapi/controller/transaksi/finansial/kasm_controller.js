@@ -13,7 +13,7 @@ exports.kasm_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from kas where NO_BUKTI like ? or BACNO like ? or BNAMA like ? or  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from kas where NO_BUKTI like ? or BACNO like ? or BNAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.kasm_paginate = function (req, res) {
 
 exports.count_kasmpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from kas where TYP='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from kas where TYPE='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -110,7 +110,7 @@ exports.tampilkasm = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYP='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYPE='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -223,6 +223,18 @@ exports.ambilkasmdetail = function (req, res) {
             } else {
                 response.ok(rows, res);
 
+            }
+        });
+}
+
+exports.caripiutang = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("SELECT * FROM (SELECT piu.NO_BUKTI, piu.TGL, piu.KODEC, piu.NAMAC, piud.ACNO, account.NAMA AS NACNO, SUM(piud.HSISA) AS SISA, ROUND(SUM((HSISA/HTOTAL) * JUMLAHRP),4) AS JUMLAHRP, CONCAT(TRIM(piud.NO_BUKTI), TRIM(piud.ACNO)) AS INFO, piu.FLAG, piu.CURR, piu.RATE, '' AS NOINV FROM piu, piud, account WHERE piu.NO_BUKTI=piud.NO_BUKTI AND piud.HSISA<>0 AND piud.ACNO=account.ACNO GROUP BY piu.NO_BUKTI, piud.ACNO UNION ALL SELECT piutang.NO_BUKTI, piutang.TGL, piutang.KODEC, piutang.NAMAC, piutang.ACNO, account.NAMA AS NACNO, SUM(piutang.SISA) AS SISA, ROUND(SUM((SISA/NETT)*JUMLAHRP),4) AS JUMLAHRP, CONCAT (TRIM(piutang.NO_BUKTI), TRIM(piutang.ACNO)) AS INFO, piutang.FLAG, piutang.CURR, piutang.RATE, '' AS NOINV FROM piutang, account WHERE piutang.ACNO=account.ACNO AND piutang.flag='UM' AND piutang.SISA<>0 GROUP BY piutang.NO_BUKTI, piutang.ACNO) AS BBB WHERE NO_BUKTI<>'' AND (NO_BUKTI LIKE ? OR ACNO LIKE ? OR NACNO LIKE ?)", [filter_cari, filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(rows, res);
             }
         });
 }
