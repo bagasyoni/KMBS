@@ -13,7 +13,7 @@ exports.bankk_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from bank where NO_BUKTI like ? or BACNO like ? or BNAMA like ?  LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from bank where NO_BUKTI like ? or BACNO like ? or BNAMA like ?  LIMIT ?, ?", [filter_cari, filter_cari, filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.bankk_paginate = function (req, res) {
 
 exports.count_bankkpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from bank where TYPE='BBK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='B')", [filter_cari, filter_cari],
+    connection.query("select COUNT(*) from bank where TYPE='BBK' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='B')", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

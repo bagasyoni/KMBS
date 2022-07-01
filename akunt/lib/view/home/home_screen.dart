@@ -3,14 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
-import 'package:akunt/view/base_widget/toast.dart';
 import 'package:akunt/controller/home_controller.dart';
 import 'package:akunt/controller/login_controller.dart';
-
-import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
-import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
 import 'package:akunt/controller/jual_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 
 ///MASTER FINANSIAL///
 import 'package:akunt/view/master/finansial/account/data_account_screen.dart';
@@ -26,6 +24,12 @@ import 'package:akunt/view/master/operasional/user/data_user_screen.dart';
 import 'package:akunt/view/master/operasional/hs/data_hs_screen.dart';
 
 ///TRANSAKSI FINANSIAL///
+import 'package:akunt/view/transaksi/finansial/kasmasuk/kasmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/kaskeluar/kaskeluar_screen.dart';
+import 'package:akunt/view/transaksi/finansial/bankmasuk/bankmasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/bankkeluar/bankkeluar_screen.dart';
+import 'package:akunt/view/transaksi/finansial/memo/memo_screen.dart';
+
 
 ///TRANSAKSI OPERASIONAL///
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pobahanlokal_screen.dart';
@@ -34,20 +38,8 @@ import 'package:akunt/view/transaksi/operasional/po_barang_lokal/pobaranglokal_s
 import 'package:akunt/view/transaksi/operasional/po_barang_import/pobarangimport_screen.dart';
 import 'package:akunt/view/transaksi/operasional/so/so_screen.dart';
 
-import 'package:akunt/view/po_nonbahan/pononbahan_screen.dart';
-import 'package:akunt/view/po_import/poimport_screen.dart';
-import 'package:akunt/view/po_mesin/pomesin_screen.dart';
-import 'package:akunt/view/po_sparepart/posparepart_screen.dart';
 import 'package:akunt/view/beli_bahan/belibahan_screen.dart';
-import 'package:akunt/view/beli_nonbahan/belinonbahan_screen.dart';
-import 'package:akunt/view/beli_import/beliimport_screen.dart';
-import 'package:akunt/view/beli_mesin/belimesin_screen.dart';
-import 'package:akunt/view/beli_sparepart/belisparepart_screen.dart';
 import 'package:akunt/view/thut_bahan/thutbahan_screen.dart';
-import 'package:akunt/view/thut_nonbahan/thutnonbahan_screen.dart';
-import 'package:akunt/view/thut_import/thutimport_screen.dart';
-import 'package:akunt/view/thut_mesin/thutmesin_screen.dart';
-import 'package:akunt/view/thut_sparepart/thutsparepart_screen.dart';
 import 'package:akunt/view/hut_bahan/hutbahan_screen.dart';
 import 'package:akunt/view/stockbhn/stockbhn_screen.dart';
 import 'package:akunt/view/mutasibrg/mutasibrg_screen.dart';
@@ -66,9 +58,6 @@ import 'package:akunt/view/lap_hutbahan/lap_hutbahan_screen.dart';
 import 'package:akunt/view/lap_so/lap_so_screen.dart';
 import 'package:akunt/view/lap_sj/lap_sj_screen.dart';
 import 'package:akunt/view/lap_jual/lap_jual_screen.dart';
-import 'package:akunt/view/lap_kas/lap_kas_screen.dart';
-import 'package:akunt/view/lap_bank/lap_bank_screen.dart';
-import 'package:akunt/view/lap_memo/lap_memo_screen.dart';
 import 'package:akunt/view/lap_stocka/lap_stocka_screen.dart';
 import 'package:akunt/view/lap_stockb/lap_stockb_screen.dart';
 import 'package:akunt/view/lap_pakai/lap_pakai_screen.dart';
@@ -90,25 +79,10 @@ import 'package:akunt/view/lap_buku_besar/lap_buku_besar_screen.dart';
 
 import 'package:akunt/view/login/login_screen.dart';
 
-import 'package:akunt/view/transaksi/finansial/kasmasuk/kasmasuk_screen.dart';
-import 'package:akunt/view/transaksi/finansial/kaskeluar/kaskeluar_screen.dart';
-import 'package:akunt/view/transaksi/finansial/bankmasuk/bankmasuk_screen.dart';
-import 'package:akunt/view/transaksi/finansial/bankkeluar/bankkeluar_screen.dart';
-import 'package:akunt/view/transaksi/finansial/memo/memo_screen.dart';
 
-import 'package:akunt/view/po/data_po_screen.dart';
-import 'package:akunt/view/pon/data_pon_screen.dart';
-import 'package:akunt/view/beli/data_beli_screen.dart';
-
-import 'package:akunt/view/lap_sp/index_lapsp_screen.dart';
-import 'package:akunt/view/lap_pon/lappon_screen.dart';
-
-import 'package:akunt/view/home/bar_chart.dart';
 import 'package:akunt/view/home/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:akunt/view/home/periode.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

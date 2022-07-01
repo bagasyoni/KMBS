@@ -21,8 +21,7 @@ class _PilihAccountState extends State<PilihAccount> {
 
   @override
   void initState() {
-    Provider.of<AccountController>(context, listen: false)
-        .selectDataModalBank("");
+    Provider.of<AccountController>(context, listen: false).selectData("");
     super.initState();
   }
 
@@ -122,7 +121,7 @@ class _PilihAccountState extends State<PilihAccount> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: accountController.data_modalbankList.length,
+                itemCount: accountController.data_accountList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return accountCard(index);
                 },
@@ -154,9 +153,9 @@ class _PilihAccountState extends State<PilihAccount> {
                 onTap: () async {
                   if (index_terpilih != null) {
                     widget.controller.bacnoController.text = accountController
-                        .data_modalbankList[index_terpilih]['ACNO'];
+                        .data_accountList[index_terpilih]['ACNO'];
                     widget.controller.bnamaController.text = accountController
-                        .data_modalbankList[index_terpilih]['NAMA'];
+                        .data_accountList[index_terpilih]['NAMA'];
                     Navigator.pop(context);
                   } else {
                     Toast("Peringatan", "Belum ada data terpilih", false);
@@ -188,7 +187,7 @@ class _PilihAccountState extends State<PilihAccount> {
   Widget accountCard(int index) {
     bool isActive = index == index_terpilih;
     var data_account = Provider.of<AccountController>(context, listen: false)
-        .data_modalbankList[index];
+        .data_accountList[index];
     if (widget.account_terpilih != null) {
       if (data_account['ACNO'] == widget.account_terpilih) {
         isActive = true;

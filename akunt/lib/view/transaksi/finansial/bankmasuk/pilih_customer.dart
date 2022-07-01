@@ -140,7 +140,7 @@ class _PilihCustomerState extends State<PilihCustomer> {
               child: ListView.builder(
                 itemCount: customerController.data_customerList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SupplierCard(index);
+                  return CustomerCard(index);
                 },
               ),
             ),
@@ -201,12 +201,12 @@ class _PilihCustomerState extends State<PilihCustomer> {
     });
   }
 
-  Widget SupplierCard(int index) {
+  Widget CustomerCard(int index) {
     bool isActive = index == index_terpilih;
-    var data_supplier = Provider.of<CustomerController>(context, listen: false)
+    var data_customer = Provider.of<CustomerController>(context, listen: false)
         .data_customerList[index];
     if (widget.customer_terpilih != null) {
-      if (data_supplier['NAMAC'] == widget.customer_terpilih) {
+      if (data_customer['NAMAC'] == widget.customer_terpilih) {
         isActive = true;
         index_terpilih = index;
       }
@@ -214,7 +214,7 @@ class _PilihCustomerState extends State<PilihCustomer> {
     return InkWell(
       onTap: () {
         index_terpilih = index;
-        widget.customer_terpilih = data_supplier['NAMAC'];
+        widget.customer_terpilih = data_customer['NAMAC'];
         setState(() {});
       },
       child: Container(
@@ -227,7 +227,7 @@ class _PilihCustomerState extends State<PilihCustomer> {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    data_supplier['KODEC'],
+                    data_customer['KODEC'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -237,7 +237,7 @@ class _PilihCustomerState extends State<PilihCustomer> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    data_supplier['NAMAC'],
+                    data_customer['NAMAC'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

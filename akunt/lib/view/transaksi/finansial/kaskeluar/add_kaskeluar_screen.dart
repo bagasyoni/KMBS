@@ -494,7 +494,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                       "-",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
