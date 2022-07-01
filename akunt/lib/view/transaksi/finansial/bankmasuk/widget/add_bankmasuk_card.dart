@@ -3,102 +3,92 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
-import 'package:akunt/model/master/finansial/data_account.dart';
+import 'package:akunt/model/transaksi/operasional/data_piutang.dart';
 import 'package:provider/provider.dart';
 
 Widget AddBankMasukCard(
-    BuildContext context, int index, DataAccount data_account) {
+    BuildContext context, int index, DataPiutang data_piutang) {
+  TextEditingController acnoController = new TextEditingController();
   TextEditingController nacnoController = new TextEditingController();
-  TextEditingController no_fakturController = new TextEditingController();
   TextEditingController uraianController = new TextEditingController();
-  TextEditingController jumlahinvController = new TextEditingController();
   TextEditingController jumlahController = new TextEditingController();
-  TextEditingController jumlah1Controller = new TextEditingController();
+  TextEditingController jumlahrpController = new TextEditingController();
   TextEditingController umController = new TextEditingController();
-  TextEditingController currdController = new TextEditingController();
-  TextEditingController ratedController = new TextEditingController();
+  TextEditingController currController = new TextEditingController();
+  TextEditingController rateController = new TextEditingController();
   TextEditingController noinvController = new TextEditingController();
-  // double jumlah = data_account.jumlah;
-  // double jumlah1 = data_account.jumlah1;
-  // double um = data_account.um;
-  // double currd = data_account.currd;
-  // double rated = data_account.rated;
-  nacnoController.value = TextEditingValue(
-    text: data_account.nacno.toString(),
+  // double jumlah = data_piutang.jumlah;
+  // double jumlah1 = data_piutang.jumlah1;
+  // double um = data_piutang.um;
+  // double currd = data_piutang.currd;
+  // double rated = data_piutang.rated;
+  acnoController.value = TextEditingValue(
+    text: data_piutang.acno.toString(),
     selection: TextSelection.fromPosition(
-      TextPosition(offset: data_account.nacno.toString().length),
+      TextPosition(offset: data_piutang.acno.toString().length),
     ),
   );
-  no_fakturController.value = TextEditingValue(
-    text: data_account.no_faktur ?? "",
+  nacnoController.value = TextEditingValue(
+    text: data_piutang.nacno.toString(),
     selection: TextSelection.fromPosition(
-      TextPosition(offset: data_account.no_faktur.toString().length),
+      TextPosition(offset: data_piutang.nacno.toString().length),
     ),
   );
   uraianController.value = TextEditingValue(
-    text: data_account.reff ?? "",
+    text: data_piutang.uraian.toString(),
     selection: TextSelection.fromPosition(
-      TextPosition(offset: data_account.reff.toString().length),
-    ),
-  );
-  noinvController.value = TextEditingValue(
-    text: data_account.noinv ?? "",
-    selection: TextSelection.fromPosition(
-      TextPosition(offset: data_account.noinv.toString().length),
-    ),
-  );
-  jumlahinvController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.jumlahinv.toString()),
-    selection: TextSelection.fromPosition(
-      TextPosition(
-          offset:
-              config().format_rupiah(data_account.jumlahinv.toString()).length),
+      TextPosition(offset: data_piutang.uraian.toString().length),
     ),
   );
   jumlahController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.jumlah.toString()),
+    text: config().format_rupiah(data_piutang.jumlah.toString()),
     selection: TextSelection.fromPosition(
       TextPosition(
           offset:
-              config().format_rupiah(data_account.jumlah.toString()).length),
+              config().format_rupiah(data_piutang.jumlah.toString()).length),
     ),
   );
-  jumlah1Controller.value = TextEditingValue(
-    text: config().format_rupiah(data_account.jumlah1.toString()),
+  jumlahrpController.value = TextEditingValue(
+    text: config().format_rupiah(data_piutang.jumlahrp.toString()),
     selection: TextSelection.fromPosition(
       TextPosition(
           offset:
-              config().format_rupiah(data_account.jumlah1.toString()).length),
+              config().format_rupiah(data_piutang.jumlahrp.toString()).length),
     ),
   );
   umController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.um.toString()),
+    text: config().format_rupiah(data_piutang.um.toString()),
     selection: TextSelection.fromPosition(
       TextPosition(
-          offset: config().format_rupiah(data_account.um.toString()).length),
+          offset: config().format_rupiah(data_piutang.um.toString()).length),
     ),
   );
-  currdController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.currd.toString()),
+  currController.value = TextEditingValue(
+    text: data_piutang.curr.toString(),
     selection: TextSelection.fromPosition(
-      TextPosition(
-          offset: config().format_rupiah(data_account.currd.toString()).length),
+      TextPosition(offset: data_piutang.curr.toString().length),
     ),
   );
-  ratedController.value = TextEditingValue(
-    text: config().format_rupiah(data_account.rated.toString()),
+  rateController.value = TextEditingValue(
+    text: config().format_rupiah(data_piutang.rate.toString()),
     selection: TextSelection.fromPosition(
       TextPosition(
-          offset: config().format_rupiah(data_account.rated.toString()).length),
+          offset: config().format_rupiah(data_piutang.rate.toString()).length),
+    ),
+  );
+  noinvController.value = TextEditingValue(
+    text: data_piutang.noinv.toString(),
+    selection: TextSelection.fromPosition(
+      TextPosition(offset: data_piutang.noinv.toString().length),
     ),
   );
   var bankmasukController =
       Provider.of<BankmController>(context, listen: false);
 
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    padding: EdgeInsets.symmetric(horizontal: 12),
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 1),
+      padding: EdgeInsets.symmetric(vertical: 3),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Row(
@@ -108,41 +98,128 @@ Widget AddBankMasukCard(
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 2,
-            child: Text(
-              data_account.acno ?? "",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    data_piutang.no_bukti ?? "",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextFormField(
+                  readOnly: true,
+                  controller: acnoController,
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "perkiraan",
+                    hintStyle: GoogleFonts.poppins(
+                        color: GreyColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                  ),
+                  onChanged: (numb) {
+                    if (numb.isNotEmpty) {
+                      bankmasukController.data_piutang_keranjang[index].acno =
+                          acnoController.text;
+                      bankmasukController.hitungSubTotal();
+                      bankmasukController.notifyListeners();
+                    }
+                  },
+                  onFieldSubmitted: (value) {
+                    bankmasukController.data_piutang_keranjang[index].acno =
+                        acnoController.text;
+                    bankmasukController.hitungSubTotal();
+                  },
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   readOnly: true,
                   controller: nacnoController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "-",
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "nama perkiraan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
@@ -156,14 +233,14 @@ Widget AddBankMasukCard(
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      bankmasukController.data_account_keranjang[index].nacno =
+                      bankmasukController.data_piutang_keranjang[index].nacno =
                           nacnoController.text;
                       bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].nacno =
+                    bankmasukController.data_piutang_keranjang[index].nacno =
                         nacnoController.text;
                     bankmasukController.hitungSubTotal();
                   },
@@ -172,65 +249,27 @@ Widget AddBankMasukCard(
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
-                child: TextFormField(
-                  controller: no_fakturController,
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "No Faktur",
-                    hintStyle: GoogleFonts.poppins(
-                        color: GreyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (numb) {
-                    if (numb.isNotEmpty) {
-                      bankmasukController.data_account_keranjang[index]
-                          .no_faktur = no_fakturController.text;
-                      // bankmasukController.hitungSubTotal();
-                      bankmasukController.notifyListeners();
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index]
-                        .no_faktur = no_fakturController.text;
-                    // bankmasukController.hitungSubTotal();
-                  },
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                height: 40,
                 child: TextFormField(
                   controller: uraianController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Uraian",
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "uraian",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
@@ -244,14 +283,14 @@ Widget AddBankMasukCard(
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      bankmasukController.data_account_keranjang[index].reff =
+                      bankmasukController.data_piutang_keranjang[index].uraian =
                           uraianController.text;
                       // bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].reff =
+                    bankmasukController.data_piutang_keranjang[index].uraian =
                         uraianController.text;
                     // bankmasukController.hitungSubTotal();
                   },
@@ -262,73 +301,25 @@ Widget AddBankMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
-                child: TextFormField(
-                  controller: jumlahinvController,
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Rp 0",
-                    hintStyle: GoogleFonts.poppins(
-                        color: GreyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (numb) {
-                    if (numb.isNotEmpty) {
-                      jumlahinvController.value = TextEditingValue(
-                        text: config().format_rupiah(jumlahinvController.text),
-                        selection: TextSelection.fromPosition(
-                          TextPosition(
-                              offset: config()
-                                  .format_rupiah(jumlahinvController.text)
-                                  .length),
-                        ),
-                      );
-                      bankmasukController
-                              .data_account_keranjang[index].jumlahinv =
-                          config().convert_rupiah(jumlahinvController.text);
-                      bankmasukController.hitungSubTotal();
-                      bankmasukController.notifyListeners();
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    bankmasukController
-                            .data_account_keranjang[index].jumlahinv =
-                        config().convert_rupiah(jumlahinvController.text);
-                    bankmasukController.hitungSubTotal();
-                  },
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                height: 40,
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: jumlahController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -352,15 +343,14 @@ Widget AddBankMasukCard(
                                   .length),
                         ),
                       );
-                      bankmasukController
-                              .data_account_keranjang[index].jumlah =
+                      bankmasukController.data_piutang_keranjang[index].jumlah =
                           config().convert_rupiah(jumlahController.text);
                       bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].jumlah =
+                    bankmasukController.data_piutang_keranjang[index].jumlah =
                         config().convert_rupiah(jumlahController.text);
                     bankmasukController.hitungSubTotal();
                   },
@@ -371,18 +361,25 @@ Widget AddBankMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
-                  controller: jumlah1Controller,
+                  textAlign: TextAlign.right,
+                  controller: jumlahrpController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -397,25 +394,25 @@ Widget AddBankMasukCard(
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      jumlah1Controller.value = TextEditingValue(
-                        text: config().format_rupiah(jumlah1Controller.text),
+                      jumlahrpController.value = TextEditingValue(
+                        text: config().format_rupiah(jumlahrpController.text),
                         selection: TextSelection.fromPosition(
                           TextPosition(
                               offset: config()
-                                  .format_rupiah(jumlah1Controller.text)
+                                  .format_rupiah(jumlahrpController.text)
                                   .length),
                         ),
                       );
                       bankmasukController
-                              .data_account_keranjang[index].jumlah1 =
-                          config().convert_rupiah(jumlah1Controller.text);
+                              .data_piutang_keranjang[index].jumlahrp =
+                          config().convert_rupiah(jumlahrpController.text);
                       bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].jumlah1 =
-                        config().convert_rupiah(jumlah1Controller.text);
+                    bankmasukController.data_piutang_keranjang[index].jumlahrp =
+                        config().convert_rupiah(jumlahrpController.text);
                     bankmasukController.hitungSubTotal();
                   },
                 ),
@@ -425,18 +422,25 @@ Widget AddBankMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: umController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -460,14 +464,14 @@ Widget AddBankMasukCard(
                                   .length),
                         ),
                       );
-                      bankmasukController.data_account_keranjang[index].um =
+                      bankmasukController.data_piutang_keranjang[index].um =
                           config().convert_rupiah(umController.text);
                       bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].um =
+                    bankmasukController.data_piutang_keranjang[index].um =
                         config().convert_rupiah(umController.text);
                     bankmasukController.hitungSubTotal();
                   },
@@ -476,78 +480,31 @@ Widget AddBankMasukCard(
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
-                child: TextFormField(
-                  controller: currdController,
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "-",
-                    hintStyle: GoogleFonts.poppins(
-                        color: GreyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (numb) {
-                    if (numb.isNotEmpty) {
-                      currdController.value = TextEditingValue(
-                        text: config().format_rupiah(currdController.text),
-                        selection: TextSelection.fromPosition(
-                          TextPosition(
-                              offset: config()
-                                  .format_rupiah(currdController.text)
-                                  .length),
-                        ),
-                      );
-                      bankmasukController.data_account_keranjang[index].currd =
-                          config().convert_rupiah(currdController.text);
-                      bankmasukController.hitungSubTotal();
-                      bankmasukController.notifyListeners();
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index].currd =
-                        config().convert_rupiah(currdController.text);
-                    bankmasukController.hitungSubTotal();
-                  },
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                height: 40,
                 child: TextFormField(
-                  controller: ratedController,
+                  controller: currController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Rp 0",
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "currency",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -557,70 +514,125 @@ Widget AddBankMasukCard(
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      ratedController.value = TextEditingValue(
-                        text: config().format_rupiah(ratedController.text),
-                        selection: TextSelection.fromPosition(
-                          TextPosition(
-                              offset: config()
-                                  .format_rupiah(ratedController.text)
-                                  .length),
-                        ),
-                      );
-                      bankmasukController
-                              .data_account_keranjang[index].rated =
-                          config().convert_rupiah(ratedController.text);
-                      bankmasukController.hitungSubTotal();
-                      bankmasukController.notifyListeners();
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    bankmasukController
-                            .data_account_keranjang[index].rated =
-                        config().convert_rupiah(ratedController.text);
-                    bankmasukController.hitungSubTotal();
-                  },
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                height: 40,
-                child: TextFormField(
-                  controller: noinvController,
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "No Invoice",
-                    hintStyle: GoogleFonts.poppins(
-                        color: GreyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  onChanged: (numb) {
-                    if (numb.isNotEmpty) {
-                      bankmasukController.data_account_keranjang[index]
-                          .noinv = noinvController.text;
+                      bankmasukController.data_piutang_keranjang[index].curr =
+                          currController.text;
                       // bankmasukController.hitungSubTotal();
                       bankmasukController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    bankmasukController.data_account_keranjang[index]
-                        .noinv = noinvController.text;
+                    bankmasukController.data_piutang_keranjang[index].curr =
+                        currController.text;
+                    // bankmasukController.hitungSubTotal();
+                  },
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextFormField(
+                  textAlign: TextAlign.right,
+                  controller: rateController,
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "0.00",
+                    hintStyle: GoogleFonts.poppins(
+                        color: GreyColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                  ),
+                  onChanged: (numb) {
+                    if (numb.isNotEmpty) {
+                      rateController.value = TextEditingValue(
+                        text: config().format_rupiah(rateController.text),
+                        selection: TextSelection.fromPosition(
+                          TextPosition(
+                              offset: config()
+                                  .format_rupiah(rateController.text)
+                                  .length),
+                        ),
+                      );
+                      bankmasukController.data_piutang_keranjang[index].rate =
+                          config().convert_rupiah(rateController.text);
+                      bankmasukController.hitungSubTotal();
+                      bankmasukController.notifyListeners();
+                    }
+                  },
+                  onFieldSubmitted: (value) {
+                    bankmasukController.data_piutang_keranjang[index].rate =
+                        config().convert_rupiah(rateController.text);
+                    bankmasukController.hitungSubTotal();
+                  },
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextFormField(
+                  controller: noinvController,
+                  style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "invoice",
+                    hintStyle: GoogleFonts.poppins(
+                        color: GreyColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                  ),
+                  onChanged: (numb) {
+                    if (numb.isNotEmpty) {
+                      bankmasukController.data_piutang_keranjang[index].noinv =
+                          noinvController.text;
+                      // bankmasukController.hitungSubTotal();
+                      bankmasukController.notifyListeners();
+                    }
+                  },
+                  onFieldSubmitted: (value) {
+                    bankmasukController.data_piutang_keranjang[index].noinv =
+                        noinvController.text;
                     // bankmasukController.hitungSubTotal();
                   },
                 ),
@@ -629,7 +641,7 @@ Widget AddBankMasukCard(
           ),
           InkWell(
             onTap: () {
-              bankmasukController.data_account_keranjang.removeAt(index);
+              bankmasukController.data_piutang_keranjang.removeAt(index);
               bankmasukController.hitungSubTotal();
             },
             child: Padding(

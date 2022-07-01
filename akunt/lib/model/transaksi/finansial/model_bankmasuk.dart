@@ -223,4 +223,14 @@ class model_bankm {
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
+
+  //MODEL PIUTANG
+  Future<List> cari_piutang(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/cari_piutang_bank"),
+      body: {"cari": key_cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
 }

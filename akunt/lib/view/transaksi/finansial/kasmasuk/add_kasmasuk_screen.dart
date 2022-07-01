@@ -1,4 +1,3 @@
-import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -885,16 +884,16 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                     //         color: Colors.black87),
                                     //   ),
                                     // ),
-                                    // Expanded(
-                                    //   flex: 2,
-                                    //   child: Text(
-                                    //     item.jumlahrp.toString(),
-                                    //     style: TextStyle(
-                                    //         fontSize: 16.0,
-                                    //         fontWeight: FontWeight.w500,
-                                    //         color: Colors.black87),
-                                    //   ),
-                                    // ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        item.jumlahrp.toString(),
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87),
+                                      ),
+                                    ),
                                     // Expanded(
                                     //   flex: 2,
                                     //   child: Text(
@@ -960,7 +959,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                    EdgeInsets.only(left: 12, right: 13, top: 16, bottom: 7),
                 child: Row(
                   children: [
                     SizedBox(
@@ -968,116 +967,277 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "No. Faktur",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Faktur",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Perkiraan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Perk.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Perk.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "Nama Perkiraan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uraian",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Uraian",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah(Rp)",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah (Rp)",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uang Muka",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Curr",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Uang Muka",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Rate",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Curr",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Rate",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Invoice",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -1113,7 +1273,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                           left: 12, right: 12, top: 20, bottom: 2),
                       child: Row(
                         children: [
-                          Expanded(flex: 7, child: SizedBox()),
+                          Expanded(flex: 8, child: SizedBox()),
                           Expanded(
                             flex: 2,
                             child: Text(
@@ -1175,7 +1335,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                               ),
                             ),
                           ),
-                          Expanded(flex: 8, child: SizedBox()),
+                          Expanded(flex: 7, child: SizedBox()),
                           SizedBox(
                             width: 36,
                           )

@@ -1,4 +1,3 @@
-import 'package:akunt/config/config.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,7 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/transaksi/finansial/bankmasuk_controller.dart';
-import 'package:akunt/model/master/finansial/data_account.dart';
+import 'package:akunt/model/transaksi/operasional/data_piutang.dart';
 import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_customer.dart';
 import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_account.dart';
 import 'package:akunt/view/transaksi/finansial/bankmasuk/pilih_currency.dart';
@@ -27,7 +26,7 @@ class AddBankMasukScreen extends StatefulWidget {
 }
 
 class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
-  GlobalKey<AutoCompleteTextFieldState<DataAccount>> key = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<DataPiutang>> key = new GlobalKey();
   AutoCompleteTextField searchTextField;
   var f = NumberFormat("#,##0.00", "en_US");
 
@@ -175,16 +174,17 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "No. Bukti",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -193,10 +193,10 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       child: TextFormField(
                                         controller: bankmasukController
                                             .no_buktiController,
-                                        readOnly: widget.isModeEdit,
+                                        readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -220,15 +220,15 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Tanggal",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -241,7 +241,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -269,8 +269,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                                       .chooseDate;
                                           bankmasukController
                                                   .tanggalController.text =
-                                              bankmasukController
-                                                  .format_tanggal
+                                              bankmasukController.format_tanggal
                                                   .format(bankmasukController
                                                       .chooseDate);
                                         },
@@ -280,13 +279,13 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 3, child: SizedBox()),
+                            Expanded(flex: 12, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 10),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -296,17 +295,17 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Bank#",
+                                      "Bank",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -314,12 +313,17 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: bankmasukController
-                                            .bacnoController,
+                                        controller:
+                                            bankmasukController.bacnoController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
+                                          hintText: "Cari Disini",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13),
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 14),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -353,15 +357,15 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Bank-Nm",
+                                      "Nama",
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black),
                                     ),
@@ -369,20 +373,21 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 16),
                                       child: TextFormField(
-                                        controller: bankmasukController
-                                            .bnamaController,
+                                        controller:
+                                            bankmasukController.bnamaController,
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -400,13 +405,13 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 3, child: SizedBox()),
+                            Expanded(flex: 11, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 10),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -418,15 +423,15 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Currency",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -438,8 +443,13 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                             bankmasukController.currController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
+                                          hintText: "Cari Disini",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13),
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 14),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -474,15 +484,15 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Curr-Nm",
+                                      "-",
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black),
                                     ),
@@ -490,8 +500,9 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -503,7 +514,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -531,15 +542,15 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -549,12 +560,18 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       child: TextFormField(
                                         controller:
                                             bankmasukController.rateController,
-                                        readOnly: true,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          WhitelistingTextInputFormatter(
+                                              RegExp("[0-9]")),
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 15),
                                           icon: Image.asset(
-                                            "assets/images/ic_user_warna.png",
+                                            "assets/images/ic_tax.png",
                                             height: 20,
                                           ),
                                           border: InputBorder.none,
@@ -570,12 +587,13 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
+                            Expanded(flex: 8, child: SizedBox())
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 10),
+                            left: 24, right: 24, top: 10, bottom: 20),
                         child: Row(
                           children: [
                             Expanded(
@@ -585,9 +603,9 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Kode Supplier",
+                                      "Customer",
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black),
                                     ),
@@ -595,7 +613,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -607,8 +625,13 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                             bankmasukController.kodeController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
+                                          hintText: "Cari Disini",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 15),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -642,7 +665,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -650,16 +673,17 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Nama",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -671,7 +695,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 15),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -689,15 +713,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 3, child: SizedBox()),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, bottom: 24),
-                        child: Row(
-                          children: [
+                            Expanded(flex: 1, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -707,7 +723,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Keterangan",
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black),
                                     ),
@@ -715,7 +731,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -728,7 +744,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         // readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 15),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -742,10 +758,10 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 6, child: SizedBox()),
+                            Expanded(flex: 8, child: SizedBox()),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -761,7 +777,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                   child: Container(
                     height: 45,
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: searchTextField = AutoCompleteTextField<DataAccount>(
+                    child: searchTextField = AutoCompleteTextField<DataPiutang>(
                       style: new TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
@@ -789,10 +805,18 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                         disabledBorder: InputBorder.none,
                       ),
                       itemSubmitted: (item) {
-                        DataAccount db_item = DataAccount(
-                          nacno: item.nacno,
+                        DataPiutang db_item = DataPiutang(
                           noid: item.noid,
+                          no_bukti: item.no_bukti,
                           acno: item.acno,
+                          nacno: item.nacno,
+                          uraian: item.uraian,
+                          jumlah: item.jumlah,
+                          jumlahrp: item.jumlahrp,
+                          um: item.um,
+                          curr: item.curr,
+                          rate: item.rate,
+                          noinv: item.noinv,
                         );
                         searchTextField.textField.controller.clear();
                         bankmasukController.addKeranjang(db_item);
@@ -800,7 +824,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                       submitOnSuggestionTap: true,
                       clearOnSubmit: false,
                       key: key,
-                      suggestions: bankmasukController.accountList,
+                      suggestions: bankmasukController.piutangList,
                       itemBuilder: (context, item) {
                         return Container(
                           child: Column(
@@ -811,7 +835,17 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
+                                      child: Text(
+                                        item.no_bukti,
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
                                       child: Text(
                                         item.acno,
                                         style: TextStyle(
@@ -821,7 +855,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       ),
                                     ),
                                     Expanded(
-                                      flex: 5,
+                                      flex: 3,
                                       child: Text(
                                         item.nacno,
                                         style: TextStyle(
@@ -830,6 +864,76 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                             color: Colors.black87),
                                       ),
                                     ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.uraian,
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.jumlah.toString(),
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        item.jumlahrp.toString(),
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87),
+                                      ),
+                                    ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.um.toString(),
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.curr,
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.rate.toString(),
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Text(
+                                    //     item.noinv,
+                                    //     style: TextStyle(
+                                    //         fontSize: 16.0,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         color: Colors.black87),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -855,7 +959,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                    EdgeInsets.only(left: 12, right: 13, top: 16, bottom: 7),
                 child: Row(
                   children: [
                     SizedBox(
@@ -863,122 +967,277 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Kode",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Faktur",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Perk.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Perk.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "-",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uraian",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "No Faktur",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Uraian",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah(Rp)",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jml Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uang Muka",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Curr",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Rate",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah (Rp)",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Uang Muka",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Currency",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Rate",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "No Inv",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Invoice",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -988,45 +1247,105 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: bankmasukController.data_account_keranjang.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AddBankMasukCard(context, index,
-                        bankmasukController.data_account_keranjang[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(flex: 6, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Total : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: config().format_rupiah(
-                            bankmasukController.sumTotal.toString()),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount:
+                            bankmasukController.data_piutang_keranjang.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AddBankMasukCard(
+                              context,
+                              index,
+                              bankmasukController
+                                  .data_piutang_keranjang[index]);
+                        },
                       ),
-                    ],
-                  ),
+                    )),
+              ),
+              Container(
+                height: 75,
+                decoration: BoxDecoration(
+                    border: Border.all(color: GreyColor), color: Colors.white),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 20, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 8, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(bankmasukController.sumJumlah),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(bankmasukController.sumJumlahRp),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(flex: 7, child: SizedBox()),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

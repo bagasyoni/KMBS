@@ -84,9 +84,9 @@ Widget AddKasMasukCard(
   var kasmasukController = Provider.of<KasmController>(context, listen: false);
 
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    padding: EdgeInsets.symmetric(horizontal: 12),
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 1),
+      padding: EdgeInsets.symmetric(vertical: 3),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Row(
@@ -96,45 +96,81 @@ Widget AddKasMasukCard(
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              data_piutang.no_bukti ?? "",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    data_piutang.no_bukti ?? "",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   readOnly: true,
                   controller: acnoController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "perkiraan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -160,21 +196,27 @@ Widget AddKasMasukCard(
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   readOnly: true,
                   controller: nacnoController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "nama perkiraan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -205,20 +247,26 @@ Widget AddKasMasukCard(
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: uraianController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "uraian",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -251,19 +299,25 @@ Widget AddKasMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   textAlign: TextAlign.right,
                   controller: jumlahController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -305,19 +359,25 @@ Widget AddKasMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   textAlign: TextAlign.right,
                   controller: jumlahrpController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -360,19 +420,25 @@ Widget AddKasMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   textAlign: TextAlign.right,
                   controller: umController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
@@ -412,25 +478,31 @@ Widget AddKasMasukCard(
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: currController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "currency",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -458,24 +530,30 @@ Widget AddKasMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   textAlign: TextAlign.right,
                   controller: rateController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "0.00",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -512,23 +590,29 @@ Widget AddKasMasukCard(
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: noinvController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "invoice",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,

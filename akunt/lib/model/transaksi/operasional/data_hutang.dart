@@ -13,9 +13,11 @@ class DataHutang {
   double sisa;
   double jumlah;
   double jumlahrp;
+  double um;
+  double jumlahinv;
+  String curr;
   String info;
   String flag;
-  String curr;
   double rate;
   String noinv;
 
@@ -28,9 +30,11 @@ class DataHutang {
       this.acno,
       this.nacno,
       this.uraian,
+      this.um,
       this.sisa,
       this.jumlah,
       this.jumlahrp,
+      this.jumlahinv,
       this.info,
       this.flag,
       this.curr,
@@ -46,15 +50,18 @@ class DataHutang {
       namas: parsedJson['NAMAS'] as String,
       acno: parsedJson['ACNO'] as String,
       nacno: parsedJson['NACNO'] as String,
-      uraian: parsedJson['INFO'] as String,
-      sisa: double.parse(parsedJson['SISA'].toString()),
-      jumlah: double.parse(parsedJson['JUMLAH'].toString()),
-      jumlahrp: double.parse(parsedJson['JUMLAH'].toString()),
+      uraian: parsedJson['URAIAN'] as String ?? "",
+      um: 0.00,
+      sisa: 0.00,
+      jumlah: 0.00,
+      jumlahrp: double.parse(parsedJson['RATE'].toString()),
+      jumlahinv: 0.00,
       info: parsedJson['INFO'] as String,
       flag: parsedJson['FLAG'] as String,
       curr: parsedJson['CURR'] as String,
+      // rate: double.parse(parsedJson['RATE'].toString()),
       rate: double.parse(parsedJson['RATE'].toString()),
-      noinv: "",
+      noinv: parsedJson['NOINV'] as String ?? "",
     );
   }
 }

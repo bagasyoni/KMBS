@@ -235,7 +235,7 @@ class model_kasm {
   //MODEL PIUTANG
   Future<List> cari_piutang(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_piutang"),
+      Uri.parse("${baseUrl}:3000/cari_piutang_kas"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);

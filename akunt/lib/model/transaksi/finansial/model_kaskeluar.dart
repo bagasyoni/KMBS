@@ -62,6 +62,10 @@ class model_kask {
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
           "UM": data_insert['UM'].toString(),
+          "KODECAB": data_insert['KODECAB'].toString(),
+          "NAMACAB": data_insert['NAMACAB'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "TC": data_insert['TC'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -126,6 +130,10 @@ class model_kask {
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
           "UM": data_insert['UM'].toString(),
+          "KODECAB": data_insert['KODECAB'].toString(),
+          "NAMACAB": data_insert['NAMACAB'].toString(),
+          "BRAND": data_insert['BRAND'].toString(),
+          "TC": data_insert['TC'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -172,7 +180,7 @@ class model_kask {
   Future<List> get_no_bukti(
       String tipe, String paramkolom, String paramtabel) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/no_urut"),
+      Uri.parse("${baseUrl}:3000/no_urut_kas"),
       body: {"tipe": tipe, "kolom": paramkolom, "tabel": paramtabel},
     );
     var results2 = json.decode(response.body);
@@ -224,9 +232,10 @@ class model_kask {
     return results2['data'].toList();
   }
 
-    Future<List> cari_hutang_kask(String key_cari) async {
+  //MODEL HUTANG
+    Future<List> cari_hutang(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_hutang_kask"),
+      Uri.parse("${baseUrl}:3000/cari_hutang_kas"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);

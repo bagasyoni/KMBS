@@ -5,8 +5,8 @@ class DataPiutang {
   int noid;
   String no_bukti;
   String tgl;
-  String kodes;
-  String namas;
+  String kodec;
+  String namac;
   String acno;
   String nacno;
   String uraian;
@@ -25,8 +25,8 @@ class DataPiutang {
       {this.noid,
       this.no_bukti,
       this.tgl,
-      this.kodes,
-      this.namas,
+      this.kodec,
+      this.namac,
       this.acno,
       this.nacno,
       this.uraian,
@@ -46,22 +46,22 @@ class DataPiutang {
       noid: parsedJson['NO_ID'],
       no_bukti: parsedJson['NO_BUKTI'] as String,
       tgl: parsedJson['TGL'] as String,
-      kodes: parsedJson['KODES'] as String,
-      namas: parsedJson['NAMAS'] as String,
+      kodec: parsedJson['KODEC'] as String,
+      namac: parsedJson['NAMAC'] as String,
       acno: parsedJson['ACNO'] as String,
       nacno: parsedJson['NACNO'] as String,
-      uraian: parsedJson['URAIAN'] as String,
+      uraian: parsedJson['URAIAN'] as String ?? "",
       um: 0.00,
       sisa: 0.00,
       jumlah: 0.00,
-      jumlahrp: 0.00,
+      jumlahrp: double.parse(parsedJson['RATE'].toString()),
       jumlahinv: 0.00,
       info: parsedJson['INFO'] as String,
       flag: parsedJson['FLAG'] as String,
       curr: parsedJson['CURR'] as String,
       // rate: double.parse(parsedJson['RATE'].toString()),
-      rate: 0.00,
-      noinv: "",
+      rate: double.parse(parsedJson['RATE'].toString()),
+      noinv: parsedJson['NOINV'] as String ?? "",
     );
   }
 }

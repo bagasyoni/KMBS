@@ -273,7 +273,7 @@ module.exports = function (app) {
         .post(kasmjs.ambilkasmdetail);
     app.route('/hapus_kasm')
         .post(kasmjs.hapuskasm);
-    app.route('/cari_piutang')
+    app.route('/cari_piutang_kas')
         .post(kasmjs.caripiutang)
 
     ///====================/// KAS KELUAR ///====================///
@@ -297,7 +297,7 @@ module.exports = function (app) {
         .post(kaskjs.ambilkaskdetail);
     app.route('/hapus_kask')
         .post(kaskjs.hapuskask);
-    app.route('/cari_hutang')
+    app.route('/cari_hutang_kas')
         .post(kaskjs.carihutang);
 
     ///====================/// BANK MASUK ///====================///
@@ -321,6 +321,8 @@ module.exports = function (app) {
         .post(bankmjs.ambilbankmdetail);
     app.route('/hapus_bankm')
         .post(bankmjs.hapusbankm);
+    app.route('/cari_piutang_bank')
+        .post(bankmjs.caripiutang);
 
     ///====================/// BANK KELUAR ///====================///
     app.route('/bankkpaginate')
@@ -343,6 +345,8 @@ module.exports = function (app) {
         .post(bankkjs.ambilbankkdetail);
     app.route('/hapus_bankk')
         .post(bankkjs.hapusbankk);
+    app.route('/cari_hutang_bank')
+        .post(bankkjs.carihutang);
 
     ///====================/// GIRO MASUK ///====================///
     app.route('/girokpaginate')
