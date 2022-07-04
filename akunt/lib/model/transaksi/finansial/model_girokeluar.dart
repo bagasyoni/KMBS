@@ -224,4 +224,14 @@ class model_girok {
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
+
+  //MODEL HUTANG
+  Future<List> cari_hutang(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/cari_hutang_giro"),
+      body: {"cari": key_cari},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
 }

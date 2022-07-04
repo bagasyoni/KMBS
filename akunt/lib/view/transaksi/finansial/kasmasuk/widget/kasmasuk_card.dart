@@ -9,17 +9,19 @@ import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget KasmCard(int index,
-    {Function pressEdit, Function pressDelete}) {
+Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
   return Consumer<KasmController>(
       builder: (context, kasmasukController, child) {
     var data_kasm = kasmasukController.data_kasm_list[index];
+    String nobukti = data_kasm['NO_BUKTI'];
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_kasm['TGL']));
-    String nobukti = data_kasm['NO_BUKTI'];
-    String ket = data_kasm['KET'];
-    // double qty = data_kasm['JUMLAH'];
+    String kodes = data_kasm['KODE'];
+    String namas = data_kasm['NAMA'];
     String jumlah = config().format_rupiah(data_kasm['JUMLAH'].toString());
+    String jumlahrp = config().format_rupiah(data_kasm['JUMLAH1'].toString());
+    String bacno = data_kasm['BACNO'];
+    String bnama = data_kasm['BNAMA'];
     bool isDelivered = data_kasm['POSTED'] == 1 ? true : false;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -41,91 +43,227 @@ Widget KasmCard(int index,
           child: Row(
             children: [
               Expanded(
-                flex: 3,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Tanggal : $tanggal",
-                    style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: "\nNo Bukti : ",
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "${index + 1}.",
                         style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                        children: [
-                          TextSpan(
-                            text: nobukti,
-                            style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            "assets/images/ic_user.png",
-                            height: 15,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            "Dari/Kepada",
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        ket,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Jumlah : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: jumlah.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
+                            fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
-                    ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        nobukti,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        tanggal,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        kodes,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        namas,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        jumlah.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        jumlahrp.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        bacno,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        bnama,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                    ),
                   ),
                 ),
               ),

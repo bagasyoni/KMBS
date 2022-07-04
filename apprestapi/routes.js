@@ -348,28 +348,6 @@ module.exports = function (app) {
     app.route('/cari_hutang_bank')
         .post(bankkjs.carihutang);
 
-    ///====================/// GIRO MASUK ///====================///
-    app.route('/girokpaginate')
-        .post(girokjs.girok_paginate);
-    app.route('/countgirokpaginate')
-        .post(girokjs.count_girokpaginate);
-    app.route('/tambah_header_girok')
-        .post(girokjs.tambahheadergirok);
-    app.route('/tambah_detail_girok')
-        .post(girokjs.tambahdetailgirok);
-    app.route('/tampil_girok')
-        .post(girokjs.tampilgirok);
-    app.route('/edit_header_girok')
-        .post(girokjs.editheadergirok);
-    app.route('/modal_girok')
-        .post(girokjs.modalgirok);
-    app.route('/cari_girok')
-        .post(girokjs.carigirok);
-    app.route('/ambil_girok_detail')
-        .post(girokjs.ambilgirokdetail);
-    app.route('/hapus_girok')
-        .post(girokjs.hapusgirok);
-
     ///====================/// GIRO KELUAR ///====================///
     app.route('/girompaginate')
         .post(giromjs.girom_paginate);
@@ -391,6 +369,32 @@ module.exports = function (app) {
         .post(giromjs.ambilgiromdetail);
     app.route('/hapus_girom')
         .post(giromjs.hapusgirom);
+    app.route('/cari_piutang_giro')
+        .post(giromjs.caripiutang);
+
+    ///====================/// GIRO MASUK ///====================///
+    app.route('/girokpaginate')
+        .post(girokjs.girok_paginate);
+    app.route('/countgirokpaginate')
+        .post(girokjs.count_girokpaginate);
+    app.route('/tambah_header_girok')
+        .post(girokjs.tambahheadergirok);
+    app.route('/tambah_detail_girok')
+        .post(girokjs.tambahdetailgirok);
+    app.route('/tampil_girok')
+        .post(girokjs.tampilgirok);
+    app.route('/edit_header_girok')
+        .post(girokjs.editheadergirok);
+    app.route('/modal_girok')
+        .post(girokjs.modalgirok);
+    app.route('/cari_girok')
+        .post(girokjs.carigirok);
+    app.route('/ambil_girok_detail')
+        .post(girokjs.ambilgirokdetail);
+    app.route('/hapus_girok')
+        .post(girokjs.hapusgirok);
+    app.route('/cari_hutang_giro')
+        .post(girokjs.carihutang);
 
     ///====================/// MEMORIAL ///====================///
     app.route('/memopaginate')

@@ -28,8 +28,9 @@ import 'package:akunt/view/transaksi/finansial/kasmasuk/kasmasuk_screen.dart';
 import 'package:akunt/view/transaksi/finansial/kaskeluar/kaskeluar_screen.dart';
 import 'package:akunt/view/transaksi/finansial/bankmasuk/bankmasuk_screen.dart';
 import 'package:akunt/view/transaksi/finansial/bankkeluar/bankkeluar_screen.dart';
+import 'package:akunt/view/transaksi/finansial/giromasuk/giromasuk_screen.dart';
+import 'package:akunt/view/transaksi/finansial/girokeluar/girokeluar_screen.dart';
 import 'package:akunt/view/transaksi/finansial/memo/memo_screen.dart';
-
 
 ///TRANSAKSI OPERASIONAL///
 import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pobahanlokal_screen.dart';
@@ -78,7 +79,6 @@ import 'package:akunt/view/lap_kartu_piu/lap_kartu_piu_screen.dart';
 import 'package:akunt/view/lap_buku_besar/lap_buku_besar_screen.dart';
 
 import 'package:akunt/view/login/login_screen.dart';
-
 
 import 'package:akunt/view/home/pie_chart.dart';
 import 'package:provider/provider.dart';
@@ -1493,7 +1493,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: 16,
                                         ),
-                                        Text("Jurnal Kas Masuk"),
+                                        Text("Kas Masuk"),
                                       ],
                                     ),
                                     value: 101,
@@ -1508,7 +1508,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: 16,
                                         ),
-                                        Text("Jurnal Kas Keluar"),
+                                        Text("Kas Keluar"),
                                       ],
                                     ),
                                     value: 102,
@@ -1523,7 +1523,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: 16,
                                         ),
-                                        Text("Jurnal Bank Masuk"),
+                                        Text("Bank Masuk"),
                                       ],
                                     ),
                                     value: 103,
@@ -1538,7 +1538,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: 16,
                                         ),
-                                        Text("Jurnal Bank Keluar"),
+                                        Text("Bank Keluar"),
                                       ],
                                     ),
                                     value: 104,
@@ -1553,10 +1553,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: 16,
                                         ),
-                                        Text("Jurnal Memorial"),
+                                        Text("Giro Masuk"),
                                       ],
                                     ),
                                     value: 105,
+                                  ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_po.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("Giro Keluar"),
+                                      ],
+                                    ),
+                                    value: 106,
+                                  ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_po.png",
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("Memorial"),
+                                      ],
+                                    ),
+                                    value: 107,
                                   ),
                                 ];
                               },
@@ -1582,6 +1612,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MaterialPageRoute(
                                           builder: (_) => BankKeluarScreen()));
                                 } else if (value == 105) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => GiroMasukScreen()));
+                                } else if (value == 106) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => GiroKeluarScreen()));
+                                } else if (value == 107) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

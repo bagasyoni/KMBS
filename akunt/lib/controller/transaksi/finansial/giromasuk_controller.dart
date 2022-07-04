@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:akunt/model/master/finansial/model_account.dart';
-import 'package:akunt/model/master/finansial/data_account.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/model/transaksi/finansial/model_giromasuk.dart';
+import 'package:akunt/model/transaksi/operasional/data_piutang.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -177,6 +176,7 @@ class GiromController with ChangeNotifier {
   TextEditingController jumlahController = TextEditingController();
   TextEditingController usrinController = TextEditingController();
   TextEditingController tg_inController = TextEditingController();
+  TextEditingController umController = TextEditingController();
   TextEditingController bgController = TextEditingController();
   TextEditingController jtempoController = TextEditingController();
   TextEditingController flagController = TextEditingController();
@@ -188,15 +188,15 @@ class GiromController with ChangeNotifier {
   DateTime chooseDate = DateTime.now();
   DateTime chooseDateJT = DateTime.now();
   String tanggal;
-  List<DataAccount> data_account_keranjang = List<DataAccount>();
-  double sumQty = 0;
-  double sumTotal = 0;
+  List<DataPiutang> data_piutang_keranjang = List<DataPiutang>();
+  double sumJumlah = 0;
+  double sumJumlahRp = 0;
   String uraian, reff;
   int no_urut = 0;
-  List<DataAccount> accountList = List<DataAccount>();
+  List<DataPiutang> piutangList = List<DataPiutang>();
 
   Future<void> initData_addGirom() async {
-    data_account_keranjang = new List<DataAccount>();
+    data_piutang_keranjang = new List<DataPiutang>();
     no_buktiController.clear();
     tanggalController.clear();
     typeController.clear();
@@ -213,25 +213,29 @@ class GiromController with ChangeNotifier {
     jumlahController.clear();
     usrinController.clear();
     tg_inController.clear();
+    umController.clear();
     bgController.clear();
     jtempoController.clear();
     flagController.clear();
     tanggalController.text = format_tanggal.format(chooseDate);
     jtempoController.text = format_tanggal_JT.format(chooseDate);
-    sumQty = 0;
-    sumTotal = 0;
+    sumJumlah = 0;
+    sumJumlahRp = 0;
     await baca_periodePrefs();
-    await m_girom.get_no_bukti('GM', 'NO_BUKTI', 'giro').then((value) {
+    await m_girom
+        .get_no_bukti(
+            'GM${format_no_bukti.format(DateTime.now())}', 'NO_BUKTI', 'giro')
+        .then((value) {
       if (value != null) {
         no_buktiController.text =
-            "GM${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
+            "GM${format_no_bukti.format(DateTime.now())}-${value[0]['NOMOR']}";
       }
     });
-    await model_account().cari_account("").then((value) {
+    await model_girom().cari_piutang("").then((value) {
       if (value != null) {
-        accountList.clear();
+        piutangList.clear();
         for (int i = 0; i < value.length; i++) {
-          accountList.add(DataAccount.fromJson(value[i]));
+          piutangList.add(DataPiutang.fromJson(value[i]));
         }
       }
     });
@@ -255,52 +259,54 @@ class GiromController with ChangeNotifier {
     jumlahController.text = data_edit['JUMLAH'];
     usrinController.text = data_edit['USRIN'];
     tg_inController.text = data_edit['TG_IN'];
+    umController.text = data_edit['UM'];
     bgController.text = data_edit['BG'];
     flagController.text = data_edit['FLAG'];
     List data_lama = await m_girom.select_girom_detail(
         data_edit['NO_BUKTI'], "NO_BUKTI", "girod");
-    data_account_keranjang = new List<DataAccount>();
+    data_piutang_keranjang = new List<DataPiutang>();
 
     for (int i = 0; i < data_lama.length; i++) {
-      DataAccount mAccount = DataAccount(
+      DataPiutang mAccount = DataPiutang(
         noid: data_lama[i]['NO_ID'],
+        no_bukti: data_lama[i]['NO_BUKTI'],
         acno: data_lama[i]['ACNO'],
         nacno: data_lama[i]['NACNO'],
-        no_faktur: data_lama[i]['NO_FAKTUR'],
-        reff: data_lama[i]['URAIAN'],
-        jumlahinv: double.parse(data_lama[i]['JUMLAHINV'].toString()) ?? 0.00,
+        uraian: data_lama[i]['URAIAN'],
         jumlah: double.parse(data_lama[i]['JUMLAH'].toString()) ?? 0.00,
-        jumlah1: double.parse(data_lama[i]['JUMLAH1'].toString()) ?? 0.00,
+        jumlahrp: double.parse(data_lama[i]['JUMLAHRP'].toString()) ?? 0.00,
         um: double.parse(data_lama[i]['UM'].toString()) ?? 0.00,
-        currd: double.parse(data_lama[i]['CURRD'].toString()) ?? 0.00,
-        rated: double.parse(data_lama[i]['RATED'].toString()) ?? 0.00,
+        curr: data_lama[i]['CURR'],
+        rate: double.parse(data_lama[i]['RATE'].toString()) ?? 0.00,
         noinv: data_lama[i]['NOINV'],
+        jumlahinv: double.parse(data_lama[i]['JUMLAHINV'].toString()) ?? 0.00,
       );
-      data_account_keranjang.add(mAccount);
+      data_piutang_keranjang.add(mAccount);
     }
     hitungSubTotal();
-    await model_account().data_accountcari("").then((value) {
+    await model_girom().cari_piutang("").then((value) {
       if (value != null) {
-        accountList.clear();
+        piutangList.clear();
         for (int i = 0; i < value.length; i++) {
-          accountList.add(DataAccount.fromJson(value[i]));
+          piutangList.add(DataPiutang.fromJson(value[i]));
         }
       }
     });
   }
 
-  void addKeranjang(DataAccount mAccount) {
-    data_account_keranjang.add(mAccount);
-    sumQty += 1;
-    sumTotal += mAccount.jumlah ?? 0.00;
+  void addKeranjang(DataPiutang mAccount) {
+    data_piutang_keranjang.add(mAccount);
+    sumJumlah += mAccount.jumlah ?? 0.00;
+    sumJumlahRp += mAccount.jumlahrp ?? 0.00;
     notifyListeners();
   }
 
   void hitungSubTotal() {
-    sumQty = 0;
-    sumTotal = 0;
-    for (int i = 0; i < data_account_keranjang.length; i++) {
-      sumTotal += data_account_keranjang[i].jumlah ?? 0.00;
+    sumJumlah = 0;
+    sumJumlahRp = 0;
+    for (int i = 0; i < data_piutang_keranjang.length; i++) {
+      sumJumlah += data_piutang_keranjang[i].jumlah ?? 0.00;
+      sumJumlahRp += data_piutang_keranjang[i].jumlahrp ?? 0.00;
     }
     notifyListeners();
   }
@@ -309,9 +315,9 @@ class GiromController with ChangeNotifier {
   Future<bool> saveGirom() async {
     hitungSubTotal();
     if (no_buktiController.text.isNotEmpty) {
-      if (data_account_keranjang.length > 0) {
+      if (data_piutang_keranjang.length > 0) {
         BotToast.showLoading();
-        var data_ready = await m_girom.get_no_bukti(
+        var data_ready = await m_girom.check_no_bukti(
             no_buktiController.text, "NO_BUKTI", "giro");
         if (data_ready.length > 0) {
           Toast("Peringatan !",
@@ -332,11 +338,12 @@ class GiromController with ChangeNotifier {
           obj['NAMA'] = namaController.text;
           obj['KET'] = ketController.text;
           obj['PER'] = perx;
-          obj['JUMLAH1'] = "0.00";
-          obj['JUMLAH'] = "0.00";
+          obj['JUMLAH1'] = sumJumlahRp;
+          obj['JUMLAH'] = sumJumlah;
           obj['USRIN'] = LoginController.nama_staff;
           obj['TG_IN'] = DateTime.now();
-          obj['BG'] = "0.00";
+          obj['UM'] = umController.text;
+          obj['BG'] = bgController.text;
           obj['FLAG'] = "G";
           obj['tabeld'] = await baca_tabeld();
           await m_girom.insert_girom(obj);
@@ -356,7 +363,7 @@ class GiromController with ChangeNotifier {
   Future<bool> editGirom() async {
     hitungSubTotal();
     if (no_buktiController.text.isNotEmpty) {
-      if (data_account_keranjang.length > 0) {
+      if (data_piutang_keranjang.length > 0) {
         BotToast.showLoading();
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
@@ -371,11 +378,12 @@ class GiromController with ChangeNotifier {
         obj['NAMA'] = namaController.text;
         obj['KET'] = ketController.text;
         obj['PER'] = perx;
-        obj['JUMLAH1'] = "0.00";
-        obj['JUMLAH'] = "0.00";
+        obj['JUMLAH1'] = sumJumlahRp;
+        obj['JUMLAH'] = sumJumlah;
         obj['USRIN'] = LoginController.nama_staff;
         obj['TG_IN'] = DateTime.now();
-        obj['BG'] = "0.00";
+        obj['UM'] = umController.text;
+        obj['BG'] = bgController.text;
         obj['FLAG'] = "G";
         obj['tabeld'] = await baca_tabeld();
         await m_girom.update_girom(obj);
@@ -404,27 +412,27 @@ class GiromController with ChangeNotifier {
 
   /// data detail
   Future<List> baca_tabeld() async {
-    List accountList = [];
-    for (int i = 0; i < data_account_keranjang.length; i++) {
-      double jumlahinv = data_account_keranjang[i].jumlah;
-      double jumlah = data_account_keranjang[i].jumlah;
-      double jumlah1 = data_account_keranjang[i].jumlah;
-      double um = data_account_keranjang[i].jumlah;
-      double currd = data_account_keranjang[i].jumlah;
-      double rated = data_account_keranjang[i].jumlah;
+    List piutangList = [];
+    for (int i = 0; i < data_piutang_keranjang.length; i++) {
+      double jumlah = data_piutang_keranjang[i].jumlah;
+      double jumlahrp = data_piutang_keranjang[i].jumlahrp;
+      double um = data_piutang_keranjang[i].um;
+      double rate = data_piutang_keranjang[i].rate;
+      double jumlahinv = data_piutang_keranjang[i].jumlahinv;
       Map obj = new Map();
-      obj['ACNO'] = data_account_keranjang[i].acno;
-      obj['NACNO'] = data_account_keranjang[i].nacno;
-      obj['NO_FAKTUR'] = data_account_keranjang[i].reff;
-      obj['URAIAN'] = data_account_keranjang[i].reff;
-      obj['JUMLAHINV'] = jumlahinv ?? 0.00;
+      obj['NO_BUKTI'] = data_piutang_keranjang[i].no_bukti;
+      obj['ACNO'] = data_piutang_keranjang[i].acno;
+      obj['NACNO'] = data_piutang_keranjang[i].nacno;
+      obj['URAIAN'] = data_piutang_keranjang[i].uraian;
       obj['JUMLAH'] = jumlah ?? 0.00;
-      obj['JUMLAH1'] = jumlah1 ?? 0.00;
+      obj['JUMLAHRP'] = jumlahrp ?? 0.00;
       obj['UM'] = um ?? 0.00;
-      obj['CURRD'] = currd ?? 0.00;
-      obj['RATED'] = rated ?? 0.00;
-      accountList.add(obj);
+      obj['CURR'] = data_piutang_keranjang[i].curr;
+      obj['RATE'] = rate ?? 0.00;
+      obj['NOINV'] = data_piutang_keranjang[i].noinv;
+      obj['JUMLAHINV'] = jumlahinv ?? 0.00;
+      piutangList.add(obj);
     }
-    return accountList;
+    return piutangList;
   }
 }

@@ -55,11 +55,12 @@ exports.tambahheadergirom = function (req, res) {
     var USRIN = req.body.USRIN;
     var PER = req.body.PER;
     var TG_IN = req.body.TG_IN;
+    var UM = req.body.UM;
     var BG = req.body.BG;
     var JTEMPO = req.body.JTEMPO;
     var FLAG = req.body.FLAG;
 
-    connection.query("INSERT INTO giro (NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, BG, JTEMPO, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, BG, JTEMPO, FLAG],
+    connection.query("INSERT INTO giro (NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, UM, BG, JTEMPO, FLAG) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, UM, BG, JTEMPO, FLAG],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -135,11 +136,12 @@ exports.editheadergirom = function (req, res) {
     var USRIN = req.body.USRIN;
     var PER = req.body.PER;
     var TG_IN = req.body.TG_IN;
+    var UM = req.body.UM;
     var BG = req.body.BG;
     var JTEMPO = req.body.JTEMPO;
     var FLAG = req.body.FLAG;
 
-    connection.query("UPDATE giro set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KODE=?, NAMA=?, KET=?, JUMLAH1=?, JUMLAH=?, USRIN=?, PER=?, TG_IN=?, BG=?, JTEMPO=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, BG, JTEMPO, FLAG, NO_BUKTI],
+    connection.query("UPDATE giro set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KODE=?, NAMA=?, KET=?, JUMLAH1=?, JUMLAH=?, USRIN=?, PER=?, TG_IN=?, UM=?, BG=?, JTEMPO=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, JUMLAH1, JUMLAH, USRIN, PER, TG_IN, UM, BG, JTEMPO, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -216,6 +218,18 @@ exports.ambilgiromdetail = function (req, res) {
             } else {
                 response.ok(rows, res);
 
+            }
+        });
+}
+
+exports.caripiutang = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("SELECT * FROM (SELECT piu.NO_BUKTI, piu.TGL, piu.KODEC, piu.NAMAC, piud.ACNO, account.NAMA AS NACNO, SUM(piud.HSISA) AS SISA, ROUND(SUM((HSISA/HTOTAL) * JUMLAHRP),4) AS JUMLAHRP, CONCAT(TRIM(piud.NO_BUKTI), TRIM(piud.ACNO)) AS INFO, piu.FLAG, piu.CURR, piu.RATE, '' AS NOINV FROM piu, piud, account WHERE piu.NO_BUKTI=piud.NO_BUKTI AND piud.HSISA<>0 AND piud.ACNO=account.ACNO GROUP BY piu.NO_BUKTI, piud.ACNO UNION ALL SELECT piutang.NO_BUKTI, piutang.TGL, piutang.KODEC, piutang.NAMAC, piutang.ACNO, account.NAMA AS NACNO, SUM(piutang.SISA) AS SISA, ROUND(SUM((SISA/NETT)*JUMLAHRP),4) AS JUMLAHRP, CONCAT (TRIM(piutang.NO_BUKTI), TRIM(piutang.ACNO)) AS INFO, piutang.FLAG, piutang.CURR, piutang.RATE, '' AS NOINV FROM piutang, account WHERE piutang.ACNO=account.ACNO AND piutang.flag='UM' AND piutang.SISA<>0 GROUP BY piutang.NO_BUKTI, piutang.ACNO) AS BBB WHERE NO_BUKTI<>'' AND (NO_BUKTI LIKE ? OR ACNO LIKE ? OR NACNO LIKE ?)", [filter_cari, filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(rows, res);
             }
         });
 }

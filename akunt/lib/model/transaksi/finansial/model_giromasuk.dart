@@ -61,6 +61,7 @@ class model_girom {
           "JUMLAH": data_insert['JUMLAH'].toString(),
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
+          "UM": data_insert['UM'].toString(),
           "BG": data_insert['BG'].toString(),
           "JTEMPO": data_insert['JTEMPO'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
@@ -126,6 +127,7 @@ class model_girom {
           "JUMLAH": data_insert['JUMLAH'].toString(),
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
+          "UM": data_insert['UM'].toString(),
           "BG": data_insert['BG'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
@@ -220,6 +222,16 @@ class model_girom {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/hapus_girom"),
       body: {"no_bukti": no_bukti},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  //MODEL PIUTANG
+  Future<List> cari_piutang(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/cari_piutang_giro"),
+      body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
