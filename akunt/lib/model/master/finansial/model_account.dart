@@ -17,7 +17,7 @@ class model_account {
 
   Future<List> cari_account(String key_cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cariacc"),
+      Uri.parse("${baseUrl}:3000/cariaccount"),
       body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);

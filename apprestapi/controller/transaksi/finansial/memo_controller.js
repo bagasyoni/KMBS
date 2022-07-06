@@ -13,7 +13,7 @@ exports.memo_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from memo where NO_BUKTI like ? or BACNO like ? or BNAMA like ? LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    connection.query("select * from memo where NO_BUKTI like ? LIMIT ?, ?", [filter_cari, offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ exports.memo_paginate = function (req, res) {
 
 exports.count_memopaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from memo where TYP='' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='M')", [filter_cari, filter_cari],
+    connection.query("SELECT COUNT(*) FROM memo WHERE TYPE='' AND (NO_BUKTI LIKE ? OR FLAG='M')", [filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -105,7 +105,7 @@ exports.tampilmemo = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from memo where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='M' AND PER=? AND TYP=''", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from memo where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='M' AND PER=? AND TYPE=''", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -211,6 +211,20 @@ exports.ambilmemodetail = function (req, res) {
             if (error) {
                 console.log(error);
             } else {
+                response.ok(rows, res);
+
+            }
+        });
+}
+
+exports.cariaccount = function (req, res) {
+    var filter_cari = '%' + req.body.cari + '%';
+    connection.query("select * from account where ACNO like ? or NAMA like ? or NAMA_KEL like ? or NM_GRUP like ?", [filter_cari, filter_cari, filter_cari, filter_cari],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
                 response.ok(rows, res);
 
             }

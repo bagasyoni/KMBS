@@ -21,6 +21,7 @@ class DataAccount {
   double rated;
   String no_faktur;
   String noinv;
+  double dk;
 
   DataAccount({
     this.noid,
@@ -41,6 +42,7 @@ class DataAccount {
     this.rated,
     this.no_faktur,
     this.noinv,
+    this.dk,
   });
 
   factory DataAccount.fromJson(var parsedJson) {
@@ -63,6 +65,7 @@ class DataAccount {
       rated: 0.00,
       no_faktur: "",
       noinv: "",
+      dk: 0.00,
     );
   }
 }

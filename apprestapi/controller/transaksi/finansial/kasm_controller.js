@@ -145,7 +145,7 @@ exports.editheaderkasm = function (req, res) {
     var TC = req.body.TC;
     var FLAG = req.body.FLAG;
 
-    connection.query("UPDATE kas set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KODE=?, NAMA=?, KET=?, PER=?, JUMLAH1=?, JUMLAH=?, USRIN=?, TG_IN=?, UM=?, UM=?, KODECAB=?, NAMACAB=?, BRAND=?, TC=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, PER, JUMLAH1, JUMLAH, USRIN, TG_IN, UM, KODECAB, NAMACAB, BRAND, TC, FLAG, NO_BUKTI],
+    connection.query("UPDATE kas set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KODE=?, NAMA=?, KET=?, PER=?, JUMLAH1=?, JUMLAH=?, USRIN=?, TG_IN=?, UM=?, KODECAB=?, NAMACAB=?, BRAND=?, TC=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KODE, NAMA, KET, PER, JUMLAH1, JUMLAH, USRIN, TG_IN, UM, KODECAB, NAMACAB, BRAND, TC, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

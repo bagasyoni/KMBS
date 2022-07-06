@@ -24,20 +24,20 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
     String bnama = data_kasm['BNAMA'];
     bool isDelivered = data_kasm['POSTED'] == 1 ? true : false;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: InkWell(
         onTap: () {
           kasmasukController.index_terpilih = index;
           kasmasukController.notifyListeners();
         },
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
                 color: (index == kasmasukController.index_terpilih)
                     ? HijauColor
-                    : GreyColor),
+                    : Colors.white),
             color: Colors.white,
           ),
           child: Row(
@@ -50,12 +50,12 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         "${index + 1}.",
                         style: GoogleFonts.poppins(
@@ -75,7 +75,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -100,7 +100,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -125,7 +125,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -150,7 +150,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -175,7 +175,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -200,7 +200,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -225,7 +225,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -250,7 +250,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     height: 30,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: Colors.teal[100],
+                      color: Colors.teal[50],
                       border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(5),
                     ),

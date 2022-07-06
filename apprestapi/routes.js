@@ -417,7 +417,8 @@ module.exports = function (app) {
         .post(memojs.ambilmemodetail);
     app.route('/hapus_memo')
         .post(memojs.hapusmemo);
-
+    app.route('/cari_account')
+        .post(memojs.cariaccount);
 
     ///TRANSAKSI OPERASIONAL///
     ///====================/// PO BAHAN LOKAL ///====================///
@@ -1141,6 +1142,10 @@ module.exports = function (app) {
         .post(jsonku.nourut);
     app.route('/no_urut_kas')
         .post(jsonku.nourutkas);
+    app.route('/no_urut_bank')
+        .post(jsonku.nourutbank);
+    app.route('/no_urut_memo')
+        .post(jsonku.nourutmemo);
 
     ///CHECK NO BUKTI
     app.route('/check_nobukti')

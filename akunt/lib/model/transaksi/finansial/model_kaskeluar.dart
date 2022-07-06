@@ -233,7 +233,7 @@ class model_kask {
   }
 
   //MODEL HUTANG
-    Future<List> cari_hutang(String key_cari) async {
+  Future<List> cari_hutang(String key_cari) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/cari_hutang_kas"),
       body: {"cari": key_cari},

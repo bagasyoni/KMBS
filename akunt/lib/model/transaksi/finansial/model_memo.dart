@@ -171,7 +171,7 @@ class model_memo {
   Future<List> get_no_bukti(
       String tipe, String paramkolom, String paramtabel) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/no_urut"),
+      Uri.parse("${baseUrl}:3000/no_urut_memo"),
       body: {"tipe": tipe, "kolom": paramkolom, "tabel": paramtabel},
     );
     var results2 = json.decode(response.body);
@@ -218,6 +218,16 @@ class model_memo {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/hapus_memo"),
       body: {"no_bukti": no_bukti},
+    );
+    var results2 = json.decode(response.body);
+    return results2['data'].toList();
+  }
+
+  //MODEL ACCOUNT
+  Future<List> cari_account(String key_cari) async {
+    final response = await http.post(
+      Uri.parse("${baseUrl}:3000/cari_account"),
+      body: {"cari": key_cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();

@@ -173,16 +173,17 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "No. Bukti",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -191,10 +192,10 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                       child: TextFormField(
                                         controller:
                                             memoController.no_buktiController,
-                                        readOnly: widget.isModeEdit,
+                                        readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -208,7 +209,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -218,15 +219,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "Tanggal",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -239,7 +240,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -276,131 +277,13 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 12, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Kas",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller:
-                                            memoController.bacnoController,
-                                        readOnly: widget.isModeEdit,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
-                                          icon: Image.asset(
-                                            "assets/images/ic_search.png",
-                                            height: 20,
-                                          ),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                        onTap: () {
-                                          showAnimatedDialog(
-                                              context,
-                                              PilihAccount(
-                                                  memoController.bacnoController
-                                                          .text.isEmpty
-                                                      ? null
-                                                      : memoController
-                                                          .bnamaController.text,
-                                                  memoController),
-                                              isFlip: false);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 2, child: SizedBox()),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Nama",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: GreyColor),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16),
-                                      child: TextFormField(
-                                        controller:
-                                            memoController.bnamaController,
-                                        readOnly: true,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
-                                          icon: Image.asset(
-                                            "assets/images/ic_user_warna.png",
-                                            height: 20,
-                                          ),
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(flex: 2, child: SizedBox()),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 10),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -412,15 +295,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "Currency",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -432,8 +315,13 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                             memoController.currController,
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
+                                          hintText: "Cari Disini",
+                                          hintStyle: GoogleFonts.poppins(
+                                              color: GreyColor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13),
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 14),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -464,9 +352,9 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -474,16 +362,17 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "-",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -495,7 +384,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -513,7 +402,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(flex: 11, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
+                        child: Row(
+                          children: [
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -523,15 +420,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -544,7 +441,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tax.png",
                                             height: 20,
@@ -562,12 +459,13 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
+                            Expanded(flex: 15, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 24, right: 24, bottom: 24),
+                            left: 24, right: 24, top: 10, bottom: 20),
                         child: Row(
                           children: [
                             Expanded(
@@ -579,15 +477,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                     Text(
                                       "Keterangan",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 40,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -600,7 +498,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                         // readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -614,7 +512,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 6, child: SizedBox()),
+                            Expanded(flex: 9, child: SizedBox()),
                           ],
                         ),
                       )
@@ -727,7 +625,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                    EdgeInsets.only(left: 24, right: 23, top: 16, bottom: 7),
                 child: Row(
                   children: [
                     SizedBox(
@@ -735,72 +633,177 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Acno",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Nama Acno",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Acno",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Acno",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Jumlah (Rp)",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Uraian",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "D/K",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Jumlah (Rp)",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uraian",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "D/K",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -810,45 +813,101 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: memoController.data_account_keranjang.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AddMemoCard(context, index,
-                        memoController.data_account_keranjang[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(flex: 6, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    text: "Debet : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: config()
-                            .format_rupiah(memoController.sumDebet.toString()),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: memoController.data_account_keranjang.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AddMemoCard(context, index,
+                              memoController.data_account_keranjang[index]);
+                        },
                       ),
-                    ],
-                  ),
+                    )),
+              ),
+              Container(
+                height: 75,
+                decoration: BoxDecoration(
+                    border: Border.all(color: GreyColor), color: Colors.white),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 20, bottom: 2),
+                      child: Row(
+                        children: [
+                          Expanded(flex: 4, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Total",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(memoController.sumJumlah),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[50],
+                                border: Border.all(color: GreyColor),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                child: Text(
+                                  f.format(memoController.sumJumlahrp),
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(flex: 6, child: SizedBox()),
+                          SizedBox(
+                            width: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
