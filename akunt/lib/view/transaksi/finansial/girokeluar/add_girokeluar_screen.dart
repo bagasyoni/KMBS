@@ -280,7 +280,132 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 12, child: SizedBox()),
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Jatuh Tempo",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: girokeluarController
+                                            .jtempoController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tanggal.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () async {
+                                          girokeluarController.chooseDateJT =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          girokeluarController
+                                                                  .chooseDateJT ??
+                                                              DateTime.now(),
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  girokeluarController
+                                                      .chooseDateJT;
+                                          girokeluarController
+                                                  .jtempoController.text =
+                                              girokeluarController
+                                                  .format_tanggal
+                                                  .format(girokeluarController
+                                                      .chooseDateJT);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "No. Bank",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        // controller:
+                                        //     girokeluarController.rateController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
+                                        ],
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tax.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -299,7 +424,7 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                       "Bank",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -376,6 +501,7 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                     Container(
                                       height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -405,7 +531,125 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 11, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Giro#",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            girokeluarController.bgController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Lunas",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: girokeluarController
+                                            .jtempoController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tanggal.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () async {
+                                          girokeluarController.chooseDateJT =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          girokeluarController
+                                                                  .chooseDateJT ??
+                                                              DateTime.now(),
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  girokeluarController
+                                                      .chooseDateJT;
+                                          girokeluarController
+                                                  .jtempoController.text =
+                                              girokeluarController
+                                                  .format_tanggal
+                                                  .format(girokeluarController
+                                                      .chooseDateJT);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -502,6 +746,7 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                     Container(
                                       height: 30,
                                       decoration: BoxDecoration(
+                                        color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -560,10 +805,9 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                         controller:
                                             girokeluarController.rateController,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter(
-                                              RegExp("[0-9]")),
-                                          FilteringTextInputFormatter.digitsOnly
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
                                         ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
@@ -586,13 +830,62 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Pembayaran Beda Bank",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        // controller:
+                                        //     girokeluarController.namaController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 16, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 20),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -694,7 +987,7 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 18, bottom: 18),
+                                              top: 16, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -712,9 +1005,17 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(flex: 11, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 20),
+                        child: Row(
+                          children: [
                             Expanded(
-                              flex: 2,
+                              flex: 6,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -723,7 +1024,7 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                       "Keterangan",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -757,7 +1058,52 @@ class _AddGiroKeluarScreenState extends State<AddGiroKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tahun",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            girokeluarController.ketController,
+                                        // readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 9, child: SizedBox()),
                           ],
                         ),
                       ),

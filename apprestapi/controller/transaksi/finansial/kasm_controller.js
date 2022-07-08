@@ -27,7 +27,7 @@ exports.kasm_paginate = function (req, res) {
 
 exports.count_kasmpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from kas where TYPE='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ? or FLAG='K')", [filter_cari, filter_cari, filter_cari],
+    connection.query("select COUNT(*) from kas where TYPE='BKM' and (NO_BUKTI like ? or BACNO like ? or BNAMA like ?)", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -110,7 +110,7 @@ exports.tampilkasm = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='K' AND PER=? AND TYPE='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from kas where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND PER=? AND TYPE='BKM'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -186,7 +186,7 @@ exports.modalkasm = function (req, res) {
 
 exports.carikasm = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='K' and TYPE='BKM'", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("select * from kas where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and TYPE='BKM'", [filter_cari, filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

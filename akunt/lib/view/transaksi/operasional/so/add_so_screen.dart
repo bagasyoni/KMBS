@@ -1451,8 +1451,8 @@ class _AddSoScreenState extends State<AddSoScreen> {
                                 controller: soController.discController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1536,8 +1536,8 @@ class _AddSoScreenState extends State<AddSoScreen> {
                                 controller: soController.disc1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1782,8 +1782,8 @@ class _AddSoScreenState extends State<AddSoScreen> {
                                 controller: soController.pphController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1867,8 +1867,8 @@ class _AddSoScreenState extends State<AddSoScreen> {
                                 controller: soController.pph1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],

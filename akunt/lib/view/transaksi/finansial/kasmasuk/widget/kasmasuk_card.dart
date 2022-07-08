@@ -16,8 +16,8 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
     String nobukti = data_kasm['NO_BUKTI'];
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_kasm['TGL']));
-    String kodes = data_kasm['KODE'];
-    String namas = data_kasm['NAMA'];
+    String kodec = data_kasm['KODE'];
+    String namac = data_kasm['NAMA'];
     String jumlah = config().format_rupiah(data_kasm['JUMLAH'].toString());
     String jumlahrp = config().format_rupiah(data_kasm['JUMLAH1'].toString());
     String bacno = data_kasm['BACNO'];
@@ -60,7 +60,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         "${index + 1}.",
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -85,7 +85,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         nobukti,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -110,7 +110,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         tanggal,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -132,10 +132,10 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
-                        kodes,
+                        kodec,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -143,7 +143,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: Container(
@@ -157,10 +157,10 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
-                        namas,
+                        namac,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -185,7 +185,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         jumlah.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -210,7 +210,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         jumlahrp.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -235,7 +235,7 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         bacno,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
@@ -260,12 +260,15 @@ Widget KasmCard(int index, {Function pressEdit, Function pressDelete}) {
                         bnama,
                         style: GoogleFonts.poppins(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                width: 10,
               ),
               if (Provider.of<LoginController>(context, listen: false)
                       .role_staff ==

@@ -49,7 +49,7 @@ class model_kask {
           "TGL": data_insert['TGL'].toString(),
           "TYPE": data_insert['TYPE'].toString(),
           "BACNO": data_insert['BACNO'].toString(),
-          "BNAMA": data_insert['BANAMA'].toString(),
+          "BNAMA": data_insert['BNAMA'].toString(),
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
@@ -89,7 +89,7 @@ class model_kask {
             "FLAG": data_insert['FLAG'].toString(),
             "UM": data_detail[i]['UM'].toString(),
             "CURRD": data_detail[i]['CURRD'].toString(),
-            "RATED": data_detail[i]['RATED'].toString(),
+            "RATED": data_detail[i]['RATE'].toString(),
             "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
@@ -104,7 +104,7 @@ class model_kask {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
         body: {
-          "no_bukti": data_insert['no_bukti'].toString(),
+          "no_bukti": data_insert['NO_BUKTI'].toString(),
           "kolom": "NO_BUKTI",
           "tabel": "kasd"
         },
@@ -117,7 +117,7 @@ class model_kask {
           "TGL": data_insert['TGL'].toString(),
           "TYPE": data_insert['TYPE'].toString(),
           "BACNO": data_insert['BACNO'].toString(),
-          "BNAMA": data_insert['BANAMA'].toString(),
+          "BNAMA": data_insert['BNAMA'].toString(),
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
@@ -157,7 +157,7 @@ class model_kask {
             "FLAG": data_insert['FLAG'].toString(),
             "UM": data_detail[i]['UM'].toString(),
             "CURRD": data_detail[i]['CURRD'].toString(),
-            "RATED": data_detail[i]['RATED'].toString(),
+            "RATED": data_detail[i]['RATE'].toString(),
             "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );

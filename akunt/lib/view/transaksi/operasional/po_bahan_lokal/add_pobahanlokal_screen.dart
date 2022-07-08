@@ -1532,8 +1532,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     pobahanlokalController.discController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1620,8 +1620,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     pobahanlokalController.disc1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1870,8 +1870,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     pobahanlokalController.pphController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1958,8 +1958,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     pobahanlokalController.pph1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],

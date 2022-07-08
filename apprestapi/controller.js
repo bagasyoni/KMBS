@@ -76,6 +76,23 @@ exports.nourutbank = function (req, res) {
         });
 }
 
+///NO BUKTI OTOMATIS GIRO
+exports.nourutgiro = function (req, res) {
+    var jenis = req.body.tipe;
+    var tabelx = req.body.tabel;
+    var kolomx = req.body.kolom;
+
+    connection.query("SELECT lpad(right(coalesce(MAX(??),0),5)+1,5,0) AS NOMOR from ?? where left(??,6)=?", [kolomx, tabelx, kolomx, jenis],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(rows, res);
+
+            }
+        });
+}
+
 ///NO BUKTI OTOMATIS MEMO
 exports.nourutmemo = function (req, res) {
     var jenis = req.body.tipe;

@@ -1575,8 +1575,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                     pobarangimportController.discController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1663,8 +1663,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                     pobarangimportController.disc1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -1913,8 +1913,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                     pobarangimportController.pphController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
@@ -2001,8 +2001,8 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                                     pobarangimportController.pph1Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9]")),
+                                  // WhitelistingTextInputFormatter(
+                                  //     RegExp("[0-9]")),
                                   LengthLimitingTextInputFormatter(2),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],

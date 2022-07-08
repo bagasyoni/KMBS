@@ -217,7 +217,7 @@ class BankkController with ChangeNotifier {
     await baca_periodePrefs();
     await m_bankk
         .get_no_bukti(
-            'BM${format_no_bukti.format(DateTime.now())}', 'NO_BUKTI', 'bank')
+            'BK${format_no_bukti.format(DateTime.now())}', 'NO_BUKTI', 'bank')
         .then((value) {
       if (value != null) {
         no_buktiController.text =
@@ -243,16 +243,16 @@ class BankkController with ChangeNotifier {
     bnamaController.text = data_edit['BNAMA'];
     currController.text = data_edit['CURR'];
     currnmController.text = data_edit['CURRNM'];
-    rateController.text = data_edit['RATE'];
+    rateController.text = data_edit['RATE'].toString();
     kodeController.text = data_edit['KODE'];
     namaController.text = data_edit['NAMA'];
     ketController.text = data_edit['KET'];
     perController.text = data_edit['PER'];
-    jumlah1Controller.text = data_edit['JUMLAH1'];
-    jumlahController.text = data_edit['JUMLAH'];
+    jumlah1Controller.text = data_edit['JUMLAH1'].toString();
+    jumlahController.text = data_edit['JUMLAH'].toString();
     usrinController.text = data_edit['USRIN'];
     tg_inController.text = data_edit['TG_IN'];
-    umController.text = data_edit['UM'];
+    umController.text = data_edit['UM'].toString();
     flagController.text = data_edit['FLAG'];
     List data_lama = await m_bankk.select_bankk_detail(
         data_edit['NO_BUKTI'], "NO_BUKTI", "bankd");
@@ -261,15 +261,15 @@ class BankkController with ChangeNotifier {
     for (int i = 0; i < data_lama.length; i++) {
       DataHutang mAccount = DataHutang(
         noid: data_lama[i]['NO_ID'],
-        no_bukti: data_lama[i]['NO_BUKTI'],
+        no_bukti: data_lama[i]['NO_FAKTUR'],
         acno: data_lama[i]['ACNO'],
         nacno: data_lama[i]['NACNO'],
         uraian: data_lama[i]['URAIAN'],
         jumlah: double.parse(data_lama[i]['JUMLAH'].toString()) ?? 0.00,
-        jumlahrp: double.parse(data_lama[i]['JUMLAHRP'].toString()) ?? 0.00,
+        jumlahrp: double.parse(data_lama[i]['JUMLAH1'].toString()) ?? 0.00,
         um: double.parse(data_lama[i]['UM'].toString()) ?? 0.00,
-        curr: data_lama[i]['CURR'],
-        rate: double.parse(data_lama[i]['RATE'].toString()) ?? 0.00,
+        curr: data_lama[i]['Currd'],
+        rate: double.parse(data_lama[i]['Rated'].toString()) ?? 0.00,
         noinv: data_lama[i]['NOINV'],
         jumlahinv: double.parse(data_lama[i]['JUMLAHINV'].toString()) ?? 0.00,
       );
@@ -410,14 +410,14 @@ class BankkController with ChangeNotifier {
       double rate = data_hutang_keranjang[i].rate;
       double jumlahinv = data_hutang_keranjang[i].jumlahinv;
       Map obj = new Map();
-      obj['NO_BUKTI'] = data_hutang_keranjang[i].no_bukti;
+      obj['NO_FAKTUR'] = data_hutang_keranjang[i].no_bukti;
       obj['ACNO'] = data_hutang_keranjang[i].acno;
       obj['NACNO'] = data_hutang_keranjang[i].nacno;
       obj['URAIAN'] = data_hutang_keranjang[i].uraian;
       obj['JUMLAH'] = jumlah ?? 0.00;
-      obj['JUMLAHRP'] = jumlahrp ?? 0.00;
+      obj['JUMLAH1'] = jumlahrp ?? 0.00;
       obj['UM'] = um ?? 0.00;
-      obj['CURR'] = data_hutang_keranjang[i].curr;
+      obj['CURRD'] = data_hutang_keranjang[i].curr;
       obj['RATE'] = rate ?? 0.00;
       obj['NOINV'] = data_hutang_keranjang[i].noinv;
       obj['JUMLAHINV'] = jumlahinv ?? 0.00;

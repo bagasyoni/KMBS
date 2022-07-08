@@ -279,7 +279,131 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 12, child: SizedBox()),
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Jatuh Tempo",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: giromasukController
+                                            .jtempoController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tanggal.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () async {
+                                          giromasukController.chooseDateJT =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          giromasukController
+                                                                  .chooseDateJT ??
+                                                              DateTime.now(),
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  giromasukController
+                                                      .chooseDateJT;
+                                          giromasukController
+                                                  .jtempoController.text =
+                                              giromasukController.format_tanggal
+                                                  .format(giromasukController
+                                                      .chooseDateJT);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "No. Bank",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[50],
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        // controller:
+                                        //     giromasukController.rateController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
+                                        ],
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tax.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -298,7 +422,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                       "Bank",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -366,7 +490,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                       "Nama",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -405,7 +529,124 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 11, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Giro#",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            giromasukController.bgController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Lunas",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller: giromasukController
+                                            .jtempoController,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_tanggal.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                        onTap: () async {
+                                          giromasukController.chooseDateJT =
+                                              await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          giromasukController
+                                                                  .chooseDateJT ??
+                                                              DateTime.now(),
+                                                      lastDate: DateTime(2050),
+                                                      firstDate: DateTime(
+                                                          DateTime.now()
+                                                              .year)) ??
+                                                  giromasukController
+                                                      .chooseDateJT;
+                                          giromasukController
+                                                  .jtempoController.text =
+                                              giromasukController.format_tanggal
+                                                  .format(giromasukController
+                                                      .chooseDateJT);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -464,7 +705,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                         onTap: () {
                                           showAnimatedDialog(
                                               context,
-                                              PilihAccount(
+                                              PilihCurrency(
                                                   giromasukController
                                                           .currController
                                                           .text
@@ -493,7 +734,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                       "-",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -542,8 +783,8 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -561,10 +802,9 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                         controller:
                                             giromasukController.rateController,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter(
-                                              RegExp("[0-9]")),
-                                          FilteringTextInputFormatter.digitsOnly
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
                                         ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
@@ -587,13 +827,62 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox())
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Pembayaran Beda Bank",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        // controller:
+                                        //     giromasukController.namaController,
+                                        readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 16, bottom: 16),
+                                          icon: Image.asset(
+                                            "assets/images/ic_user_warna.png",
+                                            height: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 10, bottom: 20),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -606,7 +895,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                       "Customer",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -646,7 +935,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                         onTap: () {
                                           showAnimatedDialog(
                                               context,
-                                              PilihAccount(
+                                              PilihCustomer(
                                                   giromasukController
                                                           .kodeController
                                                           .text
@@ -695,7 +984,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 15),
+                                              top: 16, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -713,9 +1002,17 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(flex: 11, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 10, bottom: 20),
+                        child: Row(
+                          children: [
                             Expanded(
-                              flex: 2,
+                              flex: 6,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -724,7 +1021,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                       "Keterangan",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -758,7 +1055,52 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tahun",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: GreyColor),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: TextFormField(
+                                        controller:
+                                            giromasukController.ketController,
+                                        // readOnly: widget.isModeEdit,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          focusedErrorBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(flex: 9, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -1276,7 +1618,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                           left: 12, right: 12, top: 20, bottom: 2),
                       child: Row(
                         children: [
-                          Expanded(flex: 8, child: SizedBox()),
+                          Expanded(flex: 7, child: SizedBox()),
                           Expanded(
                             flex: 2,
                             child: Text(
@@ -1338,7 +1680,7 @@ class _AddGiroMasukScreenState extends State<AddGiroMasukScreen> {
                               ),
                             ),
                           ),
-                          Expanded(flex: 7, child: SizedBox()),
+                          Expanded(flex: 8, child: SizedBox()),
                           SizedBox(
                             width: 36,
                           )

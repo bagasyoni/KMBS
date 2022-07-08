@@ -247,7 +247,7 @@ Widget AddKasMasukCard(
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: Padding(
               padding: const EdgeInsets.only(right: 5),
               child: Container(

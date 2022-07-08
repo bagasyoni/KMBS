@@ -532,7 +532,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(flex: 2, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -561,10 +561,9 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                         controller:
                                             kasmasukController.rateController,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter(
-                                              RegExp("[0-9]")),
-                                          FilteringTextInputFormatter.digitsOnly
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
                                         ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
@@ -587,7 +586,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 7, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -665,7 +664,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,7 +714,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 4,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -724,7 +723,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                       "Keterangan",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -758,7 +757,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -1066,7 +1065,7 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: Container(
@@ -1273,7 +1272,10 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                           left: 12, right: 12, top: 20, bottom: 2),
                       child: Row(
                         children: [
-                          Expanded(flex: 8, child: SizedBox()),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(flex: 10, child: SizedBox()),
                           Expanded(
                             flex: 2,
                             child: Text(
@@ -1292,8 +1294,8 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                               height: 30,
                               margin: EdgeInsets.only(right: 8),
                               decoration: BoxDecoration(
-                                color: Colors.teal[50],
-                                border: Border.all(color: GreyColor),
+                                color: Colors.teal[100],
+                                border: Border.all(color: Colors.blueGrey),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Padding(
@@ -1317,8 +1319,8 @@ class _AddKasMasukScreenState extends State<AddKasMasukScreen> {
                               height: 30,
                               margin: EdgeInsets.only(right: 8),
                               decoration: BoxDecoration(
-                                color: Colors.teal[50],
-                                border: Border.all(color: GreyColor),
+                                color: Colors.teal[100],
+                                border: Border.all(color: Colors.blueGrey),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Padding(

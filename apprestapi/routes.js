@@ -1144,6 +1144,8 @@ module.exports = function (app) {
         .post(jsonku.nourutkas);
     app.route('/no_urut_bank')
         .post(jsonku.nourutbank);
+    app.route('/no_urut_giro')
+        .post(jsonku.nourutgiro);
     app.route('/no_urut_memo')
         .post(jsonku.nourutmemo);
 

@@ -366,7 +366,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       "Nama",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -446,7 +446,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                           hintText: "Cari Disini",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 13),
                                           contentPadding: EdgeInsets.only(
                                               top: 15, bottom: 14),
@@ -464,7 +464,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         onTap: () {
                                           showAnimatedDialog(
                                               context,
-                                              PilihAccount(
+                                              PilihCurrency(
                                                   bankmasukController
                                                           .currController
                                                           .text
@@ -493,7 +493,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       "-",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -542,8 +542,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -561,10 +561,9 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         controller:
                                             bankmasukController.rateController,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter(
-                                              RegExp("[0-9]")),
-                                          FilteringTextInputFormatter.digitsOnly
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
                                         ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
@@ -606,7 +605,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       "Customer",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -646,7 +645,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                         onTap: () {
                                           showAnimatedDialog(
                                               context,
-                                              PilihAccount(
+                                              PilihCustomer(
                                                   bankmasukController
                                                           .kodeController
                                                           .text
@@ -724,7 +723,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                                       "Keterangan",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -1066,7 +1065,7 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: Container(
@@ -1276,7 +1275,10 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                           left: 12, right: 12, top: 20, bottom: 2),
                       child: Row(
                         children: [
-                          Expanded(flex: 8, child: SizedBox()),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(flex: 10, child: SizedBox()),
                           Expanded(
                             flex: 2,
                             child: Text(
@@ -1295,8 +1297,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                               height: 30,
                               margin: EdgeInsets.only(right: 8),
                               decoration: BoxDecoration(
-                                color: Colors.teal[50],
-                                border: Border.all(color: GreyColor),
+                                color: Colors.teal[100],
+                                border: Border.all(color: Colors.blueGrey),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Padding(
@@ -1320,8 +1322,8 @@ class _AddBankMasukScreenState extends State<AddBankMasukScreen> {
                               height: 30,
                               margin: EdgeInsets.only(right: 8),
                               decoration: BoxDecoration(
-                                color: Colors.teal[50],
-                                border: Border.all(color: GreyColor),
+                                color: Colors.teal[100],
+                                border: Border.all(color: Colors.blueGrey),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Padding(

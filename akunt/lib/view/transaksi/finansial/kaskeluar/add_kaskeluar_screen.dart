@@ -533,7 +533,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 1, child: SizedBox()),
+                            Expanded(flex: 2, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: Container(
@@ -562,10 +562,9 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                         controller:
                                             kaskeluarController.rateController,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter(
-                                              RegExp("[0-9]")),
-                                          FilteringTextInputFormatter.digitsOnly
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
                                         ],
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
@@ -588,7 +587,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 7, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -666,7 +665,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -716,7 +715,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                             ),
                             Expanded(flex: 1, child: SizedBox()),
                             Expanded(
-                              flex: 2,
+                              flex: 4,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -725,7 +724,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                       "Keterangan",
                                       style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -759,7 +758,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(flex: 8, child: SizedBox()),
+                            Expanded(flex: 5, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -1067,7 +1066,7 @@ class _AddKasKeluarScreenState extends State<AddKasKeluarScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: Container(

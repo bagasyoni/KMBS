@@ -360,7 +360,7 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: Container(
@@ -374,7 +374,7 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
-                              "Nama",
+                              "Customer",
                               style: GoogleFonts.poppins(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -510,12 +510,13 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: 25,
+                      width: 20,
                     ),
                   ],
                 ),
               ),
               Expanded(
+                flex: 2,
                 child: (kasmasukController.data_kasm_list.length > 0)
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -656,7 +657,7 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                         color: Colors.black),
                     children: [
                       TextSpan(
-                        text: kasmasukController.qty.toString(),
+                        text: kasmasukController.sumJumlah.toString(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
@@ -677,7 +678,7 @@ class _KasMasukScreenState extends State<KasMasukScreen> {
                         color: Colors.black),
                     children: [
                       TextSpan(
-                        text: sapi.format(kasmasukController.total),
+                        text: sapi.format(kasmasukController.sumJumlah),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,

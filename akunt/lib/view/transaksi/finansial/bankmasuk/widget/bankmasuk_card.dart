@@ -9,125 +9,266 @@ import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget BankmCard(int index,
-    {Function pressEdit, Function pressDelete}) {
+Widget BankmCard(int index, {Function pressEdit, Function pressDelete}) {
   return Consumer<BankmController>(
       builder: (context, bankmasukController, child) {
     var data_bankm = bankmasukController.data_bankm_list[index];
+    String nobukti = data_bankm['NO_BUKTI'];
     String tanggal =
         DateFormat('dd/MM/yyyy').format(DateTime.parse(data_bankm['TGL']));
-    String nobukti = data_bankm['NO_BUKTI'];
-    String ket = data_bankm['KET'];
-    // double qty = data_bankm['JUMLAH'];
+    String kodec = data_bankm['KODE'];
+    String namac = data_bankm['NAMA'];
     String jumlah = config().format_rupiah(data_bankm['JUMLAH'].toString());
+    String jumlahrp = config().format_rupiah(data_bankm['JUMLAH1'].toString());
+    String bacno = data_bankm['BACNO'];
+    String bnama = data_bankm['BNAMA'];
     bool isDelivered = data_bankm['POSTED'] == 1 ? true : false;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: InkWell(
         onTap: () {
           bankmasukController.index_terpilih = index;
           bankmasukController.notifyListeners();
         },
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
                 color: (index == bankmasukController.index_terpilih)
                     ? HijauColor
-                    : GreyColor),
+                    : Colors.white),
             color: Colors.white,
           ),
           child: Row(
             children: [
               Expanded(
-                flex: 3,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Tanggal : $tanggal",
-                    style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: "\nNo Bukti : ",
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "${index + 1}.",
                         style: GoogleFonts.poppins(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
-                        children: [
-                          TextSpan(
-                            text: nobukti,
-                            style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black),
-                          ),
-                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
               Expanded(
-                flex: 3,
-                child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            "assets/images/ic_user.png",
-                            height: 15,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            "Dari/Kepada",
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        ket,
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        nobukti,
                         style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Jumlah : ",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: jumlah.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
-                    ],
+                    ),
                   ),
                 ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        tanggal,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        kodec,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        namac,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        jumlah.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        jumlahrp.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        bacno,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.teal[50],
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        bnama,
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
               ),
               if (Provider.of<LoginController>(context, listen: false)
                       .role_staff ==

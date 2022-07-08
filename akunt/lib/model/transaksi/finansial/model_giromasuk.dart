@@ -87,7 +87,7 @@ class model_girom {
             "FLAG": data_insert['FLAG'].toString(),
             "UM": data_detail[i]['UM'].toString(),
             "CURRD": data_detail[i]['CURRD'].toString(),
-            "RATED": data_detail[i]['RATED'].toString(),
+            "RATED": data_detail[i]['RATE'].toString(),
             "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
@@ -115,7 +115,7 @@ class model_girom {
           "TGL": data_insert['TGL'].toString(),
           "TYPE": data_insert['TYPE'].toString(),
           "BACNO": data_insert['BACNO'].toString(),
-          "BNAMA": data_insert['BANAMA'].toString(),
+          "BNAMA": data_insert['BNAMA'].toString(),
           "CURR": data_insert['CURR'].toString(),
           "CURRNM": data_insert['CURRNM'].toString(),
           "RATE": data_insert['RATE'].toString(),
@@ -127,8 +127,9 @@ class model_girom {
           "JUMLAH": data_insert['JUMLAH'].toString(),
           "USRIN": data_insert['USRIN'].toString(),
           "TG_IN": data_insert['TG_IN'].toString(),
-          "UM": data_insert['UM'].toString(),
           "BG": data_insert['BG'].toString(),
+          "UM": data_insert['UM'].toString(),
+          "JTEMPO": data_insert['JTEMPO'].toString(),
           "FLAG": data_insert['FLAG'].toString(),
         },
       );
@@ -152,7 +153,7 @@ class model_girom {
             "FLAG": data_insert['FLAG'].toString(),
             "UM": data_detail[i]['UM'].toString(),
             "CURRD": data_detail[i]['CURRD'].toString(),
-            "RATED": data_detail[i]['RATED'].toString(),
+            "RATED": data_detail[i]['RATE'].toString(),
             "NOINV": data_detail[i]['NOINV'].toString(),
           },
         );
@@ -175,7 +176,7 @@ class model_girom {
   Future<List> get_no_bukti(
       String tipe, String paramkolom, String paramtabel) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/no_urut"),
+      Uri.parse("${baseUrl}:3000/no_urut_giro"),
       body: {"tipe": tipe, "kolom": paramkolom, "tabel": paramtabel},
     );
     var results2 = json.decode(response.body);
