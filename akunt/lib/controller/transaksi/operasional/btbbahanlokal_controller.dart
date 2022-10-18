@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:akunt/model/master/operasional/model_bahan.dart';
-import 'package:akunt/model/master/operasional/data_bhn.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/model/transaksi/operasional/model_pobahanlokal.dart';
+import 'package:akunt/model/transaksi/operasional/data_pobahanlokal.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:akunt/model/transaksi/operasional/model_btbbahanlokal.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../login_controller.dart';
 
-class PobahanlokalController with ChangeNotifier {
+class BtbbahanlokalController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   SharedPreferences prefs;
-  model_pobahanlokal m_pobahan = model_pobahanlokal();
+  model_btbbahanlokal m_btbbahanlokal = model_btbbahanlokal();
   TextEditingController searchController = TextEditingController();
   DateRangePickerController filter_tanggalController =
       new DateRangePickerController();
-  List data_pobahan_list = [];
-  static List home_pobahan_list = [];
+  List data_btbbahanlokal_list = [];
+  static List home_btbbahanlokal_list = [];
   bool isEnable_button = true;
   String selectedDate = '';
   String dateCount = '';
@@ -70,20 +70,20 @@ class PobahanlokalController with ChangeNotifier {
       offset = 0;
       page_index = 0;
     }
-    data_pobahan_list = await m_pobahan.data_pobahanlokalpaginate(
+    data_btbbahanlokal_list = await m_btbbahanlokal.data_btbbahanlokalpaginate(
         searchController.text, offset, limit);
-    home_pobahan_list = await m_pobahan.data_pobahanlokalpaginate(
+    home_btbbahanlokal_list = await m_btbbahanlokal.data_btbbahanlokalpaginate(
         searchController.text, offset, limit);
     var count =
-        await m_pobahan.countPobahanlokalPaginate(searchController.text);
+        await m_btbbahanlokal.countBtbbahanlokalPaginate(searchController.text);
     totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
     pageCount = totalNotaTerima / limit;
     notifyListeners();
   }
 
   void modalData(String cari) async {
-    data_pobahan_list = await model_pobahanlokal().data_modal(cari);
-    home_pobahan_list = await model_pobahanlokal().data_modal(cari);
+    data_btbbahanlokal_list = await model_btbbahanlokal().data_modal(cari);
+    home_btbbahanlokal_list = await model_btbbahanlokal().data_modal(cari);
     notifyListeners();
   }
 
@@ -94,22 +94,24 @@ class PobahanlokalController with ChangeNotifier {
   }
 
   Future<void> select_data() async {
-    data_pobahan_list = await m_pobahan.select_po_bahan_lokal(
+    data_btbbahanlokal_list = await m_btbbahanlokal.select_btb_bahan_lokal(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
-    home_pobahan_list = await m_pobahan.select_po_bahan_lokal(
+    home_btbbahanlokal_list = await m_btbbahanlokal.select_btb_bahan_lokal(
         searchController.text, tanggal_awal, tanggal_akhir, perx);
     total = 0;
     qty = 0;
-    for (int i = 0; i < data_pobahan_list.length; i++) {
-      total += double.parse(data_pobahan_list[i]['TOTAL'].toString());
-      qty += double.parse(data_pobahan_list[i]['TOTAL_QTY'].toString());
+    for (int i = 0; i < data_btbbahanlokal_list.length; i++) {
+      total += double.parse(data_btbbahanlokal_list[i]['TOTAL'].toString());
+      qty += double.parse(data_btbbahanlokal_list[i]['TOTAL_QTY'].toString());
     }
     notifyListeners();
   }
 
   void selectData(String cari) async {
-    data_pobahan_list = await model_pobahanlokal().cari_po_bahan_lokal(cari);
-    home_pobahan_list = await model_pobahanlokal().cari_po_bahan_lokal(cari);
+    data_btbbahanlokal_list =
+        await model_btbbahanlokal().cari_btb_bahan_lokal(cari);
+    home_btbbahanlokal_list =
+        await model_btbbahanlokal().cari_btb_bahan_lokal(cari);
     await baca_periodePrefs();
     notifyListeners();
   }
@@ -168,7 +170,7 @@ class PobahanlokalController with ChangeNotifier {
     }
   }
 
-  //add po bahan
+  //add btb bahan
   TextEditingController no_buktiController = TextEditingController();
   TextEditingController tglController = TextEditingController();
   TextEditingController jtempoController = TextEditingController();
@@ -220,7 +222,7 @@ class PobahanlokalController with ChangeNotifier {
   DateTime chooseDateJT = DateTime.now();
   String tanggal;
   String tanggalJT;
-  List<DataBhn> data_bhn_keranjang = List<DataBhn>();
+  List<DataPobahanlokal> data_pobahanlokal_keranjang = List<DataPobahanlokal>();
   static double rate = 0;
   double sumQty = 0;
   double sumTotal = 0;
@@ -235,11 +237,10 @@ class PobahanlokalController with ChangeNotifier {
   double sumNett1 = 0;
   String uraian, reff;
   int no_urut = 0;
-  List<DataBhn> bhnList = List<DataBhn>();
-  bool status_kasmasuk = true;
+  List<DataPobahanlokal> pobhnlokalList = List<DataPobahanlokal>();
 
-  Future<void> initData_addPobahan() async {
-    data_bhn_keranjang = new List<DataBhn>();
+  Future<void> initData_addBtbbahanlokal() async {
+    data_pobahanlokal_keranjang = new List<DataPobahanlokal>();
     no_buktiController.clear();
     tglController.clear();
     jtempoController.clear();
@@ -295,24 +296,18 @@ class PobahanlokalController with ChangeNotifier {
     sumNett1 = 0;
     String rate = rateController.text;
     await baca_periodePrefs();
-    await m_pobahan.get_no_bukti('PO/BHN/L', 'NO_BUKTI', 'po').then((value) {
+    await model_pobahanlokal().cari_po_bahan_lokal("").then((value) {
       if (value != null) {
-        no_buktiController.text =
-            "PO/BHN/L/${format_no_bukti.format(DateTime.now())}/${value[0]['NOMOR']}";
-      }
-    });
-    await model_bahan().cari_bahan("").then((value) {
-      if (value != null) {
-        bhnList.clear();
+        pobhnlokalList.clear();
         for (int i = 0; i < value.length; i++) {
-          bhnList.add(DataBhn.fromJson(value[i]));
+          pobhnlokalList.add(DataPobahanlokal.fromJson(value[i]));
         }
       }
     });
   }
 
   ///HEADER///
-  Future<void> initData_editPobahanlokal(var data_edit) async {
+  Future<void> initData_editBtbbahanlokal(var data_edit) async {
     no_buktiController.text = data_edit['NO_BUKTI'];
     chooseDate = DateTime.tryParse(data_edit['TGL']);
     chooseDateJT = DateTime.tryParse(data_edit['JTEMPO']);
@@ -355,37 +350,56 @@ class PobahanlokalController with ChangeNotifier {
     acno1_nmController.text = data_edit['ACNO1_NM'];
     tglController.text = format_tanggal.format(chooseDate);
     jtempoController.text = format_jtempo.format(chooseDateJT);
-    List data_lama = await m_pobahan.select_po_bahan_lokal_detail(
-        data_edit['NO_BUKTI'], "NO_BUKTI", "pod");
-    data_bhn_keranjang = new List<DataBhn>();
+    List data_lama = await m_btbbahanlokal.select_btb_bahan_lokal_detail(
+        data_edit['NO_BUKTI'], "NO_BUKTI", "belid");
+    data_pobahanlokal_keranjang = new List<DataPobahanlokal>();
 
     for (int i = 0; i < data_lama.length; i++) {
-      DataBhn mAccount = DataBhn(
+      DataPobahanlokal mAccount = DataPobahanlokal(
         noid: data_lama[i]['NO_ID'],
-        kd_bhn: data_lama[i]['KD_BHN'],
-        na_bhn: data_lama[i]['NA_BHN'],
+        no_bukti: data_lama[i]['NO_PO'],
+        qtypo: data_lama[i]['NA_BHN'],
+        kd_bhn: data_lama[i]['SATUAN'],
+        na_bhn: data_lama[i]['KET'],
         satuan: data_lama[i]['SATUAN'],
+        qty: double.parse(data_lama[i]['QTY'].toString()),
+        satuanbl: data_lama[i]['SATUANBL'],
+        qtybl: double.parse(data_lama[i]['QTYBL'].toString()),
+        harga1: double.parse(data_lama[i]['HARGA1'].toString()),
+        total1: double.parse(data_lama[i]['TOTAL1'].toString()),
         ket: data_lama[i]['KET'],
         harga: double.parse(data_lama[i]['HARGA'].toString()),
-        qty: double.parse(data_lama[i]['QTY'].toString()),
         total: double.parse(data_lama[i]['TOTAL'].toString()),
-        total1: double.parse(data_lama[i]['TOTAL1'].toString()),
+        blt: double.parse(data_lama[i]['BLT'].toString()),
+        disc: double.parse(data_lama[i]['DISC'].toString()),
+        rpdisc: double.parse(data_lama[i]['RPDISC'].toString()),
+        typ: data_lama[i]['TYP'],
+        gol: data_lama[i]['GOL'],
+        htg: double.parse(data_lama[i]['HTG'].toString()),
+        siz: data_lama[i]['SIZ'],
+        kd: data_lama[i]['KD'],
+        kodecab: data_lama[i]['KODECAB'],
+        warna: data_lama[i]['WARNA'],
+        produk: data_lama[i]['PRODUK'],
+        grp: data_lama[i]['GRP'],
+        acno: data_lama[i]['ACNO'],
+        acno_nm: data_lama[i]['ACNO_NM'],
       );
-      data_bhn_keranjang.add(mAccount);
+      data_pobahanlokal_keranjang.add(mAccount);
     }
     hitungSubTotal();
-    await model_bahan().cari_bahan("").then((value) {
+    await model_pobahanlokal().cari_po_bahan_lokal("").then((value) {
       if (value != null) {
-        bhnList.clear();
+        pobhnlokalList.clear();
         for (int i = 0; i < value.length; i++) {
-          bhnList.add(DataBhn.fromJson(value[i]));
+          pobhnlokalList.add(DataPobahanlokal.fromJson(value[i]));
         }
       }
     });
   }
 
-  void addKeranjang(DataBhn mAccount) {
-    data_bhn_keranjang.add(mAccount);
+  void addKeranjang(DataPobahanlokal mAccount) {
+    data_pobahanlokal_keranjang.add(mAccount);
     sumQty += mAccount.qty;
     sumTotal += mAccount.total;
     sumTotal1 += mAccount.total1;
@@ -405,11 +419,13 @@ class PobahanlokalController with ChangeNotifier {
     sumNett = 0;
     sumNett1 = 0;
     rate = double.parse(rateController.text);
-    for (int i = 0; i < data_bhn_keranjang.length; i++) {
-      sumQty += data_bhn_keranjang[i].qty;
-      sumTotal += (data_bhn_keranjang[i].harga * data_bhn_keranjang[i].qty);
-      sumTotal1 +=
-          (data_bhn_keranjang[i].harga * data_bhn_keranjang[i].qty) * rate;
+    for (int i = 0; i < data_pobahanlokal_keranjang.length; i++) {
+      sumQty += data_pobahanlokal_keranjang[i].qty;
+      sumTotal += (data_pobahanlokal_keranjang[i].harga *
+          data_pobahanlokal_keranjang[i].qty);
+      sumTotal1 += (data_pobahanlokal_keranjang[i].harga *
+              data_pobahanlokal_keranjang[i].qty) *
+          rate;
     }
     sumDisc = sumTotal * disc / 100;
     sumDisc1 = sumTotal1 * disc1 / 100;
@@ -423,16 +439,16 @@ class PobahanlokalController with ChangeNotifier {
   }
 
   /// data header
-  Future<bool> savePobahan() async {
+  Future<bool> saveBtbbahanlokal() async {
     hitungSubTotal();
     String periodeTgl = DateFormat("MM/yyyy").format(chooseDate);
     if (int.parse(DateFormat("yyyyMMdd").format(chooseDateJT)) >
         int.parse(DateFormat("yyyyMMdd").format(chooseDate))) {
       if (periodeTgl == perx) {
         if (no_buktiController.text.isNotEmpty) {
-          if (data_bhn_keranjang.length > 0) {
+          if (data_pobahanlokal_keranjang.length > 0) {
             BotToast.showLoading();
-            var data_ready = await m_pobahan.check_no_bukti(
+            var data_ready = await m_btbbahanlokal.check_no_bukti(
                 no_buktiController.text, "NO_BUKTI", "po");
             if (data_ready.length > 0) {
               Toast("Peringatan !",
@@ -473,7 +489,7 @@ class PobahanlokalController with ChangeNotifier {
               obj['RPPPH'] = sumPPH;
               obj['USRIN'] = LoginController.nama_staff;
               obj['TG_IN'] = DateTime.now();
-              obj['FLAG'] = "PO";
+              obj['FLAG'] = "BL";
               obj['PER'] = perx;
               obj['TYP'] = "L";
               obj['GOL'] = "A";
@@ -482,7 +498,7 @@ class PobahanlokalController with ChangeNotifier {
               obj['ACNO1'] = acno1Controller.text;
               obj['ACNO1_NM'] = acno1_nmController.text;
               obj['tabeld'] = await baca_tabeld();
-              await m_pobahan.insert_po_bahan_lokal(obj);
+              await m_btbbahanlokal.insert_btb_bahan_lokal(obj);
               BotToast.closeAllLoading();
               return true;
             }
@@ -505,14 +521,14 @@ class PobahanlokalController with ChangeNotifier {
     }
   }
 
-  Future<bool> editPobahan() async {
+  Future<bool> editBtbbahanlokal() async {
     hitungSubTotal();
     String periodeTgl = DateFormat("MM/yyyy").format(chooseDate);
     if (int.parse(DateFormat("yyyyMMdd").format(chooseDateJT)) >
         int.parse(DateFormat("yyyyMMdd").format(chooseDate))) {
       if (periodeTgl == perx) {
         if (no_buktiController.text.isNotEmpty) {
-          if (data_bhn_keranjang.length > 0) {
+          if (data_pobahanlokal_keranjang.length > 0) {
             BotToast.showLoading();
             Map obj = new Map();
             obj['NO_BUKTI'] = no_buktiController.text;
@@ -547,7 +563,7 @@ class PobahanlokalController with ChangeNotifier {
             obj['RPPPH'] = sumPPH;
             obj['USRNM'] = LoginController.nama_staff;
             obj['TG_SMP'] = DateTime.now();
-            obj['FLAG'] = "PO";
+            obj['FLAG'] = "BL";
             obj['PER'] = perx;
             obj['TYP'] = "L";
             obj['GOL'] = "A";
@@ -556,7 +572,7 @@ class PobahanlokalController with ChangeNotifier {
             obj['ACNO1'] = acno1Controller.text;
             obj['ACNO1_NM'] = acno1_nmController.text;
             obj['tabeld'] = await baca_tabeld();
-            await m_pobahan.update_po_bahan_lokal(obj);
+            await m_btbbahanlokal.update_btb_bahan_lokal(obj);
             BotToast.closeAllLoading();
             Toast("Success !", "Berhasil mengedit data", true);
             return true;
@@ -577,9 +593,9 @@ class PobahanlokalController with ChangeNotifier {
     }
   }
 
-  Future<bool> deletePobahan(String no_bukti) async {
+  Future<bool> deleteBtbbahanlokal(String no_bukti) async {
     try {
-      var delete = await m_pobahan.delete_po_bahan_lokal(no_bukti);
+      var delete = await m_btbbahanlokal.delete_btb_bahan_lokal(no_bukti);
       await select_data();
       return true;
     } catch (e) {
@@ -589,24 +605,43 @@ class PobahanlokalController with ChangeNotifier {
 
   /// data detail
   Future<List> baca_tabeld() async {
-    List bhnList = [];
-    for (int i = 0; i < data_bhn_keranjang.length; i++) {
-      double qty = data_bhn_keranjang[i].qty;
-      double harga = data_bhn_keranjang[i].harga;
+    List pobhnlokalList = [];
+    for (int i = 0; i < data_pobahanlokal_keranjang.length; i++) {
+      double qty = data_pobahanlokal_keranjang[i].qty;
+      double harga = data_pobahanlokal_keranjang[i].harga;
       double rate = double.parse(rateController.text);
       double subTotal = harga * qty;
       double subTotal1 = (harga * qty) * rate;
       Map obj = new Map();
-      obj['KD_BHN'] = data_bhn_keranjang[i].kd_bhn;
-      obj['NA_BHN'] = data_bhn_keranjang[i].na_bhn;
-      obj['SATUAN'] = data_bhn_keranjang[i].satuan;
-      obj['KET'] = data_bhn_keranjang[i].ket;
-      obj['HARGA'] = data_bhn_keranjang[i].harga;
-      obj['QTY'] = data_bhn_keranjang[i].qty;
-      obj['TOTAL'] = subTotal;
-      obj['TOTAL1'] = subTotal1;
-      bhnList.add(obj);
+      obj['NO_PO'] = data_pobahanlokal_keranjang[i].kd_bhn;
+      obj['QTYPO'] = data_pobahanlokal_keranjang[i].na_bhn;
+      obj['KD_BHN'] = data_pobahanlokal_keranjang[i].satuan;
+      obj['NA_BHN'] = data_pobahanlokal_keranjang[i].ket;
+      obj['SATUAN'] = data_pobahanlokal_keranjang[i].harga;
+      obj['QTY'] = data_pobahanlokal_keranjang[i].qty;
+      obj['SATUANBL'] = data_pobahanlokal_keranjang[i].satuanbl;
+      obj['QTYBL'] = data_pobahanlokal_keranjang[i].qtybl;
+      obj['HARGA1'] = data_pobahanlokal_keranjang[i].harga1;
+      obj['TOTAL1'] = data_pobahanlokal_keranjang[i].total1;
+      obj['KET'] = data_pobahanlokal_keranjang[i].ket;
+      obj['HARGA'] = data_pobahanlokal_keranjang[i].harga;
+      obj['TOTAL'] = data_pobahanlokal_keranjang[i].total;
+      obj['BLT'] = data_pobahanlokal_keranjang[i].blt;
+      obj['DISC'] = data_pobahanlokal_keranjang[i].disc;
+      obj['RPDISC'] = data_pobahanlokal_keranjang[i].rpdisc;
+      obj['TYP'] = data_pobahanlokal_keranjang[i].typ;
+      obj['GOL'] = data_pobahanlokal_keranjang[i].gol;
+      obj['HTG'] = data_pobahanlokal_keranjang[i].htg;
+      obj['SIZ'] = data_pobahanlokal_keranjang[i].siz;
+      obj['KD'] = data_pobahanlokal_keranjang[i].kd;
+      obj['KODECAB'] = data_pobahanlokal_keranjang[i].kodecab;
+      obj['WARNA'] = data_pobahanlokal_keranjang[i].warna;
+      obj['PRODUK'] = data_pobahanlokal_keranjang[i].produk;
+      obj['GRP'] = data_pobahanlokal_keranjang[i].grp;
+      obj['ACNO'] = data_pobahanlokal_keranjang[i].acno;
+      obj['ACNO_NM'] = data_pobahanlokal_keranjang[i].acno_nm;
+      pobhnlokalList.add(obj);
     }
-    return bhnList;
+    return pobhnlokalList;
   }
 }

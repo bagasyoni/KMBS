@@ -13,7 +13,7 @@ app.use(cors());
 var routes = require('./routes');
 routes(app);
 
-app.listen(3000, () => {
-    console.log('Server stated on port');
+ var server = app.listen(3000,function(){
+    console.log('Server started on port ' + server.address().port);
 });
 

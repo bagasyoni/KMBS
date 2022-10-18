@@ -416,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: PopupMenuButton(
                                       offset: const Offset(0, 50),
                                       color: Colors.white,
-                                      tooltip: "Pembelian",
+                                      tooltip: "Purchase Order",
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -430,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 16,
                                               height: 50,
                                             ),
-                                            Text("Pembelian"),
+                                            Text("Purchase Order >>"),
                                           ],
                                         ),
                                       ),
@@ -497,81 +497,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             value: 204,
                                           ),
-                                          PopupMenuItem(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/ic_list.png",
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text("Transaksi Pembelian"),
-                                              ],
-                                            ),
-                                            value: 205,
-                                          ),
-                                          PopupMenuItem(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/ic_list.png",
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text("Transaksi Hutang"),
-                                              ],
-                                            ),
-                                            value: 206,
-                                          ),
-                                          PopupMenuItem(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/ic_list.png",
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text("Pembayaran Hutang"),
-                                              ],
-                                            ),
-                                            value: 207,
-                                          ),
-                                          PopupMenuItem(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/ic_list.png",
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text("Koreksi Stok Bahan"),
-                                              ],
-                                            ),
-                                            value: 208,
-                                          ),
-                                          PopupMenuItem(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/ic_list.png",
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Text("Pemakaian Bahan"),
-                                              ],
-                                            ),
-                                            value: 209,
-                                          ),
                                         ];
                                       },
                                       onSelected: (value) async {
@@ -599,36 +524,105 @@ class _HomeScreenState extends State<HomeScreen> {
                                               MaterialPageRoute(
                                                   builder: (_) =>
                                                       DataPobarangimportScreen()));
-                                        } else if (value == 205) {
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 0),
+                                    child: PopupMenuButton(
+                                      offset: const Offset(0, 50),
+                                      color: Colors.white,
+                                      tooltip: "Bukti Terima",
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/ic_penjualan.png",
+                                              height: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 16,
+                                              height: 50,
+                                            ),
+                                            Text("Bukti Terima >>"),
+                                          ],
+                                        ),
+                                      ),
+                                      elevation: 5,
+                                      itemBuilder: (context) {
+                                        return [
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text(
+                                                    "Bukti Terima Barang Lokal"),
+                                              ],
+                                            ),
+                                            value: 201,
+                                          ),
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text(
+                                                    "Bukti Terima Barang Import"),
+                                              ],
+                                            ),
+                                            value: 202,
+                                          ),
+                                          PopupMenuItem(
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/ic_list.png",
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text("Pembelian Non Bahan"),
+                                              ],
+                                            ),
+                                            value: 203,
+                                          ),
+                                        ];
+                                      },
+                                      onSelected: (value) async {
+                                        if (value == 201) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataBelibahanScreen()));
-                                        } else if (value == 206) {
+                                                      DataPobahanlokalScreen()));
+                                        } else if (value == 202) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataThutbahanScreen()));
-                                        } else if (value == 207) {
+                                                      DataPobahanimportScreen()));
+                                        } else if (value == 203) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataHutbahanScreen()));
-                                        } else if (value == 208) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      StockbhnScreen()));
-                                        } else if (value == 209) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      PakaibhnScreen()));
+                                                      DataPobaranglokalScreen()));
                                         }
                                       },
                                     ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/master/operasional/bahan_controller.dart';
@@ -51,7 +50,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                                     decoration: InputDecoration(
                                       hintText: "+",
                                       contentPadding:
-                                          EdgeInsets.only(top: 18, bottom: 18),
+                                          EdgeInsets.only(top: 18, bottom: 15),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       focusedErrorBorder: InputBorder.none,
@@ -67,70 +66,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                         ),
                         Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
+                          flex: 23,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +99,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nama",
+                                  "Nama 1",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -200,70 +136,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                         ),
                         Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
+                          flex: 10,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,70 +206,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                         ),
                         Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
+                          flex: 23,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,70 +275,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                         ),
                         Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
+                          flex: 23,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -561,7 +308,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nama",
+                                  "Nama 2",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -598,70 +345,7 @@ Widget KeteranganUmum(BahanController bahanController) {
                         ),
                         Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 5,
+                          flex: 10,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

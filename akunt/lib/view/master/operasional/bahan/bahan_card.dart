@@ -10,11 +10,9 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
     {Function pressEdit, Function pressDelete}) {
   int offset = Provider.of<BahanController>(context, listen: false).offset;
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    padding: EdgeInsets.symmetric(horizontal: 24),
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.white),
+      padding: EdgeInsets.symmetric(vertical: 1),
       child: Row(
         children: [
           SizedBox(
@@ -22,55 +20,130 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + offset + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              val_bar.data_bahanList[index]['KD_BHN'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    val_bar.data_bahanList[index]['KD_BHN'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
-            flex: 4,
-            child: Text(
-              val_bar.data_bahanList[index]['NA_BHN'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              val_bar.data_bahanList[index]['SATUAN'].toString(),
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            flex: 5,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    val_bar.data_bahanList[index]['NA_BHN'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 1,
-            child: OnHoverButton(
-              child: InkWell(
-                onTap: pressEdit,
-                child: Container(
-                  height: 25,
-                  child: Center(
-                    child: Image.asset(
-                      "assets/images/ic_edit.png",
-                      height: 25,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    val_bar.data_bahanList[index]['SATUAN'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: OnHoverButton(
+                    child: InkWell(
+                      onTap: pressEdit,
+                      child: Container(
+                        height: 25,
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/ic_edit.png",
+                            height: 25,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -84,15 +157,30 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
           ),
           Expanded(
             flex: 1,
-            child: OnHoverButton(
-              child: InkWell(
-                onTap: pressDelete,
-                child: Container(
-                  height: 25,
-                  child: Center(
-                    child: Image.asset(
-                      "assets/images/ic_hapus.png",
-                      height: 25,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5, right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: OnHoverButton(
+                    child: InkWell(
+                      onTap: pressEdit,
+                      child: Container(
+                        height: 25,
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/ic_hapus.png",
+                            height: 25,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -178,15 +178,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "No. Bukti",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -201,7 +201,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -225,8 +225,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -246,15 +246,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Supplier",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -267,12 +267,12 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 15, bottom: 14),
                                           hintText: "Cari Supplier",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -314,8 +314,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -335,15 +335,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Acno",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -356,12 +356,12 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 15, bottom: 14),
                                           hintText: "Cari Acno",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -404,8 +404,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -432,15 +432,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Tanggal",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -452,7 +452,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                             .tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -501,15 +501,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Jatuh Tempo",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -522,7 +522,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -571,15 +571,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Nama Supplier",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -593,7 +593,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -621,15 +621,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Nama",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -643,15 +643,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
                                           ),
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -683,15 +683,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Uang",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         // color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -705,12 +705,12 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 15, bottom: 14),
                                           hintText: "Pilih Uang",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -753,15 +753,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -775,7 +775,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 1, bottom: 16),
+                                              top: 1, bottom: 15),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -803,15 +803,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Alamat",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -825,7 +825,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -849,8 +849,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -870,8 +870,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -898,15 +898,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -923,7 +923,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -965,15 +965,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Rate Kesepakatan",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -990,7 +990,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1014,15 +1014,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Kota",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -1060,8 +1060,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -1081,15 +1081,15 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "Keterangan",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -1102,7 +1102,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                         readOnly: false,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1126,8 +1126,8 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -1255,7 +1255,7 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                    EdgeInsets.only(left: 24, right: 23, top: 16, bottom: 7),
                 child: Row(
                   children: [
                     SizedBox(
@@ -1263,92 +1263,227 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "Kode Bahan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 4,
-                      child: Text(
-                        "Nama Bahan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "Satuan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Satuan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "Keterangan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Keterangan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Harga",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Harga",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "Qty",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Qty.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Total",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Total",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Total (Rp)",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Total (Rp)",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(

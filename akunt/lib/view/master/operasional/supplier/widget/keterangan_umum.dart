@@ -191,7 +191,7 @@ Widget KeteranganUmum(SupplierController supplierController) {
                                         supplierController.alamatController,
                                     decoration: InputDecoration(
                                       contentPadding:
-                                          EdgeInsets.only(top: 18, bottom: 18),
+                                          EdgeInsets.only(top: 2, bottom: 13),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       focusedErrorBorder: InputBorder.none,
@@ -261,7 +261,7 @@ Widget KeteranganUmum(SupplierController supplierController) {
                                         supplierController.kotaController,
                                     decoration: InputDecoration(
                                       contentPadding:
-                                          EdgeInsets.only(top: 18, bottom: 18),
+                                          EdgeInsets.only(top: 2, bottom: 13),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       focusedErrorBorder: InputBorder.none,

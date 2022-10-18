@@ -1,12 +1,15 @@
 'use strict';
 
 module.exports = function (app) {
+    ///======================== OTHER ========================///
+    ///=====>>> START OTHER
     var jsonku = require('./controller');
+    ///=====>>> END OTHER
 
     ///======================== MASTER CONTROLLER ========================///
     ///=====>>> START FINANSIAL
     var accjs = require('../apprestapi/controller/master/finansial/account_controller');
-    ///===== END FINANSIAL
+    ///=====>>> END FINANSIAL
 
     ///===== START OPERASIONAL
     var brgjs = require('../apprestapi/controller/master/operasional/barang_controller');
@@ -37,6 +40,12 @@ module.exports = function (app) {
     var pobhn_importjs = require('../apprestapi/controller/transaksi/operasional/pobhn_import_controller');
     var pobrg_lokaljs = require('../apprestapi/controller/transaksi/operasional/pobrg_lokal_controller');
     var pobrg_importjs = require('../apprestapi/controller/transaksi/operasional/pobrg_import_controller');
+    var btbbrg_lokaljs = require('../apprestapi/controller/transaksi/operasional/btbbrg_lokal_controller');
+    var btbbhn_lokaljs = require('../apprestapi/controller/transaksi/operasional/btbbhn_lokal_controller');
+    var btbbrg_importjs = require('../apprestapi/controller/transaksi/operasional/btbbrg_import_controller');
+    var btbbhn_importjs = require('../apprestapi/controller/transaksi/operasional/btbbhn_import_controller');
+    var beli_nonbahanjs = require('../apprestapi/controller/transaksi/operasional/beli_nonbahan_controller');
+    var beli_invoicejs = require('../apprestapi/controller/transaksi/operasional/beli_invoice_controller');
     var sojs = require('../apprestapi/controller/transaksi/operasional/so_controller');
     ///=====>>> END OPERASIONAL
 
@@ -69,7 +78,7 @@ module.exports = function (app) {
     app.route('/hapusbagas')
         .post(jsonku.hapusbagas);
 
-     ///========================/// START MASTER ACCOUNTING ///========================///
+    ///========================/// START MASTER ACCOUNTING ///========================///
     app.route('/accpaginate')
         .post(accjs.acc_paginate);
     app.route('/countaccpaginate')
@@ -508,6 +517,138 @@ module.exports = function (app) {
         .post(pobrg_importjs.ambilpodetail);
     app.route('/hapus_po_barangimport')
         .post(pobrg_importjs.hapuspobarangimport);
+
+    ///====================/// BTB BARANG LOKAL ///====================///
+    app.route('/btbbaranglokalpaginate')
+        .post(btbbrg_lokaljs.btbbaranglokal_paginate);
+    app.route('/countbtbbaranglokalpaginate')
+        .post(btbbrg_lokaljs.count_btbbaranglokalpaginate);
+    app.route('/tambah_header_btb_barang_lokal')
+        .post(btbbrg_lokaljs.tambahheaderbtbbaranglokal);
+    app.route('/tambah_detail_btb_barang_lokal')
+        .post(btbbrg_lokaljs.tambahdetailbtbbaranglokal);
+    app.route('/tampil_btb_barang_lokal')
+        .post(btbbrg_lokaljs.tampilbtbbaranglokal);
+    app.route('/edit_header_btb_barang_lokal')
+        .post(btbbrg_lokaljs.editheaderbtbbaranglokal);
+    app.route('/modal_btb_barang_lokal')
+        .post(btbbrg_lokaljs.modalbtbbaranglokal);
+    app.route('/cari_btb_barang_lokal')
+        .post(btbbrg_lokaljs.caribtbbaranglokal);
+    app.route('/ambil_btb_detail')
+        .post(btbbrg_lokaljs.ambilbtbdetail);
+    app.route('/hapus_btb_baranglokal')
+        .post(btbbrg_lokaljs.hapusbtbbaranglokal);
+
+    ///====================/// BTB BAHAN LOKAL ///====================///
+    app.route('/btbbahanlokalpaginate')
+        .post(btbbhn_lokaljs.btbbahanlokal_paginate);
+    app.route('/countbtbbahanlokalpaginate')
+        .post(btbbhn_lokaljs.count_btbbahanlokalpaginate);
+    app.route('/tambah_header_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.tambahheaderbtbbahanlokal);
+    app.route('/tambah_detail_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.tambahdetailbtbbahanlokal);
+    app.route('/tampil_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.tampilbtbbahanlokal);
+    app.route('/edit_header_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.editheaderbtbbahanlokal);
+    app.route('/modal_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.modalbtbbahanlokal);
+    app.route('/cari_btb_bahan_lokal')
+        .post(btbbhn_lokaljs.caribtbbahanlokal);
+    app.route('/ambil_btb_detail')
+        .post(btbbhn_lokaljs.ambilbtbdetail);
+    app.route('/hapus_btb_bahanlokal')
+        .post(btbbhn_lokaljs.hapusbtbbahanlokal);
+
+    ///====================/// BTB BARANG IMPORT ///====================///
+    app.route('/btbbarangimportpaginate')
+        .post(btbbrg_importjs.btbbarangimport_paginate);
+    app.route('/countbtbbarangimportpaginate')
+        .post(btbbrg_importjs.count_btbbarangimportpaginate);
+    app.route('/tambah_header_btb_barang_import')
+        .post(btbbrg_importjs.tambahheaderbtbbarangimport);
+    app.route('/tambah_detail_btb_barang_import')
+        .post(btbbrg_importjs.tambahdetailbtbbarangimport);
+    app.route('/tampil_btb_barang_import')
+        .post(btbbrg_importjs.tampilbtbbarangimport);
+    app.route('/edit_header_btb_barang_import')
+        .post(btbbrg_importjs.editheaderbtbbarangimport);
+    app.route('/modal_btb_barang_import')
+        .post(btbbrg_importjs.modalbtbbarangimport);
+    app.route('/cari_btb_barang_import')
+        .post(btbbrg_importjs.caribtbbarangimport);
+    app.route('/ambil_btb_detail')
+        .post(btbbrg_importjs.ambilbtbdetail);
+    app.route('/hapus_btb_barangimport')
+        .post(btbbrg_importjs.hapusbtbbarangimport);
+
+    ///====================/// BTB BAHAN IMPORT ///====================///
+    app.route('/btbbahanimportpaginate')
+        .post(btbbhn_importjs.btbbahanimport_paginate);
+    app.route('/countbtbbahanimportpaginate')
+        .post(btbbhn_importjs.count_btbbahanimportpaginate);
+    app.route('/tambah_header_btb_bahan_import')
+        .post(btbbhn_importjs.tambahheaderbtbbahanimport);
+    app.route('/tambah_detail_btb_bahan_import')
+        .post(btbbhn_importjs.tambahdetailbtbbahanimport);
+    app.route('/tampil_btb_bahan_import')
+        .post(btbbhn_importjs.tampilbtbbahanimport);
+    app.route('/edit_header_btb_bahan_import')
+        .post(btbbhn_importjs.editheaderbtbbahanimport);
+    app.route('/modal_btb_bahan_import')
+        .post(btbbhn_importjs.modalbtbbahanimport);
+    app.route('/cari_btb_bahan_import')
+        .post(btbbhn_importjs.caribtbbahanimport);
+    app.route('/ambil_btb_detail')
+        .post(btbbhn_importjs.ambilbtbdetail);
+    app.route('/hapus_btb_bahanimport')
+        .post(btbbhn_importjs.hapusbtbbahanimport);
+
+    ///====================/// BELI NON BAHAN ///====================///
+    app.route('/belinonbahanpaginate')
+        .post(beli_nonbahanjs.belinonbahan_paginate);
+    app.route('/countbelinonbahanpaginate')
+        .post(beli_nonbahanjs.count_belinonbahanpaginate);
+    app.route('/tambah_header_beli_nonbahan')
+        .post(beli_nonbahanjs.tambahheaderbelinonbahan);
+    app.route('/tambah_detail_beli_nonbahan')
+        .post(beli_nonbahanjs.tambahdetailbelinonbahan);
+    app.route('/tampil_beli_nonbahan')
+        .post(beli_nonbahanjs.tampilbelinonbahan);
+    app.route('/edit_header_beli_nonbahan')
+        .post(beli_nonbahanjs.editheaderbelinonbahan);
+    app.route('/modal_beli_nonbahan')
+        .post(beli_nonbahanjs.modalbelinonbahan);
+    app.route('/cari_beli_nonbahan')
+        .post(beli_nonbahanjs.caribelinonbahan);
+    app.route('/ambil_beli_nonbahan_detail')
+        .post(beli_nonbahanjs.ambilbelinonbahandetail);
+    app.route('/hapus_beli_nonbahan')
+        .post(beli_nonbahanjs.hapusbelinonbahan);
+
+    ///====================/// INVOICE PEMBELIAN ///====================///
+    app.route('/beliinvoicepaginate')
+        .post(beli_invoicejs.beliinvoice_paginate);
+    app.route('/countbeliinvoicepaginate')
+        .post(beli_invoicejs.count_beliinvoicepaginate);
+    app.route('/tambah_header_beli_invoice')
+        .post(beli_invoicejs.tambahheaderbeliinvoice);
+    app.route('/tambah_detail_beli_invoice')
+        .post(beli_invoicejs.tambahdetailbeliinvoice);
+    app.route('/tampil_beli_invoice')
+        .post(beli_invoicejs.tampilbeliinvoice);
+    app.route('/edit_header_beli_invoice')
+        .post(beli_invoicejs.editheaderbeliinvoice);
+    app.route('/modal_beli_invoice')
+        .post(beli_invoicejs.modalbeliinvoice);
+    app.route('/cari_beli_invoice')
+        .post(beli_invoicejs.caribeliinvoice);
+    app.route('/ambil_beli_invoice_detail')
+        .post(beli_invoicejs.ambilbeliinvoicedetail);
+    app.route('/hapus_beli_invoice')
+        .post(beli_invoicejs.hapusbeliinvoice);
 
     ///====================/// SO ///====================///
     app.route('/sopaginate')

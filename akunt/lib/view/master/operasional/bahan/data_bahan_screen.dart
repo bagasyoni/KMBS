@@ -7,8 +7,6 @@ import 'package:akunt/controller/master/operasional/bahan_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/master/operasional/bahan/bahan_card.dart';
 import 'package:akunt/view/master/operasional/bahan/tambah_bahan_screen.dart';
-import 'package:intl/intl.dart';
-import 'package:responsive_table/responsive_table.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
@@ -20,7 +18,6 @@ class DataBahanScreen extends StatefulWidget {
 }
 
 class _DataBahanScreenState extends State<DataBahanScreen> {
-  var f = NumberFormat("#,##0.00", "en_US");
   @override
   void initState() {
     Provider.of<BahanController>(context, listen: false).initData();
@@ -220,108 +217,178 @@ class _DataBahanScreenState extends State<DataBahanScreen> {
                   ],
                 ),
               ),
-              Expanded(
-                child: (bahanController.data_bahanList.length > 0)
-                    ? ListView(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 24, right: 24, top: 16, bottom: 4),
-                          child: PaginatedDataTable(
-                            source: MyData(bahanController.data_bahanList,
-                                context, bahanController),
-                            // header: Text('My Products'),
-                            columns: [
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'No',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Kode',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Nama',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Satuan',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Acno',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Uraian',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(label: Text('')),
-                            ],
-                            sortColumnIndex: 0,
-                            sortAscending: true,
-                            initialFirstRowIndex: 0,
-                            columnSpacing: 0,
-                            horizontalMargin: 10,
-                            rowsPerPage: 15,
-                            showCheckboxColumn: true,
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
                           ),
                         ),
-                      ])
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Satuan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: (bahanController.data_bahanList.length > 0)
+                    ? ListView.builder(
+                        itemCount: bahanController.data_bahanList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return BahanCard(context, index, bahanController,
+                              pressEdit: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => TambahBahanScreen(
+                                          isModeEdit: true,
+                                          data_bahan: bahanController
+                                              .data_bahanList[index],
+                                        )));
+                          }, pressDelete: () {
+                            showAnimatedDialog_withCallBack(
+                                context, NotifHapus(), isFlip: true,
+                                callback: (value) {
+                              if (value != null) {
+                                if (value) {
+                                  bahanController.hapus_akun(
+                                      bahanController.data_bahanList[index]);
+                                }
+                              }
+                            });
+                          });
+                        },
+                      )
                     : Container(
                         child: Center(
                           child: Text(
                             "Tidak ada data",
                             style: GoogleFonts.poppins(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: GreyColor),
                           ),
                         ),
@@ -330,60 +397,213 @@ class _DataBahanScreenState extends State<DataBahanScreen> {
             ],
           ),
         ),
+
+        /// paginate
+        bottomNavigationBar: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: GreyColor,
+                spreadRadius: 1,
+                blurRadius: 4,
+                offset: Offset(1, 2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (bahanController.data_bahanList.length > 0)
+                  Text(
+                    (bahanController.offset + 1 <
+                            bahanController.totalNotaTerima)
+                        ? "Showing ${bahanController.offset + 1} to ${bahanController.offset + bahanController.limit} of ${bahanController.totalNotaTerima} entries"
+                        : "Showing ${bahanController.offset + 1} to ${bahanController.totalNotaTerima} of ${bahanController.totalNotaTerima} entries",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                if (bahanController.data_bahanList.length > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Container(
+                      width: 100,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: GreyColor,
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: Offset(1, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            iconEnabledColor: HijauColor,
+                            value: bahanController.limit,
+                            items: bahanController.dropdownLimit,
+                            onChanged: (value) {
+                              if (value != null) {
+                                bahanController.limit = value;
+                                bahanController.selectDataPaginate(false);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    if (bahanController.page_index > 0) {
+                      bahanController.offset -= bahanController.limit;
+                      bahanController.page_index--;
+                      bahanController.c_page.text =
+                          (bahanController.page_index + 1).toString();
+                      bahanController.selectDataPaginate(false);
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Previous",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: (bahanController.offset == 0)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                pageField(),
+                InkWell(
+                  onTap: () {
+                    if (bahanController.page_index <=
+                        bahanController.pageCount - 1) {
+                      bahanController.offset += bahanController.limit;
+                      bahanController.page_index++;
+                      bahanController.c_page.text =
+                          (bahanController.page_index + 1).toString();
+                      bahanController.selectDataPaginate(false);
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: GreyColor,
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Center(
+                      child: Text(
+                        "Next",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: ((bahanController.pageCount -
+                                        bahanController.page_index) <=
+                                    1)
+                                ? GreyColor
+                                : Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     });
   }
-}
 
-class MyData extends DataTableSource {
-  var dtx = [];
-  var f = NumberFormat("#,##0.00", "en_US");
-  BuildContext context;
-  BahanController bahanController;
-  MyData(this.dtx, this.context, this.bahanController);
-  bool get isRowCountApproximate => false;
-  int get rowCount => dtx.length;
-  int get selectedRowCount => 0;
-  DataRow getRow(int index) {
-    return DataRow(cells: [
-      DataCell(SizedBox(
-        width: double.infinity,
-        child: Text("${index + 1}",
-            style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
-      )),
-      DataCell(SizedBox(
-        width: double.infinity,
-        child: Text(dtx[index]['KD_BHN'].toString(),
-            style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
-      )),
-      DataCell(SizedBox(
-        width: double.infinity,
-        child: Text(dtx[index]['NA_BHN'].toString(),
-            style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
-      )),
-      DataCell(
-        SizedBox(
-          width: double.infinity,
-          child: Text(dtx[index]['SATUAN'].toString(),
-              style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
+  ///paginate
+  Widget pageField() {
+    BahanController pageTerima =
+        Provider.of<BahanController>(context, listen: false);
+    return Container(
+      width: 70,
+      height: 35,
+      child: TextField(
+        textAlign: TextAlign.center,
+        controller: pageTerima.c_page,
+        decoration: InputDecoration(
+          hintText: "1",
+          hintStyle: GoogleFonts.poppins(
+              fontSize: 14, fontWeight: FontWeight.w400, color: GreyColor),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+          border: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
         ),
+        onSubmitted: (value) {
+          int index = 1;
+          try {
+            index = int.parse(value.trim());
+          } catch (e) {
+            index = 1;
+          }
+          if (index == 0) {
+            index = 1;
+          } else {
+            if (index > 0) {
+              index = index - 1;
+            }
+          }
+          if (index > pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.selectDataPaginate(false);
+          } else if (index < pageTerima.page_index) {
+            pageTerima.offset = (index * pageTerima.limit);
+            pageTerima.page_index = index;
+            pageTerima.c_page.text = (pageTerima.page_index + 1).toString();
+            pageTerima.selectDataPaginate(false);
+          }
+        },
       ),
-      DataCell(SizedBox(
-        width: double.infinity,
-        child: Text(dtx[index]['ACNO'].toString(),
-            style: TextStyle(color: Colors.black), textAlign: TextAlign.left),
-      )),
-      DataCell(
-        SizedBox(
-          width: double.infinity,
-          child: Text(dtx[index]['ACNO_NM'].toString(),
-              style: TextStyle(color: Colors.black),
-              textAlign: TextAlign.right),
-        ),
-      ),
-      DataCell(
-        Text(''),
-      ),
-    ]);
+    );
   }
 }

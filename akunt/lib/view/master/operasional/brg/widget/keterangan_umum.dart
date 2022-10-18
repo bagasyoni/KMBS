@@ -51,7 +51,7 @@ Widget KeteranganUmum(BrgController brgController) {
                                     decoration: InputDecoration(
                                       hintText: "+",
                                       contentPadding:
-                                          EdgeInsets.only(top: 18, bottom: 18),
+                                          EdgeInsets.only(top: 18, bottom: 15),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       focusedErrorBorder: InputBorder.none,

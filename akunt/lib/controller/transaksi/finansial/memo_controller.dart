@@ -26,7 +26,11 @@ class MemoController with ChangeNotifier {
   String tanggal_awal = "";
   String tanggal_akhir = "";
   double jumlah = 0;
-  double jumlahrp = 0;
+  double jumlah1 = 0;
+  double debet = 0;
+  double kredit = 0;
+  double debetrp = 0;
+  double kreditrp = 0;
   int index_terpilih;
   TextEditingController c_page = new TextEditingController();
   List<DropdownMenuItem<int>> dropdownLimit;
@@ -179,7 +183,11 @@ class MemoController with ChangeNotifier {
   String tanggal;
   List<DataAccount> data_account_keranjang = List<DataAccount>();
   double sumJumlah = 0;
-  double sumJumlahrp = 0;
+  double sumJumlahRp = 0;
+  double sumDebet = 0;
+  double sumKredit = 0;
+  double sumDebetRp = 0;
+  double sumKreditRp = 0;
   String uraian, reff;
   int no_urut = 0;
   List<DataAccount> accountList = List<DataAccount>();
@@ -205,9 +213,16 @@ class MemoController with ChangeNotifier {
     flagController.clear();
     tanggalController.text = format_tanggal.format(chooseDate);
     sumJumlah = 0;
-    sumJumlahrp = 0;
+    sumDebet = 0;
+    sumKredit = 0;
+    sumDebetRp = 0;
+    sumKreditRp = 0;
+    sumJumlahRp = 0;
     await baca_periodePrefs();
-    await m_memo.get_no_bukti('MM', 'NO_BUKTI', 'memo').then((value) {
+    await m_memo
+        .get_no_bukti(
+            'MM${format_no_bukti.format(DateTime.now())}', 'NO_BUKTI', 'memo')
+        .then((value) {
       if (value != null) {
         no_buktiController.text =
             "MM${format_no_bukti.format(DateTime.now())}-${value[0]['NOMOR']}";
@@ -228,16 +243,14 @@ class MemoController with ChangeNotifier {
     chooseDate = DateTime.parse(data_edit['TGL']);
     tanggalController.text = format_tanggal.format(chooseDate);
     typeController.text = data_edit['TYPE'];
-    bacnoController.text = data_edit['BACNO'];
-    bnamaController.text = data_edit['BNAMA'];
     currController.text = data_edit['CURR'];
     currnmController.text = data_edit['CURRNM'];
-    rateController.text = data_edit['RATE'];
+    rateController.text = data_edit['RATE'].toString();
     ketController.text = data_edit['KET'];
-    debetController.text = data_edit['DEBET'];
-    kreditController.text = data_edit['KREDIT'];
-    debet1Controller.text = data_edit['DEBET1'];
-    kredit1Controller.text = data_edit['KREDIT1'];
+    debetController.text = data_edit['DEBET'].toString();
+    kreditController.text = data_edit['KREDIT'].toString();
+    debet1Controller.text = data_edit['DEBET1'].toString();
+    kredit1Controller.text = data_edit['KREDIT1'].toString();
     perController.text = data_edit['PER'];
     usrinController.text = data_edit['USRIN'];
     tg_inController.text = data_edit['TG_IN'];
@@ -277,16 +290,28 @@ class MemoController with ChangeNotifier {
   void addKeranjang(DataAccount mAccount) {
     data_account_keranjang.add(mAccount);
     sumJumlah += mAccount.jumlah ?? 0.00;
-    sumJumlahrp += mAccount.jumlah1 ?? 0.00;
+    sumJumlahRp += mAccount.jumlah1 ?? 0.00;
+    sumDebet += mAccount.debet ?? 0.00;
+    sumDebetRp += mAccount.debet1 ?? 0.00;
+    sumKredit += mAccount.kredit ?? 0.00;
+    sumKreditRp += mAccount.kredit1 ?? 0.00;
     notifyListeners();
   }
 
   void hitungSubTotal() {
     sumJumlah = 0;
-    sumJumlahrp = 0;
+    sumJumlahRp = 0;
+    sumDebet = 0;
+    sumDebetRp = 0;
+    sumKredit = 0;
+    sumKreditRp = 0;
     for (int i = 0; i < data_account_keranjang.length; i++) {
       sumJumlah += data_account_keranjang[i].jumlah ?? 0.00;
-      sumJumlahrp += data_account_keranjang[i].jumlah1 ?? 0.00;
+      sumDebet += data_account_keranjang[i].debet ?? 0.00;
+      sumKredit += data_account_keranjang[i].kredit ?? 0.00;
+      sumDebetRp += data_account_keranjang[i].debet1 ?? 0.00;
+      sumKreditRp += data_account_keranjang[i].kredit1 ?? 0.00;
+      sumJumlahRp += data_account_keranjang[i].jumlah1 ?? 0.00;
     }
     notifyListeners();
   }
@@ -297,7 +322,7 @@ class MemoController with ChangeNotifier {
     if (no_buktiController.text.isNotEmpty) {
       if (data_account_keranjang.length > 0) {
         BotToast.showLoading();
-        var data_ready = await m_memo.get_no_bukti(
+        var data_ready = await m_memo.check_no_bukti(
             no_buktiController.text, "NO_BUKTI", "memo");
         if (data_ready.length > 0) {
           Toast("Peringatan !",
@@ -308,20 +333,18 @@ class MemoController with ChangeNotifier {
           Map obj = new Map();
           obj['NO_BUKTI'] = no_buktiController.text;
           obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-          obj['TYPE'] = "MEMO";
-          obj['BACNO'] = bacnoController.text;
-          obj['BNAMA'] = bnamaController.text;
+          obj['TYPE'] = "M";
           obj['CURR'] = currController.text;
           obj['CURRNM'] = currnmController.text;
           obj['RATE'] = rateController.text;
           obj['KET'] = ketController.text;
           obj['PER'] = perx;
-          obj['DEBET'] = "0.00";
-          obj['DEBET1'] = "0.00";
-          obj['KREDIT'] = "0.00";
-          obj['KREDIT1'] = "0.00";
-          obj['JUMLAH1'] = sumJumlahrp;
-          obj['JUMLAH'] = sumJumlah;
+          obj['DEBET'] = sumDebet ?? 0.00;
+          obj['DEBET1'] = sumDebetRp ?? 0.00;
+          obj['KREDIT'] = sumKredit ?? 0.00;
+          obj['KREDIT1'] = sumKreditRp ?? 0.00;
+          // obj['JUMLAH1'] = sumJumlahRp;
+          // obj['JUMLAH'] = sumJumlah;
           obj['USRIN'] = LoginController.nama_staff;
           obj['TG_IN'] = DateTime.now();
           obj['FLAG'] = "M";
@@ -348,23 +371,20 @@ class MemoController with ChangeNotifier {
         Map obj = new Map();
         obj['NO_BUKTI'] = no_buktiController.text;
         obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
-        obj['TYPE'] = "MEMO";
-        obj['BACNO'] = bacnoController.text;
-        obj['BNAMA'] = bnamaController.text;
+        obj['TYPE'] = "M";
         obj['CURR'] = currController.text;
         obj['CURRNM'] = currnmController.text;
         obj['RATE'] = rateController.text;
         obj['KET'] = ketController.text;
         obj['PER'] = perx;
-        obj['DEBET'] = sumJumlah;
-        obj['DEBET1'] = "0.00";
-        obj['KREDIT'] = "0.00";
-        obj['KREDIT1'] = "0.00";
-        obj['JUMLAH1'] = sumJumlahrp;
-        obj['JUMLAH'] = sumJumlah;
+        obj['DEBET'] = sumDebet ?? 0.00;
+        obj['DEBET1'] = sumDebetRp ?? 0.00;
+        obj['KREDIT'] = sumKredit ?? 0.00;
+        obj['KREDIT1'] = sumKreditRp ?? 0.00;
+        // obj['JUMLAH1'] = sumJumlah;
+        // obj['JUMLAH'] = sumJumlahRp;
         obj['USRIN'] = LoginController.nama_staff;
         obj['TG_IN'] = DateTime.now();
-        obj['UM'] = "0.00";
         obj['FLAG'] = "M";
         obj['tabeld'] = await baca_tabeld();
         await m_memo.update_memo(obj);

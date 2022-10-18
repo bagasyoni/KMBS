@@ -27,7 +27,7 @@ exports.memo_paginate = function (req, res) {
 
 exports.count_memopaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("SELECT COUNT(*) FROM memo WHERE TYPE='' AND (NO_BUKTI LIKE ? OR FLAG='M')", [filter_cari],
+    connection.query("SELECT COUNT(*) FROM memo WHERE TYPE='M' AND (NO_BUKTI LIKE ? OR FLAG='M')", [filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -42,8 +42,6 @@ exports.tambahheadermemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
-    var BACNO = req.body.BACNO;
-    var BNAMA = req.body.BNAMA;
     var CURR = req.body.CURR;
     var CURRNM = req.body.CURRNM;
     var RATE = req.body.RATE;
@@ -51,13 +49,13 @@ exports.tambahheadermemo = function (req, res) {
     var PER = req.body.PER;
     var DEBET = req.body.DEBET;
     var KREDIT = req.body.KREDIT;
-    var DEBET1 = req.body.DEBET11;
+    var DEBET1 = req.body.DEBET1;
     var KREDIT1 = req.body.KREDIT1;
     var USRIN = req.body.USRIN;
     var TG_IN = req.body.TG_IN;
     var FLAG = req.body.FLAG;
 
-    connection.query("INSERT INTO memo (NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG],
+    connection.query("INSERT INTO memo (NO_BUKTI, TGL, TYPE, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, TYPE, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -74,7 +72,7 @@ exports.tambahdetailmemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var REC = req.body.REC;
     var PER = req.body.PER;
-    var TYPE = req.body.TYPE;
+    var TYP = req.body.TYPE;
     var ACNO = req.body.ACNO;
     var NACNO = req.body.NACNO;
     var ACNOB = req.body.ACNOB;
@@ -88,7 +86,7 @@ exports.tambahdetailmemo = function (req, res) {
     var JUMLAH1 = req.body.JUMLAH1;
     var FLAG = req.body.FLAG;
 
-    connection.query("INSERT INTO memod (REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE memo, memod SET memod.ID = memo.NO_ID WHERE memod.NO_BUKTI = memo.NO_BUKTI;", [REC, NO_BUKTI, PER, TYPE, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG],
+    connection.query("INSERT INTO memod (REC, NO_BUKTI, PER, TYP, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); UPDATE memo, memod SET memod.ID = memo.NO_ID WHERE memod.NO_BUKTI = memo.NO_BUKTI;", [REC, NO_BUKTI, PER, TYP, ACNO, NACNO, ACNOB, NACNOB, URAIAN, DEBET, DEBET1, KREDIT, KREDIT1, JUMLAH, JUMLAH1, FLAG],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -105,7 +103,7 @@ exports.tampilmemo = function (req, res) {
     var tgl_awal = req.body.tglawal;
     var tgl_akhir = req.body.tglakhir;
     var periode = req.body.periode;
-    connection.query("select * from memo where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='M' AND PER=? AND TYPE=''", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
+    connection.query("select * from memo where if(?<>'',NO_BUKTI like ?,true) AND TGL BETWEEN ? AND ? AND FLAG='M' AND PER=? AND TYPE='M'", [nobukti, nobukti, tgl_awal, tgl_akhir, periode], function (error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -120,8 +118,6 @@ exports.editheadermemo = function (req, res) {
     var NO_BUKTI = req.body.NO_BUKTI;
     var TGL = req.body.TGL;
     var TYPE = req.body.TYPE;
-    var BACNO = req.body.BACNO;
-    var BNAMA = req.body.BNAMA;
     var CURR = req.body.CURR;
     var CURRNM = req.body.CURRNM;
     var RATE = req.body.RATE;
@@ -129,13 +125,13 @@ exports.editheadermemo = function (req, res) {
     var PER = req.body.PER;
     var DEBET = req.body.DEBET;
     var KREDIT = req.body.KREDIT;
-    var DEBET1 = req.body.DEBET11;
+    var DEBET1 = req.body.DEBET1;
     var KREDIT1 = req.body.KREDIT1;
     var USRIN = req.body.USRIN;
     var TG_IN = req.body.TG_IN;
     var FLAG = req.body.FLAG;
 
-    connection.query("UPDATE memo set TGL=?, TYPE=?, BACNO=?, BNAMA=?, CURR=?, CURRNM=?, RATE=?, KET=?, PER=?, DEBET=?, KREDIT=?, DEBET1=?, KREDIT1=?, USRIN=?, TG_IN=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, BACNO, BNAMA, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG, NO_BUKTI],
+    connection.query("UPDATE memo set TGL=?, TYPE=?, CURR=?, CURRNM=?, RATE=?, KET=?, PER=?, DEBET=?, KREDIT=?, DEBET1=?, KREDIT1=?, USRIN=?, TG_IN=?, FLAG=? WHERE NO_BUKTI=?", [TGL, TYPE, CURR, CURRNM, RATE, KET, PER, DEBET, KREDIT, DEBET1, KREDIT1, USRIN, TG_IN, FLAG, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -176,7 +172,7 @@ exports.modalmemo = function (req, res) {
 
 exports.carimemo = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from memo where (BACNO like ? or BNAMA like ? or KODE like ? or NAMA like ?) and FLAG='M' and TYPE=''", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("select * from memo where (NO_BUKTI like ? or TGL like ? or KET like ?) and FLAG='M' and TYPE='M'", [filter_cari, filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

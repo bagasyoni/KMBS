@@ -75,12 +75,16 @@ class _FilterTanggalState extends State<FilterTanggal> {
                           onSelectionChanged:
                               PobahanController.onSelectionChanged,
                           selectionMode: DateRangePickerSelectionMode.range,
-                          selectionColor: HijauColor,
-                          endRangeSelectionColor: HijauColor,
+                          selectionColor: Color.fromARGB(255, 105, 214, 205),
+                          endRangeSelectionColor:
+                              Color.fromARGB(255, 105, 214, 205),
                           backgroundColor: Colors.white,
-                          rangeSelectionColor: Colors.greenAccent,
-                          startRangeSelectionColor: HijauColor,
-                          todayHighlightColor: HijauColor,
+                          rangeSelectionColor:
+                              Color.fromARGB(255, 105, 214, 205),
+                          startRangeSelectionColor:
+                              Color.fromARGB(255, 105, 214, 205),
+                          todayHighlightColor:
+                              Color.fromARGB(255, 105, 214, 205),
                           initialSelectedRange:
                               PickerDateRange(DateTime.now(), DateTime.now()),
                         ),

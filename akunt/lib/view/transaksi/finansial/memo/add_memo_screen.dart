@@ -871,7 +871,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(memoController.sumJumlah),
+                                  f.format(memoController.sumDebet),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
@@ -896,7 +896,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 6),
                                 child: Text(
-                                  f.format(memoController.sumJumlahrp),
+                                  f.format(memoController.sumKredit),
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.poppins(
                                       fontSize: 13,
