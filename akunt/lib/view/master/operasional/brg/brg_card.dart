@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/master/operasional/brg_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -173,7 +172,7 @@ Widget BrgCard(BuildContext context, int index, BrgController val_bar,
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: OnHoverButton(
                     child: InkWell(
-                      onTap: pressEdit,
+                      onTap: pressDelete,
                       child: Container(
                         height: 25,
                         child: Center(

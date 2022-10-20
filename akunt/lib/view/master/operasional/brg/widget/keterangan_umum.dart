@@ -163,7 +163,7 @@ Widget KeteranganUmum(BrgController brgController) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nama",
+                                  "Nama 1",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -361,7 +361,7 @@ Widget KeteranganUmum(BrgController brgController) {
                                     decoration: InputDecoration(
                                       hintText: "0.00",
                                       contentPadding:
-                                          EdgeInsets.only(top: 18, bottom: 18),
+                                          EdgeInsets.only(top: 18, bottom: 15),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       focusedErrorBorder: InputBorder.none,
@@ -521,7 +521,7 @@ Widget KeteranganUmum(BrgController brgController) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nama",
+                                  "Nama 2",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,

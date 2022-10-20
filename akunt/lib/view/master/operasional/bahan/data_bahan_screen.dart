@@ -358,7 +358,7 @@ class _DataBahanScreenState extends State<DataBahanScreen> {
                     ? ListView.builder(
                         itemCount: bahanController.data_bahanList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return BahanCard(context, index, bahanController,
+                          return bahanCard(context, index, bahanController,
                               pressEdit: () {
                             Navigator.push(
                                 context,

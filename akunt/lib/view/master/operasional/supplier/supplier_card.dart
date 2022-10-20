@@ -198,7 +198,7 @@ Widget SupplierCard(BuildContext context, int index, SupplierController val_bar,
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: OnHoverButton(
                     child: InkWell(
-                      onTap: pressEdit,
+                      onTap: pressDelete,
                       child: Container(
                         height: 25,
                         child: Center(

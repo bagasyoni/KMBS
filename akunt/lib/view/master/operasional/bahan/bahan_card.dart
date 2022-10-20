@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/master/operasional/bahan_controller.dart';
 import 'package:provider/provider.dart';
 
-Widget BahanCard(BuildContext context, int index, BahanController val_bar,
+Widget bahanCard(BuildContext context, int index, BahanController valBar,
     {Function pressEdit, Function pressDelete}) {
   int offset = Provider.of<BahanController>(context, listen: false).offset;
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 24),
+    padding: const EdgeInsets.symmetric(horizontal: 24),
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 1),
+      padding: const EdgeInsets.symmetric(vertical: 1),
       child: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Expanded(
@@ -31,9 +30,9 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    "${index + 1}.",
+                    "${index + offset + 1}.",
                     style: GoogleFonts.poppins(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -56,9 +55,9 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    val_bar.data_bahanList[index]['KD_BHN'],
+                    valBar.data_bahanList[index]['KD_BHN'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -81,9 +80,9 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    val_bar.data_bahanList[index]['NA_BHN'],
+                    valBar.data_bahanList[index]['NA_BHN'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -106,9 +105,9 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    val_bar.data_bahanList[index]['SATUAN'],
+                    valBar.data_bahanList[index]['SATUAN'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -131,11 +130,11 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: OnHoverButton(
                     child: InkWell(
                       onTap: pressEdit,
-                      child: Container(
+                      child: SizedBox(
                         height: 25,
                         child: Center(
                           child: Image.asset(
@@ -171,7 +170,7 @@ Widget BahanCard(BuildContext context, int index, BahanController val_bar,
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: OnHoverButton(
                     child: InkWell(
-                      onTap: pressEdit,
+                      onTap: pressDelete,
                       child: Container(
                         height: 25,
                         child: Center(
