@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:akunt/model/transaksi/operasional/model_pobahanimport.dart';
-import 'package:akunt/model/transaksi/operasional/data_pobahanimport.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/model/transaksi/operasional/model_btbbahanimport.dart';
+import 'package:akunt/model/transaksi/operasional/model_pobahanimport.dart';
+import 'package:akunt/model/transaksi/operasional/data_podbahanimport.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../login_controller.dart';
 
-class BtbbahanimportController with ChangeNotifier {
+class BtbBahanImportController with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   SharedPreferences prefs;
-  model_btbbahanimport m_btbbahanimport = model_btbbahanimport();
+  ModelBtbBahanImport mBtbBahanImport = ModelBtbBahanImport();
   TextEditingController searchController = TextEditingController();
-  DateRangePickerController filter_tanggalController =
+  DateRangePickerController filterTanggalController =
       new DateRangePickerController();
-  List data_btbbahanimport_list = [];
-  static List home_btbbahanimport_list = [];
-  bool isEnable_button = true;
+  List dataBtbBahanImportList = [];
+  static List homeBtbBahanImportList = [];
+  bool isEnableButton = true;
   String selectedDate = '';
   String dateCount = '';
   String range = 'Pilih tanggal';
   String perx = '';
   String rangeCount = '';
-  String tanggal_awal = "";
-  String tanggal_akhir = "";
+  String tanggalAwal = "";
+  String tanggalAkhir = "";
   double total = 0;
   double qty = 0;
   double disc = 0;
@@ -34,14 +34,14 @@ class BtbbahanimportController with ChangeNotifier {
   double ppn1 = 0;
   double pph = 0;
   double pph1 = 0;
-  int index_terpilih;
-  TextEditingController c_page = new TextEditingController();
+  int indexTerpilih;
+  TextEditingController cPage = new TextEditingController();
   List<DropdownMenuItem<int>> dropdownLimit;
   int totalNotaTerima = 0;
   int offset = 0;
   int limit = 50;
   double pageCount = 1;
-  int page_index = 0;
+  int pageIndex = 0;
 
   void limitPaging() {
     dropdownLimit = [];
@@ -68,69 +68,69 @@ class BtbbahanimportController with ChangeNotifier {
   Future<void> selectDataPaginate(bool reload) async {
     if (reload) {
       offset = 0;
-      page_index = 0;
+      pageIndex = 0;
     }
-    data_btbbahanimport_list = await m_btbbahanimport
-        .data_btbbahanimportpaginate(searchController.text, offset, limit);
-    home_btbbahanimport_list = await m_btbbahanimport
-        .data_btbbahanimportpaginate(searchController.text, offset, limit);
-    var count = await m_btbbahanimport
-        .countBtbbahanimportPaginate(searchController.text);
+    dataBtbBahanImportList = await mBtbBahanImport.dataBtbBahanImportPaginate(
+        searchController.text, offset, limit);
+    homeBtbBahanImportList = await mBtbBahanImport.dataBtbBahanImportPaginate(
+        searchController.text, offset, limit);
+    var count = await mBtbBahanImport
+        .countBtbBahanImportPaginate(searchController.text);
     totalNotaTerima = int.tryParse(count[0]['COUNT(*)'].toString()) ?? 0;
     pageCount = totalNotaTerima / limit;
     notifyListeners();
   }
 
   void modalData(String cari) async {
-    data_btbbahanimport_list = await model_btbbahanimport().data_modal(cari);
-    home_btbbahanimport_list = await model_btbbahanimport().data_modal(cari);
+    dataBtbBahanImportList = await ModelBtbBahanImport().dataModal(cari);
+    homeBtbBahanImportList = await ModelBtbBahanImport().dataModal(cari);
     notifyListeners();
   }
 
-  Future<void> baca_periodePrefs() async {
+  Future<void> bacaPeriodePrefs() async {
     prefs = await _prefs;
     perx = prefs.getString("periode") ??
         DateFormat('MM/yyyy', "id_ID").format(DateTime.now()).toString();
   }
 
-  Future<void> select_data() async {
-    data_btbbahanimport_list = await m_btbbahanimport.select_btb_bahan_import(
-        searchController.text, tanggal_awal, tanggal_akhir, perx);
-    home_btbbahanimport_list = await m_btbbahanimport.select_btb_bahan_import(
-        searchController.text, tanggal_awal, tanggal_akhir, perx);
+  Future<void> selectDataTanggal() async {
+    dataBtbBahanImportList = await mBtbBahanImport.selectBtbBahanImport(
+        searchController.text, tanggalAwal, tanggalAkhir, perx);
+    homeBtbBahanImportList = await mBtbBahanImport.selectBtbBahanImport(
+        searchController.text, tanggalAwal, tanggalAkhir, perx);
     total = 0;
     qty = 0;
-    for (int i = 0; i < data_btbbahanimport_list.length; i++) {
-      total += double.parse(data_btbbahanimport_list[i]['TOTAL'].toString());
-      qty += double.parse(data_btbbahanimport_list[i]['TOTAL_QTY'].toString());
+    for (int i = 0; i < dataBtbBahanImportList.length; i++) {
+      total += double.parse(dataBtbBahanImportList[i]['TOTAL'].toString());
+      qty += double.parse(dataBtbBahanImportList[i]['TOTAL_QTY'].toString());
     }
     notifyListeners();
   }
 
   void selectData(String cari) async {
-    data_btbbahanimport_list =
-        await model_btbbahanimport().cari_btb_bahan_import(cari);
-    home_btbbahanimport_list =
-        await model_btbbahanimport().cari_btb_bahan_import(cari);
-    await baca_periodePrefs();
+    dataBtbBahanImportList =
+        await ModelBtbBahanImport().cariBtbBahanImport(cari);
+    homeBtbBahanImportList =
+        await ModelBtbBahanImport().cariBtbBahanImport(cari);
+    await bacaPeriodePrefs();
     notifyListeners();
   }
 
   void initData() {
-    c_page.text = '1';
+    cPage.text = '1';
     limitPaging();
     selectDataPaginate(true);
-    index_terpilih = null;
-    tanggal_awal =
+    indexTerpilih = null;
+    tanggalAwal =
         DateFormat('yyyy-MM-dd', "id_ID").format(DateTime.now()).toString();
-    tanggal_akhir =
+    tanggalAkhir =
         DateFormat('yyyy-MM-dd', "id_ID").format(DateTime.now()).toString();
     range =
         DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString() +
             ' - ' +
             DateFormat('dd/MM/yyyy', "id_ID").format(DateTime.now()).toString();
-    baca_periodePrefs();
-    select_data();
+    bacaPeriodePrefs();
+    selectDataTanggal();
   }
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -146,32 +146,32 @@ class BtbbahanimportController with ChangeNotifier {
                   .toString();
         }
         if (args.value.startDate != null && args.value.endDate != null) {
-          tanggal_awal = DateFormat('yyyy-MM-dd', "id_ID")
+          tanggalAwal = DateFormat('yyyy-MM-dd', "id_ID")
               .format(args.value.startDate)
               .toString();
-          tanggal_akhir = DateFormat('yyyy-MM-dd', "id_ID")
+          tanggalAkhir = DateFormat('yyyy-MM-dd', "id_ID")
               .format(args.value.endDate)
               .toString();
-          isEnable_button = true;
+          isEnableButton = true;
         } else {
-          isEnable_button = false;
+          isEnableButton = false;
         }
       } else if (args.value is DateTime) {
         selectedDate = args.value.toString();
-        isEnable_button = false;
+        isEnableButton = false;
       } else if (args.value is List<DateTime>) {
         dateCount = args.value.length.toString();
-        isEnable_button = false;
+        isEnableButton = false;
       } else {
         rangeCount = args.value.length.toString();
-        isEnable_button = false;
+        isEnableButton = false;
       }
       notifyListeners();
     }
   }
 
   //add btb bahan
-  TextEditingController no_buktiController = TextEditingController();
+  TextEditingController noBuktiController = TextEditingController();
   TextEditingController tglController = TextEditingController();
   TextEditingController jtempoController = TextEditingController();
   TextEditingController currController = TextEditingController();
@@ -182,8 +182,8 @@ class BtbbahanimportController with ChangeNotifier {
   TextEditingController alamatController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
   TextEditingController notesController = TextEditingController();
-  TextEditingController total_qtyController = TextEditingController();
-  TextEditingController sisa_qtyController = TextEditingController();
+  TextEditingController totalQtyController = TextEditingController();
+  TextEditingController sisaQtyController = TextEditingController();
   TextEditingController total1Controller = TextEditingController();
   TextEditingController discController = TextEditingController();
   TextEditingController ppnController = TextEditingController();
@@ -202,7 +202,7 @@ class BtbbahanimportController with ChangeNotifier {
   TextEditingController rppph1Controller = TextEditingController();
   TextEditingController rppphController = TextEditingController();
   TextEditingController usrinController = TextEditingController();
-  TextEditingController tg_inController = TextEditingController();
+  TextEditingController tgInController = TextEditingController();
   TextEditingController flagController = TextEditingController();
   TextEditingController perController = TextEditingController();
   TextEditingController typController = TextEditingController();
@@ -210,20 +210,20 @@ class BtbbahanimportController with ChangeNotifier {
   TextEditingController brandController = TextEditingController();
   TextEditingController rateksController = TextEditingController();
   TextEditingController acno1Controller = TextEditingController();
-  TextEditingController acno1_nmController = TextEditingController();
-  TextEditingController tg_smpController = TextEditingController();
+  TextEditingController acno1NmController = TextEditingController();
+  TextEditingController tgSmpController = TextEditingController();
   TextEditingController usrnmController = TextEditingController();
-  final format_tanggal = new DateFormat("dd/MM/yyyy");
-  final format_jtempo = new DateFormat("dd/MM/yyyy");
-  final format_created_at = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
-  final format_created_at2 = DateFormat("yyyy-MM", "id_ID");
-  final format_no_bukti = DateFormat("MMyyyy", "id_ID");
+  final formatTanggal = new DateFormat("dd/MM/yyyy");
+  final formatJtempo = new DateFormat("dd/MM/yyyy");
+  final formatCreatedAt = DateFormat("yyyy-MM-dd hh:mm:ss", "id_ID");
+  final formatCreatedAt2 = DateFormat("yyyy-MM", "id_ID");
+  final formatNoBukti = DateFormat("MMyyyy", "id_ID");
   DateTime chooseDate = DateTime.now();
   DateTime chooseDateJT = DateTime.now();
   String tanggal;
   String tanggalJT;
-  List<DataPobahanimport> data_pobahanimport_keranjang =
-      List<DataPobahanimport>();
+  List<DataPodBahanImport> dataPodBahanImportKeranjang =
+      List<DataPodBahanImport>();
   static double rate = 0;
   double sumQty = 0;
   double sumTotal = 0;
@@ -237,12 +237,12 @@ class BtbbahanimportController with ChangeNotifier {
   double sumNett = 0;
   double sumNett1 = 0;
   String uraian, reff;
-  int no_urut = 0;
-  List<DataPobahanimport> pobhnimportList = List<DataPobahanimport>();
+  int noUrut = 0;
+  List<DataPodBahanImport> podBhnImportList = List<DataPodBahanImport>();
 
-  Future<void> initData_addBtbbahanimport() async {
-    data_pobahanimport_keranjang = new List<DataPobahanimport>();
-    no_buktiController.clear();
+  Future<void> initDataAddBtbBahanImport() async {
+    dataPodBahanImportKeranjang = new List<DataPodBahanImport>();
+    noBuktiController.clear();
     tglController.clear();
     jtempoController.clear();
     currController.clear();
@@ -253,8 +253,8 @@ class BtbbahanimportController with ChangeNotifier {
     alamatController.clear();
     kotaController.clear();
     notesController.clear();
-    total_qtyController.clear();
-    sisa_qtyController.clear();
+    totalQtyController.clear();
+    sisaQtyController.clear();
     total1Controller.clear();
     discController.clear();
     ppnController.clear();
@@ -273,7 +273,7 @@ class BtbbahanimportController with ChangeNotifier {
     rppph1Controller.clear();
     rppphController.clear();
     usrinController.clear();
-    tg_inController.clear();
+    tgInController.clear();
     flagController.clear();
     perController.clear();
     typController.clear();
@@ -281,9 +281,9 @@ class BtbbahanimportController with ChangeNotifier {
     brandController.clear();
     rateksController.clear();
     acno1Controller.clear();
-    acno1_nmController.clear();
-    tglController.text = format_tanggal.format(chooseDate);
-    jtempoController.text = format_jtempo.format(chooseDateJT);
+    acno1NmController.clear();
+    tglController.text = formatTanggal.format(chooseDate);
+    jtempoController.text = formatJtempo.format(chooseDateJT);
     sumQty = 0;
     sumTotal = 0;
     sumTotal1 = 0;
@@ -296,111 +296,111 @@ class BtbbahanimportController with ChangeNotifier {
     sumNett = 0;
     sumNett1 = 0;
     String rate = rateController.text;
-    await baca_periodePrefs();
+    await bacaPeriodePrefs();
     await model_pobahanimport().cari_po_bahan_import("").then((value) {
       if (value != null) {
-        pobhnimportList.clear();
+        podBhnImportList.clear();
         for (int i = 0; i < value.length; i++) {
-          pobhnimportList.add(DataPobahanimport.fromJson(value[i]));
+          podBhnImportList.add(DataPodBahanImport.fromJson(value[i]));
         }
       }
     });
   }
 
   ///HEADER///
-  Future<void> initData_editBtbbahanimport(var data_edit) async {
-    no_buktiController.text = data_edit['NO_BUKTI'];
-    chooseDate = DateTime.tryParse(data_edit['TGL']);
-    chooseDateJT = DateTime.tryParse(data_edit['JTEMPO']);
-    currController.text = data_edit['CURR'];
-    currnmController.text = data_edit['CURRNM'];
-    rateController.text = data_edit['RATE'].toString();
-    kodesController.text = data_edit['KODES'];
-    namasController.text = data_edit['NAMAS'];
-    alamatController.text = data_edit['ALAMAT'];
-    kotaController.text = data_edit['KOTA'];
-    notesController.text = data_edit['NOTES'];
-    total_qtyController.text = data_edit['TOTAL_QTY'].toString();
-    sisa_qtyController.text = data_edit['SISA_QTY'].toString();
-    total1Controller.text = data_edit['TOTAL1'].toString();
-    discController.text = data_edit['DISC'].toString();
-    ppnController.text = data_edit['PPN'].toString();
-    nett1Controller.text = data_edit['NETT1'].toString();
-    disc1Controller.text = data_edit['DISC1'].toString();
-    ppn1Controller.text = data_edit['PPN1'].toString();
-    pph1Controller.text = data_edit['PPH1'].toString();
-    pphController.text = data_edit['PPH'].toString();
-    totalController.text = data_edit['TOTAL'].toString();
-    rpdiscController.text = data_edit['RPDISC'].toString();
-    rpppnController.text = data_edit['RPPPN'].toString();
-    nettController.text = data_edit['NETT'].toString();
-    sisaController.text = data_edit['SISA'].toString();
-    rpdisc1Controller.text = data_edit['RPDISC1'].toString();
-    rpppn1Controller.text = data_edit['RPPPN1'].toString();
-    rppph1Controller.text = data_edit['RPPPH1'].toString();
-    rppphController.text = data_edit['RPPPH'].toString();
-    usrnmController.text = data_edit['USRNM'];
-    tg_smpController.text = data_edit['TG_SMP'];
-    flagController.text = data_edit['FLAG'];
-    perController.text = data_edit['PER'];
-    typController.text = data_edit['TYP'];
-    golController.text = data_edit['GOL'];
-    brandController.text = data_edit['BRAND'];
-    rateksController.text = data_edit['RATEKS'].toString();
-    acno1Controller.text = data_edit['ACNO1'];
-    acno1_nmController.text = data_edit['ACNO1_NM'];
-    tglController.text = format_tanggal.format(chooseDate);
-    jtempoController.text = format_jtempo.format(chooseDateJT);
-    List data_lama = await m_btbbahanimport.select_btb_bahan_import_detail(
-        data_edit['NO_BUKTI'], "NO_BUKTI", "belid");
-    data_pobahanimport_keranjang = new List<DataPobahanimport>();
+  Future<void> initDataEditBtbBahanImport(var dataEdit) async {
+    noBuktiController.text = dataEdit['NO_BUKTI'];
+    chooseDate = DateTime.tryParse(dataEdit['TGL']);
+    chooseDateJT = DateTime.tryParse(dataEdit['JTEMPO']);
+    currController.text = dataEdit['CURR'];
+    currnmController.text = dataEdit['CURRNM'];
+    rateController.text = dataEdit['RATE'].toString();
+    kodesController.text = dataEdit['KODES'];
+    namasController.text = dataEdit['NAMAS'];
+    alamatController.text = dataEdit['ALAMAT'];
+    kotaController.text = dataEdit['KOTA'];
+    notesController.text = dataEdit['NOTES'];
+    totalQtyController.text = dataEdit['TOTAL_QTY'].toString();
+    sisaQtyController.text = dataEdit['SISA_QTY'].toString();
+    total1Controller.text = dataEdit['TOTAL1'].toString();
+    discController.text = dataEdit['DISC'].toString();
+    ppnController.text = dataEdit['PPN'].toString();
+    nett1Controller.text = dataEdit['NETT1'].toString();
+    disc1Controller.text = dataEdit['DISC1'].toString();
+    ppn1Controller.text = dataEdit['PPN1'].toString();
+    pph1Controller.text = dataEdit['PPH1'].toString();
+    pphController.text = dataEdit['PPH'].toString();
+    totalController.text = dataEdit['TOTAL'].toString();
+    rpdiscController.text = dataEdit['RPDISC'].toString();
+    rpppnController.text = dataEdit['RPPPN'].toString();
+    nettController.text = dataEdit['NETT'].toString();
+    sisaController.text = dataEdit['SISA'].toString();
+    rpdisc1Controller.text = dataEdit['RPDISC1'].toString();
+    rpppn1Controller.text = dataEdit['RPPPN1'].toString();
+    rppph1Controller.text = dataEdit['RPPPH1'].toString();
+    rppphController.text = dataEdit['RPPPH'].toString();
+    usrnmController.text = dataEdit['USRNM'];
+    tgSmpController.text = dataEdit['TG_SMP'];
+    flagController.text = dataEdit['FLAG'];
+    perController.text = dataEdit['PER'];
+    typController.text = dataEdit['TYP'];
+    golController.text = dataEdit['GOL'];
+    brandController.text = dataEdit['BRAND'];
+    rateksController.text = dataEdit['RATEKS'].toString();
+    acno1Controller.text = dataEdit['ACNO1'];
+    acno1NmController.text = dataEdit['ACNO1_NM'];
+    tglController.text = formatTanggal.format(chooseDate);
+    jtempoController.text = formatJtempo.format(chooseDateJT);
+    List dataLama = await mBtbBahanImport.selectBtbBahanImportDetail(
+        dataEdit['NO_BUKTI'], "NO_BUKTI", "belid");
+    dataPodBahanImportKeranjang = new List<DataPodBahanImport>();
 
-    for (int i = 0; i < data_lama.length; i++) {
-      DataPobahanimport mAccount = DataPobahanimport(
-        noid: data_lama[i]['NO_ID'],
-        no_bukti: data_lama[i]['NO_PO'],
-        qtypo: data_lama[i]['NA_BHN'],
-        kd_bhn: data_lama[i]['SATUAN'],
-        na_bhn: data_lama[i]['KET'],
-        satuan: data_lama[i]['SATUAN'],
-        qty: double.parse(data_lama[i]['QTY'].toString()),
-        satuanbl: data_lama[i]['SATUANBL'],
-        qtybl: double.parse(data_lama[i]['QTYBL'].toString()),
-        harga1: double.parse(data_lama[i]['HARGA1'].toString()),
-        total1: double.parse(data_lama[i]['TOTAL1'].toString()),
-        ket: data_lama[i]['KET'],
-        harga: double.parse(data_lama[i]['HARGA'].toString()),
-        total: double.parse(data_lama[i]['TOTAL'].toString()),
-        blt: double.parse(data_lama[i]['BLT'].toString()),
-        disc: double.parse(data_lama[i]['DISC'].toString()),
-        rpdisc: double.parse(data_lama[i]['RPDISC'].toString()),
-        typ: data_lama[i]['TYP'],
-        gol: data_lama[i]['GOL'],
-        htg: double.parse(data_lama[i]['HTG'].toString()),
-        siz: data_lama[i]['SIZ'],
-        kd: data_lama[i]['KD'],
-        kodecab: data_lama[i]['KODECAB'],
-        warna: data_lama[i]['WARNA'],
-        produk: data_lama[i]['PRODUK'],
-        grp: data_lama[i]['GRP'],
-        acno: data_lama[i]['ACNO'],
-        acno_nm: data_lama[i]['ACNO_NM'],
+    for (int i = 0; i < dataLama.length; i++) {
+      DataPodBahanImport mAccount = DataPodBahanImport(
+        noid: dataLama[i]['NO_ID'],
+        nobukti: dataLama[i]['NO_PO'],
+        qtypo: dataLama[i]['NA_BHN'],
+        kdbhn: dataLama[i]['SATUAN'],
+        nabhn: dataLama[i]['KET'],
+        satuan: dataLama[i]['SATUAN'],
+        qty: double.parse(dataLama[i]['QTY'].toString()),
+        satuanbl: dataLama[i]['SATUANBL'],
+        qtybl: double.parse(dataLama[i]['QTYBL'].toString()),
+        harga1: double.parse(dataLama[i]['HARGA1'].toString()),
+        total1: double.parse(dataLama[i]['TOTAL1'].toString()),
+        ket: dataLama[i]['KET'],
+        harga: double.parse(dataLama[i]['HARGA'].toString()),
+        total: double.parse(dataLama[i]['TOTAL'].toString()),
+        blt: double.parse(dataLama[i]['BLT'].toString()),
+        disc: double.parse(dataLama[i]['DISC'].toString()),
+        rpdisc: double.parse(dataLama[i]['RPDISC'].toString()),
+        typ: dataLama[i]['TYP'],
+        gol: dataLama[i]['GOL'],
+        htg: double.parse(dataLama[i]['HTG'].toString()),
+        siz: dataLama[i]['SIZ'],
+        kd: dataLama[i]['KD'],
+        kodecab: dataLama[i]['KODECAB'],
+        warna: dataLama[i]['WARNA'],
+        produk: dataLama[i]['PRODUK'],
+        grp: dataLama[i]['GRP'],
+        acno: dataLama[i]['ACNO'],
+        acnonm: dataLama[i]['ACNO_NM'],
       );
-      data_pobahanimport_keranjang.add(mAccount);
+      dataPodBahanImportKeranjang.add(mAccount);
     }
     hitungSubTotal();
     await model_pobahanimport().cari_po_bahan_import("").then((value) {
       if (value != null) {
-        pobhnimportList.clear();
+        podBhnImportList.clear();
         for (int i = 0; i < value.length; i++) {
-          pobhnimportList.add(DataPobahanimport.fromJson(value[i]));
+          podBhnImportList.add(DataPodBahanImport.fromJson(value[i]));
         }
       }
     });
   }
 
-  void addKeranjang(DataPobahanimport mAccount) {
-    data_pobahanimport_keranjang.add(mAccount);
+  void addKeranjang(DataPodBahanImport mAccount) {
+    dataPodBahanImportKeranjang.add(mAccount);
     sumQty += mAccount.qty;
     sumTotal += mAccount.total;
     sumTotal1 += mAccount.total1;
@@ -420,12 +420,12 @@ class BtbbahanimportController with ChangeNotifier {
     sumNett = 0;
     sumNett1 = 0;
     rate = double.parse(rateController.text);
-    for (int i = 0; i < data_pobahanimport_keranjang.length; i++) {
-      sumQty += data_pobahanimport_keranjang[i].qty;
-      sumTotal += (data_pobahanimport_keranjang[i].harga *
-          data_pobahanimport_keranjang[i].qty);
-      sumTotal1 += (data_pobahanimport_keranjang[i].harga *
-              data_pobahanimport_keranjang[i].qty) *
+    for (int i = 0; i < dataPodBahanImportKeranjang.length; i++) {
+      sumQty += dataPodBahanImportKeranjang[i].qty;
+      sumTotal += (dataPodBahanImportKeranjang[i].harga *
+          dataPodBahanImportKeranjang[i].qty);
+      sumTotal1 += (dataPodBahanImportKeranjang[i].harga *
+              dataPodBahanImportKeranjang[i].qty) *
           rate;
     }
     sumDisc = sumTotal * disc / 100;
@@ -440,25 +440,25 @@ class BtbbahanimportController with ChangeNotifier {
   }
 
   /// data header
-  Future<bool> saveBtbbahanlokal() async {
+  Future<bool> saveBtbBahanImport() async {
     hitungSubTotal();
     String periodeTgl = DateFormat("MM/yyyy").format(chooseDate);
     if (int.parse(DateFormat("yyyyMMdd").format(chooseDateJT)) >
         int.parse(DateFormat("yyyyMMdd").format(chooseDate))) {
       if (periodeTgl == perx) {
-        if (no_buktiController.text.isNotEmpty) {
-          if (data_pobahanimport_keranjang.length > 0) {
+        if (noBuktiController.text.isNotEmpty) {
+          if (dataPodBahanImportKeranjang.isNotEmpty) {
             BotToast.showLoading();
-            var data_ready = await m_btbbahanimport.check_no_bukti(
-                no_buktiController.text, "NO_BUKTI", "po");
-            if (data_ready.length > 0) {
+            var dataReady = await mBtbBahanImport.checkNoBukti(
+                noBuktiController.text, "NO_BUKTI", "po");
+            if (dataReady.isNotEmpty) {
               Toast("Peringatan !",
-                  "No bukti '${no_buktiController.text}' sudah ada", false);
+                  "No bukti '${noBuktiController.text}' sudah ada", false);
               BotToast.closeAllLoading();
               return false;
             } else {
               Map obj = new Map();
-              obj['NO_BUKTI'] = no_buktiController.text;
+              obj['NO_BUKTI'] = noBuktiController.text;
               obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
               obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
               obj['CURR'] = currController.text;
@@ -497,9 +497,9 @@ class BtbbahanimportController with ChangeNotifier {
               obj['BRAND'] = brandController.text;
               obj['rateks'] = rateksController.text;
               obj['ACNO1'] = acno1Controller.text;
-              obj['ACNO1_NM'] = acno1_nmController.text;
-              obj['tabeld'] = await baca_tabeld();
-              await m_btbbahanimport.insert_btb_bahan_import(obj);
+              obj['ACNO1_NM'] = acno1NmController.text;
+              obj['tabeld'] = await bacaTabeld();
+              await mBtbBahanImport.insertBtbBahanImport(obj);
               BotToast.closeAllLoading();
               return true;
             }
@@ -522,17 +522,17 @@ class BtbbahanimportController with ChangeNotifier {
     }
   }
 
-  Future<bool> editBtbbahanimport() async {
+  Future<bool> editBtbBahanImport() async {
     hitungSubTotal();
     String periodeTgl = DateFormat("MM/yyyy").format(chooseDate);
     if (int.parse(DateFormat("yyyyMMdd").format(chooseDateJT)) >
         int.parse(DateFormat("yyyyMMdd").format(chooseDate))) {
       if (periodeTgl == perx) {
-        if (no_buktiController.text.isNotEmpty) {
-          if (data_pobahanimport_keranjang.length > 0) {
+        if (noBuktiController.text.isNotEmpty) {
+          if (dataPodBahanImportKeranjang.isNotEmpty) {
             BotToast.showLoading();
             Map obj = new Map();
-            obj['NO_BUKTI'] = no_buktiController.text;
+            obj['NO_BUKTI'] = noBuktiController.text;
             obj['TGL'] = DateFormat("yyyy-MM-dd").format(chooseDate);
             obj['JTEMPO'] = DateFormat("yyyy-MM-dd").format(chooseDateJT);
             obj['CURR'] = currController.text;
@@ -571,9 +571,9 @@ class BtbbahanimportController with ChangeNotifier {
             obj['BRAND'] = brandController.text;
             obj['rateks'] = rateksController.text;
             obj['ACNO1'] = acno1Controller.text;
-            obj['ACNO1_NM'] = acno1_nmController.text;
-            obj['tabeld'] = await baca_tabeld();
-            await m_btbbahanimport.update_btb_bahan_import(obj);
+            obj['ACNO1_NM'] = acno1NmController.text;
+            obj['tabeld'] = await bacaTabeld();
+            await mBtbBahanImport.updateBtbBahanImport(obj);
             BotToast.closeAllLoading();
             Toast("Success !", "Berhasil mengedit data", true);
             return true;
@@ -594,10 +594,10 @@ class BtbbahanimportController with ChangeNotifier {
     }
   }
 
-  Future<bool> deleteBtbbahanimport(String no_bukti) async {
+  Future<bool> deleteBtbBahanImport(String no_bukti) async {
     try {
-      var delete = await m_btbbahanimport.delete_btb_bahan_import(no_bukti);
-      await select_data();
+      var delete = await mBtbBahanImport.deleteBtbBahanImport(no_bukti);
+      await selectDataTanggal();
       return true;
     } catch (e) {
       return false;
@@ -605,44 +605,44 @@ class BtbbahanimportController with ChangeNotifier {
   }
 
   /// data detail
-  Future<List> baca_tabeld() async {
-    List pobhnimportList = [];
-    for (int i = 0; i < data_pobahanimport_keranjang.length; i++) {
-      double qty = data_pobahanimport_keranjang[i].qty;
-      double harga = data_pobahanimport_keranjang[i].harga;
+  Future<List> bacaTabeld() async {
+    List podBhnImportList = [];
+    for (int i = 0; i < dataPodBahanImportKeranjang.length; i++) {
+      double qty = dataPodBahanImportKeranjang[i].qty;
+      double harga = dataPodBahanImportKeranjang[i].harga;
       double rate = double.parse(rateController.text);
       double subTotal = harga * qty;
       double subTotal1 = (harga * qty) * rate;
       Map obj = new Map();
-      obj['NO_PO'] = data_pobahanimport_keranjang[i].kd_bhn;
-      obj['QTYPO'] = data_pobahanimport_keranjang[i].na_bhn;
-      obj['KD_BHN'] = data_pobahanimport_keranjang[i].satuan;
-      obj['NA_BHN'] = data_pobahanimport_keranjang[i].ket;
-      obj['SATUAN'] = data_pobahanimport_keranjang[i].harga;
-      obj['QTY'] = data_pobahanimport_keranjang[i].qty;
-      obj['SATUANBL'] = data_pobahanimport_keranjang[i].satuanbl;
-      obj['QTYBL'] = data_pobahanimport_keranjang[i].qtybl;
-      obj['HARGA1'] = data_pobahanimport_keranjang[i].harga1;
-      obj['TOTAL1'] = data_pobahanimport_keranjang[i].total1;
-      obj['KET'] = data_pobahanimport_keranjang[i].ket;
-      obj['HARGA'] = data_pobahanimport_keranjang[i].harga;
-      obj['TOTAL'] = data_pobahanimport_keranjang[i].total;
-      obj['BLT'] = data_pobahanimport_keranjang[i].blt;
-      obj['DISC'] = data_pobahanimport_keranjang[i].disc;
-      obj['RPDISC'] = data_pobahanimport_keranjang[i].rpdisc;
-      obj['TYP'] = data_pobahanimport_keranjang[i].typ;
-      obj['GOL'] = data_pobahanimport_keranjang[i].gol;
-      obj['HTG'] = data_pobahanimport_keranjang[i].htg;
-      obj['SIZ'] = data_pobahanimport_keranjang[i].siz;
-      obj['KD'] = data_pobahanimport_keranjang[i].kd;
-      obj['KODECAB'] = data_pobahanimport_keranjang[i].kodecab;
-      obj['WARNA'] = data_pobahanimport_keranjang[i].warna;
-      obj['PRODUK'] = data_pobahanimport_keranjang[i].produk;
-      obj['GRP'] = data_pobahanimport_keranjang[i].grp;
-      obj['ACNO'] = data_pobahanimport_keranjang[i].acno;
-      obj['ACNO_NM'] = data_pobahanimport_keranjang[i].acno_nm;
-      pobhnimportList.add(obj);
+      obj['NO_PO'] = dataPodBahanImportKeranjang[i].nobukti;
+      obj['QTYPO'] = dataPodBahanImportKeranjang[i].qtypo;
+      obj['KD_BHN'] = dataPodBahanImportKeranjang[i].kdbhn;
+      obj['NA_BHN'] = dataPodBahanImportKeranjang[i].nabhn;
+      obj['SATUAN'] = dataPodBahanImportKeranjang[i].satuan;
+      obj['QTY'] = dataPodBahanImportKeranjang[i].qty;
+      obj['SATUANBL'] = dataPodBahanImportKeranjang[i].satuanbl;
+      obj['QTYBL'] = dataPodBahanImportKeranjang[i].qtybl;
+      obj['HARGA1'] = dataPodBahanImportKeranjang[i].harga1;
+      obj['TOTAL1'] = dataPodBahanImportKeranjang[i].total1;
+      obj['KET'] = dataPodBahanImportKeranjang[i].ket;
+      obj['HARGA'] = dataPodBahanImportKeranjang[i].harga;
+      obj['TOTAL'] = dataPodBahanImportKeranjang[i].total;
+      obj['BLT'] = dataPodBahanImportKeranjang[i].blt;
+      obj['DISC'] = dataPodBahanImportKeranjang[i].disc;
+      obj['RPDISC'] = dataPodBahanImportKeranjang[i].rpdisc;
+      obj['TYP'] = dataPodBahanImportKeranjang[i].typ;
+      obj['GOL'] = dataPodBahanImportKeranjang[i].gol;
+      obj['HTG'] = dataPodBahanImportKeranjang[i].htg;
+      obj['SIZ'] = dataPodBahanImportKeranjang[i].siz;
+      obj['KD'] = dataPodBahanImportKeranjang[i].kd;
+      obj['KODECAB'] = dataPodBahanImportKeranjang[i].kodecab;
+      obj['WARNA'] = dataPodBahanImportKeranjang[i].warna;
+      obj['PRODUK'] = dataPodBahanImportKeranjang[i].produk;
+      obj['GRP'] = dataPodBahanImportKeranjang[i].grp;
+      obj['ACNO'] = dataPodBahanImportKeranjang[i].acno;
+      obj['ACNO_NM'] = dataPodBahanImportKeranjang[i].acnonm;
+      podBhnImportList.add(obj);
     }
-    return pobhnimportList;
+    return podBhnImportList;
   }
 }

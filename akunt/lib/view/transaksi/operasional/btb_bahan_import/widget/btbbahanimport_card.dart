@@ -4,16 +4,16 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/config/config.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/belinonbahan_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/btbbahanimport_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-Widget BelinonbahanCard(int index, {Function pressEdit, Function pressDelete}) {
-  return Consumer<BelinonbahanController>(
+Widget BtbBahanImportCard(int index, {Function pressEdit, Function pressDelete}) {
+  return Consumer<BtbBahanImportController>(
       builder: (context, belinonbahanController, child) {
     var data_belinonbahan =
-        belinonbahanController.data_belinonbahan_list[index];
+        belinonbahanController.dataBtbBahanImportList[index];
     String tanggal = DateFormat('dd/MM/yyyy')
         .format(DateTime.parse(data_belinonbahan['TGL']));
     String nobukti = data_belinonbahan['NO_BUKTI'];
@@ -24,7 +24,7 @@ Widget BelinonbahanCard(int index, {Function pressEdit, Function pressDelete}) {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () {
-          belinonbahanController.index_terpilih = index;
+          belinonbahanController.indexTerpilih = index;
           belinonbahanController.notifyListeners();
         },
         child: Container(
@@ -32,7 +32,7 @@ Widget BelinonbahanCard(int index, {Function pressEdit, Function pressDelete}) {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-                color: (index == belinonbahanController.index_terpilih)
+                color: (index == belinonbahanController.indexTerpilih)
                     ? HijauColor
                     : GreyColor),
             color: Colors.white,

@@ -335,16 +335,6 @@ class _DataTokoScreenState extends State<DataTokoScreen> {
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: Text(
-                              "",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
-                            ),
-                          ),
                         ),
                       ),
                     ),

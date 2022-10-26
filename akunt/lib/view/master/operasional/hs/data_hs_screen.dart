@@ -7,7 +7,6 @@ import 'package:akunt/controller/master/operasional/hs_controller.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/master/operasional/hs/hs_card.dart';
 import 'package:akunt/view/master/operasional/hs/tambah_hs_screen.dart';
-import 'package:responsive_table/responsive_table.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT PRINT WEB
@@ -27,8 +26,7 @@ class _DataHsScreenState extends State<DataHsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HsController>(
-        builder: (context, hsController, child) {
+    return Consumer<HsController>(builder: (context, hsController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -106,8 +104,7 @@ class _DataHsScreenState extends State<DataHsScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) =>
-                              TambahHsScreen(isModeEdit: false)));
+                          builder: (_) => TambahHsScreen(isModeEdit: false)));
                 },
                 child: Container(
                   height: 30,
@@ -228,62 +225,142 @@ class _DataHsScreenState extends State<DataHsScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "Kode HS",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode HS",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 4,
-                      child: Text(
-                        "Uraian",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Uraian",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Kode Satuan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode Satuan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Kode Jenis",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode Jenis",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -294,15 +371,15 @@ class _DataHsScreenState extends State<DataHsScreen> {
                     ? ListView.builder(
                         itemCount: hsController.data_hsList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return HsCard(context, index, hsController,
+                          return hsCard(context, index, hsController,
                               pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => TambahHsScreen(
                                           isModeEdit: true,
-                                          data_hs: hsController
-                                              .data_hsList[index],
+                                          data_hs:
+                                              hsController.data_hsList[index],
                                         )));
                           }, pressDelete: () {
                             showAnimatedDialog_withCallBack(
@@ -356,8 +433,7 @@ class _DataHsScreenState extends State<DataHsScreen> {
               children: [
                 if (hsController.data_hsList.length > 0)
                   Text(
-                    (hsController.offset + 1 <
-                            hsController.totalNotaTerima)
+                    (hsController.offset + 1 < hsController.totalNotaTerima)
                         ? "Showing ${hsController.offset + 1} to ${hsController.offset + hsController.limit} of ${hsController.totalNotaTerima} entries"
                         : "Showing ${hsController.offset + 1} to ${hsController.totalNotaTerima} of ${hsController.totalNotaTerima} entries",
                     style: GoogleFonts.poppins(
@@ -444,8 +520,7 @@ class _DataHsScreenState extends State<DataHsScreen> {
                 pageField(),
                 InkWell(
                   onTap: () {
-                    if (hsController.page_index <=
-                        hsController.pageCount - 1) {
+                    if (hsController.page_index <= hsController.pageCount - 1) {
                       hsController.offset += hsController.limit;
                       hsController.page_index++;
                       hsController.c_page.text =
@@ -493,8 +568,7 @@ class _DataHsScreenState extends State<DataHsScreen> {
 
   ///paginate
   Widget pageField() {
-    HsController pageTerima =
-        Provider.of<HsController>(context, listen: false);
+    HsController pageTerima = Provider.of<HsController>(context, listen: false);
     return Container(
       width: 70,
       height: 35,

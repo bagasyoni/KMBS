@@ -1,43 +1,43 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/belinonbahan_controller.dart';
+import 'package:akunt/controller/master/operasional/supplier_controller.dart';
 import 'package:akunt/view/base_widget/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class PilihBelinonbahan extends StatefulWidget {
-  String Belinonbahan_terpilih;
+class PilihSupplier extends StatefulWidget {
+  String supplier_terpilih;
   var controller;
 
-  PilihBelinonbahan(this.Belinonbahan_terpilih, this.controller);
+  PilihSupplier(this.supplier_terpilih, this.controller);
 
   @override
-  _PilihBelinonbahanState createState() => _PilihBelinonbahanState();
+  _PilihSupplierState createState() => _PilihSupplierState();
 }
 
-class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
+class _PilihSupplierState extends State<PilihSupplier> {
   TextEditingController searchController = TextEditingController();
   int index_terpilih;
 
   @override
   void initState() {
-    Provider.of<BelinonbahanController>(context, listen: false).selectData("");
+    Provider.of<SupplierController>(context, listen: false).selectData("");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BelinonbahanController>(
-        builder: (context, belinonbahanController, child) {
+    return Consumer<SupplierController>(
+        builder: (context, supplierController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
-          width: MediaQuery.of(context).size.width / 2.5,
+          width: MediaQuery.of(context).size.width / 1.5,
           height: MediaQuery.of(context).size.height - 100,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Text("Pilih Beli Non Bahan",
+              child: Text("Pilih Supplier",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                       disabledBorder: InputBorder.none,
                     ),
                     onChanged: (value) {
-                      belinonbahanController.selectData(value);
+                      supplierController.selectData(value);
                     },
                   ),
                 ),
@@ -93,16 +93,6 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      "No Bukti",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: GreyColor),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
                       "Kode Supplier",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
@@ -111,7 +101,7 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: Text(
                       "Nama Supplier",
                       style: GoogleFonts.poppins(
@@ -121,9 +111,19 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child: Text(
-                      "Dragon",
+                      "Kota",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: GreyColor),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      "Alamat",
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -138,9 +138,9 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: belinonbahanController.data_belinonbahan_list.length,
+                itemCount: supplierController.data_supplierList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return BelinonbahanCard(index);
+                  return SupplierCard(index);
                 },
               ),
             ),
@@ -169,17 +169,14 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                   child: InkWell(
                 onTap: () async {
                   if (index_terpilih != null) {
-                    widget.controller.nobeliController.text =
-                        belinonbahanController
-                            .data_belinonbahan_list[index_terpilih]['NO_BUKTI'];
-                    widget.controller.kodesController.text =
-                        belinonbahanController
-                            .data_belinonbahan_list[index_terpilih]['KODES'];
-                    widget.controller.namasController.text =
-                        belinonbahanController
-                            .data_belinonbahan_list[index_terpilih]['NAMAS'];
-                    widget.controller.drController.text = belinonbahanController
-                        .data_belinonbahan_list[index_terpilih]['DR'];
+                    widget.controller.kodesController.text = supplierController
+                        .data_supplierList[index_terpilih]['KODES'];
+                    widget.controller.namasController.text = supplierController
+                        .data_supplierList[index_terpilih]['NAMAS'];
+                    widget.controller.kotaController.text = supplierController
+                        .data_supplierList[index_terpilih]['KOTA'];
+                    widget.controller.alamatController.text = supplierController
+                        .data_supplierList[index_terpilih]['ALAMAT'];
                     Navigator.pop(context);
                   } else {
                     Toast("Peringatan", "Belum ada data terpilih", false);
@@ -208,13 +205,12 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
     });
   }
 
-  Widget BelinonbahanCard(int index) {
+  Widget SupplierCard(int index) {
     bool isActive = index == index_terpilih;
-    var data_belibahan =
-        Provider.of<BelinonbahanController>(context, listen: false)
-            .data_belinonbahan_list[index];
-    if (widget.Belinonbahan_terpilih != null) {
-      if (data_belibahan['NO_BUKTI'] == widget.Belinonbahan_terpilih) {
+    var data_supplier = Provider.of<SupplierController>(context, listen: false)
+        .data_supplierList[index];
+    if (widget.supplier_terpilih != null) {
+      if (data_supplier['NAMAS'] == widget.supplier_terpilih) {
         isActive = true;
         index_terpilih = index;
       }
@@ -222,7 +218,7 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
     return InkWell(
       onTap: () {
         index_terpilih = index;
-        widget.Belinonbahan_terpilih = data_belibahan['NO_BUKTI'];
+        widget.supplier_terpilih = data_supplier['NAMAS'];
         setState(() {});
       },
       child: Container(
@@ -235,7 +231,7 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    data_belibahan['NO_BUKTI'].toString(),
+                    data_supplier['KODES'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -243,9 +239,9 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Text(
-                    data_belibahan['KODES'],
+                    data_supplier['NAMAS'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -255,7 +251,7 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                 Expanded(
                   flex: 3,
                   child: Text(
-                    data_belibahan['NAMAS'],
+                    data_supplier['KOTA'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -263,9 +259,9 @@ class _PilihBelinonbahanState extends State<PilihBelinonbahan> {
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 6,
                   child: Text(
-                    data_belibahan['DR'],
+                    data_supplier['ALAMAT'],
                     style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

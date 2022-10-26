@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:akunt/config/color.dart';
-import 'package:akunt/controller/belinonbahan_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/btbbahanimport_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -12,8 +12,8 @@ class FilterTanggal extends StatefulWidget {
 class _FilterTanggalState extends State<FilterTanggal> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<BelinonbahanController>(
-        builder: (context, BelinonbahanController, child) {
+    return Consumer<BtbBahanImportController>(
+        builder: (context, BtbBahanImportController, child) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
@@ -71,9 +71,9 @@ class _FilterTanggalState extends State<FilterTanggal> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SfDateRangePicker(
                           controller:
-                              BelinonbahanController.filter_tanggalController,
+                              BtbBahanImportController.filterTanggalController,
                           onSelectionChanged:
-                              BelinonbahanController.onSelectionChanged,
+                              BtbBahanImportController.onSelectionChanged,
                           selectionMode: DateRangePickerSelectionMode.range,
                           selectionColor: HijauColor,
                           endRangeSelectionColor: HijauColor,
@@ -97,8 +97,8 @@ class _FilterTanggalState extends State<FilterTanggal> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: InkWell(
                   onTap: () async {
-                    if (BelinonbahanController.isEnable_button) {
-                      BelinonbahanController.select_data();
+                    if (BtbBahanImportController.isEnableButton) {
+                      BtbBahanImportController.selectDataTanggal();
                       Navigator.pop(context, true);
                     }
                   },
@@ -106,7 +106,7 @@ class _FilterTanggalState extends State<FilterTanggal> {
                     height: 48,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: (BelinonbahanController.isEnable_button)
+                      color: (BtbBahanImportController.isEnableButton)
                           ? HijauColor
                           : GreyColor,
                       borderRadius: BorderRadius.circular(10),

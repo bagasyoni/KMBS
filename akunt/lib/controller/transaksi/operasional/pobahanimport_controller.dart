@@ -236,7 +236,6 @@ class PobahanimportController with ChangeNotifier {
   String uraian, reff;
   int no_urut = 0;
   List<DataBhn> bhnList = List<DataBhn>();
-  bool status_kasmasuk = true;
 
   Future<void> initData_addPobahan() async {
     data_bhn_keranjang = new List<DataBhn>();

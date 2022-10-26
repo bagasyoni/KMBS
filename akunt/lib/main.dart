@@ -44,6 +44,7 @@ import 'package:akunt/controller/transaksi/operasional/pobahanlokal_controller.d
 import 'package:akunt/controller/transaksi/operasional/pobahanimport_controller.dart';
 import 'package:akunt/controller/transaksi/operasional/pobaranglokal_controller.dart';
 import 'package:akunt/controller/transaksi/operasional/pobarangimport_controller.dart';
+import 'package:akunt/controller/transaksi/operasional/btbbahanimport_controller.dart';
 import 'package:akunt/controller/transaksi/operasional/so_controller.dart';
 
 import 'package:akunt/controller/pononbahan_controller.dart';
@@ -51,7 +52,6 @@ import 'package:akunt/controller/poimport_controller.dart';
 import 'package:akunt/controller/pomesin_controller.dart';
 import 'package:akunt/controller/posparepart_controller.dart';
 import 'package:akunt/controller/belibahan_controller.dart';
-import 'package:akunt/controller/belinonbahan_controller.dart';
 import 'package:akunt/controller/beliimport_controller.dart';
 import 'package:akunt/controller/belimesin_controller.dart';
 import 'package:akunt/controller/belisparepart_controller.dart';
@@ -184,12 +184,12 @@ Future<void> init() async {
   sl.registerFactory(() => PobahanimportController());
   sl.registerFactory(() => PobaranglokalController());
   sl.registerFactory(() => PobarangimportController());
+  sl.registerFactory(() => BtbBahanImportController());
   sl.registerFactory(() => PononbahanController());
   sl.registerFactory(() => PoimportController());
   sl.registerFactory(() => PomesinController());
   sl.registerFactory(() => PosparepartController());
   sl.registerFactory(() => BelibahanController());
-  sl.registerFactory(() => BelinonbahanController());
   sl.registerFactory(() => BeliimportController());
   sl.registerFactory(() => BelimesinController());
   sl.registerFactory(() => BelisparepartController());
@@ -282,6 +282,8 @@ Future<void> main() async {
           ChangeNotifierProvider(
               create: (context) => sl<PobarangimportController>()),
           ChangeNotifierProvider(
+              create: (context) => sl<BtbBahanImportController>()),
+          ChangeNotifierProvider(
               create: (context) => sl<PononbahanController>()),
           ChangeNotifierProvider(create: (context) => sl<PoimportController>()),
           ChangeNotifierProvider(create: (context) => sl<PomesinController>()),
@@ -289,8 +291,6 @@ Future<void> main() async {
               create: (context) => sl<PosparepartController>()),
           ChangeNotifierProvider(
               create: (context) => sl<BelibahanController>()),
-          ChangeNotifierProvider(
-              create: (context) => sl<BelinonbahanController>()),
           ChangeNotifierProvider(
               create: (context) => sl<BeliimportController>()),
           ChangeNotifierProvider(

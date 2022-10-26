@@ -37,9 +37,9 @@ import 'package:akunt/view/transaksi/operasional/po_bahan_lokal/pobahanlokal_scr
 import 'package:akunt/view/transaksi/operasional/po_bahan_import/pobahanimport_screen.dart';
 import 'package:akunt/view/transaksi/operasional/po_barang_lokal/pobaranglokal_screen.dart';
 import 'package:akunt/view/transaksi/operasional/po_barang_import/pobarangimport_screen.dart';
+import 'package:akunt/view/transaksi/operasional/btb_bahan_import/btbbahanimport_screen.dart';
 import 'package:akunt/view/transaksi/operasional/so/so_screen.dart';
 
-import 'package:akunt/view/beli_bahan/belibahan_screen.dart';
 import 'package:akunt/view/thut_bahan/thutbahan_screen.dart';
 import 'package:akunt/view/hut_bahan/hutbahan_screen.dart';
 import 'package:akunt/view/stockbhn/stockbhn_screen.dart';
@@ -597,7 +597,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   width: 16,
                                                 ),
-                                                Text("Pembelian Non Bahan"),
+                                                Text(
+                                                    "Bukti Terima Bahan Import"),
                                               ],
                                             ),
                                             value: 203,
@@ -622,7 +623,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      DataPobaranglokalScreen()));
+                                                      DataBtbBahanImportScreen()));
                                         }
                                       },
                                     ),

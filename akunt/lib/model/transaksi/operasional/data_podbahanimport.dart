@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-class DataPobahanlokal {
+class DataPodBahanImport {
   int noid;
-  String no_bukti;
+  String nobukti;
   double qtypo;
-  String kd_bhn;
-  String na_bhn;
+  String kdbhn;
+  String nabhn;
   String satuan;
   double qty;
   String satuanbl;
@@ -29,14 +29,14 @@ class DataPobahanlokal {
   String produk;
   String grp;
   String acno;
-  String acno_nm;
+  String acnonm;
 
-  DataPobahanlokal(
+  DataPodBahanImport(
       {this.noid,
-      this.no_bukti,
+      this.nobukti,
       this.qtypo,
-      this.kd_bhn,
-      this.na_bhn,
+      this.kdbhn,
+      this.nabhn,
       this.satuan,
       this.qty,
       this.satuanbl,
@@ -59,15 +59,15 @@ class DataPobahanlokal {
       this.produk,
       this.grp,
       this.acno,
-      this.acno_nm});
+      this.acnonm});
 
-  factory DataPobahanlokal.fromJson(var parsedJson) {
-    return DataPobahanlokal(
+  factory DataPodBahanImport.fromJson(var parsedJson) {
+    return DataPodBahanImport(
       noid: parsedJson['NO_ID'],
-      no_bukti: parsedJson['NO_BUKTI'] as String,
+      nobukti: parsedJson['NO_BUKTI'] as String,
       qtypo: double.parse(parsedJson['QTYPO'].toString()),
-      kd_bhn: parsedJson['KD_BHN'] as String,
-      na_bhn: parsedJson['NA_BHN'] as String,
+      kdbhn: parsedJson['KD_BHN'] as String,
+      nabhn: parsedJson['NA_BHN'] as String,
       satuan: parsedJson['SATUAN'] as String,
       qty: double.parse(parsedJson['QTY'].toString()),
       satuanbl: parsedJson['SATUANBL'] as String ?? "",
@@ -90,7 +90,7 @@ class DataPobahanlokal {
       produk: parsedJson['PRODUK'] as String ?? "",
       grp: parsedJson['GRP'] as String ?? "",
       acno: parsedJson['ACNO'] as String ?? "",
-      acno_nm: parsedJson['ACNO_NM'] as String ?? "",
+      acnonm: parsedJson['ACNO_NM'] as String ?? "",
     );
   }
 }

@@ -4,32 +4,31 @@ import 'package:akunt/config/OnHoverButton.dart';
 import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/login_controller.dart';
-import 'package:akunt/controller/belinonbahan_controller.dart';
-import 'package:akunt/view/base_widget/mode_export.dart';
 import 'package:akunt/view/base_widget/notif_hapus.dart';
 import 'package:akunt/view/base_widget/toast.dart';
-import 'package:akunt/view/beli_nonbahan/add_belinonbahan_screen.dart';
-import 'package:akunt/view/beli_nonbahan/widget/belinonbahan_card.dart';
+import 'package:akunt/controller/transaksi/operasional/btbbahanimport_controller.dart';
+import 'package:akunt/view/transaksi/operasional/btb_bahan_import/add_btbbahanimport_screen.dart';
+import 'package:akunt/view/transaksi/operasional/btb_bahan_import/widget/btbbahanimport_card.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/filter_tanggal.dart';
 
-class DataBelinonbahanScreen extends StatefulWidget {
+class DataBtbBahanImportScreen extends StatefulWidget {
   @override
-  _BelinonbahanScreenState createState() => _BelinonbahanScreenState();
+  _BtbBahanImportScreenState createState() => _BtbBahanImportScreenState();
 }
 
-class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
+class _BtbBahanImportScreenState extends State<DataBtbBahanImportScreen> {
   @override
   void initState() {
-    Provider.of<BelinonbahanController>(context, listen: false).initData();
+    Provider.of<BtbBahanImportController>(context, listen: false).initData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BelinonbahanController>(
-        builder: (context, belinonbahanController, child) {
+    return Consumer<BtbBahanImportController>(
+        builder: (context, btbBahanImportController, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -45,7 +44,7 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                 width: 20,
               ),
               Text(
-                "Pembelian Non Bahan",
+                "Bukti Terima Bahan Import",
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -75,11 +74,11 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                     Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => AddBelinonbahanScreen(false)))
+                                builder: (_) => AddBtbBahanImportScreen(false)))
                         .then((value) {
                       if (value != null) {
                         if (value) {
-                          belinonbahanController.select_data();
+                          btbBahanImportController.selectDataTanggal();
                         }
                       }
                     });
@@ -108,88 +107,6 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  showAnimatedDialog_withCallBack(context, ModeExport(1),
-                      isFlip: true, callback: (value) {
-                    if (value != null) {
-                      if (value == 1) {
-                        belinonbahanController.proses_export_detail();
-                      } else if (value == 2) {
-                        belinonbahanController.proses_export();
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_download.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Export",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            OnHoverButton(
-              child: InkWell(
-                hoverColor: Colors.white,
-                onTap: () {
-                  if (belinonbahanController.index_terpilih != null) {
-                    belinonbahanController.proses_print();
-                  } else {
-                    Toast(
-                        "Peringatan",
-                        "Silahkan pilih satu transaksi untuk di cetak !",
-                        false);
-                  }
-                },
-                child: Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "assets/images/ic_print.png",
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Cetak Invoice",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 16,
             ),
@@ -242,7 +159,7 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                                 height: 30,
                                 child: TextField(
                                   controller:
-                                      belinonbahanController.searchController,
+                                      btbBahanImportController.searchController,
                                   decoration: InputDecoration(
                                     hintText: "Cari Disini",
                                     hintStyle: GoogleFonts.poppins(
@@ -259,7 +176,8 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                                     focusedErrorBorder: InputBorder.none,
                                   ),
                                   onChanged: (value) {
-                                    belinonbahanController.select_data();
+                                    btbBahanImportController
+                                        .selectDataTanggal();
                                   },
                                 ),
                               ),
@@ -280,10 +198,10 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                               callback: (value) {
                             if (value != null) {
                               if (value) {
-                                belinonbahanController.select_data();
-                                belinonbahanController.notifyListeners();
+                                btbBahanImportController.selectDataTanggal();
+                                btbBahanImportController.notifyListeners();
                               } else {
-                                belinonbahanController.notifyListeners();
+                                btbBahanImportController.notifyListeners();
                                 Navigator.pop(context, true);
                               }
                             }
@@ -320,7 +238,7 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                                 ),
                               ),
                               Text(
-                                belinonbahanController.range,
+                                btbBahanImportController.range,
                                 style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -335,26 +253,26 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                 ),
               ),
               Expanded(
-                child: (belinonbahanController.data_belinonbahan_list.length >
-                        0)
+                child: (btbBahanImportController
+                        .dataBtbBahanImportList.isNotEmpty)
                     ? ListView.builder(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 24),
-                        itemCount: belinonbahanController
-                            .data_belinonbahan_list.length,
+                        itemCount: btbBahanImportController
+                            .dataBtbBahanImportList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return BelinonbahanCard(index, pressEdit: () {
+                          return BtbBahanImportCard(index, pressEdit: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => AddBelinonbahanScreen(
+                                    builder: (_) => AddBtbBahanImportScreen(
                                           true,
-                                          data_edit: belinonbahanController
-                                              .data_belinonbahan_list[index],
+                                          dataEdit: btbBahanImportController
+                                              .dataBtbBahanImportList[index],
                                         ))).then((value) {
                               if (value != null) {
                                 if (value) {
-                                  belinonbahanController.select_data();
+                                  btbBahanImportController.selectDataTanggal();
                                 }
                               }
                             });
@@ -364,10 +282,11 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                                 callback: (value) {
                               if (value != null) {
                                 if (value) {
-                                  belinonbahanController
-                                      .deleteBelinonbahan(belinonbahanController
-                                              .data_belinonbahan_list[index]
-                                          ['NO_BUKTI'])
+                                  btbBahanImportController
+                                      .deleteBtbBahanImport(
+                                          btbBahanImportController
+                                                  .dataBtbBahanImportList[index]
+                                              ['NO_BUKTI'])
                                       .then((value) {
                                     if (value) {
                                       Toast("Delete Success !",
@@ -376,7 +295,7 @@ class _BelinonbahanScreenState extends State<DataBelinonbahanScreen> {
                                       Toast("Delete Failed !",
                                           "Gagal menghapus data", false);
                                     }
-                                    belinonbahanController.notifyListeners();
+                                    btbBahanImportController.notifyListeners();
                                   });
                                 }
                               }

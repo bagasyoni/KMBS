@@ -5,15 +5,15 @@ import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/master/operasional/hs_controller.dart';
 import 'package:provider/provider.dart';
 
-Widget HsCard(BuildContext context, int index, HsController val_bar,
+Widget hsCard(BuildContext context, int index, HsController valBar,
     {Function pressEdit, Function pressDelete}) {
   int offset = Provider.of<HsController>(context, listen: false).offset;
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    padding: EdgeInsets.symmetric(horizontal: 24),
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.white),
+      padding: EdgeInsets.symmetric(vertical: 1),
+      // decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Row(
         children: [
           SizedBox(
@@ -21,52 +21,127 @@ Widget HsCard(BuildContext context, int index, HsController val_bar,
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + offset + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + offset + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              val_bar.data_hsList[index]['NO_HS'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    valBar.data_hsList[index]['NO_HS'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 4,
-            child: Text(
-              val_bar.data_hsList[index]['URAIAN'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    valBar.data_hsList[index]['URAIAN'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 2,
-            child: Text(
-              val_bar.data_hsList[index]['KD_SATUAN'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    valBar.data_hsList[index]['KD_SATUAN'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 2,
-            child: Text(
-              val_bar.data_hsList[index]['kdjenis'],
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    valBar.data_hsList[index]['kdjenis'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(

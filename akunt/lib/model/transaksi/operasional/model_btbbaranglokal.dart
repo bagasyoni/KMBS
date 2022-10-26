@@ -3,14 +3,14 @@ import 'package:http/http.dart' as http;
 
 import '../../../constants.dart';
 
-class ModelBtbBahanImport {
+class ModelBtbBarangLokal {
   String baseUrl = base_url;
 
   /// paginate
-  Future<List> dataBtbBahanImportPaginate(
+  Future<List> dataBtbBarangLokalPaginate(
       String cari, int paramoffset, int paramlimit) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/btbbahanimportpaginate"),
+      Uri.parse("${baseUrl}:3000/btbbaranglokalpaginate"),
       body: {
         "cari": cari,
         "offset": paramoffset.toString(),
@@ -22,9 +22,9 @@ class ModelBtbBahanImport {
   }
 
   ///paginate
-  Future countBtbBahanImportPaginate(String keyCari) async {
+  Future countBtbBarangLokalPaginate(String keyCari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/countbtbbahanimportpaginate"),
+      Uri.parse("${baseUrl}:3000/countbtbbaranglokalpaginate"),
       body: {"cari": keyCari},
     );
     var results2 = json.decode(response.body);
@@ -33,17 +33,17 @@ class ModelBtbBahanImport {
 
   Future<List> dataModal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/modal_btb_bahan_import"),
+      Uri.parse("${baseUrl}:3000/modal_btb_barang_lokal"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
   }
 
-  Future<List> insertBtbBahanImport(Map dataInsert) async {
+  Future<List> insertBtbBarangLokal(Map dataInsert) async {
     try {
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/tambah_header_btb_bahan_import"),
+        Uri.parse("${baseUrl}:3000/tambah_header_btb_barang_lokal"),
         body: {
           "NO_BUKTI": dataInsert['NO_BUKTI'].toString(),
           "TGL": dataInsert['TGL'].toString(),
@@ -82,7 +82,7 @@ class ModelBtbBahanImport {
           "TYP": dataInsert['TYP'].toString(),
           "GOL": dataInsert['GOL'].toString(),
           "BRAND": dataInsert['BRAND'].toString(),
-          "rateks": dataInsert['rateks'].toString(),
+          "rateks": dataInsert['rateks'],
           "ACNO1": dataInsert['ACNO1'].toString(),
           "ACNO1_NM": dataInsert['ACNO1_NM'].toString(),
         },
@@ -91,7 +91,7 @@ class ModelBtbBahanImport {
       List dataDetail = dataInsert['tabeld'];
       for (int i = 0; i < dataDetail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_btb_bahan_import"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_btb_barang_lokal"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": dataInsert['NO_BUKTI'].toString(),
@@ -99,8 +99,8 @@ class ModelBtbBahanImport {
             "FLAG": dataInsert['FLAG'].toString(),
             "NO_PO": dataDetail[i]['NO_PO'].toString(),
             "QTYPO": dataDetail[i]['QTYPO'].toString(),
-            "KD_BHN": dataDetail[i]['KD_BHN'].toString(),
-            "NA_BHN": dataDetail[i]['NA_BHN'].toString(),
+            "KD_BRG": dataDetail[i]['KD_BRG'].toString(),
+            "NA_BRG": dataDetail[i]['NA_BRG'].toString(),
             "SATUAN": dataDetail[i]['SATUAN'].toString(),
             "QTY": dataDetail[i]['QTY'].toString(),
             "SATUANBL": dataDetail[i]['SATUANBL'].toString(),
@@ -132,8 +132,8 @@ class ModelBtbBahanImport {
     }
   }
 
-  ///UPDATE BTB BAHAN IMPORT DETAIL
-  Future<List> updateBtbBahanImport(Map dataInsert) async {
+  ///UPDATE BTB BAHAN LOKAL DETAIL
+  Future<List> updateBtbBarangLokal(Map dataInsert) async {
     try {
       await http.post(
         Uri.parse("${baseUrl}:3000/hapus_detail"),
@@ -144,8 +144,9 @@ class ModelBtbBahanImport {
         },
       );
 
+      ///DATA HEADER
       final response = await http.post(
-        Uri.parse("${baseUrl}:3000/edit_header_btb_bahan_import"),
+        Uri.parse("${baseUrl}:3000/edit_header_btb_barang_lokal"),
         body: {
           "NO_BUKTI": dataInsert['NO_BUKTI'].toString(),
           "TGL": dataInsert['TGL'].toString(),
@@ -184,7 +185,7 @@ class ModelBtbBahanImport {
           "TYP": dataInsert['TYP'].toString(),
           "GOL": dataInsert['GOL'].toString(),
           "BRAND": dataInsert['BRAND'].toString(),
-          "rateks": dataInsert['rateks'].toString(),
+          "rateks": dataInsert['rateks'],
           "ACNO1": dataInsert['ACNO1'].toString(),
           "ACNO1_NM": dataInsert['ACNO1_NM'].toString(),
         },
@@ -194,7 +195,7 @@ class ModelBtbBahanImport {
       List dataDetail = dataInsert['tabeld'];
       for (int i = 0; i < dataDetail.length; i++) {
         await http.post(
-          Uri.parse("${baseUrl}:3000/tambah_detail_btb_bahan_import"),
+          Uri.parse("${baseUrl}:3000/tambah_detail_btb_barang_lokal"),
           body: {
             "REC": (i + 1).toString(),
             "NO_BUKTI": dataInsert['NO_BUKTI'].toString(),
@@ -202,8 +203,8 @@ class ModelBtbBahanImport {
             "FLAG": dataInsert['FLAG'].toString(),
             "NO_PO": dataDetail[i]['NO_PO'].toString(),
             "QTYPO": dataDetail[i]['QTYPO'].toString(),
-            "KD_BHN": dataDetail[i]['KD_BHN'].toString(),
-            "NA_BHN": dataDetail[i]['NA_BHN'].toString(),
+            "KD_BRG": dataDetail[i]['KD_BRG'].toString(),
+            "NA_BRG": dataDetail[i]['NA_BRG'].toString(),
             "SATUAN": dataDetail[i]['SATUAN'].toString(),
             "QTY": dataDetail[i]['QTY'].toString(),
             "SATUANBL": dataDetail[i]['SATUANBL'].toString(),
@@ -255,9 +256,9 @@ class ModelBtbBahanImport {
     return results2['data'].toList();
   }
 
-  Future<List> cariBtbBahanImport(String cari) async {
+  Future<List> cariBtbBarangLokal(String cari) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/cari_btb_bahan_import"),
+      Uri.parse("${baseUrl}:3000/cari_btb_barang_lokal"),
       body: {"cari": cari},
     );
     var results2 = json.decode(response.body);
@@ -265,10 +266,10 @@ class ModelBtbBahanImport {
   }
 
   ///SELECT HEADER
-  Future<List> selectBtbBahanImport(
+  Future<List> selectBtbBarangLokal(
       String cari, String startDate, String endDate, String periode) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/tampil_btb_bahan_import"),
+      Uri.parse("${baseUrl}:3000/tampil_btb_barang_lokal"),
       body: {
         "cari": cari,
         "tglawal": startDate,
@@ -281,11 +282,11 @@ class ModelBtbBahanImport {
   }
 
   ///SELECT DETAIL
-  Future<List> selectBtbBahanImportDetail(
-      String no_bukti, String paramkolom, String paramtabel) async {
+  Future<List> selectBtbBarangLokalDetail(
+      String noBukti, String paramkolom, String paramtabel) async {
     final response = await http.post(
       Uri.parse("${baseUrl}:3000/select_detail"),
-      body: {"cari": no_bukti, "kolom": paramkolom, "tabel": paramtabel},
+      body: {"cari": noBukti, "kolom": paramkolom, "tabel": paramtabel},
     );
     var results2 = json.decode(response.body);
     return results2['data'].toList();
@@ -301,9 +302,9 @@ class ModelBtbBahanImport {
     return results2['data'].toList();
   }
 
-  Future<List> deleteBtbBahanImport(String noBukti) async {
+  Future<List> deleteBtbBarangLokal(String noBukti) async {
     final response = await http.post(
-      Uri.parse("${baseUrl}:3000/hapus_btb_bahanimport"),
+      Uri.parse("${baseUrl}:3000/hapus_btb_baranglokal"),
       body: {"no_bukti": noBukti},
     );
     var results2 = json.decode(response.body);
