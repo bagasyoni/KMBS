@@ -357,32 +357,17 @@ class BeliNonBahanController with ChangeNotifier {
       DataPodBahanImport mAccount = DataPodBahanImport(
         noid: data_lama[i]['NO_ID'],
         nobukti: data_lama[i]['NO_PO'],
-        qtypo: data_lama[i]['NA_BHN'],
-        kdbhn: data_lama[i]['SATUAN'],
-        nabhn: data_lama[i]['KET'],
+        kdbhn: data_lama[i]['KD_BHN'],
+        nabhn: data_lama[i]['NA_BHN'],
         satuan: data_lama[i]['SATUAN'],
         qty: double.parse(data_lama[i]['QTY'].toString()),
         satuanbl: data_lama[i]['SATUANBL'],
         qtybl: double.parse(data_lama[i]['QTYBL'].toString()),
         harga1: double.parse(data_lama[i]['HARGA1'].toString()),
         total1: double.parse(data_lama[i]['TOTAL1'].toString()),
-        ket: data_lama[i]['KET'],
+        notes: data_lama[i]['NOTES'],
         harga: double.parse(data_lama[i]['HARGA'].toString()),
         total: double.parse(data_lama[i]['TOTAL'].toString()),
-        blt: double.parse(data_lama[i]['BLT'].toString()),
-        disc: double.parse(data_lama[i]['DISC'].toString()),
-        rpdisc: double.parse(data_lama[i]['RPDISC'].toString()),
-        typ: data_lama[i]['TYP'],
-        gol: data_lama[i]['GOL'],
-        htg: double.parse(data_lama[i]['HTG'].toString()),
-        siz: data_lama[i]['SIZ'],
-        kd: data_lama[i]['KD'],
-        kodecab: data_lama[i]['KODECAB'],
-        warna: data_lama[i]['WARNA'],
-        produk: data_lama[i]['PRODUK'],
-        grp: data_lama[i]['GRP'],
-        acno: data_lama[i]['ACNO'],
-        acnonm: data_lama[i]['ACNO_NM'],
       );
       data_pobahanimport_keranjang.add(mAccount);
     }
@@ -612,33 +597,18 @@ class BeliNonBahanController with ChangeNotifier {
       double subTotal = harga * qty;
       double subTotal1 = (harga * qty) * rate;
       Map obj = new Map();
-      obj['NO_PO'] = data_pobahanimport_keranjang[i].kdbhn;
-      obj['QTYPO'] = data_pobahanimport_keranjang[i].nabhn;
-      obj['KD_BHN'] = data_pobahanimport_keranjang[i].satuan;
-      obj['NA_BHN'] = data_pobahanimport_keranjang[i].ket;
-      obj['SATUAN'] = data_pobahanimport_keranjang[i].harga;
+      obj['NO_PO'] = data_pobahanimport_keranjang[i].nobukti;
+      obj['KD_BHN'] = data_pobahanimport_keranjang[i].kdbhn;
+      obj['NA_BHN'] = data_pobahanimport_keranjang[i].nabhn;
+      obj['SATUAN'] = data_pobahanimport_keranjang[i].satuan;
       obj['QTY'] = data_pobahanimport_keranjang[i].qty;
       obj['SATUANBL'] = data_pobahanimport_keranjang[i].satuanbl;
       obj['QTYBL'] = data_pobahanimport_keranjang[i].qtybl;
       obj['HARGA1'] = data_pobahanimport_keranjang[i].harga1;
       obj['TOTAL1'] = data_pobahanimport_keranjang[i].total1;
-      obj['KET'] = data_pobahanimport_keranjang[i].ket;
+      obj['NOTES'] = data_pobahanimport_keranjang[i].notes;
       obj['HARGA'] = data_pobahanimport_keranjang[i].harga;
       obj['TOTAL'] = data_pobahanimport_keranjang[i].total;
-      obj['BLT'] = data_pobahanimport_keranjang[i].blt;
-      obj['DISC'] = data_pobahanimport_keranjang[i].disc;
-      obj['RPDISC'] = data_pobahanimport_keranjang[i].rpdisc;
-      obj['TYP'] = data_pobahanimport_keranjang[i].typ;
-      obj['GOL'] = data_pobahanimport_keranjang[i].gol;
-      obj['HTG'] = data_pobahanimport_keranjang[i].htg;
-      obj['SIZ'] = data_pobahanimport_keranjang[i].siz;
-      obj['KD'] = data_pobahanimport_keranjang[i].kd;
-      obj['KODECAB'] = data_pobahanimport_keranjang[i].kodecab;
-      obj['WARNA'] = data_pobahanimport_keranjang[i].warna;
-      obj['PRODUK'] = data_pobahanimport_keranjang[i].produk;
-      obj['GRP'] = data_pobahanimport_keranjang[i].grp;
-      obj['ACNO'] = data_pobahanimport_keranjang[i].acno;
-      obj['ACNO_NM'] = data_pobahanimport_keranjang[i].acnonm;
       pobhnimportList.add(obj);
     }
     return pobhnimportList;

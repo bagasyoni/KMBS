@@ -137,8 +137,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                       Text(
                         "Simpan",
                         style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
                     ],
@@ -178,15 +178,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "No. Bukti",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -201,7 +201,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -225,8 +225,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -246,15 +246,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Supplier",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -271,8 +271,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                           hintText: "Cari Supplier",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -314,8 +314,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -335,15 +335,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Acno",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -360,8 +360,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                           hintText: "Cari Acno",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -404,8 +404,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -432,15 +432,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Tanggal",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -452,7 +452,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                             .tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -501,15 +501,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Jatuh Tempo",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -522,7 +522,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -571,15 +571,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Nama Supplier",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -593,7 +593,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -621,15 +621,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Nama",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -643,15 +643,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
                                           ),
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -683,15 +683,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Uang",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         // color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -709,8 +709,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                           hintText: "Pilih Uang",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13),
                                           icon: Image.asset(
                                             "assets/images/ic_search.png",
                                             height: 20,
@@ -754,14 +754,14 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                       "",
                                       style: TextStyle(
                                           fontSize: 10,
-                                          fontWeight: FontWeight.w400,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -803,15 +803,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Alamat",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -825,7 +825,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -849,8 +849,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -870,8 +870,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -898,15 +898,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -919,7 +919,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -961,15 +961,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Rate Kesepakatan",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -982,7 +982,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1006,15 +1006,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Kota",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -1052,8 +1052,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -1073,15 +1073,15 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "Keterangan",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -1094,7 +1094,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                         readOnly: false,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1118,8 +1118,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                     Text(
                                       "",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                     SizedBox(
@@ -1165,8 +1165,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                         hintText: "Cari disini",
                         hintStyle: GoogleFonts.poppins(
                             color: GreyColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
@@ -1237,9 +1237,9 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                         return a.na_bhn.compareTo(b.na_bhn);
                       },
                       itemFilter: (item, query) {
-                        return item.kd_bhn
+                        return item.na_bhn
                             .toLowerCase()
-                            .startsWith(query.toLowerCase());
+                            .contains(query.toLowerCase());
                       },
                     ),
                   ),
@@ -1247,7 +1247,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 4),
+                    EdgeInsets.only(left: 24, right: 23, top: 16, bottom: 7),
                 child: Row(
                   children: [
                     SizedBox(
@@ -1255,92 +1255,227 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "No.",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "No.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        "Kode Bahan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Kode Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Nama Bahan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Satuan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 4,
-                      child: Text(
-                        "Nama Bahan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        "Satuan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Keterangan",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Keterangan",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "Harga",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Harga",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 1,
-                      child: Text(
-                        "Qty",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Qty.",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Total",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Total",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Total (Rp)",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87),
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.teal[100],
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "Total (Rp)",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -1386,7 +1521,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Total Qty",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1422,7 +1557,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Total",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1458,7 +1593,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Total",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1506,7 +1641,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Disc",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1538,7 +1673,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                   hintStyle: GoogleFonts.poppins(
                                       color: GreyColor,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 14),
+                                      fontSize: 13),
                                   hintText: "%",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -1594,7 +1729,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Disc",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1626,7 +1761,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                   hintStyle: GoogleFonts.poppins(
                                       color: GreyColor,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 14),
+                                      fontSize: 13),
                                   hintText: "%",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -1694,7 +1829,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "PPN",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1721,7 +1856,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                   hintStyle: GoogleFonts.poppins(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                                      fontSize: 13),
                                   hintText: "11.00",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -1763,7 +1898,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "PPN",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1790,7 +1925,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                   hintStyle: GoogleFonts.poppins(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                                      fontSize: 13),
                                   hintText: "11.00",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -1844,7 +1979,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "PPH",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1875,8 +2010,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                       EdgeInsets.only(top: 12, bottom: 13),
                                   hintStyle: GoogleFonts.poppins(
                                       color: GreyColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13),
                                   hintText: "%",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -1932,7 +2067,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "PPH",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -1963,8 +2098,8 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                                       EdgeInsets.only(top: 12, bottom: 13),
                                   hintStyle: GoogleFonts.poppins(
                                       color: GreyColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13),
                                   hintText: "%",
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -2032,7 +2167,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Nett",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
@@ -2068,7 +2203,7 @@ class _AddPobahanimportScreenState extends State<AddPobahanimportScreen> {
                               "Nett",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),

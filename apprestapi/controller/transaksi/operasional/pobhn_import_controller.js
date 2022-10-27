@@ -217,7 +217,7 @@ exports.modalpobahanimport = function (req, res) {
 
 exports.caripobahanimport = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select * from po where (KODES like ? or NAMAS like ? or ALAMAT like ? or KOTA like ?) and FLAG='PO' and NO_BUKTI IN (SELECT NO_BUKTI FROM pod WHERE SISA>0)", [filter_cari, filter_cari, filter_cari, filter_cari],
+    connection.query("SELECT * FROM pod WHERE (KD_BHN LIKE ? OR NA_BHN LIKE ?) AND FLAG='PO' AND GOL='A' AND TYP='I' AND NO_BUKTI IN (SELECT NO_BUKTI FROM pod WHERE SISA_QTY>0)", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

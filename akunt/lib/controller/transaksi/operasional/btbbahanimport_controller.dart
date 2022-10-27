@@ -297,6 +297,14 @@ class BtbBahanImportController with ChangeNotifier {
     sumNett1 = 0;
     String rate = rateController.text;
     await bacaPeriodePrefs();
+    await mBtbBahanImport
+        .getNoBukti('BL/BHN/I', 'NO_BUKTI', 'beli')
+        .then((value) {
+      if (value != null) {
+        noBuktiController.text =
+            "BL/BHN/I/${formatNoBukti.format(DateTime.now())}/${value[0]['NOMOR']}";
+      }
+    });
     await model_pobahanimport().cari_po_bahan_import("").then((value) {
       if (value != null) {
         podBhnImportList.clear();
@@ -304,6 +312,7 @@ class BtbBahanImportController with ChangeNotifier {
           podBhnImportList.add(DataPodBahanImport.fromJson(value[i]));
         }
       }
+      notifyListeners();
     });
   }
 
@@ -359,32 +368,15 @@ class BtbBahanImportController with ChangeNotifier {
       DataPodBahanImport mAccount = DataPodBahanImport(
         noid: dataLama[i]['NO_ID'],
         nobukti: dataLama[i]['NO_PO'],
-        qtypo: dataLama[i]['NA_BHN'],
         kdbhn: dataLama[i]['SATUAN'],
         nabhn: dataLama[i]['KET'],
-        satuan: dataLama[i]['SATUAN'],
         qty: double.parse(dataLama[i]['QTY'].toString()),
-        satuanbl: dataLama[i]['SATUANBL'],
         qtybl: double.parse(dataLama[i]['QTYBL'].toString()),
         harga1: double.parse(dataLama[i]['HARGA1'].toString()),
         total1: double.parse(dataLama[i]['TOTAL1'].toString()),
-        ket: dataLama[i]['KET'],
+        notes: dataLama[i]['NOTES'],
         harga: double.parse(dataLama[i]['HARGA'].toString()),
         total: double.parse(dataLama[i]['TOTAL'].toString()),
-        blt: double.parse(dataLama[i]['BLT'].toString()),
-        disc: double.parse(dataLama[i]['DISC'].toString()),
-        rpdisc: double.parse(dataLama[i]['RPDISC'].toString()),
-        typ: dataLama[i]['TYP'],
-        gol: dataLama[i]['GOL'],
-        htg: double.parse(dataLama[i]['HTG'].toString()),
-        siz: dataLama[i]['SIZ'],
-        kd: dataLama[i]['KD'],
-        kodecab: dataLama[i]['KODECAB'],
-        warna: dataLama[i]['WARNA'],
-        produk: dataLama[i]['PRODUK'],
-        grp: dataLama[i]['GRP'],
-        acno: dataLama[i]['ACNO'],
-        acnonm: dataLama[i]['ACNO_NM'],
       );
       dataPodBahanImportKeranjang.add(mAccount);
     }
@@ -615,32 +607,15 @@ class BtbBahanImportController with ChangeNotifier {
       double subTotal1 = (harga * qty) * rate;
       Map obj = new Map();
       obj['NO_PO'] = dataPodBahanImportKeranjang[i].nobukti;
-      obj['QTYPO'] = dataPodBahanImportKeranjang[i].qtypo;
       obj['KD_BHN'] = dataPodBahanImportKeranjang[i].kdbhn;
       obj['NA_BHN'] = dataPodBahanImportKeranjang[i].nabhn;
-      obj['SATUAN'] = dataPodBahanImportKeranjang[i].satuan;
       obj['QTY'] = dataPodBahanImportKeranjang[i].qty;
-      obj['SATUANBL'] = dataPodBahanImportKeranjang[i].satuanbl;
       obj['QTYBL'] = dataPodBahanImportKeranjang[i].qtybl;
       obj['HARGA1'] = dataPodBahanImportKeranjang[i].harga1;
       obj['TOTAL1'] = dataPodBahanImportKeranjang[i].total1;
-      obj['KET'] = dataPodBahanImportKeranjang[i].ket;
+      obj['NOTES'] = dataPodBahanImportKeranjang[i].notes;
       obj['HARGA'] = dataPodBahanImportKeranjang[i].harga;
       obj['TOTAL'] = dataPodBahanImportKeranjang[i].total;
-      obj['BLT'] = dataPodBahanImportKeranjang[i].blt;
-      obj['DISC'] = dataPodBahanImportKeranjang[i].disc;
-      obj['RPDISC'] = dataPodBahanImportKeranjang[i].rpdisc;
-      obj['TYP'] = dataPodBahanImportKeranjang[i].typ;
-      obj['GOL'] = dataPodBahanImportKeranjang[i].gol;
-      obj['HTG'] = dataPodBahanImportKeranjang[i].htg;
-      obj['SIZ'] = dataPodBahanImportKeranjang[i].siz;
-      obj['KD'] = dataPodBahanImportKeranjang[i].kd;
-      obj['KODECAB'] = dataPodBahanImportKeranjang[i].kodecab;
-      obj['WARNA'] = dataPodBahanImportKeranjang[i].warna;
-      obj['PRODUK'] = dataPodBahanImportKeranjang[i].produk;
-      obj['GRP'] = dataPodBahanImportKeranjang[i].grp;
-      obj['ACNO'] = dataPodBahanImportKeranjang[i].acno;
-      obj['ACNO_NM'] = dataPodBahanImportKeranjang[i].acnonm;
       podBhnImportList.add(obj);
     }
     return podBhnImportList;

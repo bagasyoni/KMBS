@@ -1285,9 +1285,9 @@ class _AddPobarangScreenState extends State<AddPobarangimportScreen> {
                         return a.na_brg.compareTo(b.na_brg);
                       },
                       itemFilter: (item, query) {
-                        return item.kd_brg
+                        return item.na_brg
                             .toLowerCase()
-                            .startsWith(query.toLowerCase());
+                            .contains(query.toLowerCase());
                       },
                     ),
                   ),

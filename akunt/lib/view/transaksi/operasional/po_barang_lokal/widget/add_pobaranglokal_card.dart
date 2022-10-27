@@ -54,7 +54,7 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
       TextPosition(offset: data_brg.qty.toString().length),
     ),
   );
-  var pobarangController =
+  var pobaranglokalController =
       Provider.of<PobaranglokalController>(context, listen: false);
 
   return Padding(
@@ -70,45 +70,81 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              data_brg.kd_brg ?? "",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    data_brg.kd_brg ?? "",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: na_brgController,
                   readOnly: true,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Nama Barang",
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                    hintText: "Nama Bahan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -118,16 +154,16 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      pobarangController.data_brg_keranjang[index].na_brg =
+                      pobaranglokalController.data_brg_keranjang[index].na_brg =
                           na_brgController.text;
-                      pobarangController.hitungSubTotal();
-                      pobarangController.notifyListeners();
+                      pobaranglokalController.hitungSubTotal();
+                      pobaranglokalController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    pobarangController.data_brg_keranjang[index].na_brg =
+                    pobaranglokalController.data_brg_keranjang[index].na_brg =
                         na_brgController.text;
-                    pobarangController.hitungSubTotal();
+                    pobaranglokalController.hitungSubTotal();
                   },
                 ),
               ),
@@ -136,24 +172,30 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   readOnly: true,
                   controller: satuanController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "-",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -163,16 +205,16 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      pobarangController.data_brg_keranjang[index].satuan =
+                      pobaranglokalController.data_brg_keranjang[index].satuan =
                           satuanController.text;
-                      pobarangController.hitungSubTotal();
-                      pobarangController.notifyListeners();
+                      pobaranglokalController.hitungSubTotal();
+                      pobaranglokalController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    pobarangController.data_brg_keranjang[index].satuan =
+                    pobaranglokalController.data_brg_keranjang[index].satuan =
                         satuanController.text;
-                    pobarangController.hitungSubTotal();
+                    pobaranglokalController.hitungSubTotal();
                   },
                 ),
               ),
@@ -181,23 +223,29 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: ketController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Keterangan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -207,16 +255,16 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      pobarangController.data_brg_keranjang[index].ket =
+                      pobaranglokalController.data_brg_keranjang[index].ket =
                           ketController.text;
-                      pobarangController.hitungSubTotal();
-                      pobarangController.notifyListeners();
+                      pobaranglokalController.hitungSubTotal();
+                      pobaranglokalController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    pobarangController.data_brg_keranjang[index].ket =
+                    pobaranglokalController.data_brg_keranjang[index].ket =
                         ketController.text;
-                    pobarangController.hitungSubTotal();
+                    pobaranglokalController.hitungSubTotal();
                   },
                 ),
               ),
@@ -225,23 +273,30 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: hargaController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -260,16 +315,16 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
                                   .length),
                         ),
                       );
-                      pobarangController.data_brg_keranjang[index].harga =
+                      pobaranglokalController.data_brg_keranjang[index].harga =
                           config().convert_rupiah(hargaController.text);
-                      // pobarangController.notifyListeners();
-                      pobarangController.hitungSubTotal();
+                      // pobaranglokalController.notifyListeners();
+                      pobaranglokalController.hitungSubTotal();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    pobarangController.data_brg_keranjang[index].harga =
+                    pobaranglokalController.data_brg_keranjang[index].harga =
                         config().convert_rupiah(hargaController.text);
-                    pobarangController.hitungSubTotal();
+                    pobaranglokalController.hitungSubTotal();
                   },
                 ),
               ),
@@ -278,23 +333,30 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: qtyController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Qty",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -304,46 +366,72 @@ Widget AddPobarangCard(BuildContext context, int index, DataBrg data_brg) {
                   ),
                   onChanged: (numb) {
                     if (numb.isNotEmpty) {
-                      pobarangController.data_brg_keranjang[index].qty =
+                      pobaranglokalController.data_brg_keranjang[index].qty =
                           config().convert_rupiah(qtyController.text);
-                      // pobarangController.hitungSubTotal();
-                      // pobarangController.notifyListeners();
+                      // pobaranglokalController.hitungSubTotal();
+                      // pobaranglokalController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
-                    pobarangController.data_brg_keranjang[index].qty =
+                    pobaranglokalController.data_brg_keranjang[index].qty =
                         config().convert_rupiah(qtyController.text);
-                    pobarangController.hitungSubTotal();
-                    // pobarangController.notifyListeners();
+                    pobaranglokalController.hitungSubTotal();
+                    // pobaranglokalController.notifyListeners();
                   },
                 ),
               ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Text(
-              config().format_rupiah(subTotal.toString()),
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  config().format_rupiah(subTotal.toString()),
+                  style: GoogleFonts.poppins(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Text(
-              config().format_rupiah(subTotal1.toString()),
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  config().format_rupiah(subTotal1.toString()),
+                  style: GoogleFonts.poppins(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              ),
             ),
           ),
           InkWell(
             onTap: () {
-              pobarangController.data_brg_keranjang.removeAt(index);
-              pobarangController.hitungSubTotal();
+              pobaranglokalController.data_brg_keranjang.removeAt(index);
+              pobaranglokalController.hitungSubTotal();
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),

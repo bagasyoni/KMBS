@@ -13,28 +13,52 @@ exports.btbbahanimport_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from beli where TYP='I' and GOL='A' and (KODES like ? or NAMAS like ? LIMIT ?, ?)", [filter_cari, filter_cari, offset_page, limit_page],
-        function (error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
+    if (filter_cari = '%%') {
+        connection.query("select * from beli where TYP='I' and GOL='A' LIMIT ?, ?", [offset_page, limit_page],
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
 
-                response.ok(rows, res);
+                    response.ok(rows, res);
 
-            }
-        });
+                }
+            });
+    } else {
+        connection.query("select * from beli where TYP='I' and GOL='A' and (KODES like ? or NAMAS like ? LIMIT ?, ?)", [filter_cari, filter_cari, offset_page, limit_page],
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+
+                    response.ok(rows, res);
+
+                }
+            });
+    }
 }
 
 exports.count_btbbahanimportpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from beli where TYP='I' and GOL='A' and (KODES like ? or NAMAS like ?)", [filter_cari, filter_cari],
-        function (error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
-                response.ok(rows, res);
-            }
-        });
+    if (filter_cari = '%%') {
+        connection.query("select COUNT(*) from beli where TYP='I' and GOL='A'",
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    response.ok(rows, res);
+                }
+            });
+    } else {
+        connection.query("select COUNT(*) from beli where TYP='I' and GOL='A' and (KODES like ? or NAMAS like ?)", [filter_cari, filter_cari],
+            function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    response.ok(rows, res);
+                }
+            });
+    }
 }
 
 ///HEADER
@@ -85,7 +109,7 @@ exports.tambahheaderbtbbahanimport = function (req, res) {
     var KODE = req.body.KODE;
     var TOTALBTB = req.body.TOTALBTB;
 
-    connection.query("INSERT INTO beli (NO_BUKTI,TGL,CURR,CURRNM,RATE,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL1,DISC,PPN,NETT1,SISA,DISC1,PPN1,PPH1,PPH,TOTAL,RPDISC,RPPPN,NETT,RPDISC1,RPPPN1,RPPPH1,RPPPH,USRIN,TG_IN,FLAG,PER,TYP,GOL,NO_SJ,TGL_SJ,INVOICE,NO_FP,TGL_FP,RATEKS,ACNO1,ACNO1_NM,NO_PO,KODE,TOTALBTB) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL,CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL1, DISC, PPN, NETT1, SISA, DISC1, PPN1,PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, NO_SJ,TGL_SJ, INVOICE, NO_FP, TGL_FP, RATEKS, ACNO1, ACNO1_NM, NO_PO, KODE, TOTALBTB],
+    connection.query("INSERT INTO beli (NO_BUKTI,TGL,CURR,CURRNM,RATE,KODES,NAMAS,ALAMAT,KOTA,NOTES,TOTAL_QTY,TOTAL1,DISC,PPN,NETT1,SISA,DISC1,PPN1,PPH1,PPH,TOTAL,RPDISC,RPPPN,NETT,RPDISC1,RPPPN1,RPPPH1,RPPPH,USRIN,TG_IN,FLAG,PER,TYP,GOL,NO_SJ,TGL_SJ,INVOICE,NO_FP,TGL_FP,RATEKS,ACNO1,ACNO1_NM,NO_PO,KODE,TOTALBTB) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [NO_BUKTI, TGL, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL1, DISC, PPN, NETT1, SISA, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, NO_SJ, TGL_SJ, INVOICE, NO_FP, TGL_FP, RATEKS, ACNO1, ACNO1_NM, NO_PO, KODE, TOTALBTB],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -206,7 +230,7 @@ exports.editheaderbtbbahanimport = function (req, res) {
     var KODE = req.body.KODE;
     var TOTALBTB = req.body.TOTALBTB;
 
-    connection.query("UPDATE beli SET TGL=?, CURR=?, CURRNM=?, RATE=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL1=?, DISC=?, PPN=?, NETT1=?, SISA=?, DISC1=?, PPN1=?, PPH1=?, PPH=?, TOTAL=?, RPDISC=?, RPPPN=?, NETT=?, RPDISC1=?, RPPPN1=?, RPPPH1=?, RPPPH=?, USRIN=?, TG_IN=?, FLAG=?, PER=?, TYP=?, GOL=?, NO_SJ=?,TGL_SJ=?, INVOICE=?, NO_FP=?, TGL_FP=?, RATEKS=?, ACNO1=?, ACNO1_NM=?, NO_PO=?, KODE=?, TOTALBTB=? WHERE NO_BUKTI=?", [TGL,CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL1, DISC, PPN, NETT1, SISA, DISC1, PPN1,PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, NO_SJ,TGL_SJ, INVOICE, NO_FP, TGL_FP, RATEKS, ACNO1, ACNO1_NM, NO_PO, KODE, TOTALBTB, NO_BUKTI],
+    connection.query("UPDATE beli SET TGL=?, CURR=?, CURRNM=?, RATE=?, KODES=?, NAMAS=?, ALAMAT=?, KOTA=?, NOTES=?, TOTAL_QTY=?, TOTAL1=?, DISC=?, PPN=?, NETT1=?, SISA=?, DISC1=?, PPN1=?, PPH1=?, PPH=?, TOTAL=?, RPDISC=?, RPPPN=?, NETT=?, RPDISC1=?, RPPPN1=?, RPPPH1=?, RPPPH=?, USRIN=?, TG_IN=?, FLAG=?, PER=?, TYP=?, GOL=?, NO_SJ=?,TGL_SJ=?, INVOICE=?, NO_FP=?, TGL_FP=?, RATEKS=?, ACNO1=?, ACNO1_NM=?, NO_PO=?, KODE=?, TOTALBTB=? WHERE NO_BUKTI=?", [TGL, CURR, CURRNM, RATE, KODES, NAMAS, ALAMAT, KOTA, NOTES, TOTAL_QTY, TOTAL1, DISC, PPN, NETT1, SISA, DISC1, PPN1, PPH1, PPH, TOTAL, RPDISC, RPPPN, NETT, RPDISC1, RPPPN1, RPPPH1, RPPPH, USRIN, TG_IN, FLAG, PER, TYP, GOL, NO_SJ, TGL_SJ, INVOICE, NO_FP, TGL_FP, RATEKS, ACNO1, ACNO1_NM, NO_PO, KODE, TOTALBTB, NO_BUKTI],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);

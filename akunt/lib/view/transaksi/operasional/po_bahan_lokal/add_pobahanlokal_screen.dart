@@ -1245,9 +1245,9 @@ class _AddPobahanScreenState extends State<AddPobahanlokalScreen> {
                         return a.na_bhn.compareTo(b.na_bhn);
                       },
                       itemFilter: (item, query) {
-                        return item.kd_bhn
+                        return item.na_bhn
                             .toLowerCase()
-                            .startsWith(query.toLowerCase());
+                            .contains(query.toLowerCase());
                       },
                     ),
                   ),

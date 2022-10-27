@@ -8,7 +8,6 @@ import 'package:akunt/config/animation_custom_dialog.dart';
 import 'package:akunt/config/color.dart';
 import 'package:akunt/controller/transaksi/operasional/btbbahanimport_controller.dart';
 import 'package:akunt/model/transaksi/operasional/data_podbahanimport.dart';
-import 'package:akunt/view/transaksi/operasional/btb_bahan_import/pilih_btbbahanimport.dart';
 import 'package:akunt/view/transaksi/operasional/btb_bahan_import/widget/add_btbbahanimport_card.dart';
 import 'package:akunt/view/transaksi/operasional/btb_bahan_import/pilih_supplier.dart';
 import 'package:akunt/view/transaksi/operasional/btb_bahan_import/pilih_account.dart';
@@ -24,11 +23,13 @@ class AddBtbBahanImportScreen extends StatefulWidget {
   AddBtbBahanImportScreen(this.isModeEdit, {this.dataEdit});
 
   @override
-  _AddBtbBahanImportScreenState createState() => _AddBtbBahanImportScreenState();
+  _AddBtbBahanImportScreenState createState() =>
+      _AddBtbBahanImportScreenState();
 }
 
 class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
-  GlobalKey<AutoCompleteTextFieldState<DataPodBahanImport>> key = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<DataPodBahanImport>> key =
+      new GlobalKey();
   AutoCompleteTextField searchTextField;
   var f = NumberFormat("#,##0.00", "en_US");
 
@@ -105,8 +106,8 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                         if (value) {
                           showAnimatedDialog_withCallBack(
                               context,
-                              SaveSuccess("Success !!",
-                                  "Berhasil Menyimpan Data...!!"),
+                              SaveSuccess(
+                                  "Success !!", "Berhasil Menyimpan Data...!!"),
                               isFlip: true, callback: (value) {
                             if (value != null) {
                               if (value) {
@@ -188,7 +189,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -203,7 +204,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -256,7 +257,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -269,7 +270,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 12, bottom: 14),
                                           hintText: "Cari Supplier",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
@@ -345,7 +346,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -358,7 +359,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 12, bottom: 14),
                                           hintText: "Cari Acno",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
@@ -442,7 +443,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -454,7 +455,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                             .tglController,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -467,25 +468,25 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          btbBahanImportController.chooseDate =
-                                              await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          btbBahanImportController
-                                                                  .chooseDate ??
-                                                              DateTime.now(),
-                                                      lastDate: DateTime(2050),
-                                                      firstDate: DateTime(
-                                                          DateTime.now()
-                                                              .year)) ??
-                                                  btbBahanImportController
-                                                      .chooseDate;
+                                          btbBahanImportController
+                                              .chooseDate = await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      btbBahanImportController
+                                                              .chooseDate ??
+                                                          DateTime.now(),
+                                                  lastDate: DateTime(2050),
+                                                  firstDate: DateTime(
+                                                      DateTime.now().year)) ??
+                                              btbBahanImportController
+                                                  .chooseDate;
                                           btbBahanImportController
                                                   .tglController.text =
                                               btbBahanImportController
                                                   .formatTanggal
-                                                  .format(btbBahanImportController
-                                                      .chooseDate);
+                                                  .format(
+                                                      btbBahanImportController
+                                                          .chooseDate);
                                         },
                                       ),
                                     ),
@@ -511,7 +512,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -524,7 +525,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_tanggal.png",
                                             height: 20,
@@ -537,25 +538,25 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                           disabledBorder: InputBorder.none,
                                         ),
                                         onTap: () async {
-                                          btbBahanImportController.chooseDateJT =
-                                              await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          btbBahanImportController
-                                                                  .chooseDateJT ??
-                                                              DateTime.now(),
-                                                      lastDate: DateTime(2050),
-                                                      firstDate: DateTime(
-                                                          DateTime.now()
-                                                              .year)) ??
-                                                  btbBahanImportController
-                                                      .chooseDateJT;
+                                          btbBahanImportController
+                                              .chooseDateJT = await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      btbBahanImportController
+                                                              .chooseDateJT ??
+                                                          DateTime.now(),
+                                                  lastDate: DateTime(2050),
+                                                  firstDate: DateTime(
+                                                      DateTime.now().year)) ??
+                                              btbBahanImportController
+                                                  .chooseDateJT;
                                           btbBahanImportController
                                                   .jtempoController.text =
                                               btbBahanImportController
                                                   .formatTanggal
-                                                  .format(btbBahanImportController
-                                                      .chooseDateJT);
+                                                  .format(
+                                                      btbBahanImportController
+                                                          .chooseDateJT);
                                         },
                                       ),
                                     ),
@@ -581,7 +582,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -595,7 +596,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -631,7 +632,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -645,7 +646,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           icon: Image.asset(
                                             "assets/images/ic_user_warna.png",
                                             height: 20,
@@ -693,7 +694,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         // color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -707,7 +708,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 12, bottom: 15),
+                                              top: 12, bottom: 14),
                                           hintText: "Pilih Uang",
                                           hintStyle: GoogleFonts.poppins(
                                               color: GreyColor,
@@ -763,7 +764,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -813,7 +814,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -827,7 +828,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: true,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -908,7 +909,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -921,7 +922,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -940,8 +941,8 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                           }
                                         },
                                         onFieldSubmitted: (value) {
-                                          BtbBahanImportController.rate = config()
-                                              .convert_rupiah(
+                                          BtbBahanImportController.rate =
+                                              config().convert_rupiah(
                                                   btbBahanImportController
                                                       .rateController.text);
                                           btbBahanImportController
@@ -971,7 +972,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -984,7 +985,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: widget.isModeEdit,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1016,7 +1017,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         color: Colors.teal[50],
                                         border: Border.all(color: GreyColor),
@@ -1083,7 +1084,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                       height: 8,
                                     ),
                                     Container(
-                                      height: 35,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: GreyColor),
                                         borderRadius: BorderRadius.circular(5),
@@ -1096,7 +1097,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                                         readOnly: false,
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.only(
-                                              top: 15, bottom: 18),
+                                              top: 15, bottom: 16),
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
                                           focusedErrorBorder: InputBorder.none,
@@ -1149,7 +1150,8 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                   child: Container(
                     height: 45,
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: searchTextField = AutoCompleteTextField<DataPodBahanImport>(
+                    child: searchTextField =
+                        AutoCompleteTextField<DataPodBahanImport>(
                       style: new TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
@@ -1181,8 +1183,7 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                           noid: item.noid,
                           kdbhn: item.kdbhn,
                           nabhn: item.nabhn,
-                          satuan: item.satuan,
-                          ket: item.ket,
+                          notes: item.notes,
                           harga: item.harga,
                           qty: item.qty,
                           total: item.total,
@@ -1239,9 +1240,9 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                         return a.nabhn.compareTo(b.nabhn);
                       },
                       itemFilter: (item, query) {
-                        return item.kdbhn
+                        return item.nabhn
                             .toLowerCase()
-                            .startsWith(query.toLowerCase());
+                            .contains(query.toLowerCase());
                       },
                     ),
                   ),
@@ -1358,11 +1359,14 @@ class _AddBtbBahanImportScreenState extends State<AddBtbBahanImportScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 200,
                       child: ListView.builder(
-                        itemCount:
-                            btbBahanImportController.dataPodBahanImportKeranjang.length,
+                        itemCount: btbBahanImportController
+                            .dataPodBahanImportKeranjang.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return AddBtbBahanImportCard(context, index,
-                              btbBahanImportController.dataPodBahanImportKeranjang[index]);
+                          return AddBtbBahanImportCard(
+                              context,
+                              index,
+                              btbBahanImportController
+                                  .dataPodBahanImportKeranjang[index]);
                         },
                       ),
                     )),

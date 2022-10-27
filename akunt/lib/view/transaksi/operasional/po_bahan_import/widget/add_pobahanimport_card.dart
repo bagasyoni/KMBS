@@ -69,45 +69,81 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              "${index + 1}.",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "${index + 1}.",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              data_bhn.kd_bhn ?? "",
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    data_bhn.kd_bhn ?? "",
+                    style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 6,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: na_bhnController,
                   readOnly: true,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Nama Bahan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -135,24 +171,30 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   readOnly: true,
                   controller: satuanController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "-",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -178,25 +220,31 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
                   controller: ketController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Keterangan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -224,23 +272,30 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: hargaController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Rp 0",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -277,23 +332,30 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 5),
               child: Container(
-                height: 40,
+                height: 30,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: TextFormField(
+                  textAlign: TextAlign.right,
                   controller: qtyController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2, vertical: 16),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 13),
                     hintText: "Qty",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
@@ -320,23 +382,49 @@ Widget AddPobahanCard(BuildContext context, int index, DataBhn data_bhn) {
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Text(
-              config().format_rupiah(subTotal.toString()),
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  config().format_rupiah(subTotal.toString()),
+                  style: GoogleFonts.poppins(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Text(
-              config().format_rupiah(subTotal1.toString()),
-              style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: 30,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  border: Border.all(color: GreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  config().format_rupiah(subTotal1.toString()),
+                  style: GoogleFonts.poppins(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              ),
             ),
           ),
           InkWell(

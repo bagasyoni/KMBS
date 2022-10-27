@@ -11,7 +11,7 @@ Widget AddBtbBahanImportCard(
   TextEditingController kdBhnController = new TextEditingController();
   TextEditingController naBhnController = new TextEditingController();
   TextEditingController satuanController = new TextEditingController();
-  TextEditingController ketController = new TextEditingController();
+  TextEditingController notesController = new TextEditingController();
   TextEditingController hargaController = new TextEditingController();
   TextEditingController qtyController = new TextEditingController();
   double subTotal = dataPodBahanImport.qty * dataPodBahanImport.harga;
@@ -35,10 +35,10 @@ Widget AddBtbBahanImportCard(
       TextPosition(offset: dataPodBahanImport.satuan.toString().length),
     ),
   );
-  ketController.value = TextEditingValue(
-    text: dataPodBahanImport.ket.toString(),
+  notesController.value = TextEditingValue(
+    text: dataPodBahanImport.notes.toString(),
     selection: TextSelection.fromPosition(
-      TextPosition(offset: dataPodBahanImport.ket.toString().length),
+      TextPosition(offset: dataPodBahanImport.notes.toString().length),
     ),
   );
   hargaController.value = TextEditingValue(
@@ -189,7 +189,7 @@ Widget AddBtbBahanImportCard(
               child: Container(
                 height: 40,
                 child: TextFormField(
-                  controller: ketController,
+                  controller: notesController,
                   style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 14.0,
@@ -197,7 +197,7 @@ Widget AddBtbBahanImportCard(
                   decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 2, vertical: 16),
-                    hintText: "Keterangan",
+                    hintText: "noteserangan",
                     hintStyle: GoogleFonts.poppins(
                         color: GreyColor,
                         fontWeight: FontWeight.w400,
@@ -213,14 +213,14 @@ Widget AddBtbBahanImportCard(
                     if (numb.isNotEmpty) {
                       btbBahanImportController
                           .dataPodBahanImportKeranjang[index]
-                          .ket = ketController.text;
+                          .notes = notesController.text;
                       btbBahanImportController.hitungSubTotal();
                       btbBahanImportController.notifyListeners();
                     }
                   },
                   onFieldSubmitted: (value) {
                     btbBahanImportController.dataPodBahanImportKeranjang[index]
-                        .ket = ketController.text;
+                        .notes = notesController.text;
                     btbBahanImportController.hitungSubTotal();
                   },
                 ),
