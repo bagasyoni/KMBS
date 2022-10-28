@@ -13,7 +13,8 @@ exports.pobahanlokal_paginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
     var offset_page = Number(req.body.offset);
     var limit_page = Number(req.body.limit);
-    connection.query("select * from po where KODES like ? or NAMAS like ? or LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+    if(filter_cari = '%%'){
+        connection.query("SELECT * FROM po WHERE TYP='L' AND GOL='A' AND FLAG='PO' LIMIT ?, ?", [offset_page, limit_page],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -23,11 +24,23 @@ exports.pobahanlokal_paginate = function (req, res) {
 
             }
         });
+    }else{
+        connection.query("SELECT * FROM po WHERE TYP='L' AND GOL='A' AND FLAG='PO' AND (KODES LIKE ? OR NAMAS LIKE ?) LIMIT ?, ?", [filter_cari, filter_cari, offset_page, limit_page],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+
+                response.ok(rows, res);
+
+            }
+        });
+    }
 }
 
 exports.count_pobahanlokalpaginate = function (req, res) {
     var filter_cari = '%' + req.body.cari + '%';
-    connection.query("select COUNT(*) from po where TYP='L' and (KODES like ? or NAMAS like ?)", [filter_cari, filter_cari],
+    connection.query("SELECT COUNT(*) FROM po WHERE TYP='L' AND GOL='A' AND FLAG='PO' AND (KODES LIKE ? OR NAMAS LIKE ?)", [filter_cari, filter_cari],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
